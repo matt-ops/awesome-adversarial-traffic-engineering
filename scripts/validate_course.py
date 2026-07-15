@@ -53,6 +53,8 @@ def main() -> int:
         for index, match in enumerate(module_matches):
             end = module_matches[index + 1].start() if index < 8 else finish
             module = course[match.start():end]
+            if module.count("**Recon question:**") != 1:
+                errors.append(f"Module {index}: expected one attack-specific recon question")
             for level in LEVELS:
                 anchor = f'<a id="module-{index}-{level}"></a>'
                 if module.count(anchor) != 1:
@@ -68,9 +70,28 @@ def main() -> int:
 
     if course.count("**Red-team outcome:**") != 9:
         errors.append("COURSE.md must state one red-team outcome for every module")
-    for command in ("python -m lab.run credential", "python -m lab.run evasion", "python -m lab.run bypass"):
+    for command in (
+        "python -m lab.run recon",
+        "python -m lab.run credential",
+        "python -m lab.run evasion",
+        "python -m lab.run bypass",
+    ):
         if command not in course:
             errors.append(f"COURSE.md must assign the Foundation offensive exercise: {command}")
+
+    recon_contract = (
+        "## Recon before attack",
+        "passive reconnaissance",
+        "bounded active mapping",
+        "documented`, `observed`, or `inferred",
+        "workflow/control/resource map",
+    )
+    lifecycle_text = course + read("README.md") + read("CHECKPOINTS.md")
+    for marker in recon_contract:
+        if marker.casefold() not in lifecycle_text.casefold():
+            errors.append(f"missing recon-to-attack lifecycle marker: {marker}")
+    if "python -m lab.run recon" not in read("lab/README.md"):
+        errors.append("lab/README.md must put the local recon command before the attacks")
 
     external_coverage = {
         "automated-threat taxonomy": "www-project-automated-threats-to-web-applications",
@@ -81,6 +102,10 @@ def main() -> int:
         "isolated DoS range": "research.cec.sc.edu/cyberinfra/cybertraining",
         "advanced exploit-development range": "WEB-300-Advanced-Web-Attacks-and-Exploitation",
         "visual CAPTCHA-solving range": "hacking-captcha-systems",
+        "web reconnaissance methodology": "01-Information_Gathering",
+        "API reconnaissance assignment": "api-testing#api-recon",
+        "hands-on web reconnaissance range": "information-gathering---web-edition",
+        "network enumeration range": "network-enumeration-with-nmap",
     }
     coverage_text = course + read("RESOURCES.md")
     for capability, marker in external_coverage.items():
@@ -116,6 +141,7 @@ def main() -> int:
     print("- nine modules in order with four depths")
     print("- every depth teaches, runs a lab, and provides answer-key self-assessment")
     print("- every module states an offensive outcome and Foundation includes real local attacks")
+    print("- every attack begins with bounded reconnaissance and an evidence-backed hypothesis")
     print("- restricted or unrealistic attack skills route to exact external ranges")
     print("- Foundation totals 24 focused hours")
     print("- public pages exclude personal and employer context")

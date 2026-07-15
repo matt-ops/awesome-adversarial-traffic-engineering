@@ -11,9 +11,11 @@ Learn offensive techniques only in an environment where the owner explicitly aut
 
 Authorization is specific. Access to one assigned machine does not authorize adjacent hosts, the provider’s website, or the public Internet.
 
+Passive recon can reveal candidate assets without contacting them; discovery does not place them in scope. Active recon—including crawling, service/port scanning, content discovery, parameter discovery, and control fingerprinting—sends traffic and requires explicit target, technique, rate, and time authorization.
+
 ## Allowed course work
 
-Inside an allowed environment, the course includes request capture/replay, synthetic credential attacks, account/workflow abuse, browser automation, private proxy comparisons, challenge testing, fingerprint-evasion comparisons, WAF/bot-control testing, AI-agent experiments, and bounded resilience testing.
+Inside an allowed environment, the course includes passive research, bounded active reconnaissance, request capture/replay, synthetic credential attacks, account/workflow abuse, browser automation, private proxy comparisons, challenge testing, fingerprint-evasion comparisons, WAF/bot-control testing, AI-agent experiments, and bounded resilience testing.
 
 Deep packet, spoofing, reflection, amplification, and connection-state exercises require a non-routable isolated topology with no bridge to Wi-Fi, Ethernet, VPN, cloud VPC, or the Internet. Prove isolation before generating traffic.
 
@@ -42,4 +44,4 @@ Course exercises usually use much less. Stop immediately on an unexpected status
 
 ## Before every run
 
-Write down: owner, target, allowed action, data, request/rate/concurrency cap, abort condition, expected result, and cleanup. Run the smallest useful test first. Preserve evidence without secrets. Reset state and stop services when finished.
+Write down: owner, target, allowed passive sources, allowed active discovery, allowed attack, data, request/rate/concurrency cap, abort condition, expected result, and cleanup. Keep newly discovered adjacent assets out of scope until the owner adds them. Run the smallest useful test first. Preserve evidence without secrets. Reset state and stop services when finished.

@@ -11,7 +11,7 @@ Complete **Foundation → Learn, Lab, and Self-assess** in all nine modules:
 | Module | Time | Start |
 |---:|---:|---|
 | 0 | 1.5 h | [Safety Foundation](COURSE.md#module-0-foundation) |
-| 1 | 3 h | [Intercept, mutate, and replay Foundation](COURSE.md#module-1-foundation) |
+| 1 | 3 h | [Recon, intercept, mutate, and replay Foundation](COURSE.md#module-1-foundation) |
 | 2 | 2 h | [Automated abuse Foundation](COURSE.md#module-2-foundation) |
 | 3 | 4 h | [Offensive browser automation Foundation](COURSE.md#module-3-foundation) |
 | 4 | 3 h | [Bot-control evasion Foundation](COURSE.md#module-4-foundation) |
@@ -21,18 +21,18 @@ Complete **Foundation → Learn, Lab, and Self-assess** in all nine modules:
 | 8 | 1 h | [Attack communication Foundation](COURSE.md#module-8-foundation) |
 | **Total** | **24 h** | |
 
-At this point you can explain the field and demonstrate the minimum red-team loop once: scope a local target, inspect and mutate traffic, execute automated abuse, automate a browser attack, evade a toy bot control, replay a challenge token, apply bounded resource pressure, and report the bypass with a retest. Stop here or continue with Applied.
+At this point you can explain the field and demonstrate the minimum red-team lifecycle once: scope a local target, perform bounded recon, create a request-path and attack-surface map, turn observations into hypotheses, inspect and mutate traffic, execute automated abuse, automate a browser attack, evade a toy bot control, replay a challenge token, apply bounded resource pressure, and report the bypass with a retest. Stop here or continue with Applied.
 
 ## Applied: about 7 days
 
-Complete **Applied → Learn, Lab, and Self-assess** in Modules 0–8. You can now perform guided credential/session attacks, traffic replay, browser automation, bot evasion, and web-control bypass in local or provider-assigned ranges.
+Complete **Applied → Learn, Lab, and Self-assess** in Modules 0–8. You can now map an API and workflow before performing guided credential/session attacks, traffic replay, browser automation, bot evasion, and web-control bypass in local or provider-assigned ranges.
 
 ## Integrated: about 21 days
 
-Complete **Integrated → Learn, Lab, and Self-assess** in Modules 0–8. You can now run one adversarial engagement that chains abuse simulation, browser/agent tooling, control evasion, WAF/edge testing, service-impact measurement, findings, and retests.
+Complete **Integrated → Learn, Lab, and Self-assess** in Modules 0–8. You can now run one adversarial engagement that chains passive and active recon, attack-surface mapping, ranked hypotheses, abuse simulation, browser/agent tooling, control evasion, WAF/edge testing, service-impact measurement, findings, and retests.
 
 ## Deep: about 6 weeks
 
-Complete **Deep → Learn, Lab, and Self-assess** in Modules 0–8. You can now research and reproduce a narrow evasion or resource-exhaustion technique safely, evaluate countermeasures, and teach the result.
+Complete **Deep → Learn, Lab, and Self-assess** in Modules 0–8. You can now enumerate an isolated network or provider range, research and reproduce a narrow evasion or resource-exhaustion technique safely, evaluate countermeasures, and teach the full lifecycle.
 
 These descriptions report course depth, not a claim of production authorization.

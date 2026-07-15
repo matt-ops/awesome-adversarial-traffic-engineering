@@ -22,11 +22,12 @@ Nothing else in the repository is required to understand the course.
 Every core lab follows the same simple loop:
 
 ```text
-target and control -> attack hypothesis -> execute attack -> prove bypass
--> explain impact -> recommend a fix -> retest
+scope and objective -> passive recon -> bounded active mapping
+-> workflow/control/resource map -> attack hypothesis -> blocked baseline
+-> execute attack -> prove bypass -> explain impact -> recommend a fix -> retest
 ```
 
-Seeing a signal or calculating a detector score is preparation. The result is the adversarial action you completed, the control you defeated or stressed, and the evidence that proves it.
+Recon is required setup, not optional background reading. The course teaches how to map the authorized surface and then assigns mature external reconnaissance labs where they are better than the toy target. Seeing a signal or calculating a detector score is still preparation; the result is the adversarial action you completed, the control you defeated or stressed, and the evidence that proves it.
 
 ## What you need
 
@@ -42,7 +43,7 @@ The first browser lab tells you exactly when to install Playwright. External lab
 The course has nine modules. The skill areas stay broad; the outcome of each is offensive:
 
 1. Safety and red-team engagement discipline — authorize and contain real adversary techniques
-2. Web request path and network fundamentals — intercept, mutate, proxy, and replay traffic
+2. Web request path and network fundamentals — map the attack surface, then intercept, mutate, proxy, and replay traffic
 3. Automated abuse and threat modeling — execute credential, account, inventory, and workflow attacks
 4. Browser automation — build scripted and AI-powered browser attackers
 5. Browser signals and bot detection — fingerprint the control, then evade it
@@ -60,6 +61,7 @@ Each module has Foundation, Applied, Integrated, and Deep sections. Finish Found
 ```bash
 docker compose -f lab/docker-compose.yml up --build -d
 curl.exe http://localhost:8080/health
+python -m lab.run recon
 ```
 
 Expected response:
@@ -67,6 +69,8 @@ Expected response:
 ```json
 {"status":"ok","service":"aate-local-app"}
 ```
+
+The recon command inventories routes, performs five bounded local probes, and turns the observations into attack hypotheses used by the later commands.
 
 Stop when finished:
 
