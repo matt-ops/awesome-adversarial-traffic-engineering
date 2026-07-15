@@ -21,6 +21,9 @@ Expected:
 # Show the safety envelope without traffic
 python -m lab.clients.safe_client --dry-run
 
+# Inventory the local surface, run five bounded probes, and form attack hypotheses
+python -m lab.run recon
+
 # Execute synthetic password spraying and credential stuffing patterns
 python -m lab.run credential
 
@@ -39,11 +42,11 @@ python -m lab.run ratelimit
 # Apply bounded pressure to cheap and expensive routes
 python -m lab.run resilience
 
-# Reconnaissance: learn the toy detector's decision boundary
+# Detector reconnaissance: learn the toy detector's decision boundary
 python -m lab.analysis.analyze
 ```
 
-The attack commands print the baseline, changed condition, protected action, and bypass evidence. The weaknesses are intentional and exist only in this local target.
+Run `recon` before the attacks. It prints the route inventory, bounded observations, and the authorization, challenge, rate-limit, and resource-protection hypotheses that the later commands test. The attack commands print the baseline, changed condition, protected action, and bypass evidence. The weaknesses are intentional and exist only in this local target.
 
 Every runner is fixed to `localhost`. The bundled general client rejects non-local targets and caps duration, rate, concurrency, and total requests.
 

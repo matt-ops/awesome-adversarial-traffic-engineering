@@ -14,21 +14,39 @@ Start with Foundation in Modules 0 through 8. That is the 24-hour minimum. If yo
 Every core lab uses this attack loop:
 
 ```text
-name the target/control -> establish the blocked baseline -> state a bypass hypothesis
--> execute the attack -> prove the protected action succeeded or the mitigation failed
--> explain impact -> recommend a fix -> run the same test again
+authorize and define the objective -> passive reconnaissance -> bounded active mapping
+-> map the workflow, controls, and exhausted resources -> establish the blocked baseline
+-> state a bypass hypothesis -> execute the attack -> prove the protected action succeeded
+or the mitigation failed -> explain impact -> recommend a fix -> run the same test again
 ```
 
-Observation alone is reconnaissance. A completed red-team lab includes an adversarial action and evidence of its outcome. Use only the bundled local target, your isolated self-hosted target, or the exact target a training provider assigns.
+Reconnaissance is the setup for the attack, not a substitute for it. **Passive recon** uses existing information without sending requests to the target. **Active recon** interacts with the target to discover hosts, services, routes, parameters, workflows, controls, and response behavior. Active recon is testing and must be explicitly authorized, bounded, and logged.
+
+## Recon before attack
+
+Before every attack, create or update one small recon record:
+
+```text
+Objective and protected action:
+Authorized target and discovery limits:
+Assets and request path:
+Endpoints, inputs, identities, and state transitions:
+Observed controls, keys, challenges, and resource boundaries:
+Blocked baseline and evidence:
+First bypass hypothesis and the observation supporting it:
+```
+
+Do not fill this from guesses. Label each item `documented`, `observed`, or `inferred`. If recon reveals a new host or service, it is a scope question, not automatic permission. A completed red-team lab carries this record into an adversarial action and proves its outcome.
 
 Before a lab, start the target once:
 
 ```bash
 docker compose -f lab/docker-compose.yml up --build -d
 curl.exe http://localhost:8080/health
+python -m lab.run recon
 ```
 
-Expected response: `{"status":"ok","service":"aate-local-app"}`. When finished, run `docker compose -f lab/docker-compose.yml down`.
+The recon command inventories the local API, performs five bounded probes, and prints four evidence-backed attack hypotheses. Use only the bundled local target, your isolated self-hosted target, or the exact target a training provider assigns. When finished, run `docker compose -f lab/docker-compose.yml down`.
 
 ---
 
@@ -36,12 +54,16 @@ Expected response: `{"status":"ok","service":"aate-local-app"}`. When finished, 
 
 **Red-team outcome:** Define an authorization and containment envelope that lets you execute real attack techniques in a lab without crossing the target boundary.
 
+**Recon question:** What discovery actions, targets, data sources, rates, and stopping conditions are actually authorized?
+
 <a id="module-0-foundation"></a>
 ## Foundation
 
 ### Learn
 
 Authorization is permission from the system owner for a specific target, action, time, and data set. Owning an account or being able to reach a host is not authorization to security-test it.
+
+Reconnaissance needs its own boundary. Passive sources may reveal assets the owner did not list, while active discovery sends traffic and can trigger controls or consume capacity. Record allowed data sources, domains, hosts, ports, paths, tools, rates, and whether discovered adjacent assets remain excluded until the owner adds them.
 
 Write scope as three lists:
 
@@ -77,12 +99,13 @@ python -m lab.clients.safe_client --target https://example.com --total 1
 
 The first command prints the local target and caps without sending traffic. The second must print `"rejected": true`. Rejection is the successful result.
 
-Write this seven-line plan in any notes app:
+Write this eight-line plan in any notes app:
 
 ```text
 Owner: me
 Target: localhost:8080
 Allowed: GET /health with the bundled client
+Recon: local OpenAPI plus five bounded GET probes
 Cap: 10 total requests at 2 requests/second
 Abort: unexpected status or manual stop
 Data: synthetic only
@@ -112,9 +135,9 @@ Cleanup: stop containers; retain no secrets
 
 ### Learn
 
-An engagement plan converts permission into controls. It names the objective, owner, tester, targets, exclusions, techniques, synthetic data, time window, caps, health metrics, abort thresholds, stop authority, evidence handling, cleanup, and retest owner.
+An engagement plan converts permission into controls. It names the objective, owner, tester, targets, exclusions, passive sources, active discovery techniques, allowed ports and paths, synthetic data, time window, caps, health metrics, abort thresholds, stop authority, evidence handling, cleanup, and retest owner.
 
-Preflight before traffic: resolve the target, compare it with the allowlist, confirm synthetic accounts, print a dry run, check health, and start below the maximum. If health crosses a threshold, stop first. Record when, why, and how the run stopped; do not continue for “one more sample.”
+Preflight before traffic: review passive evidence, resolve the target, compare it with the allowlist, confirm synthetic accounts, print a dry run, check health, and start active discovery below the maximum. If recon finds an adjacent asset, park it as a scope question. If health crosses a threshold, stop first. Record when, why, and how the run stopped; do not continue for “one more sample.”
 
 ### Lab
 
@@ -124,7 +147,7 @@ Run a five-request engagement:
 python -m lab.clients.safe_client --target http://localhost:8080/api/search?q=demo --rps 2 --total 5
 ```
 
-Expect five JSON lines with `"ok": true` and `"status": 200`. Add actual start/stop time and result to your seven-line plan.
+Expect five JSON lines with `"ok": true` and `"status": 200`. Add actual start/stop time, discovery method, and result to your eight-line plan.
 
 ### Self-assess
 
@@ -145,13 +168,13 @@ Expect five JSON lines with `"ok": true` and `"status": 200`. Add actual start/s
 
 ### Learn
 
-An integrated runbook orders experiments so earlier state does not contaminate later evidence: health check, reset, baseline, adversarial populations, detection evaluation, resilience test, evidence export, cleanup. Keep a decision log with time, observation, decision, and reason.
+An integrated runbook orders the lifecycle so earlier work informs later work without contaminating evidence: authorization, passive recon, bounded active mapping, attack-surface review, health check, reset, blocked baseline, adversarial populations, detection evaluation, resilience test, evidence export, cleanup. Keep a decision log with time, observation, decision, and reason.
 
 Provider-hosted ranges add one rule: authorization ends at the assigned targets and the provider’s allowed techniques. It does not extend to adjacent infrastructure, and AATE’s local client must not be repointed at a provider.
 
 ### Lab
 
-Write the nine-step order above. Beside each step name its command, expected result, abort condition, and cleanup. Walk through it without traffic. Fix every missing command or threshold before the capstone.
+Write the twelve-step order above. Beside each step name its source or command, expected result, authorization boundary, abort condition, and cleanup. Walk through it without traffic. Fix every missing command or threshold before the capstone.
 
 ### Self-assess
 
@@ -172,7 +195,7 @@ Write the nine-step order above. Beside each step name its command, expected res
 
 ### Learn
 
-Production validation is staged: lab reproduction, approved offline analysis, shadow evaluation with no enforcement, an allowlisted canary, then broader use. Separate the lab result, the hypothesis that might transfer, and the production evidence needed. Every stage needs an owner, monitoring, rollback, and new approval.
+Production validation is staged: approved recon, lab reproduction, approved offline analysis, shadow evaluation with no enforcement, an allowlisted canary, then broader use. Separate recon observations, the lab result, the hypothesis that might transfer, and the production evidence needed. Every stage needs an owner, monitoring, rollback, and new approval.
 
 ### Lab
 
@@ -200,6 +223,8 @@ Choose one course finding and write those five stages, including the metric that
 
 **Red-team outcome:** Capture, mutate, proxy, and replay traffic while explaining which attacker-controlled values survive each intermediary.
 
+**Recon question:** What assets, services, technologies, endpoints, parameters, trust boundaries, and request paths make up the reachable attack surface?
+
 <a id="module-1-foundation"></a>
 ## Foundation
 
@@ -211,6 +236,16 @@ Follow a request through this logical path:
 Browser -> DNS -> CDN/edge -> WAF/bot control -> load balancer
         -> application -> database/cache/dependency -> response
 ```
+
+Recon builds this diagram from evidence. Start with the authorized asset list. Passive sources can add candidate names, addresses, certificate names, technologies, documentation, and historical paths without contacting the target. Active mapping then confirms only the authorized candidates and records reachable services, HTTP behavior, entry points, methods, parameters, authentication, state, errors, and controls.
+
+Use three labels:
+
+- **Documented:** supplied by the owner, provider, DNS, certificate, source, or API description.
+- **Observed:** returned by an authorized request, browser trace, service probe, or capture.
+- **Inferred:** a testable explanation, such as “this header suggests a reverse proxy” or “this parameter may be a rate-limit key.”
+
+Read only Sections 4.1.3, 4.1.6, and 4.1.10 in [OWASP WSTG Information Gathering](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/). They teach metafile review, entry-point identification, and application-architecture mapping. Foundation does not require the full chapter or Internet-wide discovery.
 
 **DNS** maps a hostname to an IP address. **TCP** provides a reliable byte stream and consumes connection state. **TLS** authenticates the server and encrypts traffic between TLS endpoints. A CDN that terminates TLS can inspect HTTP and usually makes a separate connection to the origin.
 
@@ -240,6 +275,14 @@ A request ID joins one exchange across layers. A session ID joins several reques
 
 ### Lab
 
+Run the bounded local reconnaissance first:
+
+```bash
+python -m lab.run recon
+```
+
+The first JSON line is the documented route inventory from `/openapi.json`. The next five lines are active probes. The final four lines turn observations into candidate authorization, challenge, rate-limit, and resource-pressure attacks. Copy them into the course recon record and mark each field documented, observed, or inferred. This is your setup for the later attack commands.
+
 ```bash
 curl.exe -i "http://localhost:8080/api/search?q=demo" -H "X-Request-ID: replay-foundation-1"
 curl.exe -i "http://localhost:8080/api/search?q=kit" -H "X-Request-ID: replay-foundation-1"
@@ -262,6 +305,7 @@ Mark DNS and TLS as absent. Then add three attacker notes: the query and request
 2. Can a CDN that terminates TLS inspect HTTP headers?
 3. Why can equal request rates create unequal impact?
 4. Request ID versus session ID: what does each correlate?
+5. Why must an inferred technology or control remain a hypothesis?
 
 <details><summary>Check your answers</summary>
 
@@ -269,6 +313,7 @@ Mark DNS and TLS as absent. Then add three attacker notes: the query and request
 2. Yes, at the termination point.
 3. Endpoints perform different CPU, I/O, allocation, locking, or dependency work.
 4. One exchange versus several exchanges in a workflow.
+5. Headers, errors, and behavior can be hidden, changed, shared, or deceptive; corroborate the inference before building the attack around it.
 
 </details>
 
@@ -285,7 +330,11 @@ HTTP/2 multiplexes many streams over one connection. Therefore requests/connecti
 
 An intercepting proxy allows capture, one-variable modification, and replay. Replay is useful because it isolates a variable, but stale tokens and changed server state can mislead you. Record preconditions and reset state.
 
+API recon identifies endpoints, methods, required and optional parameters, content types, authentication, rate limits, and state changes. Machine-readable documentation is evidence, but the observed behavior may differ. JavaScript, browser traffic, error responses, and controlled method/content-type changes can reveal additional surface.
+
 ### Lab
+
+Read PortSwigger’s free [API recon](https://portswigger.net/web-security/api-testing#api-recon) material through “Identifying supported content types.” Apply it only to the local target: load `/openapi.json` in Burp, select the search, product, reserve, challenge, limited-report, and protected-report routes, and record method, input, authentication/state, success status, and failure status. Do not fuzz yet.
 
 Complete PortSwigger’s [Intercepting HTTP traffic with Burp Proxy](https://portswigger.net/burp/documentation/desktop/getting-started/intercepting-http-traffic) tutorial. Use its target or localhost only.
 
@@ -297,7 +346,7 @@ python -m lab.clients.safe_client --target http://localhost:8080/health --total 
 npm run playwright:foundation
 ```
 
-The last command creates `lab/telemetry/foundation-playwright.jsonl`. Compare what each client exposes. In Burp Repeater, replay `GET /api/search?q=demo`, change `demo` to `kit`, and verify only the synthetic kit remains.
+The last command creates `lab/telemetry/foundation-playwright.jsonl`. Compare what each client exposes. In Burp Repeater, replay `GET /api/search?q=demo`, change `demo` to `kit`, and verify only the synthetic kit remains. Update the recon record with observed cookies, headers, redirects, routes, and state transitions before choosing the next bypass test.
 
 ### Self-assess
 
@@ -320,9 +369,18 @@ The last command creates `lab/telemetry/foundation-playwright.jsonl`. Compare wh
 
 Correlate `edge request ID -> application request ID -> session -> account/workflow -> dependency trace`. A rotating private proxy changes target-visible source IP and often TLS behavior; it does not automatically change browser properties, account state, or action sequence.
 
+An integrated surface map joins infrastructure and application recon: domains and addresses, certificates, exposed services, edge technologies, server and framework evidence, public and hidden content, API definitions, JavaScript-discovered routes, roles, workflows, trust boundaries, and defensive controls. It also records negative evidence—what a methodical check did not find—and confidence for each inference.
+
 HTTP/3 carries HTTP over QUIC/UDP. The useful questions remain: what can each endpoint observe, what survives an intermediary, and which resource is exhausted?
 
 ### Lab
+
+Complete one reconnaissance range before building the attack populations:
+
+- **Free/self-hosted:** use [OWASP WSTG Information Gathering](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/) Sections 4.1.1–4.1.10 as the checklist against your own OWASP Juice Shop or crAPI instance; or
+- **Paid hands-on alternative:** complete [HTB Academy: Information Gathering — Web Edition](https://academy.hackthebox.com/course/preview/information-gathering---web-edition) and its skills assessment using only the assigned range.
+
+Bring back one surface map with assets, DNS/certificate evidence, services, technologies, entry points, methods/parameters, roles/workflows, controls, uncertainties, and three ranked attack hypotheses. This assignment replaces unguided reconnaissance; it is not extra work.
 
 Create manual-browser, Playwright, Python, and Burp-replayed local populations. Give each the same adversarial goal: reserve one synthetic item using a caller-supplied identity that was never authenticated. Record whether the protected action succeeds, plus source address, headers, cookies/session behavior, connection evidence, and what the proxy changed. The expected weakness is invariant across clients: transport variation does not repair missing application authorization.
 
@@ -349,7 +407,16 @@ Then read [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113), Sections 2 and 5, 
 
 Deep protocol work separates standardized possibilities from one implementation’s behavior. Change one variable—version, proxy, reuse, or protocol—record configuration, repeat runs, and report both stable and non-replicating observations.
 
+Network recon distinguishes a host from its reachable services and a service guess from version evidence. A disciplined scan starts with the exact allowlist, exclusions, timing, and output format; discovers hosts only when authorized; enumerates selected ports; performs version detection; and preserves raw results. “Filtered,” silence, and a proxy response are observations, not proof that a service does not exist.
+
 ### Lab
+
+Complete one network-recon assignment in a provider range or private isolated topology:
+
+- **Paid hands-on:** [HTB Academy: Network Enumeration with Nmap](https://academy.hackthebox.com/course/preview/network-enumeration-with-nmap), including host discovery, host/port scanning, service enumeration, saving results, and its skills assessments; or
+- **Free/self-hosted:** the official [Nmap Network Scanning](https://nmap.org/book/toc.html) Chapters 3, 4, and 7, applied to an isolated topology containing at least three known services. Compare your discovered inventory with the known topology and explain every miss or ambiguous result.
+
+For broader service footprinting, [HTB Academy: Footprinting](https://academy.hackthebox.com/course/preview/footprinting) is an optional extension, not another requirement.
 
 Choose one attacker question: can proxying change a TLS/HTTP fingerprint without changing the hostile workflow, can HTTP/2 multiplexing evade a connection-count assumption, or can browser-version drift mimic an evasion? Capture a blocked or flagged baseline and at least five runs per changed condition. Use the matching reference: [HTTP/2 Sections 2 and 5](https://www.rfc-editor.org/rfc/rfc9113), [QUIC Sections 2 and 5](https://www.rfc-editor.org/rfc/rfc9000), [HTTP/3 Sections 2 and 3](https://www.rfc-editor.org/rfc/rfc9114), or [TLS 1.3 Sections 2 and 4](https://www.rfc-editor.org/rfc/rfc8446). Your conclusion must say whether the protected action still succeeded and whether the control decision changed.
 
@@ -374,6 +441,8 @@ Choose one attacker question: can proxying change a TLS/HTTP fingerprint without
 # Module 2: Automated abuse and threat modeling
 
 **Red-team outcome:** Execute synthetic credential and business-workflow attacks, identify the control invariant, and vary identity, state, timing, or path to test a bypass hypothesis.
+
+**Recon question:** What protected actions, roles, prerequisites, state transitions, scarce assets, and identity links must the adversary discover before automating abuse?
 
 <a id="module-2-foundation"></a>
 ## Foundation
@@ -405,6 +474,8 @@ Credential terms matter:
 Use only fixed synthetic credentials in this course.
 
 ### Lab
+
+Start from `python -m lab.run recon`. Use its route inventory to identify the login, account-creation, search, product, reservation, promotion, challenge, and report surfaces. For each attack below, record the protected action, required state, caller-controlled identity, observable failure/success difference, and the control you expect to encounter before sending the attack sequence.
 
 Run two local attack workflows:
 
@@ -448,7 +519,7 @@ A proxy pool redistributes source-address evidence. In a private lab it is usefu
 
 ### Lab
 
-First complete the free [PortSwigger Authentication learning path](https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities) through the username-enumeration and password-based login sections. Use only PortSwigger’s assigned labs.
+First complete the free [PortSwigger Authentication learning path](https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities) through the username-enumeration and password-based login sections. Use only PortSwigger’s assigned labs. Treat username enumeration as recon: preserve the response difference, confidence, likely account population, and how that evidence changes the credential-attack plan.
 
 Then run `python -m lab.run credential`. Explain which pattern is spray-like and which is stuffing-like. Add a proposed rule that uses both account and session dimensions. It must allow the successful synthetic login and flag the repeated failed pattern.
 
@@ -563,6 +634,8 @@ For every external lab, write the mechanism, evidence, remediation, and retest. 
 
 **Red-team outcome:** Build scripted and model-driven browser attackers that complete hostile workflows, preserve action traces, and vary browser identity or behavior for evasion tests.
 
+**Recon question:** What pages, APIs, browser state, frames, workers, inputs, and recovery branches must automation observe to complete the hostile workflow?
+
 <a id="module-3-foundation"></a>
 ## Foundation
 
@@ -597,6 +670,8 @@ await browser.close();
 ```
 
 ### Lab
+
+Open the recon inventory before writing browser code. Select `/api/cart/reserve`, record its method and input schema, identify that no authentication scheme is documented, and mark “reservation may trust caller-supplied identity” as an inference. The Playwright run below is the test that confirms or rejects it.
 
 Install once, then run:
 
@@ -756,6 +831,8 @@ If the question is anti-fingerprinting rather than Chromium internals, use [Camo
 
 **Red-team outcome:** Reconnoiter a bot detector's decision boundary, change the smallest useful signal set, and prove the automated workflow is allowed after evasion.
 
+**Recon question:** Which signals are collected, where are they collected, how are they combined, and what blocked baseline reveals the decision boundary?
+
 <a id="module-4-foundation"></a>
 ## Foundation
 
@@ -797,6 +874,8 @@ python -m lab.run evasion
 ```
 
 The analyzer is reconnaissance. Expected fixture result is `tp: 4`, `fp: 0`, `tn: 6`, `fn: 0`, with precision and recall `1.0`. That is deliberately perfect because the ten records were written for the rules. It proves deterministic code, not production quality.
+
+Add its feature names, weights, threshold, action, and baseline population to the recon record. State the cheapest suspected decision-boundary change before running the evasion.
 
 The evasion command is the attack. Its baseline combines `webdriver=true` with missing browser headers and receives `challenge`. It changes only webdriver exposure; the score falls below the threshold and the same protected-workflow event receives `allow`. Open `lab/detectors/rules.py`, locate both weights, and write the exact failed invariant: the control assumes the automation property remains present.
 
@@ -934,6 +1013,8 @@ For a deeper authorized AI detector exercise, use [promptfoo’s red-team quick 
 
 **Red-team outcome:** Bypass challenge and WAF assumptions, identify the resource a mitigation protects, and pressure-test that control with bounded adversarial traffic.
 
+**Recon question:** Which edge components, protocols, cache keys, rate keys, challenges, expensive routes, dependencies, and service objectives shape the attack?
+
 <a id="module-5-foundation"></a>
 ## Foundation
 
@@ -969,6 +1050,8 @@ Controls act at different points:
 Per-IP limiting is incomplete because users share IPs and attackers distribute traffic. Combine source with account, session, token, workflow, and cost.
 
 ### Lab
+
+Use the recon output to map `/api/reports/protected`, `/api/reports/limited`, and `/api/reports/expensive` before attacking. Record the input controlling synthetic identity, the observed `403` challenge boundary, the caller-controlled rate-limit key, the bounded work parameter, and which resource each route may consume. These observations justify the two hypotheses below.
 
 Run:
 
@@ -1119,6 +1202,8 @@ Report packet/connection rate, state table or queue behavior, loss/errors, servi
 # Module 6: Practical Python and secure code review
 
 **Red-team outcome:** Build bounded offensive clients, automate attack variations, and review code for trust, parsing, retry, concurrency, and resource-exhaustion weaknesses.
+
+**Recon question:** What inputs, schemas, logs, guardrails, error paths, and trust assumptions must the offensive tool understand before it sends traffic?
 
 <a id="module-6-foundation"></a>
 ## Foundation
@@ -1365,6 +1450,8 @@ If you need a mature exploit-development range rather than another repository ex
 
 **Red-team outcome:** Convert an attack into a falsifiable experiment, defensible bypass finding, actionable remediation, and identical retest.
 
+**Recon question:** What is known, what is inferred, what evidence is missing, and which first experiment will distinguish competing attack hypotheses?
+
 <a id="module-7-foundation"></a>
 ## Foundation
 
@@ -1488,8 +1575,10 @@ Give a five-minute briefing in this order: objective, method/safety, result, imp
 The capstone connects the complete work cycle:
 
 ```text
-authorization -> target reconnaissance -> attack hypothesis -> exploit/bypass
--> evidence and service impact -> finding -> remediation -> retest -> briefing
+authorization and objective -> passive recon -> bounded active mapping
+-> workflow/control/resource map -> ranked attack hypotheses -> blocked baseline
+-> exploit/bypass -> adaptation or chaining -> evidence and service impact
+-> finding -> remediation -> identical retest -> briefing
 ```
 
 The report must make evidence easy to audit. Put scope and executive result first, method and findings next, raw commands/configuration in an appendix, and link every claim to a run/table/request ID. Report failed experiments and tool errors; they are part of reproducibility.
@@ -1498,14 +1587,15 @@ The report must make evidence easy to audit. Put scope and executive result firs
 
 Run one local capstone whose objective is to complete a protected workflow while evading or bypassing its control. Use the six populations from Module 4, the credential/workflow scenario from Module 2, and the challenge/resource experiments from Module 5. Produce:
 
-1. one-page scope/runbook;
-2. threat map;
-3. population/test matrix;
-4. raw JSONL and version/config record;
-5. attack success, control action, and service-impact tables by population;
-6. two findings with remediation and retest;
-7. one-page executive summary;
-8. five-minute briefing.
+1. one-page scope/runbook with separate passive and active discovery limits;
+2. recon record and attack-surface map with documented, observed, and inferred labels;
+3. threat map and ranked hypotheses showing which recon evidence selected each attack;
+4. population/test matrix;
+5. raw JSONL and version/config record;
+6. attack success, control action, and service-impact tables by population;
+7. two findings with remediation and retest;
+8. one-page executive summary;
+9. five-minute briefing that explains the lifecycle from first observation through retest.
 
 One finding must prove a bypass that completed the protected action; the other may be a second bypass, false positive, observability gap, or reliability weakness. Re-run the exact attack locally after implementing or simulating the recommended change.
 
@@ -1562,6 +1652,8 @@ Publish a portfolio version with synthetic data only: abstract, threat model, et
 
 **Red-team outcome:** Explain an attack plan and bypass evidence clearly enough that another engineer can reproduce the weakness, judge impact, implement a fix, and run the retest.
 
+**Recon question:** Can you explain how observations became the attack hypothesis, rather than presenting the bypass as an unexplained trick?
+
 <a id="module-8-foundation"></a>
 ## Foundation
 
@@ -1570,8 +1662,9 @@ Publish a portfolio version with synthetic data only: abstract, threat model, et
 An interview answer should make your reasoning visible. Use this technical structure:
 
 ```text
-objective -> assumptions -> design/mechanism -> tradeoffs -> measurement
--> failure modes -> remediation/retest
+objective and authorization -> recon evidence -> attack-surface and workflow map
+-> assumptions and ranked hypotheses -> attack/mechanism -> measurement
+-> adaptation -> failure modes -> remediation/retest
 ```
 
 Do not list tool names. Translate prior experience into role mechanisms. Incident response becomes hypothesis formation and evidence triage. Detection engineering becomes feature design and false-positive measurement. Network engineering becomes request-path and exhausted-resource reasoning. Application security becomes workflow abuse and remediation.
@@ -1585,7 +1678,7 @@ A 90-second role narrative has four parts:
 
 Behavioral answers use Situation, Task, Action, Result, and Lesson. Spend most time on your actions and decisions. State metrics and what you would change.
 
-A five-minute bot-control red-team plan should cover the protected action, request path, control assumptions, attack populations, fingerprint/identity/timing mutations, success evidence, safety, and retest. A DDoS test answer begins with the exhausted resource and service objective, then the smallest bounded reproducer, telemetry, abort conditions, mitigation, and identical retest.
+A five-minute bot-control red-team plan should cover authorized passive/active recon, the protected action, request path, control assumptions, attack populations, fingerprint/identity/timing mutations, success evidence, safety, and retest. A DDoS test answer begins with discovery of the request path, exposed protocols, expensive operations, exhausted resource, and service objective, then the smallest bounded reproducer, telemetry, abort conditions, mitigation, and identical retest.
 
 ### Lab
 
@@ -1595,14 +1688,14 @@ Write and say aloud:
 - one behavioral story about ambiguity;
 - one about a security or reliability improvement;
 - one about disagreement or a failed approach;
-- a five-minute bot-control attack and bypass plan.
+- a five-minute bot-control attack and bypass plan that explains which recon observation selected the first hypothesis.
 
 Record the answers on your phone. Listen once. Remove unexplained acronyms, unsupported “always/never” claims, and any section that hides your decision behind “we.”
 
 ### Self-assess
 
 1. Can the listener identify your objective, decision, evidence, and result?
-2. Did the technical answer include the attack path, bypass criterion, false positives, and measurement?
+2. Did the technical answer include recon evidence, the attack path, bypass criterion, false positives, and measurement?
 3. Did each behavioral story say what you personally did?
 4. Can you explain the lab’s limitations without undermining its learning value?
 
