@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AATE Browser Foundation</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Local inventory search</h1>
+      <p>This static application exists only for HTTP, DOM, JavaScript, and Playwright foundations.</p>
+
+      <form id="search-form">
+        <label for="query">Product name</label>
+        <input id="query" name="query" autocomplete="off" />
+        <button id="search" type="submit">Search</button>
+      </form>
+
+      <p id="status" role="status">Enter a product name.</p>
+      <ul id="results" aria-label="Search results"></ul>
+
+      <section aria-labelledby="contexts-heading">
+        <h2 id="contexts-heading">Context observations</h2>
+        <p id="worker-result">Worker has not responded.</p>
+        <iframe id="environment-frame" title="Environment frame" src="frame.html"></iframe>
+      </section>
+    </main>
+  </body>
+</html>

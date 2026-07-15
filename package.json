@@ -4,7 +4,9 @@
   "private": true,
   "description": "Local-only offensive browser clients for the AATE educational lab",
   "scripts": {
-    "playwright:foundation": "tsx lab/clients/playwright/foundation.ts",
+    "playwright:first": "tsx lab/clients/playwright/first_workflow.ts",
+    "playwright:foundation": "tsx lab/clients/playwright/first_workflow.ts",
+    "playwright:workflow-authorization": "tsx lab/clients/playwright/foundation.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

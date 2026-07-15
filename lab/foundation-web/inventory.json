@@ -1,0 +1,5 @@
+[
+  { "id": "demo-1", "name": "Synthetic Widget", "available": 5 },
+  { "id": "demo-2", "name": "Synthetic Kit", "available": 3 },
+  { "id": "demo-3", "name": "Training Cable", "available": 8 }
+]

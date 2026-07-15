@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Environment frame</title>
+  </head>
+  <body>
+    <p id="frame-result"></p>
+    <script>
+      document.querySelector("#frame-result").textContent =
+        `Frame platform: ${navigator.platform}; language: ${navigator.language}`;
+    </script>
+  </body>
+</html>
