@@ -17,6 +17,10 @@ Then do only this:
 
 Nothing else in the repository is required to understand the course.
 
+Every section explains the mechanism and the evidence the lab must produce. When a mature external course or isolated range is required, the exact lesson is linked inside **Learn** or **Lab** and is part of that section—you are not expected to invent the missing curriculum yourself.
+
+Your progress is simply the last **Next** link you completed. Bookmark that heading in the public page; there is no tracker or repository file to maintain.
+
 ## The red-team loop
 
 Every core lab follows the same simple loop:
@@ -52,9 +56,7 @@ The course has nine modules. The skill areas stay broad; the outcome of each is 
 8. Experimental method, analysis, and reporting — turn a bypass into a defensible finding and retest
 9. Technical and career communication — explain the attack path, evidence, impact, and next test
 
-Each module has Foundation, Applied, Integrated, and Deep sections. Finish Foundation across all nine modules first. Continue at the same depth across all modules before moving deeper.
-
-[Checkpoints](CHECKPOINTS.md) are optional stopping points, not tests or separate courses.
+Complete one module at a time. Within that module, work through **Foundation -> Applied -> Integrated -> Deep**, then continue to the next module. Each stage assumes the earlier stages are complete. There is no schedule or alternate path to choose among.
 
 ## Lab start and stop
 

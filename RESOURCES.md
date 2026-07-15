@@ -1,14 +1,35 @@
 # Attack ranges and supporting resources
 
-The course teaches the concept, then assigns an exact external lab when a mature range provides better adversarial practice than the bundled toy target. Paid labs are valid primary assignments; a free or self-hosted alternative is named in the course whenever practical. This page is only a lookup table—do not work through everything.
+The course assigns resources at the exact point they are needed. Paid labs are valid primary assignments; a free or self-hosted alternative is named whenever practical. This page is only a lookup table—do not work through it separately and do not choose a path here.
+
+## From-zero prerequisites
+
+These are the instructional routes used by the Foundation sections. “Required” means complete the linked sections and examples unless you can already pass that module’s explicit readiness gate.
+
+| Resource | Exact assignment | Use |
+|---|---|---|
+| [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | Sections 3.1–3.3 for planning and Rules of Engagement; Sections 5.1–5.2 for analysis and reporting | Required in Modules 0 and 7 |
+| [Cloudflare DNS](https://www.cloudflare.com/learning/dns/what-is-dns/), [TCP/IP](https://www.cloudflare.com/learning/ddos/glossary/tcp-ip/), and [TLS](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/) primers | Draw the endpoints and state what each completed exchange proves | Required free route in Module 1 |
+| [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) and [HTTP messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages) | Work through the client/proxy/request/response/message examples and annotate one exchange | Required free route in Module 1 |
+| [HTB Introduction to Networking](https://academy.hackthebox.com/course/preview/introduction-to-networking) and [Web Requests](https://academy.hackthebox.com/course/preview/web-requests) | Networking Models through TCP/UDP Connections, then the complete Web Requests module and exercises | Guided route in Module 1 |
+| [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Identification chart and handbook entries for credential, account, scraping, scalping, inventory, and DoS abuse | Required in Module 2 |
+| [MDN JavaScript Fundamentals](https://developer.mozilla.org/en-US/curriculum/core/javascript-fundamentals/) | Units 6.1–6.13, including DOM, events, async JavaScript, fetch, and JSON, when JavaScript is new | Required from-zero route in Module 3 |
+| [Playwright introduction](https://playwright.dev/docs/intro), [writing tests](https://playwright.dev/docs/writing-tests), [locators](https://playwright.dev/docs/locators), and [network](https://playwright.dev/docs/network) | Run each first working example before the repository browser lab | Required in Module 3 |
+| [Google classification metrics](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall) | Threshold/confusion-matrix lesson plus precision/recall lesson and exercises | Required in Module 4 |
+| [Cloudflare application-layer DDoS](https://www.cloudflare.com/learning/ddos/application-layer-ddos-attack/) and [Google SRE Handling Overload](https://sre.google/sre-book/handling-overload/) | Map resources and units, then read the assigned QPS, customer-limit, and throttling sections | Required in Module 5 |
+| [Official Python Tutorial](https://docs.python.org/3/tutorial/) | Chapters/sections 3, 4.1–4.9, 5.1–5.5, 7.2, and 8.3 | Required free route in Module 6 |
+| [HTB Introduction to Python 3](https://academy.hackthebox.com/course/preview/introduction-to-python-3) | Complete module and exercises | Guided route in Module 6 |
 
 ## Free hosted labs
 
-| Resource | Assigned offensive skill | Course depth |
+| Resource | Assigned offensive skill | Course stage |
 |---|---|---|
+| [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | Build rules of engagement, evidence gates, mitigation, and retest ownership | Foundation–Deep |
 | [OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/) | Classify account, credential, scraping, scalping, CAPTCHA, inventory, token, and DoS abuse with the canonical OAT identifiers | Foundation–Deep |
+| [OWASP Bot Management and Anti-Automation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Bot_Management_and_Anti-Automation_Cheat_Sheet.html) | Connect threat hypotheses, layered signals, proportional response, privacy, and adversarial evaluation | Foundation–Deep |
 | [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/latest/) | Apply a complete web-assessment methodology when the course teaches only the traffic-abuse slice | Applied–Deep |
 | [OWASP WSTG: Information Gathering](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/) | Identify attack surface, entry points, execution paths, technologies, and application architecture | Foundation–Integrated |
+| [OWASP WSTG: Reporting Structure](https://owasp.org/www-project-web-security-testing-guide/latest/5-Reporting/01-Reporting_Structure) | Turn reproducible evidence into technical findings, remediation, and retest guidance | Foundation–Deep |
 | [PortSwigger Web Security Academy](https://portswigger.net/web-security/all-topics) | Exploit authentication, business-logic, API, cache, request-smuggling, and Web LLM flaws in assigned targets | Applied–Deep |
 | [PortSwigger API testing: API recon](https://portswigger.net/web-security/api-testing#api-recon) | Discover API documentation, endpoints, methods, parameters, content types, authentication, and rate-limit behavior | Applied |
 | [PortSwigger Authentication path](https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities) | Enumerate users and attack password/session controls | Applied |
@@ -20,16 +41,22 @@ The course teaches the concept, then assigns an exact external lab when a mature
 | [University of South Carolina Cybersecurity Lab Series](https://research.cec.sc.edu/cyberinfra/cybertraining) | Use Lab 8 for isolated SYN/FIN/RST, Smurf, and Slowloris attack/mitigation practice | Deep |
 | [Exercism Python](https://exercism.org/tracks/python/exercises) | Guided Python fundamentals and feedback | Foundation–Applied |
 | [Official Nmap Network Scanning guide](https://nmap.org/book/toc.html) | Perform scoped host discovery, port scanning, and service/version enumeration in a private topology | Deep |
+| [Google SRE: Handling Overload](https://sre.google/sre-book/handling-overload/) | Model request cost, quotas, criticality, retry budgets, and graceful rejection before resilience tests | Foundation–Deep |
+| [Google SRE: Addressing Cascading Failures](https://sre.google/sre-book/addressing-cascading-failures/) | Explain queue growth, retry amplification, dependency failure, load shedding, and recovery | Deep |
+| [Python asyncio queues](https://docs.python.org/3/library/asyncio-queue.html#examples) | Implement bounded work queues and reason about producer/consumer cleanup | Applied–Deep |
+| [Python asyncio semaphores](https://docs.python.org/3/library/asyncio-sync.html#asyncio.Semaphore) | Bound concurrent work inside an asynchronous offensive client | Applied–Deep |
 
 ## Self-hosted targets and tools
 
-| Resource | Assigned offensive skill | Course depth |
+| Resource | Assigned offensive skill | Course stage |
 |---|---|---|
 | [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/) | Attack intentionally vulnerable commerce workflows | Applied–Integrated |
 | [OWASP crAPI](https://owasp.org/www-project-crapi/) | Exploit API authorization and business-logic assumptions | Applied–Integrated |
 | [OWASP WebGoat](https://owasp.org/www-project-webgoat/) | Practice guided web exploitation with explanations | Applied |
 | [OWASP Coraza](https://github.com/corazawaf/coraza) | Build a self-hosted WAF target and test normalization/evasion cases | Integrated |
 | [ModSecurity CRS Docker](https://github.com/coreruleset/modsecurity-crs-docker) | Attack a containerized WAF/CRS deployment and inspect rule decisions | Integrated |
+| [CRS Paranoia Levels](https://coreruleset.org/docs/2-how-crs-works/2-2-paranoia_levels/) | Distinguish enabled rule sets from anomaly thresholds before WAF-evasion testing | Integrated |
+| [WAFW00F](https://github.com/EnableSecurity/wafw00f) | Fingerprint a WAF in a self-hosted or provider-authorized range, then corroborate the guess with controlled response and audit-log evidence | Integrated |
 | [FingerprintJS BotD](https://github.com/fingerprintjs/BotD) | Self-host a real open-source browser bot sensor for controlled Playwright and anti-detect comparisons | Integrated–Deep |
 | [Toxiproxy](https://github.com/Shopify/toxiproxy) | Deterministic private proxy/network conditions | Integrated |
 | [containerlab](https://containerlab.dev/manual/) | Isolated network topologies | Deep |
@@ -37,9 +64,10 @@ The course teaches the concept, then assigns an exact external lab when a mature
 
 ## Browser and AI-agent labs
 
-| Resource | Assigned offensive skill | Course depth |
+| Resource | Assigned offensive skill | Course stage |
 |---|---|---|
 | [Playwright](https://playwright.dev/docs/intro) | Build browser attackers that execute and record hostile workflows | Foundation–Integrated |
+| [Playwright Trace Viewer](https://playwright.dev/docs/trace-viewer) | Join browser actions, DOM state, console, and network evidence when diagnosing an attack run | Foundation–Applied |
 | [Playwright MCP](https://github.com/microsoft/playwright-mcp) | Build a model-driven browser attacker with constrained tools | Integrated |
 | [BrowserGym](https://github.com/ServiceNow/BrowserGym) | Run reproducible adaptive web-agent attacks and preserve action traces | Integrated–Deep |
 | [AgentDojo](https://github.com/ethz-spylab/agentdojo) | Attack and evaluate tool-using agents under prompt injection | Integrated–Deep |
@@ -50,7 +78,7 @@ The course teaches the concept, then assigns an exact external lab when a mature
 
 ## Paid or freemium ranges
 
-| Resource | Assignments that match this course | Course depth |
+| Resource | Assignments that match this course | Course stage |
 |---|---|---|
 | [Hack The Box Academy: Login Brute Forcing](https://academy.hackthebox.com/course/preview/login-brute-forcing) | Execute web-form credential attacks and complete the skills assessment | Applied |
 | [Hack The Box Academy: Using Web Proxies](https://academy.hackthebox.com/course/preview/using-web-proxies/setting-up) | Intercept, modify, replay, and organize attack traffic | Applied |

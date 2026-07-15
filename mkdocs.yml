@@ -35,7 +35,6 @@ markdown_extensions:
 nav:
   - Start: README.md
   - Course: COURSE.md
-  - Checkpoints: CHECKPOINTS.md
   - Extra labs: RESOURCES.md
   - Local lab: lab/README.md
   - Safety: SAFETY.md

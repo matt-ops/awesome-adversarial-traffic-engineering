@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 STAGING = ROOT / ".docs-build"
-PUBLIC_FILES = ("README.md", "COURSE.md", "CHECKPOINTS.md", "RESOURCES.md", "SAFETY.md")
+PUBLIC_FILES = ("README.md", "COURSE.md", "RESOURCES.md", "SAFETY.md")
 
 
 def main() -> int:
