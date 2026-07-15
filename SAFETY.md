@@ -1,30 +1,45 @@
-# Safety policy
+# Safety and authorization
 
-AATE exists to study adversarial traffic without exposing third parties or users to risk.
+Learn offensive techniques only in an environment where the owner explicitly authorizes them.
 
-## Non-negotiable boundaries
+## Allowed environments
 
-- Run clients and generated traffic only against `localhost`, `127.0.0.1`, `::1`, or repository-approved Docker Compose service names.
-- Use synthetic accounts, inventory, promotions, sessions, and telemetry.
-- Keep the hard-coded duration, concurrency, rate, and total-request ceilings enabled.
-- Define monitoring, abort thresholds, an owner, and recovery validation before a bounded load run.
-- Stop immediately if the target is ambiguous, telemetry is unavailable, or unexpected impact appears.
+- The bundled AATE lab on `localhost`
+- A self-hosted target on an isolated private network you control
+- The exact target assigned by a training provider, under that provider’s rules
+- An organization-owned test environment covered by a separate written authorization
 
-The repository does not include an override for remote targeting. It does not include proxy rotation, CAPTCHA solving, credential material, production targets, raw packet floods, spoofing, reflection, amplification, malware, or a universal stealth browser.
+Authorization is specific. Access to one assigned machine does not authorize adjacent hosts, the provider’s website, or the public Internet.
 
-## Engagement test
+## Allowed course work
 
-Before running an experiment, be able to answer:
+Inside an allowed environment, the course includes request capture/replay, synthetic credential attacks, account/workflow abuse, browser automation, private proxy comparisons, challenge testing, fingerprint-evasion comparisons, WAF/bot-control testing, AI-agent experiments, and bounded resilience testing.
 
-1. Who authorized it?
-2. Which exact local components are in scope?
-3. What objective and hypothesis justify the traffic?
-4. What are the hard caps and abort conditions?
-5. Who watches service health and how is recovery verified?
-6. What evidence is retained, sanitized, and deleted?
-7. What remediation and retest would make the result useful?
+Deep packet, spoofing, reflection, amplification, and connection-state exercises require a non-routable isolated topology with no bridge to Wi-Fi, Ethernet, VPN, cloud VPC, or the Internet. Prove isolation before generating traffic.
 
-A test that creates uncontrolled impact is a failed engagement, regardless of whether it demonstrates a technical condition.
+## Never do this
 
-Report safety defects through [SECURITY.md](SECURITY.md).
+- Test an unrelated public or production service
+- Use real stolen/leaked credentials or customer data
+- Send denial-of-service traffic over a routed or shared network
+- Operate malware, botnets, persistence, or public attack infrastructure
+- Use public proxies without authorization
+- Escape a provider’s assigned range or bypass its safeguards
+- Disable target allowlists, hard caps, timeouts, abort conditions, or cleanup
+- Present a synthetic detector or lab result as production proof
 
+## Bundled lab limits
+
+The included client accepts only local targets and enforces:
+
+- 15 seconds maximum duration
+- 5 maximum concurrency
+- 10 requests/second maximum rate
+- 100 maximum total requests
+- 20 maximum expensive requests
+
+Course exercises usually use much less. Stop immediately on an unexpected status, failed health check, breached limit, or owner request.
+
+## Before every run
+
+Write down: owner, target, allowed action, data, request/rate/concurrency cap, abort condition, expected result, and cleanup. Run the smallest useful test first. Preserve evidence without secrets. Reset state and stop services when finished.

@@ -1,4 +1,4 @@
-.PHONY: doctor docs docs-serve test validate progress lab-up lab-down lab-client lab-analyze clean
+.PHONY: doctor site site-serve test validate lab-up lab-down clean
 
 doctor:
 	@python --version
@@ -6,40 +6,29 @@ doctor:
 	@docker --version
 	@docker compose version
 
-docs:
+site:
 	python scripts/build_docs.py
 	mkdocs build --strict
 
-docs-serve:
+site-serve:
 	python scripts/build_docs.py
 	mkdocs serve
 
 test:
-	python -m unittest discover -s tests -v
 	python -m unittest discover -s lab/tests -v
-
-progress:
-	python scripts/progress.py
+	npm run typecheck
 
 validate:
-	python scripts/progress.py --check
-	python scripts/validate_curriculum.py
-	python scripts/validate_links.py
-	python -m unittest discover -s tests -v
+	python scripts/validate_course.py
 	python -m unittest discover -s lab/tests -v
+	npm run typecheck
 	docker compose -f lab/docker-compose.yml config --quiet
 
 lab-up:
-	docker compose -f lab/docker-compose.yml up --build
+	docker compose -f lab/docker-compose.yml up --build -d
 
 lab-down:
 	docker compose -f lab/docker-compose.yml down
 
-lab-client:
-	python -m lab.clients.safe_client --dry-run
-
-lab-analyze:
-	python -m lab.analysis.analyze
-
 clean:
-	@echo "Remove generated site, telemetry, and reports using your platform's normal file tools."
+	@echo "Remove generated site and telemetry with your platform's normal file tools."
