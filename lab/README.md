@@ -15,24 +15,35 @@ Expected:
 {"status":"ok","service":"aate-local-app"}
 ```
 
-## Course exercises
+## Course attacks
 
 ```bash
 # Show the safety envelope without traffic
 python -m lab.clients.safe_client --dry-run
 
-# Synthetic login attempts
+# Execute synthetic password spraying and credential stuffing patterns
 python -m lab.run credential
 
-# Account, login, search, inventory, promotion, and challenge workflow
+# Automate an account, inventory, promotion, and challenge workflow
 python -m lab.run workflow
 
-# Five cheap versus five bounded expensive requests
+# Evade one toy bot-control decision by changing one signal
+python -m lab.run evasion
+
+# Capture and replay a challenge token across synthetic sessions
+python -m lab.run bypass
+
+# Defeat a per-session limit by rotating its attacker-controlled key
+python -m lab.run ratelimit
+
+# Apply bounded pressure to cheap and expensive routes
 python -m lab.run resilience
 
-# Evaluate the transparent detector on the fixed fixture
+# Reconnaissance: learn the toy detector's decision boundary
 python -m lab.analysis.analyze
 ```
+
+The attack commands print the baseline, changed condition, protected action, and bypass evidence. The weaknesses are intentional and exist only in this local target.
 
 Every runner is fixed to `localhost`. The bundled general client rejects non-local targets and caps duration, rate, concurrency, and total requests.
 

@@ -2,12 +2,24 @@
 
 This is the entire course. You do not need to understand the repository.
 
+This is a **red-team-first course**. You learn a defense well enough to identify its trust assumptions; then you attack those assumptions, complete the protected action, preserve bypass evidence, recommend a fix, and retest. Detector design and defensive telemetry support that mission. They are not the mission.
+
 1. Read **Learn**.
 2. Do **Lab**.
 3. Answer **Self-assess**, then check the answers.
 4. Click the next link.
 
 Start with Foundation in Modules 0 through 8. That is the 24-hour minimum. If you continue, repeat the same modules at Applied, Integrated, then Deep depth. [CHECKPOINTS.md](CHECKPOINTS.md) only tells you when you may stop; it adds no work.
+
+Every core lab uses this attack loop:
+
+```text
+name the target/control -> establish the blocked baseline -> state a bypass hypothesis
+-> execute the attack -> prove the protected action succeeded or the mitigation failed
+-> explain impact -> recommend a fix -> run the same test again
+```
+
+Observation alone is reconnaissance. A completed red-team lab includes an adversarial action and evidence of its outcome. Use only the bundled local target, your isolated self-hosted target, or the exact target a training provider assigns.
 
 Before a lab, start the target once:
 
@@ -21,6 +33,8 @@ Expected response: `{"status":"ok","service":"aate-local-app"}`. When finished, 
 ---
 
 # Module 0: Safety and red-team engagement discipline
+
+**Red-team outcome:** Define an authorization and containment envelope that lets you execute real attack techniques in a lab without crossing the target boundary.
 
 <a id="module-0-foundation"></a>
 ## Foundation
@@ -184,6 +198,8 @@ Choose one course finding and write those five stages, including the metric that
 
 # Module 1: Web request path and network fundamentals
 
+**Red-team outcome:** Capture, mutate, proxy, and replay traffic while explaining which attacker-controlled values survive each intermediary.
+
 <a id="module-1-foundation"></a>
 ## Foundation
 
@@ -225,11 +241,12 @@ A request ID joins one exchange across layers. A session ID joins several reques
 ### Lab
 
 ```bash
-curl.exe -i http://localhost:8080/api/search?q=demo
-curl.exe -i http://localhost:8080/api/products/not-real
+curl.exe -i "http://localhost:8080/api/search?q=demo" -H "X-Request-ID: replay-foundation-1"
+curl.exe -i "http://localhost:8080/api/search?q=kit" -H "X-Request-ID: replay-foundation-1"
+curl.exe -i "http://localhost:8080/api/products/not-real" -H "X-Request-ID: attacker-controlled"
 ```
 
-In the first response find status `200`, `content-type`, `x-request-id`, `x-aate-latency-ms`, and the JSON body. The second response should be `404`.
+In the first two responses find status `200`, `content-type`, `x-request-id`, `x-aate-latency-ms`, and the JSON body. You replayed the request while mutating only the query and proved the client can supply a correlation header that the edge reflects. The third response should be `404`; a caller-controlled request ID does not authorize a nonexistent object.
 
 Open `lab/edge/nginx.conf` and find `proxy_pass`. Draw the actual path:
 
@@ -237,7 +254,7 @@ Open `lab/edge/nginx.conf` and find `proxy_pass`. Draw the actual path:
 client -> 127.0.0.1:8080 Nginx -> app:8000 FastAPI -> in-memory state
 ```
 
-Mark DNS and TLS as absent. A correct lab diagram shows what is missing.
+Mark DNS and TLS as absent. Then add three attacker notes: the query and request-ID header are controllable, Nginx forwards the request, and the application decides what object exists. This is the minimum offensive primitive used by later proxy, WAF, cache, and replay attacks.
 
 ### Self-assess
 
@@ -307,7 +324,9 @@ HTTP/3 carries HTTP over QUIC/UDP. The useful questions remain: what can each en
 
 ### Lab
 
-Create manual-browser, Playwright, Python, and Burp-replayed local populations. Record source address, headers, cookies/session behavior, connection evidence, and what the proxy changed. Then read [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113), Sections 2 and 5, and explain how multiplexing changes connection-based telemetry.
+Create manual-browser, Playwright, Python, and Burp-replayed local populations. Give each the same adversarial goal: reserve one synthetic item using a caller-supplied identity that was never authenticated. Record whether the protected action succeeds, plus source address, headers, cookies/session behavior, connection evidence, and what the proxy changed. The expected weakness is invariant across clients: transport variation does not repair missing application authorization.
+
+Then read [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113), Sections 2 and 5, and explain how multiplexing can defeat a control that mistakes connections/second for requests or attacker identities.
 
 ### Self-assess
 
@@ -332,7 +351,7 @@ Deep protocol work separates standardized possibilities from one implementation�
 
 ### Lab
 
-Choose one question: proxy effects on TLS/HTTP, HTTP/2 multiplexing and connection metrics, or browser-version drift. Capture at least five runs per condition. Use the matching reference: [HTTP/2 Sections 2 and 5](https://www.rfc-editor.org/rfc/rfc9113), [QUIC Sections 2 and 5](https://www.rfc-editor.org/rfc/rfc9000), [HTTP/3 Sections 2 and 3](https://www.rfc-editor.org/rfc/rfc9114), or [TLS 1.3 Sections 2 and 4](https://www.rfc-editor.org/rfc/rfc8446).
+Choose one attacker question: can proxying change a TLS/HTTP fingerprint without changing the hostile workflow, can HTTP/2 multiplexing evade a connection-count assumption, or can browser-version drift mimic an evasion? Capture a blocked or flagged baseline and at least five runs per changed condition. Use the matching reference: [HTTP/2 Sections 2 and 5](https://www.rfc-editor.org/rfc/rfc9113), [QUIC Sections 2 and 5](https://www.rfc-editor.org/rfc/rfc9000), [HTTP/3 Sections 2 and 3](https://www.rfc-editor.org/rfc/rfc9114), or [TLS 1.3 Sections 2 and 4](https://www.rfc-editor.org/rfc/rfc8446). Your conclusion must say whether the protected action still succeeded and whether the control decision changed.
 
 ### Self-assess
 
@@ -354,6 +373,8 @@ Choose one question: proxy effects on TLS/HTTP, HTTP/2 multiplexing and connecti
 
 # Module 2: Automated abuse and threat modeling
 
+**Red-team outcome:** Execute synthetic credential and business-workflow attacks, identify the control invariant, and vary identity, state, timing, or path to test a bypass hypothesis.
+
 <a id="module-2-foundation"></a>
 ## Foundation
 
@@ -373,6 +394,8 @@ Automated abuse uses legitimate-looking application functions to violate a busin
 
 Do not threat-model “a bot” as one object. Write: **goal → workflow steps → state/identities → observable behavior → control → bypass hypothesis → false-positive risk**. Business state often detects abuse better than a single header because the attacker must still accomplish the workflow.
 
+OWASP defines 21 canonical automated threats, including account creation, CAPTCHA defeat, credential cracking/stuffing, denial of inventory/service, fingerprinting, scalping, scraping, and token cracking. Open [OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/) and use its identification chart. For Foundation, identify the OAT name and number for the local credential, account-creation, inventory, and DoS exercises; do not memorize all 21.
+
 Credential terms matter:
 
 - **brute force:** many candidate passwords against one account;
@@ -383,17 +406,16 @@ Use only fixed synthetic credentials in this course.
 
 ### Lab
 
-Run three local workflows:
+Run two local attack workflows:
 
 ```bash
 python -m lab.run credential
 python -m lab.run workflow
-python -m lab.run resilience
 ```
 
-The credential exercise must show five attempts, four failures, and one success. The workflow exercise creates a synthetic account, logs in, searches, reserves inventory, redeems a promotion, and passes a fixed local challenge. The resilience exercise should show that the expensive endpoint has a higher median cost than `/health`.
+The credential attack must show five attempts, four failures, and one success: a synthetic spray-like pattern followed by successful reuse. The automated workflow creates an account, logs in, searches, reserves inventory, redeems a promotion, and passes a fixed local challenge. Treat the successful login, reservation, and redemption as adversary outcomes—not merely generated telemetry.
 
-For each, write one row with goal, workflow, signal, control, and false-positive risk. Example for inventory: `deny availability | reserve without buying | high reserve-to-purchase ratio | short holds + identity quota | legitimate abandoned carts`.
+For each, write one row with goal, protected action, attack sequence, current control, bypass hypothesis, evidence, and false-positive risk. Example: `deny availability | reserve | enumerate → reserve → abandon | per-identity quantity | rotate synthetic identity | inventory falls without purchase | legitimate abandoned carts`.
 
 ### Self-assess
 
@@ -466,15 +488,15 @@ A good experiment compares a fixed script with an adaptive agent on the same goa
 
 ### Lab
 
-`python -m lab.run workflow` is the fixed-policy baseline. Its JSON lines are an observe/action trace. Change one lab condition—for example reserve `demo-2` instead of `demo-1`—and make the policy choose an available product after reading `/api/search` and `/api/products/{id}`. Record why each action was selected and stop on an unexpected status.
+`python -m lab.run workflow` is the fixed-policy attacker baseline. Its JSON lines are an observe/action trace. Change one lab condition—for example deplete `demo-1` first—and make the policy choose another available product after reading `/api/search` and `/api/products/{id}`. The adversarial goal is still to reserve inventory and redeem the promotion. Record why each action was selected, whether the protected action succeeded, and why the agent stopped.
 
 For a genuine model-powered environment, choose one exact authorized assignment:
 
-- [BrowserGym](https://github.com/ServiceNow/BrowserGym): install the package, run its `miniwob` quick-start task, and save the action trace and success result; or
-- [AgentDojo](https://github.com/ethz-spylab/agentdojo): run the documented quick start and one prompt-injection task, then explain utility versus security success; or
-- [PortSwigger Web LLM attacks](https://portswigger.net/web-security/learning-paths/llm-attacks): complete the first three assigned labs and explain the trust-boundary failure in each.
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp): restrict it to `localhost:8080`, give it the goal “reserve one synthetic item using an unregistered identity,” save its trace, and verify the `200` bypass; or
+- [AgentDojo](https://github.com/ethz-spylab/agentdojo): run the documented quick start and one prompt-injection attack, then explain utility versus security success; or
+- [PortSwigger Web LLM attacks](https://portswigger.net/web-security/learning-paths/llm-attacks): exploit the first three assigned labs and explain the trust-boundary failure in each.
 
-The evidence to keep is the goal, observation/action trace, outcome, safety policy, and one defensive signal. Installing every framework is not required.
+The evidence to keep is the attacker goal, observation/action trace, protected-action outcome, safety policy, and one control signal the agent did or did not evade. Installing every framework is not required.
 
 ### Self-assess
 
@@ -505,11 +527,15 @@ Evasion testing must ask what the attacker must preserve. Changing User-Agent is
 
 Design three variants of one workflow: fixed direct client, private-proxy rotation, and adaptive browser agent. For each predict which signals change and which required business invariants remain. Then run the variants only in localhost, a self-hosted target, or the provider-assigned range.
 
+If you do not already have a private multi-proxy topology, complete the proxychains and SOCKS sections plus skills assessment in [HTB Academy: Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/course/preview/pivoting-tunneling-and-port-forwarding). Use only its assigned range. Your course note must separate route/source evidence that changed from account, browser, and workflow evidence that survived.
+
 For deeper authorized practice, choose one:
 
 - [HTB Senior Web Penetration Tester path](https://academy.hackthebox.com/path/preview/senior-web-penetration-tester): complete the authentication and web-service assessment modules relevant to your gap;
 - [HTB AI Red Teamer path](https://academy.hackthebox.com/path/preview/ai-red-teamer): complete Introduction to Red Teaming AI, LLM Output Attacks, and Attacking AI Applications and Systems;
 - [PortSwigger Web Security Academy](https://portswigger.net/web-security/all-topics): complete the authentication, business-logic, API-testing, and Web LLM lab sets.
+
+Visual CAPTCHA defeat is a Deep specialization, not a Foundation prerequisite. Complete [Infosec: Hacking CAPTCHA Systems](https://www.infosecinstitute.com/skills/courses/hacking-captcha-systems/) if that skill is relevant to your target controls. Build the assigned Selenium/neural-network solver and run it only against the course's supplied FoolMe target. Preserve solver accuracy, failure examples, end-to-end protected-action success, and one control improvement; do not test a third-party CAPTCHA service.
 
 For every external lab, write the mechanism, evidence, remediation, and retest. A flag alone is not course completion.
 
@@ -534,6 +560,8 @@ For every external lab, write the mechanism, evidence, remediation, and retest. 
 ---
 
 # Module 3: Browser automation
+
+**Red-team outcome:** Build scripted and model-driven browser attackers that complete hostile workflows, preserve action traces, and vary browser identity or behavior for evasion tests.
 
 <a id="module-3-foundation"></a>
 ## Foundation
@@ -563,6 +591,7 @@ const page = await context.newPage();
 page.on("request", request => { /* save local request */ });
 page.on("response", response => { /* save local status */ });
 await page.goto("http://localhost:8080/api/search?q=demo");
+await page.evaluate(() => fetch("/api/cart/reserve", { /* synthetic unauthenticated reservation */ }));
 await context.close();
 await browser.close();
 ```
@@ -577,9 +606,9 @@ npx playwright install chromium
 npm run playwright:foundation
 ```
 
-Expected console text starts with `Saved` and ends with `lab/telemetry/foundation-playwright.jsonl`. Open that file. Find request and response pairs for `/`, `/health`, and `/api/search?q=demo`. Verify the response status is `200`.
+Expected console text includes `Bypass confirmed` and names `lab/telemetry/foundation-playwright.jsonl`. Open that file. Find the browser request and response for `/api/cart/reserve`. The script supplied an identity that was never created or authenticated, yet inventory changed. That `200` is bypass evidence for missing authorization/state binding in the intentionally flawed local workflow.
 
-Change `headless: true` to `headless: false`, run again, and watch the browser. Change it back after the comparison. The application response should remain the same even though the execution mode changed.
+Change `headless: true` to `headless: false`, run again, and watch the browser. Change it back after the comparison. The bypass should still succeed: execution mode changed, but the target still trusted the caller-supplied identity. Write one remediation—bind reservation to an authenticated server-side identity—and one retest that expects `401` or `403` for the same attack.
 
 ### Self-assess
 
@@ -622,13 +651,13 @@ Treat the state file like a credential even in a lab. Never commit real session 
 Read the Playwright pages for [Browser contexts](https://playwright.dev/docs/browser-contexts), [Authentication/state reuse](https://playwright.dev/docs/auth), and [Network events](https://playwright.dev/docs/network). Perform these exact changes in a copy of the foundation script:
 
 1. create two contexts with different locale values;
-2. request `/api/search?q=demo` from each;
+2. reserve one item from each using two identities that were never created or authenticated;
 3. save storage state from the first context;
 4. attach a CDP session with `context.newCDPSession(page)`;
 5. enable `Network` and count `Network.requestWillBeSent` events;
 6. close both contexts and the browser.
 
-Expected result: both populations succeed, have separate contexts, and produce independently counted network events. Explain why locale is an experimental variable, not proof of identity.
+Expected result: both hostile populations complete the protected action, have separate browser state, and produce independently counted network events. Explain why locale is an attacker-controlled experimental variable, not proof of identity. The report must lead with the missing server-side authorization bypass; the browser differences are supporting evidence.
 
 ### Self-assess
 
@@ -667,10 +696,10 @@ python -m lab.run workflow
 
 Then choose one agent assignment:
 
-- [Playwright MCP](https://github.com/microsoft/playwright-mcp): follow “Getting started,” connect it to a model client, allow only `localhost:8080`, and ask it to find the available synthetic product without purchasing anything; or
-- [BrowserGym](https://github.com/ServiceNow/BrowserGym): follow its installation and MiniWoB quick start, complete one task, and save the action trace.
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp): follow “Getting started,” connect it to a model client, allow only `localhost:8080`, and ask it to find and reserve one synthetic product using an unregistered identity; or
+- [BrowserGym](https://github.com/ServiceNow/BrowserGym): follow its installation and MiniWoB quick start, complete one assigned adversarial task, and save the action trace.
 
-Compare fixed versus agent: success, number of actions, retries, unexpected actions, and stop-policy compliance. Do not give the agent credentials or access to any non-lab target.
+Compare fixed versus agent attacker: protected-action success, number of actions, retries, unexpected actions, control decision, and stop-policy compliance. Do not give the agent credentials or access to any non-lab target.
 
 For an anti-detect comparison, use either [Camoufox](https://github.com/daijro/camoufox) or [Rebrowser Patches](https://github.com/rebrowser/rebrowser-patches) only against the local sensor you build in Module 4. Follow the project’s installation example exactly; collect the same signal set before and after; report corrected inconsistencies and new ones.
 
@@ -701,7 +730,7 @@ JavaScript properties have values and descriptors. A patch that changes a value 
 
 ### Lab
 
-Choose one question, such as “Where is `navigator.webdriver` exposed?” or “How is a new renderer execution context initialized?” Use [Chromium Code Search](https://source.chromium.org/chromium/chromium/src) to find the implementation and [Chrome DevTools Protocol Runtime](https://chromedevtools.github.io/devtools-protocol/tot/Runtime/) to observe contexts. Record the exact revision, file/function, observation, and a local experiment.
+Choose one evasion question, such as “What must change beyond `navigator.webdriver` for the top page, iframe, and worker to agree?” Use [Chromium Code Search](https://source.chromium.org/chromium/chromium/src) to find the implementation and [Chrome DevTools Protocol Runtime](https://chromedevtools.github.io/devtools-protocol/tot/Runtime/) to observe contexts. Record the exact revision, file/function, blocked baseline, patch or launch change, control decision, and whether the automated protected action still succeeds.
 
 If the question is anti-fingerprinting rather than Chromium internals, use [Camoufox’s implementation documentation](https://camoufox.com/) and compare the documented patch to observed descriptors in top page, iframe, and worker contexts.
 
@@ -725,12 +754,14 @@ If the question is anti-fingerprinting rather than Chromium internals, use [Camo
 
 # Module 4: Browser signals and bot detection
 
+**Red-team outcome:** Reconnoiter a bot detector's decision boundary, change the smallest useful signal set, and prove the automated workflow is allowed after evasion.
+
 <a id="module-4-foundation"></a>
 ## Foundation
 
 ### Learn
 
-Bot detection is inference under uncertainty. Signals describe observations; they do not prove who or what is behind a request.
+Bot detection is inference under uncertainty. As a red teamer, you need this model to discover the control's inputs, threshold, and blind spots. Signals describe observations; they do not prove who or what is behind a request.
 
 Signal families include:
 
@@ -762,11 +793,12 @@ Run:
 
 ```bash
 python -m lab.analysis.analyze
+python -m lab.run evasion
 ```
 
-Expected fixture result is `tp: 4`, `fp: 0`, `tn: 6`, `fn: 0`, with precision and recall `1.0`. That is deliberately perfect because the ten records were written for the rules. It proves deterministic code, not production quality.
+The analyzer is reconnaissance. Expected fixture result is `tp: 4`, `fp: 0`, `tn: 6`, `fn: 0`, with precision and recall `1.0`. That is deliberately perfect because the ten records were written for the rules. It proves deterministic code, not production quality.
 
-Open `lab/detectors/rules.py`. For event `e05`, `webdriver=true` adds two points but the threshold is three, so normal Playwright remains allowed. For `e09`, webdriver, platform mismatch, and rapid timing combine to exceed the threshold.
+The evasion command is the attack. Its baseline combines `webdriver=true` with missing browser headers and receives `challenge`. It changes only webdriver exposure; the score falls below the threshold and the same protected-workflow event receives `allow`. Open `lab/detectors/rules.py`, locate both weights, and write the exact failed invariant: the control assumes the automation property remains present.
 
 ### Self-assess
 
@@ -774,6 +806,7 @@ Open `lab/detectors/rules.py`. For event `e05`, `webdriver=true` adds two points
 2. If TP=80 and FN=40, what is recall?
 3. Why is one automation property not enough?
 4. Why are perfect fixture metrics weak evidence?
+5. What proves the Foundation evasion succeeded?
 
 <details><summary>Check your answers</summary>
 
@@ -781,6 +814,7 @@ Open `lab/detectors/rules.py`. For event `e05`, `webdriver=true` adds two points
 2. `80 / 120 ≈ 0.67`.
 3. Legitimate automation can expose it and malicious automation can modify it; it says little about workflow intent.
 4. The sample is tiny, synthetic, non-diverse, and designed around the known rules.
+5. The same workflow event changed one attacker-controlled signal and moved from `challenge` to `allow`.
 
 </details>
 
@@ -835,9 +869,11 @@ Feature ablation removes one feature or family and repeats evaluation. If perfor
 
 ### Lab
 
-Compare six authorized populations: manual, normal Playwright, Python script, replay through Burp/ZAP, one anti-detect browser, and one model- or rule-driven agent. Use the same local workflow and detector version. For each record completion, score/reasons, action count, latency, and any challenge result.
+First self-host [FingerprintJS BotD](https://github.com/fingerprintjs/BotD) by following its official local/npm quick start. Do not test an anti-detect tool against a public demo. Establish ordinary-browser and normal-Playwright baselines against your local copy and preserve the BotD result plus the browser/driver versions.
 
-Then remove each rule family in turn from a temporary copy of the detector and rerun the fixed fixture. Report the change in TP, FP, precision, recall, and population effect. The conclusion must name at least one feature that helped, one that was redundant or brittle, and one missing workflow feature.
+Then compare six authorized attacker populations: manual replay, normal Playwright, Python script, replay through Burp/ZAP, one anti-detect browser, and one model- or rule-driven agent. Give each the same protected-workflow goal and use the same toy-detector and BotD versions. For each record completion, score/reasons, action count, latency, challenge result, BotD result, and whether the hostile business outcome succeeded.
+
+Your offensive objective is to find the least costly population or mutation that changes `challenge` to `allow` without breaking the workflow. Then remove each rule family in turn from a temporary copy of the detector and rerun the fixed fixture. Report the change in bypass rate, TP, FP, precision, recall, and population effect. The conclusion must name the successful evasion, one brittle feature, and one workflow feature that would force the attacker to pay more.
 
 ### Self-assess
 
@@ -868,7 +904,9 @@ Calibration asks whether a score of 0.8 corresponds to about 80% confirmed abuse
 
 ### Lab
 
-Repeat one detector comparison across at least two browser versions or two privacy/accessibility configurations. Build a table with version/population, missing features, score, action, and known legitimacy. Add a privacy review for every collected feature: purpose, granularity, retention, access, deletion, and safer alternative.
+Choose an anti-detect or browser-patch hypothesis and attempt the same automated protected action across at least two browser versions or patch configurations. Start with a challenged baseline. Build a table with patch/version, cross-context consistency, score, action, workflow success, and new anomaly. A successful Deep result either proves a repeatable bypass or falsifies the evasion hypothesis with preserved evidence.
+
+Add one legitimate privacy/accessibility near-neighbor so you can show whether the proposed remediation would block non-adversarial automation. For every collected feature record purpose, granularity, retention, access, deletion, and a safer alternative.
 
 For a deeper authorized AI detector exercise, use [promptfoo’s red-team quick start](https://www.promptfoo.dev/docs/red-team/quickstart/) or [PyRIT’s documentation](https://azure.github.io/PyRIT/). Run only against a local or provider-assigned model endpoint. Record attack category, observed behavior, detector/judge limitation, and remediation.
 
@@ -893,6 +931,8 @@ For a deeper authorized AI detector exercise, use [promptfoo’s red-team quick 
 ---
 
 # Module 5: Edge controls and DDoS resilience
+
+**Red-team outcome:** Bypass challenge and WAF assumptions, identify the resource a mitigation protects, and pressure-test that control with bounded adversarial traffic.
 
 <a id="module-5-foundation"></a>
 ## Foundation
@@ -933,12 +973,15 @@ Per-IP limiting is incomplete because users share IPs and attackers distribute t
 Run:
 
 ```bash
+python -m lab.run bypass
 python -m lab.run resilience
 ```
 
-It sends five cheap and five bounded expensive requests, one at a time. Compare median latency and the printed ratio. The correct claim is only “this local route costs more under this implementation,” not a production capacity estimate.
+The first command establishes a `403` baseline, solves the local challenge as one synthetic session, captures the returned token, then replays it as a different session to reach the protected report. The final `200` proves the toy control failed to bind the token to session, action, expiry, or one-time use.
 
-Write a safe test plan with target, 10-request cap, one-at-a-time concurrency, expected statuses, health check, abort on any failure, and cleanup.
+The second command applies bounded resource pressure: five cheap and five expensive requests, one at a time. Compare median latency and the printed ratio. The correct claim is only “this local route costs more under this implementation,” not a production capacity estimate.
+
+Write a finding with the replay condition, protected action, evidence, impact, server-side binding remediation, and retest. Then write a safe pressure-test plan with target, 10-request cap, one-at-a-time concurrency, expected statuses, health check, abort on any failure, and cleanup.
 
 ### Self-assess
 
@@ -946,6 +989,7 @@ Write a safe test plan with target, 10-request cap, one-at-a-time concurrency, e
 2. When is pps more useful than bps?
 3. Why can a queue make an outage worse?
 4. Why is per-IP limiting incomplete?
+5. What made the challenge-token result a bypass rather than an observation?
 
 <details><summary>Check your answers</summary>
 
@@ -953,6 +997,7 @@ Write a safe test plan with target, 10-request cap, one-at-a-time concurrency, e
 2. When per-packet processing rather than link volume is the bottleneck.
 3. An unbounded queue consumes memory and increases latency until work is useless.
 4. Shared networks group legitimate users, while distributed attackers spread across addresses.
+5. A token issued to one session authorized a protected action for another session after the no-token baseline was denied.
 
 </details>
 
@@ -969,14 +1014,16 @@ A flash crowd and attack can share high volume. Intent is rarely directly observ
 
 ### Lab
 
-Use the local challenge:
+Repeat the local challenge attack and add a rate-limit bypass:
 
 ```bash
-curl.exe -i -X POST http://localhost:8080/api/challenge -H "Content-Type: application/json" -d "{\"session_id\":\"s1\",\"answer\":\"wrong\"}"
-curl.exe -i -X POST http://localhost:8080/api/challenge -H "Content-Type: application/json" -d "{\"session_id\":\"s1\",\"answer\":\"AATE\"}"
+python -m lab.run bypass
+python -m lab.run ratelimit
 ```
 
-Expect `403` then `200`. Explain the toy control’s defects: fixed answer, no expiry, no nonce, no action binding, no one-time use, and no protected endpoint enforcement. Propose a server-issued random token bound to session, action, expiry, and single use.
+Build a challenge matrix for missing token, invalid token, valid token in the solver session, and replay in a second session. Then inspect the rate-limit output: one session receives `200, 200, 429`, while three attacker-chosen session IDs receive `200, 200, 200`. Explain why trusting one caller-controlled key makes the limit bypassable.
+
+Propose a random challenge token bound to session, action, expiry, and single use, plus a rate policy that aggregates authenticated identity, workflow, endpoint cost, and source risk. State the expected status for every retest row.
 
 Then complete PortSwigger’s [Web cache poisoning](https://portswigger.net/web-security/web-cache-poisoning) explanation plus its first lab. The provider’s assigned lab is the only target. Explain how disagreement between cache and origin parsing creates risk.
 
@@ -1009,9 +1056,9 @@ Workflow-aware controls protect a scarce action—login success, reservation, ch
 
 Self-host [OWASP Coraza](https://github.com/corazawaf/coraza) or [OWASP ModSecurity CRS Docker](https://github.com/coreruleset/modsecurity-crs-docker) in a private Compose network in front of an intentionally vulnerable local target such as [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). Follow the chosen project’s Docker quick start exactly.
 
-Run three provider- or self-hosted cases: obvious blocked request, an encoding/normalization variation from an assigned PortSwigger lab, and a legitimate near-neighbor. Record WAF action, origin result, false positive, and rule/log evidence. Do not test a public WAF.
+Before improvising parser mutations, complete PortSwigger’s [HTTP request smuggling](https://portswigger.net/web-security/request-smuggling) learning material and assigned labs through “bypassing front-end security controls.” Those deliberately vulnerable labs supply the parser-diversity target the repository does not. Then run three provider- or self-hosted cases: obvious blocked request, one representation/normalization variation from that assignment, and a legitimate near-neighbor. Record WAF action, origin result, protected action, false positive, and rule/log evidence. Do not test a public WAF.
 
-For the AATE app, compare `/health` and `/api/reports/expensive?work=100` before and after a proposed cost-aware limit. The current app does not implement the limit; your deliverable is the rule design and a retest table with expected outcomes.
+For the local app, begin with `python -m lab.run ratelimit` and preserve the successful key-rotation bypass. Implement a replacement locally—at the application or private reverse proxy—that charges the expensive action across session rotation while allowing the cheap health route. Run the identical attack again. The Integrated lab is incomplete until the original rotated attack is blocked or throttled and the legitimate near-neighbor still succeeds.
 
 ### Self-assess
 
@@ -1040,7 +1087,9 @@ Protocol pressure can also occur at higher layers: HTTP/2 streams, rapid resets,
 
 ### Lab
 
-Use one structured isolated lab; do not improvise on a routed network. The recommended assignment is [SEED Labs TCP/IP Attack Lab](https://seedsecuritylabs.org/Labs_20.04/Networking/TCP_Attacks/) for SYN-state mechanics, followed by [SEED Labs Firewall Exploration Lab](https://seedsecuritylabs.org/Labs_20.04/Networking/Firewall/) for defensive observation. Use the provided VM/container topology and its exact instructions.
+Use one structured isolated lab; do not improvise on a routed network. Complete [SEED Packet Sniffing and Spoofing](https://seedsecuritylabs.org/Labs_20.04/Networking/Sniffing_Spoofing/) for packet construction/source spoofing, [SEED TCP/IP Attack Lab](https://seedsecuritylabs.org/Labs_20.04/Networking/TCP_Attacks/) for SYN-state mechanics, and [SEED Firewall Exploration](https://seedsecuritylabs.org/Labs_20.04/Networking/Firewall/) for mitigation/retest. Use the provided VM/container topology and its exact instructions.
+
+For an isolated lab that also covers SYN/FIN/RST floods, Smurf-style amplification, and Slowloris mechanics, use Lab 8 in the [University of South Carolina Cybersecurity Lab Series](https://research.cec.sc.edu/cyberinfra/cybertraining). Run it only in its supplied isolated range. If that range is routed, recreate its lab hosts in the `internal: true` containerlab topology below, prove there is no default route, and then follow the lab procedure there.
 
 If you build your own topology, use [containerlab](https://containerlab.dev/manual/) plus Docker `internal: true` networks and [Scapy’s official introduction](https://scapy.readthedocs.io/en/stable/introduction.html). Before generating a packet, prove the namespace has no default route, capture traffic at every interface, cap total packets, and verify cleanup. Do not bridge it to Wi-Fi, Ethernet, a VPN, cloud VPC, or the Internet.
 
@@ -1068,6 +1117,8 @@ Report packet/connection rate, state table or queue behavior, loss/errors, servi
 ---
 
 # Module 6: Practical Python and secure code review
+
+**Red-team outcome:** Build bounded offensive clients, automate attack variations, and review code for trust, parsing, retry, concurrency, and resource-exhaustion weaknesses.
 
 <a id="module-6-foundation"></a>
 ## Foundation
@@ -1144,28 +1195,30 @@ Fix them with explicit limits, validation, semaphores/worker pools, parameterize
 
 ### Lab
 
-Run the analyzer, then the tests:
+Run three attacker workflows, then the tests:
 
 ```bash
-python -m lab.analysis.analyze
+python -m lab.run credential
+python -m lab.run evasion
+python -m lab.run bypass
 python -m unittest discover -s lab/tests -v
 ```
 
-Open `lab/analysis/analyze.py`. Find: JSON parsing, population grouping, the four confusion-matrix counters, zero-division protection, and explicit limitations.
+Open `lab/run.py`. Find the fixed target, request builder, timeout, baseline check, one-variable detector evasion, challenge-token capture, cross-session replay, and failure handling. For each, mark whether it generates the attack, constrains it, or preserves evidence.
 
-Open `lab/clients/safe_client.py`. Find the URL validator, timeout, fixed response read limit, total-request cap, and disabled redirect following. Write down one failure that each control prevents.
+Open `lab/clients/safe_client.py`. Find the URL validator, timeout, fixed response read limit, total-request cap, and disabled redirect following. These are engagement safeguards around offensive tooling; write down one failure each prevents.
 
 Finally write this five-line program yourself:
 
 ```python
-from collections import Counter
-from lab.analysis.analyze import load_jsonl
-from pathlib import Path
-records = load_jsonl(Path("lab/fixtures/requests.jsonl"))
-print(Counter(record["population"] for record in records))
+from lab.detectors.rules import score_event
+event = {"webdriver": True, "accept_language": "", "sec_fetch_site": ""}
+print(score_event(event))
+event["webdriver"] = False
+print(score_event(event))
 ```
 
-Expected counts: two records for each of five populations.
+Expected decisions: `challenge`, then `allow`. You wrote an attack mutation in Python and reproduced the bypass without editing the detector.
 
 ### Self-assess
 
@@ -1213,7 +1266,7 @@ Review data flow from source to sink: external input → parsing/validation → 
 
 ### Lab
 
-Extend a copy of the safe client with a five-worker thread or async pool, a two-second timeout, at most two retries for `503`, and a maximum of 20 total attempts. Keep the target validator unchanged. Add tests that reject a public URL, reject concurrency 6, stop at the attempt budget, and do not retry `401`.
+Extend a copy of the safe client into a bounded attack runner with a five-worker thread or async pool, a two-second timeout, at most two retries for `503`, and a maximum of 20 total attempts. Add a mutation function that rotates the local `session_id` and use it to reproduce `python -m lab.run ratelimit`. Keep the target validator unchanged. Add tests that reject a public URL, reject concurrency 6, stop at the attempt budget, and do not retry `401`.
 
 Run type and style checks if the development dependencies are installed:
 
@@ -1251,7 +1304,7 @@ Reproducibility requires deterministic fixtures where possible, recorded random 
 
 ### Lab
 
-Modify `lab/run.py workflow` in a branch or temporary copy so each JSON line includes one run ID, population label, and monotonically increasing sequence. Save output as JSONL. Write a parser that rejects a missing run ID, groups by population, and reports completion rate plus median actions.
+Modify `lab/run.py workflow` in a branch or temporary copy so each JSON line includes one run ID, attacker-population label, and monotonically increasing sequence. Save output as JSONL. Add at least two mutations—session-key rotation and one bot-signal change—and report protected-action completion, control action, and median actions by population. The parser must reject a missing run ID.
 
 Add a proxy label and agent-decision field even if the value is `none` or `fixed-policy`. This prevents later analysis from guessing how traffic was produced.
 
@@ -1282,9 +1335,11 @@ A reusable CLI needs clear subcommands, safe defaults, configuration precedence,
 
 ### Lab
 
-Generate a synthetic JSONL file at least 100 times larger than the fixture by repeating records with new IDs. Implement a streaming analyzer that produces the same confusion matrix without storing all records. Measure elapsed time and peak memory for old versus streaming versions. Preserve the generator seed and command.
+Generate a synthetic JSONL attack corpus at least 100 times larger than the fixture by repeating records with new IDs and controlled signal mutations. Implement a streaming scorer that reports which mutations move `challenge` to `allow` without storing all records. Measure elapsed time and peak memory, and preserve the generator seed and command.
 
-Package the analyzer as a CLI with `analyze`, `validate`, and `explain EVENT_ID` subcommands. Add tests for malformed JSON, missing fields, empty input, huge one-line input, and interrupted writes.
+Package the offensive tool as a CLI with `plan`, `run-local`, `replay`, and `report` subcommands. `plan` must print the resolved target, mutations, caps, and output without traffic; `run-local` must reject non-loopback destinations; `replay` must require a captured local fixture; `report` must distinguish bypass, blocked attack, and tool failure. Add tests for malformed input, missing fields, arbitrary targets, attempt-budget exhaustion, and interrupted writes.
+
+If you need a mature exploit-development range rather than another repository exercise, use the source-guided scripting and reporting work in [OffSec WEB-300](https://help.offsec.com/hc/en-us/articles/360046868971-WEB-300-Advanced-Web-Attacks-and-Exploitation-FAQ) or the relevant modules in the [HTB Senior Web Penetration Tester path](https://academy.hackthebox.com/path/preview/senior-web-penetration-tester). This is an alternative assignment, not extra work.
 
 ### Self-assess
 
@@ -1307,6 +1362,8 @@ Package the analyzer as a CLI with `analyze`, `validate`, and `explain EVENT_ID`
 ---
 
 # Module 7: Experimental method, detection analysis, and reporting
+
+**Red-team outcome:** Convert an attack into a falsifiable experiment, defensible bypass finding, actionable remediation, and identical retest.
 
 <a id="module-7-foundation"></a>
 ## Foundation
@@ -1357,8 +1414,8 @@ Severity comes from plausible impact and exploit conditions, not the cleverness 
 Run:
 
 ```bash
-python -m lab.run resilience
-python -m lab.analysis.analyze
+python -m lab.run evasion
+python -m lab.run bypass
 ```
 
 Write one six-sentence finding:
@@ -1370,7 +1427,7 @@ Write one six-sentence finding:
 5. specific remediation;
 6. retest and limitation.
 
-Compare yours with `lab/reports/synthetic-finding.md`. Correct any sentence that claims production behavior from the local fixture.
+Choose one bypass and make its blocked baseline, attack change, protected action, and successful result explicit. Compare yours with `lab/reports/synthetic-finding.md`. Correct any sentence that claims production behavior from the local fixture.
 
 ### Self-assess
 
@@ -1431,26 +1488,26 @@ Give a five-minute briefing in this order: objective, method/safety, result, imp
 The capstone connects the complete work cycle:
 
 ```text
-authorization -> threat model -> populations -> experiment -> telemetry
--> detection/service analysis -> finding -> remediation -> retest -> briefing
+authorization -> target reconnaissance -> attack hypothesis -> exploit/bypass
+-> evidence and service impact -> finding -> remediation -> retest -> briefing
 ```
 
 The report must make evidence easy to audit. Put scope and executive result first, method and findings next, raw commands/configuration in an appendix, and link every claim to a run/table/request ID. Report failed experiments and tool errors; they are part of reproducibility.
 
 ### Lab
 
-Run one local capstone with six populations from Module 4, the credential/workflow scenario from Module 2, and the resilience comparison from Module 5. Produce:
+Run one local capstone whose objective is to complete a protected workflow while evading or bypassing its control. Use the six populations from Module 4, the credential/workflow scenario from Module 2, and the challenge/resource experiments from Module 5. Produce:
 
 1. one-page scope/runbook;
 2. threat map;
 3. population/test matrix;
 4. raw JSONL and version/config record;
-5. detector and service tables by population;
+5. attack success, control action, and service-impact tables by population;
 6. two findings with remediation and retest;
 7. one-page executive summary;
 8. five-minute briefing.
 
-One finding must be a control weakness; the other may be a false positive, observability gap, or reliability weakness. Re-run the retest locally after implementing or simulating the recommended change.
+One finding must prove a bypass that completed the protected action; the other may be a second bypass, false positive, observability gap, or reliability weakness. Re-run the exact attack locally after implementing or simulating the recommended change.
 
 ### Self-assess
 
@@ -1477,7 +1534,7 @@ For mature detection research, compare feature families, rule overlap, cost, dri
 
 ### Lab
 
-Choose one original question from Modules 1–5. Preregister the hypothesis, variables, sample count, analysis, and stop condition before collecting data. Run at least two conditions and one legitimate near-neighbor. Ask another person to reproduce from your instructions, or repeat in a clean environment.
+Choose one original evasion, replay, normalization, workflow-abuse, or bounded resource-pressure question from Modules 1–5. Preregister the hypothesis, variables, sample count, analysis, and stop condition before collecting data. Run a blocked baseline, at least two attack conditions, and one legitimate near-neighbor. Ask another person to reproduce from your instructions, or repeat in a clean environment.
 
 Publish a portfolio version with synthetic data only: abstract, threat model, ethics/scope, method, results, alternative explanations, limitations, remediation, retest, and reproduction commands. Remove tokens, provider target details, and anything prohibited by an external range.
 
@@ -1503,6 +1560,8 @@ Publish a portfolio version with synthetic data only: abstract, threat model, et
 
 # Module 8: Interview communication and role translation
 
+**Red-team outcome:** Explain an attack plan and bypass evidence clearly enough that another engineer can reproduce the weakness, judge impact, implement a fix, and run the retest.
+
 <a id="module-8-foundation"></a>
 ## Foundation
 
@@ -1526,7 +1585,7 @@ A 90-second role narrative has four parts:
 
 Behavioral answers use Situation, Task, Action, Result, and Lesson. Spend most time on your actions and decisions. State metrics and what you would change.
 
-A five-minute bot-detection design should cover request path, signals, session/workflow features, score, proportional actions, false positives, observability, safety, and retest. A DDoS answer begins with the exhausted resource and service objective, then telemetry and controls.
+A five-minute bot-control red-team plan should cover the protected action, request path, control assumptions, attack populations, fingerprint/identity/timing mutations, success evidence, safety, and retest. A DDoS test answer begins with the exhausted resource and service objective, then the smallest bounded reproducer, telemetry, abort conditions, mitigation, and identical retest.
 
 ### Lab
 
@@ -1536,14 +1595,14 @@ Write and say aloud:
 - one behavioral story about ambiguity;
 - one about a security or reliability improvement;
 - one about disagreement or a failed approach;
-- a five-minute layered bot-detection design.
+- a five-minute bot-control attack and bypass plan.
 
 Record the answers on your phone. Listen once. Remove unexplained acronyms, unsupported “always/never” claims, and any section that hides your decision behind “we.”
 
 ### Self-assess
 
 1. Can the listener identify your objective, decision, evidence, and result?
-2. Did the technical answer include false positives and measurement?
+2. Did the technical answer include the attack path, bypass criterion, false positives, and measurement?
 3. Did each behavioral story say what you personally did?
 4. Can you explain the lab’s limitations without undermining its learning value?
 
@@ -1568,8 +1627,8 @@ For code, state input, output, constraints, data structure, complexity, failure 
 
 Prepare six behavioral stories with no duplicated primary example. Run two 45-minute mocks:
 
-1. bot/automated-abuse threat model and detection design;
-2. DDoS/resource-exhaustion diagnosis and mitigation.
+1. bot/automated-abuse attack plan, evasion strategy, and bypass evidence;
+2. bounded DDoS/resource-exhaustion attack plan, mitigation test, and retest.
 
 After each answer, ask the reviewer to challenge one assumption. Revise the answer to incorporate the new constraint. Score 0–2 on structure, correctness, evidence, tradeoffs, and clarity. Repeat any answer below 7/10.
 
@@ -1579,7 +1638,7 @@ Use these practice questions:
 - How would you test fingerprint evasion safely?
 - Diagnose high latency at unchanged RPS.
 - Compare per-IP and workflow-aware rate limits.
-- Explain an AI browser bot and its defensive signals.
+- Design an AI browser attacker, then explain how you would test its evasion and constrain its tools.
 - Review a client with no timeout and unbounded retries.
 
 ### Self-assess
@@ -1609,9 +1668,9 @@ Use a claim-evidence-limitation pattern. “I built X” is a claim; the command
 
 Run five sessions on separate days if possible:
 
-1. Python analysis and secure code review;
-2. browser/bot technical deep dive;
-3. DDoS/edge system design;
+1. Python offensive tooling and exploit-oriented code review;
+2. browser-bot evasion technical deep dive;
+3. WAF bypass and bounded DDoS/edge attack design;
 4. three behavioral stories with skeptical follow-up;
 5. capstone briefing and questions.
 

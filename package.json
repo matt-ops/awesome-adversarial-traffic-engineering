@@ -2,7 +2,7 @@
   "name": "awesome-adversarial-traffic-engineering",
   "version": "0.1.0",
   "private": true,
-  "description": "Local-only browser clients for the AATE educational lab",
+  "description": "Local-only offensive browser clients for the AATE educational lab",
   "scripts": {
     "playwright:foundation": "tsx lab/clients/playwright/foundation.ts",
     "typecheck": "tsc --noEmit"

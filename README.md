@@ -1,6 +1,8 @@
 # Adversarial Traffic Engineering
 
-A hands-on course for automated abuse, browser bots, bot detection, edge controls, DDoS resilience, safe red teaming, and AI-powered agents.
+A red-team-first course for attacking automated-abuse controls: intercept and replay traffic, automate hostile workflows, evade bot detection, bypass challenge and WAF assumptions, pressure-test DDoS mitigations, and report reproducible findings.
+
+You learn how a control works only so you can identify what it trusts and attack that assumption. The course does not end at detection design or defensive observation.
 
 ## Start
 
@@ -15,6 +17,17 @@ Then do only this:
 
 Nothing else in the repository is required to understand the course.
 
+## The red-team loop
+
+Every core lab follows the same simple loop:
+
+```text
+target and control -> attack hypothesis -> execute attack -> prove bypass
+-> explain impact -> recommend a fix -> retest
+```
+
+Seeing a signal or calculating a detector score is preparation. The result is the adversarial action you completed, the control you defeated or stressed, and the evidence that proves it.
+
 ## What you need
 
 - Python 3.12+
@@ -26,17 +39,17 @@ The first browser lab tells you exactly when to install Playwright. External lab
 
 ## The path
 
-The course has nine modules:
+The course has nine modules. The skill areas stay broad; the outcome of each is offensive:
 
-1. Safety and red-team engagement discipline
-2. Web request path and network fundamentals
-3. Automated abuse and threat modeling
-4. Browser automation
-5. Browser signals and bot detection
-6. Edge controls and DDoS resilience
-7. Practical Python and secure code review
-8. Experimental method, analysis, and reporting
-9. Technical and career communication
+1. Safety and red-team engagement discipline — authorize and contain real adversary techniques
+2. Web request path and network fundamentals — intercept, mutate, proxy, and replay traffic
+3. Automated abuse and threat modeling — execute credential, account, inventory, and workflow attacks
+4. Browser automation — build scripted and AI-powered browser attackers
+5. Browser signals and bot detection — fingerprint the control, then evade it
+6. Edge controls and DDoS resilience — bypass challenges/WAF assumptions and pressure-test mitigations
+7. Practical Python and secure code review — build bounded offensive tooling and find exploitable trust failures
+8. Experimental method, analysis, and reporting — turn a bypass into a defensible finding and retest
+9. Technical and career communication — explain the attack path, evidence, impact, and next test
 
 Each module has Foundation, Applied, Integrated, and Deep sections. Finish Foundation across all nine modules first. Continue at the same depth across all modules before moving deeper.
 
@@ -61,8 +74,10 @@ Stop when finished:
 docker compose -f lab/docker-compose.yml down
 ```
 
-All bundled exercises are restricted to the local lab. External exercises must use only their assigned targets. Read [SAFETY.md](SAFETY.md).
+All bundled attacks are restricted to the local lab. External exercises must use only their assigned targets. Read [SAFETY.md](SAFETY.md).
 
 ## More labs
 
-[RESOURCES.md](RESOURCES.md) lists exact free, paid, and self-hosted alternatives. You never need to choose one unless a course section assigns it.
+[RESOURCES.md](RESOURCES.md) lists exact free, paid, and self-hosted ranges. The course assigns them at the point of use; you are never told to find a lab on your own.
+
+If a technique is unsafe or unrealistic to reproduce in this small repository, the objective is not skipped. The matching course section sends you to a named provider-assigned or isolated lab and tells you what evidence to bring back.

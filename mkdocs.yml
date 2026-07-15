@@ -1,5 +1,5 @@
 site_name: Adversarial Traffic Engineering
-site_description: A hands-on course for automated abuse, browser bots, bot detection, edge controls, and DDoS resilience
+site_description: A red-team-first course for bot-control evasion, hostile browser automation, WAF bypass, and DDoS mitigation testing
 strict: true
 docs_dir: .docs-build
 site_dir: site

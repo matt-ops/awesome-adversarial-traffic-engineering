@@ -66,6 +66,29 @@ def main() -> int:
                     if section.count(field) != 1:
                         errors.append(f"Module {index} {level}: expected one {field}")
 
+    if course.count("**Red-team outcome:**") != 9:
+        errors.append("COURSE.md must state one red-team outcome for every module")
+    for command in ("python -m lab.run credential", "python -m lab.run evasion", "python -m lab.run bypass"):
+        if command not in course:
+            errors.append(f"COURSE.md must assign the Foundation offensive exercise: {command}")
+
+    external_coverage = {
+        "automated-threat taxonomy": "www-project-automated-threats-to-web-applications",
+        "real browser sensor": "github.com/fingerprintjs/BotD",
+        "proxy-chain range": "pivoting-tunneling-and-port-forwarding",
+        "front-end parsing bypass": "portswigger.net/web-security/request-smuggling",
+        "isolated packet spoofing": "Networking/Sniffing_Spoofing",
+        "isolated DoS range": "research.cec.sc.edu/cyberinfra/cybertraining",
+        "advanced exploit-development range": "WEB-300-Advanced-Web-Attacks-and-Exploitation",
+        "visual CAPTCHA-solving range": "hacking-captcha-systems",
+    }
+    coverage_text = course + read("RESOURCES.md")
+    for capability, marker in external_coverage.items():
+        if marker not in coverage_text:
+            errors.append(f"missing explicit external coverage for {capability}: {marker}")
+    if "## Coverage fallback" not in read("RESOURCES.md"):
+        errors.append("RESOURCES.md must explain how restricted or unrealistic in-repo labs are replaced")
+
     times = [float(value) for value in re.findall(r"^\| [0-8] \| ([0-9.]+) h \|", read("CHECKPOINTS.md"), re.MULTILINE)]
     if len(times) != 9 or sum(times) != 24.0:
         errors.append(f"Foundation checkpoint must have nine rows totaling 24 hours; got {times}")
@@ -75,8 +98,12 @@ def main() -> int:
         if term in public_text.casefold():
             errors.append(f"public course contains prohibited personal/employer term: {term}")
 
-    if "[Open the course](COURSE.md)" not in read("README.md"):
+    readme = read("README.md")
+    if "[Open the course](COURSE.md)" not in readme:
         errors.append("README.md must expose one obvious course start link")
+    for phrase in ("red-team-first", "execute attack", "prove bypass"):
+        if phrase not in readme.casefold():
+            errors.append(f"README.md must make the offensive course contract explicit: {phrase}")
 
     validate_links(errors)
     if errors:
@@ -88,6 +115,8 @@ def main() -> int:
     print("- one start page and one course file")
     print("- nine modules in order with four depths")
     print("- every depth teaches, runs a lab, and provides answer-key self-assessment")
+    print("- every module states an offensive outcome and Foundation includes real local attacks")
+    print("- restricted or unrealistic attack skills route to exact external ranges")
     print("- Foundation totals 24 focused hours")
     print("- public pages exclude personal and employer context")
     print("- internal links resolve")

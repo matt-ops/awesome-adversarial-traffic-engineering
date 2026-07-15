@@ -58,6 +58,28 @@ class SyntheticAppTests(unittest.TestCase):
         passed = self.client.post("/api/challenge", json={"session_id": "s-create", "answer": "AATE"})
         self.assertEqual(passed.status_code, 200)
 
+    def test_challenge_token_is_intentionally_replayable_across_sessions(self) -> None:
+        denied = self.client.get("/api/reports/protected", params={"session_id": "replay-session"})
+        self.assertEqual(denied.status_code, 403)
+        solved = self.client.post("/api/challenge", json={"session_id": "solver-session", "answer": "AATE"})
+        token = solved.json()["lab_token"]
+        replayed = self.client.get(
+            "/api/reports/protected",
+            params={"session_id": "replay-session"},
+            headers={"X-Lab-Challenge": token},
+        )
+        self.assertEqual(replayed.status_code, 200)
+        self.assertEqual(replayed.json()["session_id"], "replay-session")
+
+    def test_per_session_limit_is_intentionally_bypassable_by_key_rotation(self) -> None:
+        fixed = [self.client.get("/api/reports/limited", params={"session_id": "fixed"}).status_code for _ in range(3)]
+        rotated = [
+            self.client.get("/api/reports/limited", params={"session_id": f"rotated-{number}"}).status_code
+            for number in range(1, 4)
+        ]
+        self.assertEqual(fixed, [200, 200, 429])
+        self.assertEqual(rotated, [200, 200, 200])
+
 
 if __name__ == "__main__":
     unittest.main()
