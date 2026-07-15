@@ -12,9 +12,21 @@ class DetectorTests(unittest.TestCase):
         result = score_event(
             {"webdriver": True, "user_agent": "Chrome Windows", "platform": "Linux", "inter_arrival_ms": 50}
         )
-        self.assertEqual(result["decision"], "observe")
+        self.assertEqual(result["decision"], "challenge")
         self.assertIn("automation_property", result["reasons"])
         self.assertIn("ua_platform_mismatch", result["reasons"])
+
+    def test_one_signal_change_bypasses_challenge(self) -> None:
+        event = {
+            "webdriver": True,
+            "accept_language": "",
+            "sec_fetch_site": "",
+            "user_agent": "Chrome Windows",
+            "platform": "Win32",
+            "inter_arrival_ms": 350,
+        }
+        self.assertEqual(score_event(event)["decision"], "challenge")
+        self.assertEqual(score_event({**event, "webdriver": False})["decision"], "allow")
 
     def test_fixture_metrics_are_deterministic(self) -> None:
         fixture = Path(__file__).parents[1] / "fixtures" / "requests.jsonl"

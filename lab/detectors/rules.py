@@ -28,5 +28,4 @@ def score_event(event: dict[str, Any]) -> dict[str, Any]:
     if event.get("path") == "/api/reports/expensive" and int(event.get("session_expensive_count", 0)) >= 3:
         reasons.append("expensive_workflow_burst")
     score = sum(WEIGHTS[reason] for reason in reasons)
-    return {"score": score, "decision": "observe" if score >= 3 else "allow", "reasons": reasons}
-
+    return {"score": score, "decision": "challenge" if score >= 3 else "allow", "reasons": reasons}

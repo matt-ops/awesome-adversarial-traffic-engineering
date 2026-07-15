@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "awesome-adversarial-traffic-engineering"
 version = "0.1.0"
-description = "Safe local research lab and progressive adversarial traffic curriculum"
+description = "Red-team-first adversarial traffic course and safe local attack lab"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
@@ -48,4 +48,3 @@ select = ["E", "F", "I", "B", "S"]
 python_version = "3.12"
 strict = true
 packages = ["lab", "scripts"]
-

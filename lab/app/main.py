@@ -20,6 +20,8 @@ PROMOTIONS: set[tuple[str, str]] = set()
 LAB_USERS = {"alice": "wonderland", "bob": "builder", "carol": "sunrise"}
 CREATED_USERS: dict[str, str] = {}
 LOGIN_ATTEMPTS: list[dict[str, Any]] = []
+CHALLENGE_TOKENS: set[str] = set()
+LIMITED_REPORT_CALLS: defaultdict[str, int] = defaultdict(int)
 
 
 class Event(BaseModel):
@@ -124,10 +126,13 @@ def auth_attempts() -> dict[str, Any]:
 
 @app.post("/api/challenge")
 def challenge(payload: ChallengeRequest) -> dict[str, Any]:
-    # This local fixed-answer workflow teaches challenge integration, not CAPTCHA breaking.
+    # Deliberately flawed local control: the answer and returned token are fixed, and
+    # the token is not bound to a session, action, expiry, or one-time use.
     if payload.answer.strip().casefold() != "aate":
         raise HTTPException(status_code=403, detail="synthetic challenge failed")
-    return {"passed": True, "session_id": payload.session_id}
+    token = hashlib.sha256(b"aate-replayable-challenge").hexdigest()[:16]
+    CHALLENGE_TOKENS.add(token)
+    return {"passed": True, "session_id": payload.session_id, "lab_token": token}
 
 
 @app.get("/api/products/{product_id}")
@@ -165,6 +170,42 @@ def expensive(work: int = Query(default=25, ge=1, le=100)) -> dict[str, Any]:
     return {"work": work, "digest_prefix": digest.hex()[:12]}
 
 
+@app.get("/api/reports/protected")
+def protected_report(
+    session_id: str = Query(min_length=1, max_length=64),
+    work: int = Query(default=10, ge=1, le=25),
+    x_lab_challenge: str | None = Header(default=None),
+) -> dict[str, Any]:
+    """Intentionally replayable challenge gate for the local bypass lab."""
+    if x_lab_challenge not in CHALLENGE_TOKENS:
+        raise HTTPException(status_code=403, detail="synthetic challenge required")
+    digest = b"aate-protected-synthetic"
+    for _ in range(work * 100):
+        digest = hashlib.sha256(digest).digest()
+    return {"authorized": True, "session_id": session_id, "work": work, "digest_prefix": digest.hex()[:12]}
+
+
+@app.get("/api/reports/limited")
+def limited_report(
+    session_id: str = Query(min_length=1, max_length=64),
+    work: int = Query(default=10, ge=1, le=25),
+) -> dict[str, Any]:
+    """Intentionally weak per-session limit for the local key-rotation lab."""
+    LIMITED_REPORT_CALLS[session_id] += 1
+    if LIMITED_REPORT_CALLS[session_id] > 2:
+        raise HTTPException(status_code=429, detail="synthetic per-session limit reached")
+    digest = b"aate-limited-synthetic"
+    for _ in range(work * 100):
+        digest = hashlib.sha256(digest).digest()
+    return {
+        "accepted": True,
+        "session_id": session_id,
+        "session_count": LIMITED_REPORT_CALLS[session_id],
+        "work": work,
+        "digest_prefix": digest.hex()[:12],
+    }
+
+
 @app.post("/telemetry/events", status_code=202)
 def record_event(event: Event, x_request_id: str | None = Header(default=None)) -> dict[str, Any]:
     stored = event.model_dump()
@@ -193,4 +234,6 @@ def reset() -> dict[str, bool]:
     PROMOTIONS.clear()
     CREATED_USERS.clear()
     LOGIN_ATTEMPTS.clear()
+    CHALLENGE_TOKENS.clear()
+    LIMITED_REPORT_CALLS.clear()
     return {"reset": True}
