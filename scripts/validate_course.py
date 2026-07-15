@@ -72,6 +72,23 @@ def main() -> int:
         if command not in course:
             errors.append(f"COURSE.md must assign the Foundation offensive exercise: {command}")
 
+    external_coverage = {
+        "automated-threat taxonomy": "www-project-automated-threats-to-web-applications",
+        "real browser sensor": "github.com/fingerprintjs/BotD",
+        "proxy-chain range": "pivoting-tunneling-and-port-forwarding",
+        "front-end parsing bypass": "portswigger.net/web-security/request-smuggling",
+        "isolated packet spoofing": "Networking/Sniffing_Spoofing",
+        "isolated DoS range": "research.cec.sc.edu/cyberinfra/cybertraining",
+        "advanced exploit-development range": "WEB-300-Advanced-Web-Attacks-and-Exploitation",
+        "visual CAPTCHA-solving range": "hacking-captcha-systems",
+    }
+    coverage_text = course + read("RESOURCES.md")
+    for capability, marker in external_coverage.items():
+        if marker not in coverage_text:
+            errors.append(f"missing explicit external coverage for {capability}: {marker}")
+    if "## Coverage fallback" not in read("RESOURCES.md"):
+        errors.append("RESOURCES.md must explain how restricted or unrealistic in-repo labs are replaced")
+
     times = [float(value) for value in re.findall(r"^\| [0-8] \| ([0-9.]+) h \|", read("CHECKPOINTS.md"), re.MULTILINE)]
     if len(times) != 9 or sum(times) != 24.0:
         errors.append(f"Foundation checkpoint must have nine rows totaling 24 hours; got {times}")
@@ -99,6 +116,7 @@ def main() -> int:
     print("- nine modules in order with four depths")
     print("- every depth teaches, runs a lab, and provides answer-key self-assessment")
     print("- every module states an offensive outcome and Foundation includes real local attacks")
+    print("- restricted or unrealistic attack skills route to exact external ranges")
     print("- Foundation totals 24 focused hours")
     print("- public pages exclude personal and employer context")
     print("- internal links resolve")

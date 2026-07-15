@@ -2,6 +2,8 @@
 
 These are optional exit ramps in one course. They add no lessons, gates, files, or assignments.
 
+An external range linked by a course section is part of that section, not optional reading. Use only the provider-assigned or self-hosted target and return to the same **Self-assess** when finished.
+
 ## Foundation: about 24 focused hours
 
 Complete **Foundation → Learn, Lab, and Self-assess** in all nine modules:

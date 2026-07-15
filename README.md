@@ -79,3 +79,5 @@ All bundled attacks are restricted to the local lab. External exercises must use
 ## More labs
 
 [RESOURCES.md](RESOURCES.md) lists exact free, paid, and self-hosted ranges. The course assigns them at the point of use; you are never told to find a lab on your own.
+
+If a technique is unsafe or unrealistic to reproduce in this small repository, the objective is not skipped. The matching course section sends you to a named provider-assigned or isolated lab and tells you what evidence to bring back.

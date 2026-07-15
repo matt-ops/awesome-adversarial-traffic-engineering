@@ -394,6 +394,8 @@ Automated abuse uses legitimate-looking application functions to violate a busin
 
 Do not threat-model “a bot” as one object. Write: **goal → workflow steps → state/identities → observable behavior → control → bypass hypothesis → false-positive risk**. Business state often detects abuse better than a single header because the attacker must still accomplish the workflow.
 
+OWASP defines 21 canonical automated threats, including account creation, CAPTCHA defeat, credential cracking/stuffing, denial of inventory/service, fingerprinting, scalping, scraping, and token cracking. Open [OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/) and use its identification chart. For Foundation, identify the OAT name and number for the local credential, account-creation, inventory, and DoS exercises; do not memorize all 21.
+
 Credential terms matter:
 
 - **brute force:** many candidate passwords against one account;
@@ -525,11 +527,15 @@ Evasion testing must ask what the attacker must preserve. Changing User-Agent is
 
 Design three variants of one workflow: fixed direct client, private-proxy rotation, and adaptive browser agent. For each predict which signals change and which required business invariants remain. Then run the variants only in localhost, a self-hosted target, or the provider-assigned range.
 
+If you do not already have a private multi-proxy topology, complete the proxychains and SOCKS sections plus skills assessment in [HTB Academy: Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/course/preview/pivoting-tunneling-and-port-forwarding). Use only its assigned range. Your course note must separate route/source evidence that changed from account, browser, and workflow evidence that survived.
+
 For deeper authorized practice, choose one:
 
 - [HTB Senior Web Penetration Tester path](https://academy.hackthebox.com/path/preview/senior-web-penetration-tester): complete the authentication and web-service assessment modules relevant to your gap;
 - [HTB AI Red Teamer path](https://academy.hackthebox.com/path/preview/ai-red-teamer): complete Introduction to Red Teaming AI, LLM Output Attacks, and Attacking AI Applications and Systems;
 - [PortSwigger Web Security Academy](https://portswigger.net/web-security/all-topics): complete the authentication, business-logic, API-testing, and Web LLM lab sets.
+
+Visual CAPTCHA defeat is a Deep specialization, not a Foundation prerequisite. Complete [Infosec: Hacking CAPTCHA Systems](https://www.infosecinstitute.com/skills/courses/hacking-captcha-systems/) if that skill is relevant to your target controls. Build the assigned Selenium/neural-network solver and run it only against the course's supplied FoolMe target. Preserve solver accuracy, failure examples, end-to-end protected-action success, and one control improvement; do not test a third-party CAPTCHA service.
 
 For every external lab, write the mechanism, evidence, remediation, and retest. A flag alone is not course completion.
 
@@ -863,7 +869,9 @@ Feature ablation removes one feature or family and repeats evaluation. If perfor
 
 ### Lab
 
-Compare six authorized attacker populations: manual replay, normal Playwright, Python script, replay through Burp/ZAP, one anti-detect browser, and one model- or rule-driven agent. Give each the same protected-workflow goal and use the same detector version. For each record completion, score/reasons, action count, latency, challenge result, and whether the hostile business outcome succeeded.
+First self-host [FingerprintJS BotD](https://github.com/fingerprintjs/BotD) by following its official local/npm quick start. Do not test an anti-detect tool against a public demo. Establish ordinary-browser and normal-Playwright baselines against your local copy and preserve the BotD result plus the browser/driver versions.
+
+Then compare six authorized attacker populations: manual replay, normal Playwright, Python script, replay through Burp/ZAP, one anti-detect browser, and one model- or rule-driven agent. Give each the same protected-workflow goal and use the same toy-detector and BotD versions. For each record completion, score/reasons, action count, latency, challenge result, BotD result, and whether the hostile business outcome succeeded.
 
 Your offensive objective is to find the least costly population or mutation that changes `challenge` to `allow` without breaking the workflow. Then remove each rule family in turn from a temporary copy of the detector and rerun the fixed fixture. Report the change in bypass rate, TP, FP, precision, recall, and population effect. The conclusion must name the successful evasion, one brittle feature, and one workflow feature that would force the attacker to pay more.
 
@@ -1048,7 +1056,7 @@ Workflow-aware controls protect a scarce action—login success, reservation, ch
 
 Self-host [OWASP Coraza](https://github.com/corazawaf/coraza) or [OWASP ModSecurity CRS Docker](https://github.com/coreruleset/modsecurity-crs-docker) in a private Compose network in front of an intentionally vulnerable local target such as [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). Follow the chosen project’s Docker quick start exactly.
 
-Run three provider- or self-hosted cases: obvious blocked request, an encoding/normalization variation from an assigned PortSwigger lab, and a legitimate near-neighbor. Record WAF action, origin result, false positive, and rule/log evidence. Do not test a public WAF.
+Before improvising parser mutations, complete PortSwigger’s [HTTP request smuggling](https://portswigger.net/web-security/request-smuggling) learning material and assigned labs through “bypassing front-end security controls.” Those deliberately vulnerable labs supply the parser-diversity target the repository does not. Then run three provider- or self-hosted cases: obvious blocked request, one representation/normalization variation from that assignment, and a legitimate near-neighbor. Record WAF action, origin result, protected action, false positive, and rule/log evidence. Do not test a public WAF.
 
 For the local app, begin with `python -m lab.run ratelimit` and preserve the successful key-rotation bypass. Implement a replacement locally—at the application or private reverse proxy—that charges the expensive action across session rotation while allowing the cheap health route. Run the identical attack again. The Integrated lab is incomplete until the original rotated attack is blocked or throttled and the legitimate near-neighbor still succeeds.
 
@@ -1079,7 +1087,9 @@ Protocol pressure can also occur at higher layers: HTTP/2 streams, rapid resets,
 
 ### Lab
 
-Use one structured isolated lab; do not improvise on a routed network. The recommended assignment is [SEED Labs TCP/IP Attack Lab](https://seedsecuritylabs.org/Labs_20.04/Networking/TCP_Attacks/) for SYN-state mechanics, followed by [SEED Labs Firewall Exploration Lab](https://seedsecuritylabs.org/Labs_20.04/Networking/Firewall/) for defensive observation. Use the provided VM/container topology and its exact instructions.
+Use one structured isolated lab; do not improvise on a routed network. Complete [SEED Packet Sniffing and Spoofing](https://seedsecuritylabs.org/Labs_20.04/Networking/Sniffing_Spoofing/) for packet construction/source spoofing, [SEED TCP/IP Attack Lab](https://seedsecuritylabs.org/Labs_20.04/Networking/TCP_Attacks/) for SYN-state mechanics, and [SEED Firewall Exploration](https://seedsecuritylabs.org/Labs_20.04/Networking/Firewall/) for mitigation/retest. Use the provided VM/container topology and its exact instructions.
+
+For an isolated lab that also covers SYN/FIN/RST floods, Smurf-style amplification, and Slowloris mechanics, use Lab 8 in the [University of South Carolina Cybersecurity Lab Series](https://research.cec.sc.edu/cyberinfra/cybertraining). Run it only in its supplied isolated range. If that range is routed, recreate its lab hosts in the `internal: true` containerlab topology below, prove there is no default route, and then follow the lab procedure there.
 
 If you build your own topology, use [containerlab](https://containerlab.dev/manual/) plus Docker `internal: true` networks and [Scapy’s official introduction](https://scapy.readthedocs.io/en/stable/introduction.html). Before generating a packet, prove the namespace has no default route, capture traffic at every interface, cap total packets, and verify cleanup. Do not bridge it to Wi-Fi, Ethernet, a VPN, cloud VPC, or the Internet.
 
@@ -1328,6 +1338,8 @@ A reusable CLI needs clear subcommands, safe defaults, configuration precedence,
 Generate a synthetic JSONL attack corpus at least 100 times larger than the fixture by repeating records with new IDs and controlled signal mutations. Implement a streaming scorer that reports which mutations move `challenge` to `allow` without storing all records. Measure elapsed time and peak memory, and preserve the generator seed and command.
 
 Package the offensive tool as a CLI with `plan`, `run-local`, `replay`, and `report` subcommands. `plan` must print the resolved target, mutations, caps, and output without traffic; `run-local` must reject non-loopback destinations; `replay` must require a captured local fixture; `report` must distinguish bypass, blocked attack, and tool failure. Add tests for malformed input, missing fields, arbitrary targets, attempt-budget exhaustion, and interrupted writes.
+
+If you need a mature exploit-development range rather than another repository exercise, use the source-guided scripting and reporting work in [OffSec WEB-300](https://help.offsec.com/hc/en-us/articles/360046868971-WEB-300-Advanced-Web-Attacks-and-Exploitation-FAQ) or the relevant modules in the [HTB Senior Web Penetration Tester path](https://academy.hackthebox.com/path/preview/senior-web-penetration-tester). This is an alternative assignment, not extra work.
 
 ### Self-assess
 
