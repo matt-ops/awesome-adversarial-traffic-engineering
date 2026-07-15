@@ -210,5 +210,6 @@ exact retest
 
 ## Next lesson
 
-[Open Module 01](../01-http-edge/index.md) and begin its HTTP request/response
-lesson before running live application or Docker exercises.
+[Begin HTTP request and response](../01-http-edge/01-http-request-response.md)
+before using application or Docker exercises, because every later claim depends
+on tracing the actual exchange.

@@ -1,16 +1,15 @@
-# Module 01 — HTTP and the edge
+# Module 01 - HTTP and the edge
 
-**Outcome:** trace a browser action through request, session, workflow,
-intermediaries, application, and dependencies; then map where a control can
-observe, mutate, cache, challenge, throttle, or reject it.
+**Outcome:** trace one user action through an HTTP exchange, state, workflow,
+intermediaries, application code, and dependencies before reasoning about where
+an adversary can observe or influence a control.
 
-| Depth | Canonical lessons |
+| Depth | Lessons and evidence |
 |---|---|
-| Foundation | HTTP request/response; sessions/workflows; DevTools Network |
-| Applied | Edge request-path mapping against the simple non-Docker application |
-| Integrated | Map the Docker edge, application, state, and telemetry path |
-| Deep | Compare intermediary and protocol assumptions without broad unrelated scanning |
+| Foundation | Request/response, session/workflow, and DevTools trace |
+| Applied | A labeled request-path diagram for the zero-Docker application |
+| Integrated | Revisit the diagram when Module 04 introduces the API and edge |
+| Deep | Compare how an intermediary changes routing, state, caching, and evidence |
 
-Return to [the path](../../path.md). The first lesson in this module is added in
-the next completed rewrite phase; no learner should use this interim branch as a
-published course.
+Start with [HTTP request and response](01-http-request-response.md). No Docker is
+needed in this module.

@@ -8,39 +8,37 @@ Remote state: **not pushed**
 
 | Phase | Status | Evidence |
 |---|---|---|
-| 0 — Protect and audit | Complete | Baseline tests/build recorded; lab commands executed; old render archived; audit written |
-| 1 — Sources, provenance, Module 00 | Complete | 47-entry ledger; three lesson pages; source/lesson/link validation and strict build pass |
-| 2 — HTTP, browser, JavaScript, Playwright | In progress | Next work |
-| 3 — Automated abuse | Not started | — |
-| 4 — Control reconnaissance and evasion | Not started | — |
-| 5 — Protocol identity | Not started | — |
-| 6 — DDoS and resilience | Not started | — |
-| 7 — Tooling, findings, interview | Not started | — |
-| 8 — Integration and review | Not started | — |
+| 0 - Protect and audit | Complete | Baseline tests/build recorded; lab commands executed; old render archived; audit written |
+| 1 - Sources, provenance, Module 00 | Complete | 47-entry ledger; three lessons; source/lesson/link validation and strict build pass |
+| 2 - HTTP, browser, JavaScript, Playwright | Complete | 13 new lessons; zero-Docker static site and headed-first Playwright workflow tested |
+| 3 - Automated abuse | In progress | Next work |
+| 4 - Control reconnaissance and evasion | Not started | - |
+| 5 - Protocol identity | Not started | - |
+| 6 - DDoS and resilience | Not started | - |
+| 7 - Tooling, findings, interview | Not started | - |
+| 8 - Integration and review | Not started | - |
 
-## Baseline facts
+## Verified facts
 
-- 14 Python tests passed.
-- TypeScript typecheck passed.
-- mypy and Ruff passed.
-- Docker Compose configuration passed.
-- Strict MkDocs build passed.
-- Every existing local runner executed against the synthetic application.
-- Docker Desktop was unavailable; application behavior was exercised by running
-  the pinned FastAPI target directly on loopback.
-- The current resilience comparison is not evidentially strong and is marked for
-  rebuild.
-- The monolithic `COURSE.md` and obsolete course validator were removed after
-  their source and rendered output were archived.
-- The public site now builds directly from `docs/`; the landing page has one
-  primary action and no Docker command.
+- The old baseline had 14 passing Python tests, a passing TypeScript check,
+  mypy, Ruff, Docker Compose configuration, and strict MkDocs build.
+- Docker Desktop was unavailable; the pinned FastAPI target was exercised
+  directly on loopback, and every existing runner was inventoried.
+- The monolithic `COURSE.md` and obsolete validator were removed after their
+  source and rendered output were archived.
+- Module 00 and Modules 01-03 now contain 16 template-compliant lessons total.
+- The Foundation static application returned `200` on loopback.
+- The first Playwright workflow ran headless for automated verification, found
+  the synthetic widget, retained `widget` in local storage, and captured twelve
+  local request/response events. The learner command remains headed by default.
+- Source validation resolves all 47 IDs, lesson and internal-link validation
+  pass, TypeScript passes, and the Phase 2 site builds in strict mode.
 
 ## Next exact task
 
-Write Modules 01–03 from the verified source assignments, build the simple
-non-Docker browser application and Playwright exercise, execute it, and replace
-the old browser Foundation authorization bypass with an instructional first
-workflow.
+Write Module 04 from the verified OWASP and PortSwigger assignments, move and
+rename the existing workflow-authorization exercise, execute every mapped local
+runner, and preserve protected-action evidence.
 
 ## Completion rule
 

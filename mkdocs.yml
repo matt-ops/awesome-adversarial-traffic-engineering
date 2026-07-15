@@ -45,12 +45,35 @@ nav:
       - Adversarial-control loop: methodology/adversarial-control-loop.md
       - Experiment design: methodology/experiment-design.md
   - Modules:
-      - "00 — Method and authorization":
+      - "00 - Method and authorization":
           - Overview: modules/00-method/index.md
           - The red-team role: modules/00-method/01-red-team-role.md
           - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
           - Experimental method: modules/00-method/03-experimental-method.md
-      - "01 — HTTP and the edge": modules/01-http-edge/index.md
+      - "01 - HTTP and the edge":
+          - Overview: modules/01-http-edge/index.md
+          - Request and response: modules/01-http-edge/01-http-request-response.md
+          - Sessions and workflows: modules/01-http-edge/02-sessions-and-workflows.md
+          - DevTools Network: modules/01-http-edge/03-devtools-network.md
+          - Edge request path: modules/01-http-edge/04-edge-request-path.md
+      - "02 - Browser and JavaScript":
+          - Overview: modules/02-browser-javascript/index.md
+          - Browser process model: modules/02-browser-javascript/01-browser-process-model.md
+          - DOM and Web APIs: modules/02-browser-javascript/02-dom-and-web-apis.md
+          - JavaScript core: modules/02-browser-javascript/03-javascript-core.md
+          - Async, fetch, and errors: modules/02-browser-javascript/04-async-fetch-and-errors.md
+      - "03 - Playwright":
+          - Overview: modules/03-playwright/index.md
+          - Object model: modules/03-playwright/01-object-model.md
+          - First local browser: modules/03-playwright/02-first-browser.md
+          - Contexts and state: modules/03-playwright/03-contexts-and-state.md
+          - Network events: modules/03-playwright/04-network-events.md
+          - Frames, workers, and CDP: modules/03-playwright/05-frames-workers-and-cdp.md
+      - "04 - Automated abuse": modules/04-automated-abuse/index.md
+  - Labs:
+      - Overview: labs/index.md
+      - Foundation static site: labs/foundation/static-site.md
+      - First Playwright workflow: labs/foundation/first-playwright.md
   - References:
       - Overview: references/index.md
       - Source ledger: references/source-ledger.md
