@@ -1,26 +1,28 @@
-"""Stage only public course content for the static site."""
+"""Verify that the source-first MkDocs tree is ready to build."""
 
 from __future__ import annotations
 
-import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-STAGING = ROOT / ".docs-build"
-PUBLIC_FILES = ("README.md", "COURSE.md", "RESOURCES.md", "SAFETY.md")
+DOCS = ROOT / "docs"
+REQUIRED = (
+    "index.md",
+    "start-here.md",
+    "path.md",
+    "methodology/provenance.md",
+    "references/source-ledger.md",
+    "safety/index.md",
+)
 
 
 def main() -> int:
-    if STAGING.resolve().parent != ROOT.resolve() or STAGING.name != ".docs-build":
-        raise RuntimeError(f"unsafe staging path: {STAGING}")
-    if STAGING.exists():
-        shutil.rmtree(STAGING)
-    STAGING.mkdir()
-    for filename in PUBLIC_FILES:
-        shutil.copy2(ROOT / filename, STAGING / filename)
-    (STAGING / "lab").mkdir()
-    shutil.copy2(ROOT / "lab" / "README.md", STAGING / "lab" / "README.md")
-    print("Staged public course pages only")
+    missing = [relative for relative in REQUIRED if not (DOCS / relative).is_file()]
+    if missing:
+        for relative in missing:
+            print(f"missing public documentation page: docs/{relative}")
+        return 1
+    print(f"Source-first documentation tree ready: {DOCS}")
     return 0
 
 

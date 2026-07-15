@@ -9,8 +9,8 @@ Remote state: **not pushed**
 | Phase | Status | Evidence |
 |---|---|---|
 | 0 — Protect and audit | Complete | Baseline tests/build recorded; lab commands executed; old render archived; audit written |
-| 1 — Sources, provenance, Module 00 | In progress | Next work |
-| 2 — HTTP, browser, JavaScript, Playwright | Not started | — |
+| 1 — Sources, provenance, Module 00 | Complete | 47-entry ledger; three lesson pages; source/lesson/link validation and strict build pass |
+| 2 — HTTP, browser, JavaScript, Playwright | In progress | Next work |
 | 3 — Automated abuse | Not started | — |
 | 4 — Control reconnaissance and evasion | Not started | — |
 | 5 — Protocol identity | Not started | — |
@@ -30,12 +30,17 @@ Remote state: **not pushed**
   the pinned FastAPI target directly on loopback.
 - The current resilience comparison is not evidentially strong and is marked for
   rebuild.
+- The monolithic `COURSE.md` and obsolete course validator were removed after
+  their source and rendered output were archived.
+- The public site now builds directly from `docs/`; the landing page has one
+  primary action and no Docker command.
 
 ## Next exact task
 
-Build and validate `sources/sources.yaml`, write the source policy and AATE-loop
-provenance, add the three new validators, configure the new `docs/` tree, and
-rewrite Module 00 before drafting later modules.
+Write Modules 01–03 from the verified source assignments, build the simple
+non-Docker browser application and Playwright exercise, execute it, and replace
+the old browser Foundation authorization bypass with an instructional first
+workflow.
 
 ## Completion rule
 

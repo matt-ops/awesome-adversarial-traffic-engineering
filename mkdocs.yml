@@ -1,7 +1,8 @@
 site_name: Adversarial Traffic Engineering
-site_description: A red-team-first course for bot-control evasion, hostile browser automation, WAF bypass, and DDoS mitigation testing
+site_description: A source-first red-team path for automated adversaries, browser-control evasion, and bounded resilience testing
+site_url: https://matt-ops.github.io/awesome-adversarial-traffic-engineering/
 strict: true
-docs_dir: .docs-build
+docs_dir: docs
 site_dir: site
 theme:
   name: material
@@ -9,6 +10,7 @@ theme:
     - navigation.instant
     - navigation.tracking
     - navigation.top
+    - navigation.sections
     - toc.follow
     - content.code.copy
   palette:
@@ -27,14 +29,33 @@ theme:
 markdown_extensions:
   - admonition
   - attr_list
+  - footnotes
   - tables
   - toc:
       permalink: true
   - pymdownx.details
   - pymdownx.superfences
 nav:
-  - Start: README.md
-  - Course: COURSE.md
-  - Extra labs: RESOURCES.md
-  - Local lab: lab/README.md
-  - Safety: SAFETY.md
+  - Start the path: index.md
+  - Start here: start-here.md
+  - Path: path.md
+  - Method:
+      - Provenance: methodology/provenance.md
+      - Authorization and safety: methodology/authorization-and-safety.md
+      - Adversarial-control loop: methodology/adversarial-control-loop.md
+      - Experiment design: methodology/experiment-design.md
+  - Modules:
+      - "00 — Method and authorization":
+          - Overview: modules/00-method/index.md
+          - The red-team role: modules/00-method/01-red-team-role.md
+          - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
+          - Experimental method: modules/00-method/03-experimental-method.md
+      - "01 — HTTP and the edge": modules/01-http-edge/index.md
+  - References:
+      - Overview: references/index.md
+      - Source ledger: references/source-ledger.md
+      - Glossary: references/glossary.md
+  - Safety:
+      - Boundary: safety/index.md
+      - Local target policy: safety/local-target-policy.md
+      - Traffic guardrails: safety/traffic-guardrails.md

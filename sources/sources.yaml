@@ -1,0 +1,832 @@
+- id: nist-sp-800-115
+  title: Technical Guide to Information Security Testing and Assessment
+  url: https://csrc.nist.gov/pubs/sp/800/115/final
+  source_type: STANDARD
+  publisher: NIST
+  published_or_updated: "2008-09"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - "5.2 Penetration Testing"
+    - "5.2.1 Penetration Testing Phases"
+    - "6.5 Assessment Plan Development"
+    - "8.1-8.3"
+    - "Appendix B Rules of Engagement"
+  supports:
+    - security-test planning
+    - penetration-test phases
+    - reporting and mitigation
+    - rules of engagement
+  limitations:
+    - General testing guide; it does not define bot-control or DDoS red-team procedure.
+  modules: [module-00, module-10]
+
+- id: mitre-adversary-emulation-plans
+  title: Adversary Emulation Plans
+  url: https://attack.mitre.org/resources/adversary-emulation-plans/
+  source_type: STANDARD
+  publisher: MITRE ATT&CK
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Complete page through Emulation Plan Documents
+  supports:
+    - adversary-behavior modeling
+    - chained actions
+    - behavior-focused defense evaluation
+  limitations:
+    - Examples focus on enterprise adversaries, not automated-abuse controls.
+  modules: [module-00, module-04]
+
+- id: owasp-wstg-entry-points-v42
+  title: Identify Application Entry Points
+  url: https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points
+  source_type: PROJECT_DOCUMENTATION
+  publisher: OWASP WSTG
+  published_or_updated: "2020-12"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Summary
+    - Test Objectives
+    - How to Test
+    - Requests
+    - Responses
+  supports:
+    - request and response mapping
+    - parameter and state discovery
+    - workflow entry points
+  limitations:
+    - Version 4.2 is intentionally pinned; examples are general web testing guidance.
+  modules: [module-01, module-04]
+
+- id: owasp-wstg-map-architecture-v42
+  title: Map Application Architecture
+  url: https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture
+  source_type: PROJECT_DOCUMENTATION
+  publisher: OWASP WSTG
+  published_or_updated: "2020-12"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Summary
+    - Test Objectives
+    - How to Test
+  supports:
+    - architecture mapping
+    - intermediary and trust-boundary analysis
+  limitations:
+    - Version 4.2 is intentionally pinned and does not model every modern edge service.
+  modules: [module-01, module-05]
+
+- id: mdn-http-overview
+  title: An overview of HTTP
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: MDN Web Docs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Components of HTTP-based systems
+    - Basic aspects of HTTP
+    - HTTP is stateless, but not sessionless
+    - HTTP and connections
+    - HTTP flow
+    - HTTP Messages
+  supports:
+    - HTTP components and messages
+    - connection and session distinctions
+  limitations:
+    - Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide.
+  modules: [module-01]
+
+- id: chrome-devtools-network
+  title: Inspect network activity
+  url: https://developer.chrome.com/docs/devtools/network
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Chrome for Developers
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Open the Network panel
+    - Log network activity
+    - Show more information
+    - Inspect a resource's details
+  supports:
+    - manual request observation
+    - request and response evidence
+  limitations:
+    - Chrome UI and labels can change between releases.
+  modules: [module-01]
+
+- id: chrome-browser-process-model
+  title: Inside look at modern web browser (part 1)
+  url: https://developer.chrome.com/blog/inside-browser-part1/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Chrome for Developers
+  published_or_updated: "2018-09"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Execute program on Process and Thread
+    - Browser architecture
+    - Which process controls what?
+  supports:
+    - browser process architecture
+    - renderer and browser-process responsibilities
+  limitations:
+    - Historical Chrome architecture article; implementation details evolve.
+  modules: [module-02]
+
+- id: mdn-dom
+  title: Document Object Model (DOM)
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: MDN Web Docs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Concepts and usage
+    - DOM tree
+    - DOM and JavaScript
+    - Accessing the DOM
+  supports:
+    - DOM mental model
+    - JavaScript interaction with documents
+  limitations:
+    - API reference; the course bridge supplies the offensive workflow context.
+  modules: [module-02]
+
+- id: tau-javascript-introduction
+  title: Introduction to JavaScript
+  url: https://testautomationu.applitools.com/javascript-tutorial/
+  source_type: PRACTITIONER_PERSPECTIVE
+  publisher: Test Automation University
+  published_or_updated: living-course
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - "1.1 Variables"
+    - "1.2 Data Types"
+    - "2.1 Arrays Introduction"
+    - "2.2 Using Arrays"
+    - "3.1 Functions"
+    - "3.2 Anonymous and Arrow Functions"
+    - "4.1 Objects"
+    - "5.1 Conditionals"
+    - "6.1 Loops"
+  supports:
+    - minimum JavaScript syntax for Playwright
+  limitations:
+    - Third-party instructional course; MDN is used for platform and async behavior.
+  modules: [module-02]
+
+- id: mdn-promises
+  title: Promise
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: MDN Web Docs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Description
+    - Chained Promises
+  supports: [promises, asynchronous-control-flow]
+  limitations:
+    - Reference page; the course uses only the subset needed for browser automation.
+  modules: [module-02]
+
+- id: mdn-async-function
+  title: async function
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: MDN Web Docs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Description
+    - Examples
+  supports: [async-await]
+  limitations:
+    - Reference page; advanced concurrency patterns are out of scope here.
+  modules: [module-02]
+
+- id: mdn-try-catch
+  title: try...catch
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: MDN Web Docs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Description
+    - The finally block
+  supports: [error-handling, cleanup]
+  limitations:
+    - Language reference; the course supplies browser-runner failure examples.
+  modules: [module-02]
+
+- id: mdn-using-fetch
+  title: Using the Fetch API
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: MDN Web Docs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Making a request
+    - Setting the method
+    - Setting a body
+    - Checking response status
+    - Reading the response body
+  supports: [browser-http, fetch, response-handling]
+  limitations:
+    - The course does not assign streaming or advanced request-body material at Foundation depth.
+  modules: [module-02]
+
+- id: microsoft-learn-playwright
+  title: Build your first end-to-end test with Playwright
+  url: https://learn.microsoft.com/en-us/training/modules/build-with-playwright/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Microsoft Learn
+  published_or_updated: living-module
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - All eight units
+  supports:
+    - first Playwright test
+    - locators and assertions
+    - beginner setup
+  limitations:
+    - Test-automation framing; the course bridge translates the objects into adversarial workflows.
+  modules: [module-03]
+
+- id: playwright-browser-contexts
+  title: Isolation
+  url: https://playwright.dev/docs/browser-contexts
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Microsoft Playwright
+  published_or_updated: versioned-living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Introduction
+    - What is Test Isolation?
+    - How Playwright Achieves Test Isolation
+    - Multiple Contexts in a Single Test
+  supports: [browser-context, isolation, multi-identity-testing]
+  limitations:
+    - Examples follow the current Playwright test API and can change by version.
+  modules: [module-03]
+
+- id: playwright-network
+  title: Network
+  url: https://playwright.dev/docs/network
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Microsoft Playwright
+  published_or_updated: versioned-living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - HTTP Authentication
+    - Network events
+    - Handle requests
+    - Modify requests
+    - Abort requests
+  supports: [request-events, response-events, interception]
+  limitations:
+    - API behavior is version-sensitive; examples pin the repository version.
+  modules: [module-03]
+
+- id: playwright-auth
+  title: Authentication
+  url: https://playwright.dev/docs/auth
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Microsoft Playwright
+  published_or_updated: versioned-living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Introduction
+    - Basic shared account in all tests
+    - Authenticate with API request
+    - Session storage
+  supports: [storage-state, authenticated-workflows, state-reuse]
+  limitations:
+    - Test-suite examples require offensive reinterpretation and careful secret handling.
+  modules: [module-03, module-04]
+
+- id: playwright-cdpsession
+  title: CDPSession
+  url: https://playwright.dev/docs/api/class-cdpsession
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Microsoft Playwright
+  published_or_updated: versioned-living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - CDPSession overview
+    - send
+    - detach
+  supports: [chromium-devtools-protocol, runtime-instrumentation]
+  limitations:
+    - Chromium-only and explicitly not a Foundation assignment.
+  modules: [module-03, module-06]
+
+- id: owasp-automated-threats
+  title: OWASP Automated Threats to Web Applications
+  url: https://owasp.org/www-project-automated-threats-to-web-applications/
+  source_type: PROJECT_DOCUMENTATION
+  publisher: OWASP
+  published_or_updated: living-project
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Project introduction
+    - OAT-008 Credential Stuffing — Summary Defining Characteristics, Description, Other Names and Examples
+    - OAT-019 Account Creation — Summary Defining Characteristics, Description, Other Names and Examples
+    - OAT-011 Scraping — Summary Defining Characteristics, Description, Other Names and Examples
+    - OAT-005 Scalping — Summary Defining Characteristics, Description, Other Names and Examples
+    - OAT-021 Denial of Inventory — Summary Defining Characteristics, Description, Other Names and Examples
+    - OAT-009 CAPTCHA Defeat — Summary Defining Characteristics, Description, Other Names and Examples
+    - OAT-015 Denial of Service — Summary Defining Characteristics, Description, Other Names and Examples
+  supports: [automated-abuse-taxonomy, business-workflow-abuse]
+  limitations:
+    - The project is a taxonomy and handbook, not an execution methodology.
+  modules: [module-04]
+
+- id: portswigger-authentication-path
+  title: Authentication vulnerabilities learning path
+  url: https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities
+  source_type: PROJECT_DOCUMENTATION
+  publisher: PortSwigger Web Security Academy
+  published_or_updated: living-learning-path
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - What is authentication?
+    - Authentication versus authorization
+    - Vulnerabilities in password-based login
+    - Brute-force attacks
+    - Flawed brute-force protection
+    - User rate limiting
+    - "Lab: Broken brute-force protection, IP block"
+  supports: [authentication-attacks, brute-force-controls, rate-limit-bypass]
+  limitations:
+    - Use only provider-assigned targets and synthetic provider data.
+  modules: [module-04]
+
+- id: portswigger-race-conditions-path
+  title: Race conditions learning path
+  url: https://portswigger.net/web-security/learning-paths/race-conditions
+  source_type: PROJECT_DOCUMENTATION
+  publisher: PortSwigger Web Security Academy
+  published_or_updated: living-learning-path
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Limit overrun race conditions
+    - Detecting and exploiting limit overrun race conditions with Burp Repeater
+    - "Lab: Limit overrun race conditions"
+    - Methodology
+    - Abusing rate or resource limits
+  supports: [race-conditions, limit-overrun, resource-limit-abuse]
+  limitations:
+    - Use only provider-assigned targets.
+  modules: [module-04]
+
+- id: portswigger-api-testing-path
+  title: API testing learning path
+  url: https://portswigger.net/web-security/learning-paths/api-testing
+  source_type: PROJECT_DOCUMENTATION
+  publisher: PortSwigger Web Security Academy
+  published_or_updated: living-learning-path
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - API recon
+    - API documentation
+    - Discovering API documentation
+    - Using machine-readable documentation
+    - Identifying API endpoints
+    - Interacting with endpoints
+    - Identifying supported methods
+    - Identifying supported content types
+  supports: [api-reconnaissance, endpoint-mapping]
+  limitations:
+    - Use only provider-assigned targets; this is not permission to scan PortSwigger infrastructure.
+  modules: [module-04]
+
+- id: portswigger-business-logic
+  title: Business logic vulnerabilities
+  url: https://portswigger.net/web-security/logic-flaws
+  source_type: PROJECT_DOCUMENTATION
+  publisher: PortSwigger Web Security Academy
+  published_or_updated: living-topic
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - What are business logic vulnerabilities?
+    - How do business logic vulnerabilities arise?
+    - Impact
+    - Examples of business logic vulnerabilities
+    - Making flawed assumptions about user behavior
+  supports: [workflow-abuse, state-machine-assumptions]
+  limitations:
+    - Complete only labs explicitly assigned by a lesson.
+  modules: [module-04]
+
+- id: fpscanner-project
+  title: FPScanner
+  url: https://github.com/antoinevastel/fpscanner
+  source_type: PROJECT_DOCUMENTATION
+  publisher: Antoine Vastel
+  published_or_updated: living-repository
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Description and open-source constraints
+    - Features
+    - What It Detects
+    - Cross-Context Validation
+    - Anti-replay discussion
+    - Limits and non-goals
+  supports: [signal-categories, cross-context-validation, replay-resistance]
+  limitations:
+    - Inspectable detection-side implementation; not a complete commercial bot defense.
+  modules: [module-05, module-06]
+
+- id: fpscanner-version-note
+  title: FPScanner version-sensitive observation record
+  url: https://github.com/antoinevastel/fpscanner
+  source_type: VERSION_SENSITIVE
+  publisher: AATE source ledger
+  published_or_updated: "2026-07-15"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Record commit SHA, package version, browser version, enabled options, and observed output
+  supports: [version-drift, reproducibility]
+  limitations:
+    - Observations are valid only for the recorded code and browser versions.
+  modules: [module-05, module-06]
+
+- id: rebrowser-bot-detector
+  title: Modern tests to detect automated browser behavior
+  url: https://github.com/rebrowser/rebrowser-bot-detector
+  source_type: PROJECT_DOCUMENTATION
+  publisher: Rebrowser
+  published_or_updated: living-repository
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - README overview
+    - What are the tests?
+    - runtimeEnableLeak
+    - sourceUrlLeak
+    - mainWorldExecution
+    - navigatorWebdriver
+    - bypassCsp
+    - viewport
+    - window.dummyFn
+  supports: [playwright-artifacts, puppeteer-artifacts, cdp-observations]
+  limitations:
+    - Version-sensitive artifact catalog with strong project claims; not a model of every commercial control.
+  modules: [module-05, module-06]
+
+- id: fp-inconsistent
+  title: "FP-Inconsistent: Measurement and Analysis of Fingerprint Inconsistencies in Evasive Bot Traffic"
+  url: https://arxiv.org/abs/2406.07647
+  source_type: PREPRINT_RESEARCH
+  publisher: arXiv
+  published_or_updated: "2025-09-21 v3"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Abstract
+    - "1 Introduction"
+    - "3 Threat Model"
+    - "4 Measurement Infrastructure"
+    - "5 Analysis"
+    - "6 Inconsistency Analysis"
+    - "7 FP-Inconsistent"
+    - "8 Discussion, especially 8.4 Limitations"
+    - "9 Conclusion"
+  supports: [cross-attribute-inconsistency, temporal-inconsistency, evasion-measurement]
+  limitations:
+    - Preprint studying a specific dataset, honey-site design, bot population, and selected services; not universal proof.
+  modules: [module-05, module-06]
+
+- id: gummy-browsers
+  title: "Gummy Browsers: Targeted Browser Spoofing against State-of-the-Art Fingerprinting Techniques"
+  url: https://arxiv.org/abs/2110.10129
+  source_type: PREPRINT_RESEARCH
+  publisher: arXiv
+  published_or_updated: "2021-10-19"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Abstract and Introduction
+    - "3 Attack Model and Spoofing Methods"
+    - "4 Attack Implementation"
+    - "5 Dataset and Evaluation Methodology"
+    - "6 Results"
+    - "8 Discussion, including Limitations and Future Work"
+    - "9 Conclusion"
+  supports: [browser-fingerprint-acquisition, spoofing-approaches, offensive-evaluation]
+  limitations:
+    - Research threat model and older browser/tool versions; network-layer identity was not spoofed in the study.
+  modules: [module-06]
+
+- id: ja4-project
+  title: JA4+ network fingerprinting methods
+  url: https://github.com/FoxIO-LLC/ja4
+  source_type: PROJECT_DOCUMENTATION
+  publisher: FoxIO
+  published_or_updated: living-repository
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Project overview
+    - JA4 TLS fingerprint
+    - JA4H HTTP fingerprint
+    - Current methods and implementation details
+    - Technical Details
+    - Q&A on changes and ordering
+  supports: [tls-fingerprinting, http-fingerprinting, cross-layer-coherence]
+  limitations:
+    - Fingerprints change with implementations; licensing differs across JA4+ methods; fingerprints are not identity proof.
+  modules: [module-07]
+
+- id: rfc-8446
+  title: The Transport Layer Security (TLS) Protocol Version 1.3
+  url: https://www.rfc-editor.org/rfc/rfc8446
+  source_type: STANDARD
+  publisher: IETF
+  published_or_updated: "2018-08"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - "4.1 Cryptographic Negotiation"
+    - "4.1.2 Client Hello"
+  supports: [tls-handshake, clienthello]
+  limitations:
+    - Assigned only at Integrated depth; it does not define JA4.
+  modules: [module-07]
+
+- id: rfc-9113
+  title: HTTP/2
+  url: https://www.rfc-editor.org/rfc/rfc9113
+  source_type: STANDARD
+  publisher: IETF
+  published_or_updated: "2022-06"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - "2 HTTP/2 Protocol Overview"
+    - "5 Streams and Multiplexing"
+  supports: [http2, streams, multiplexing]
+  limitations:
+    - Selected protocol sections only; implementation fingerprinting is separate.
+  modules: [module-07, module-08]
+
+- id: rfc-9114
+  title: HTTP/3
+  url: https://www.rfc-editor.org/rfc/rfc9114
+  source_type: STANDARD
+  publisher: IETF
+  published_or_updated: "2022-06"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - "2 HTTP/3 Protocol Overview"
+    - "3 Connection Setup and Management"
+  supports: [http3, quic-application-mapping]
+  limitations:
+    - Deep assignment only; does not teach QUIC transport in full.
+  modules: [module-07]
+
+- id: rfc-9000
+  title: QUIC — A UDP-Based Multiplexed and Secure Transport
+  url: https://www.rfc-editor.org/rfc/rfc9000
+  source_type: STANDARD
+  publisher: IETF
+  published_or_updated: "2021-05"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - "2 Streams"
+    - "5 Connections"
+  supports: [quic-streams, quic-connections]
+  limitations:
+    - Deep assignment only; packet-level experimentation remains isolated and bounded.
+  modules: [module-07]
+
+- id: cloudflare-ddos-introduction
+  title: What is a distributed denial-of-service (DDoS) attack?
+  url: https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/
+  source_type: VENDOR_RESEARCH
+  publisher: Cloudflare Learning Center
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - How does a DDoS attack work?
+    - Common types of DDoS attacks
+    - Volumetric attacks
+    - Protocol attacks
+    - Application layer attacks
+    - Mitigation
+  supports: [ddos-introduction, ddos-taxonomy]
+  limitations:
+    - Vendor educational overview; canonical page rejected the automated verifier but was confirmed through current browser-search indexing.
+  modules: [module-08]
+
+- id: aws-waf-app-layer-ddos
+  title: Protecting against application layer DDoS attacks with AWS WAF
+  url: https://docs.aws.amazon.com/waf/latest/developerguide/ddos-app-layer-rbr.html
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: AWS
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Complete short page
+  supports: [application-layer-ddos, rate-based-rules, endpoint-specific-controls]
+  limitations:
+    - AWS-specific implementation guidance, not a universal control model.
+  modules: [module-08]
+
+- id: aws-waf-rate-based-rules
+  title: Rate-based rule statement
+  url: https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: AWS
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Aggregation instances
+    - Evaluation windows
+    - Scope-down statements
+    - Custom keys
+  supports: [rate-limits, aggregation-keys, evaluation-windows]
+  limitations:
+    - Product-specific semantics; local labs model the assumptions rather than AWS itself.
+  modules: [module-08]
+
+- id: aws-builders-library-load-shedding
+  title: Using load shedding to avoid overload
+  url: https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/
+  source_type: PRACTITIONER_PERSPECTIVE
+  publisher: AWS Builders' Library
+  published_or_updated: living-article
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Complete article
+  supports: [load-shedding, admission-control, overload-recovery]
+  limitations:
+    - Practitioner guidance from one large provider; adapt mechanisms to the target architecture.
+  modules: [module-08]
+
+- id: k6-thresholds
+  title: Thresholds
+  url: https://grafana.com/docs/k6/latest/using-k6/thresholds/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Grafana k6
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Threshold syntax
+    - Failure behavior
+    - Abort on fail
+    - Examples for latency and errors
+  supports: [load-test-thresholds, abort-behavior]
+  limitations:
+    - Tool documentation; AATE adds stricter local target and load ceilings.
+  modules: [module-08]
+
+- id: python-standard-library
+  title: Python 3 documentation
+  url: https://docs.python.org/3/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Python Software Foundation
+  published_or_updated: "3.12 and current 3.x docs"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Dictionaries
+    - Reading and writing files
+    - json
+    - collections.Counter
+    - asyncio
+    - logging
+    - typing
+  supports: [python-analysis, bounded-concurrency, telemetry, type-hints]
+  limitations:
+    - Lessons link to the exact subsection used; not all Python documentation is assigned.
+  modules: [module-09]
+
+- id: pytest-documentation
+  title: pytest documentation
+  url: https://docs.pytest.org/en/stable/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: pytest
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Get Started
+    - How to write and report assertions
+    - How to parametrize fixtures and test functions
+  supports: [regression-testing, safety-tests]
+  limitations:
+    - Only the features used by the code-review exercises are assigned.
+  modules: [module-09]
+
+- id: owasp-code-review-guide
+  title: OWASP Code Review Guide
+  url: https://owasp.org/www-project-code-review-guide/
+  source_type: PROJECT_DOCUMENTATION
+  publisher: OWASP
+  published_or_updated: living-project
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Introduction and objectives
+    - Threat modeling
+    - Authentication
+    - Authorization
+    - Error handling and logging
+  supports: [secure-code-review, abuse-path-analysis]
+  limitations:
+    - Broad guide; lessons assign only sections relevant to the local review case.
+  modules: [module-09]
+
+- id: owasp-api-security-top-10
+  title: OWASP API Security Top 10
+  url: https://owasp.org/API-Security/
+  source_type: PROJECT_DOCUMENTATION
+  publisher: OWASP
+  published_or_updated: "2023"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - API1 Broken Object Level Authorization
+    - API2 Broken Authentication
+    - API4 Unrestricted Resource Consumption
+    - API6 Unrestricted Access to Sensitive Business Flows
+  supports: [api-code-review, resource-consumption, business-flow-abuse]
+  limitations:
+    - Risk taxonomy; it does not replace code-specific proof and tests.
+  modules: [module-09]
+
+- id: semgrep-public-rules
+  title: Semgrep Registry
+  url: https://semgrep.dev/explore
+  source_type: PROJECT_DOCUMENTATION
+  publisher: Semgrep
+  published_or_updated: living-registry
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Public Python and JavaScript security-rule examples selected by the lesson
+  supports: [static-analysis-examples]
+  limitations:
+    - Example automation only; never the primary teacher or proof of exploitability.
+  modules: [module-09]
+
+- id: amazon-security-engineer-interview-prep
+  title: Security Engineer Interview Prep
+  url: https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Amazon Jobs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Interview format
+    - Technical topics
+    - Behavioral preparation
+  supports: [security-engineer-interview-format, technical-communication]
+  limitations:
+    - Employer-specific public guidance; course artifacts remain generic and public-safe.
+  modules: [module-10]
+
+- id: amazon-leadership-principles
+  title: Leadership Principles
+  url: https://www.amazon.jobs/content/en/our-workplace/leadership-principles
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Amazon Jobs
+  published_or_updated: living-page
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Customer Obsession
+    - Ownership
+    - Dive Deep
+    - Earn Trust
+    - Have Backbone; Disagree and Commit
+    - Deliver Results
+  supports: [behavioral-interview-structure, role-narrative]
+  limitations:
+    - Employer-specific public rubric; do not place confidential stories in the repository.
+  modules: [module-10]
+
+- id: aate-adversarial-control-loop
+  title: AATE adversarial-control testing loop
+  url: methodology-provenance.md
+  source_type: COURSE_SYNTHESIS
+  publisher: AATE course
+  published_or_updated: "2026-07-15"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - All fifteen steps and provenance table
+  supports: [aate-method, controlled-experiments, protected-action-proof, retest]
+  limitations:
+    - Course synthesis; no cited standard defines the exact fifteen-step sequence.
+  modules: [module-00, module-01, module-04, module-05, module-06, module-07, module-08, module-09, module-10]
+
+- id: aate-local-lab
+  title: AATE synthetic local lab behavior
+  url: ../lab/README.md
+  source_type: LAB_SPECIFIC
+  publisher: AATE course
+  published_or_updated: "2026-07-15"
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Local target policy
+    - Intentional challenge replay weakness
+    - Intentional caller-controlled rate key
+    - Synthetic workflow and telemetry
+    - Hard traffic envelope
+  supports: [local-exercises, expected-output, safety-boundaries]
+  limitations:
+    - Deliberately small and vulnerable; results do not generalize to production systems.
+  modules: [module-00, module-01, module-03, module-04, module-05, module-06, module-08, module-09, module-10]

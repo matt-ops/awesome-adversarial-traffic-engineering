@@ -19,7 +19,9 @@ test:
 	npm run typecheck
 
 validate:
-	python scripts/validate_course.py
+	python scripts/validate_sources.py
+	python scripts/validate_lessons.py
+	python scripts/check_internal_links.py
 	python -m unittest discover -s lab/tests -v
 	npm run typecheck
 	docker compose -f lab/docker-compose.yml config --quiet
