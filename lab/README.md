@@ -1,54 +1,77 @@
-# Adversarial Traffic Lab
+# Local lab
 
-This is a synthetic, local-only educational lab. It demonstrates safety validation, request flow, bounded client behavior, transparent detection, and reproducible analysis. It is not a production bot manager, WAF, CDN, or DDoS platform.
+You do not need to read the lab source code before learning. Start it, run the course command, and stop it.
 
-## Safety envelope
-
-- Targets: `localhost`, `127.0.0.1`, `::1`, and approved Compose names only
-- Maximum duration: 15 seconds
-- Maximum concurrency: 5
-- Maximum rate: 10 requests/second
-- Maximum total requests: 100
-- Maximum expensive requests: 20
-- No safety-disable flag and no redirect following in the provided client
-
-Read [SAFETY.md](../SAFETY.md) and the [guardrails](../docs/safety/load-testing-guardrails.md).
-
-## Architecture
-
-```text
-Bounded local client -> Nginx edge on 127.0.0.1:8080 -> FastAPI synthetic app
-Deterministic fixture -> explainable detector -> metrics and limitations
-```
-
-## Start and stop
+## Start
 
 ```bash
-docker compose -f lab/docker-compose.yml up --build
-curl http://localhost:8080/health
-docker compose -f lab/docker-compose.yml down
+docker compose -f lab/docker-compose.yml up --build -d
+curl.exe http://localhost:8080/health
 ```
 
-Expected health response:
+Expected:
 
 ```json
 {"status":"ok","service":"aate-local-app"}
 ```
 
-## Dry run and analysis
+## Course exercises
 
 ```bash
+# Show the safety envelope without traffic
 python -m lab.clients.safe_client --dry-run
+
+# Synthetic login attempts
+python -m lab.run credential
+
+# Account, login, search, inventory, promotion, and challenge workflow
+python -m lab.run workflow
+
+# Five cheap versus five bounded expensive requests
+python -m lab.run resilience
+
+# Evaluate the transparent detector on the fixed fixture
 python -m lab.analysis.analyze
 ```
 
-The fixture is deliberately simple. Perfect seeded metrics prove deterministic code paths only and must never be presented as real-world detector quality.
+Every runner is fixed to `localhost`. The bundled general client rejects non-local targets and caps duration, rate, concurrency, and total requests.
 
-## Curriculum mapping
+## Browser exercise
 
-See the direct [lab-to-module map](../curriculum/lab-mapping.md). This slice supports Foundation evidence for safety, request path, synthetic abuse, edge/DDoS planning, Python/review, and reporting. Browser/Playwright and sensor expansion belongs to Modules 3 and 4 at their specified levels—not to a separate lab course.
+Install once:
 
-## Cleanup
+```bash
+npm install
+npx playwright install chromium
+```
 
-Stop containers after use. Generated telemetry and reports are ignored by Git. Use only synthetic identities and do not paste production data into fixtures.
+Run:
 
+```bash
+npm run playwright:foundation
+```
+
+Expected output names `lab/telemetry/foundation-playwright.jsonl` and reports the number of saved local request/response events.
+
+## Tests
+
+```bash
+python -m unittest discover -s lab/tests -v
+npm run typecheck
+```
+
+## Stop and reset
+
+Reset synthetic state while the lab is running:
+
+```bash
+curl.exe -X POST http://localhost:8080/api/reset
+```
+
+Stop containers:
+
+```bash
+docker compose -f lab/docker-compose.yml down
+```
+
+Generated telemetry is ignored by Git. Use only the fixed/generated identities in the lab. See [SAFETY.md](../SAFETY.md).

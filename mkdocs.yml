@@ -1,66 +1,41 @@
-site_name: Awesome Adversarial Traffic Engineering
-site_description: Progressive curriculum and safe local lab for adversarial traffic engineering
+site_name: Adversarial Traffic Engineering
+site_description: A hands-on course for automated abuse, browser bots, bot detection, edge controls, and DDoS resilience
 strict: true
 docs_dir: .docs-build
-site_dir: !ENV [AATE_SITE_DIR, site]
+site_dir: site
 theme:
   name: material
   features:
-    - navigation.sections
-    - navigation.indexes
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - toc.follow
     - content.code.copy
+  palette:
+    - scheme: slate
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Use light mode
+    - scheme: default
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Use dark mode
 markdown_extensions:
   - admonition
+  - attr_list
   - tables
   - toc:
       permalink: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.superfences
 nav:
-  - Home: README.md
-  - Getting started: docs/getting-started.md
-  - Learning path:
-      - Start the path: curriculum/path.md
-      - Curriculum guide: curriculum/README.md
-      - Checkpoints:
-          - 24 cumulative focused hours: curriculum/checkpoints/24-hours.md
-          - 7 days: curriculum/checkpoints/7-days.md
-          - 21 days: curriculum/checkpoints/21-days.md
-          - 6 weeks: curriculum/checkpoints/6-weeks.md
-      - Modules:
-          - 0 Safety and engagement: curriculum/modules/00-safety-and-engagement.md
-          - 1 Request path and network: curriculum/modules/01-request-path-and-network.md
-          - 2 Automated abuse: curriculum/modules/02-automated-abuse.md
-          - 3 Browser automation: curriculum/modules/03-browser-automation.md
-          - 4 Browser signals and detection: curriculum/modules/04-browser-signals-and-detection.md
-          - 5 Edge controls and DDoS: curriculum/modules/05-edge-and-ddos.md
-          - 6 Python and code review: curriculum/modules/06-python-and-code-review.md
-          - 7 Experiment, analysis, reporting: curriculum/modules/07-experiment-analysis-reporting.md
-          - 8 Interview communication: curriculum/modules/08-interview-communication.md
-      - Readiness gates: curriculum/gates/README.md
-      - Lab mapping: curriculum/lab-mapping.md
-      - Progress tracking: docs/progress-tracker.md
-      - Acceptance criteria: curriculum/acceptance-criteria.md
-  - Awesome resources: awesome/README.md
-  - Concepts:
-      - Competency map: docs/competency-map.md
-      - Automated abuse: docs/concepts/automated-abuse.md
-      - Browser process model: docs/concepts/browser-process-model.md
-      - Cross-layer consistency: docs/concepts/cross-layer-consistency.md
-      - Bot detection architecture: docs/concepts/bot-detection-architecture.md
-      - Detection science: docs/concepts/detection-science.md
-      - DDoS by exhausted resource: docs/concepts/ddos-by-exhausted-resource.md
-      - Edge architecture: docs/concepts/edge-architecture.md
-      - HTTP/2, HTTP/3, and QUIC: docs/concepts/http2-http3-quic.md
-      - Findings and retesting: docs/concepts/findings-and-retesting.md
-  - Lab: lab/README.md
-  - Interview: interview/README.md
-  - Templates: artifact-templates/README.md
-  - Safety:
-      - Policy: SAFETY.md
-      - Authorization and scope: docs/safety/authorization-and-scope.md
-      - Load-testing guardrails: docs/safety/load-testing-guardrails.md
-      - Research ethics: docs/safety/research-ethics.md
+  - Start: README.md
+  - Course: COURSE.md
+  - Checkpoints: CHECKPOINTS.md
+  - Extra labs: RESOURCES.md
+  - Local lab: lab/README.md
+  - Safety: SAFETY.md

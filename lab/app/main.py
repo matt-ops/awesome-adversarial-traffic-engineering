@@ -17,6 +17,9 @@ app = FastAPI(title="AATE Local App", version="0.1.0")
 EVENTS: list[dict[str, Any]] = []
 INVENTORY = defaultdict(lambda: 5, {"demo-1": 5, "demo-2": 3})
 PROMOTIONS: set[tuple[str, str]] = set()
+LAB_USERS = {"alice": "wonderland", "bob": "builder", "carol": "sunrise"}
+CREATED_USERS: dict[str, str] = {}
+LOGIN_ATTEMPTS: list[dict[str, Any]] = []
 
 
 class Event(BaseModel):
@@ -36,6 +39,21 @@ class ReserveRequest(IdentityRequest):
 
 class PromotionRequest(IdentityRequest):
     code: str = Field(min_length=1, max_length=32)
+
+
+class LoginRequest(BaseModel):
+    username: str = Field(min_length=1, max_length=64)
+    password: str = Field(min_length=1, max_length=128)
+    session_id: str = Field(min_length=1, max_length=64)
+
+
+class AccountRequest(LoginRequest):
+    pass
+
+
+class ChallengeRequest(BaseModel):
+    session_id: str = Field(min_length=1, max_length=64)
+    answer: str = Field(min_length=1, max_length=32)
 
 
 @app.middleware("http")
@@ -66,6 +84,50 @@ def search(q: str = Query(default="demo", max_length=64)) -> dict[str, Any]:
     ]
     needle = q.casefold()
     return {"query": q, "results": [item for item in products if needle in item["name"].casefold() or needle == "demo"]}
+
+
+@app.post("/api/auth/login")
+def login(payload: LoginRequest) -> dict[str, Any]:
+    expected = CREATED_USERS.get(payload.username, LAB_USERS.get(payload.username))
+    success = expected is not None and payload.password == expected
+    LOGIN_ATTEMPTS.append(
+        {
+            "username": payload.username,
+            "session_id": payload.session_id,
+            "success": success,
+            "attempt": len(LOGIN_ATTEMPTS) + 1,
+        }
+    )
+    if not success:
+        raise HTTPException(status_code=401, detail="synthetic credentials rejected")
+    token = hashlib.sha256(f"{payload.username}:{payload.session_id}".encode()).hexdigest()[:16]
+    return {"authenticated": True, "username": payload.username, "lab_token": token}
+
+
+@app.post("/api/accounts/create", status_code=201)
+def create_account(payload: AccountRequest) -> dict[str, Any]:
+    if payload.username in LAB_USERS or payload.username in CREATED_USERS:
+        raise HTTPException(status_code=409, detail="synthetic account already exists")
+    CREATED_USERS[payload.username] = payload.password
+    return {"created": True, "username": payload.username, "session_id": payload.session_id}
+
+
+@app.get("/api/auth/attempts")
+def auth_attempts() -> dict[str, Any]:
+    return {
+        "attempts": len(LOGIN_ATTEMPTS),
+        "failures": sum(not attempt["success"] for attempt in LOGIN_ATTEMPTS),
+        "distinct_users": len({attempt["username"] for attempt in LOGIN_ATTEMPTS}),
+        "distinct_sessions": len({attempt["session_id"] for attempt in LOGIN_ATTEMPTS}),
+    }
+
+
+@app.post("/api/challenge")
+def challenge(payload: ChallengeRequest) -> dict[str, Any]:
+    # This local fixed-answer workflow teaches challenge integration, not CAPTCHA breaking.
+    if payload.answer.strip().casefold() != "aate":
+        raise HTTPException(status_code=403, detail="synthetic challenge failed")
+    return {"passed": True, "session_id": payload.session_id}
 
 
 @app.get("/api/products/{product_id}")
@@ -122,11 +184,13 @@ def session_summary(session_id: str) -> dict[str, Any]:
 
 
 @app.post("/api/reset")
-def reset(request: Request) -> dict[str, bool]:
-    if request.client is None or request.client.host not in {"127.0.0.1", "::1", "app", "edge"}:
-        raise HTTPException(status_code=403, detail="reset is local-only")
+def reset() -> dict[str, bool]:
+    # The application is reachable only through the edge port bound to 127.0.0.1
+    # or from the Compose-internal network. Do not publish the app service itself.
     EVENTS.clear()
     INVENTORY.clear()
     INVENTORY.update({"demo-1": 5, "demo-2": 3})
     PROMOTIONS.clear()
+    CREATED_USERS.clear()
+    LOGIN_ATTEMPTS.clear()
     return {"reset": True}
