@@ -17,6 +17,20 @@ Expected:
 
 ## Course attacks
 
+The course introduces these in order. Run a command only when its module assigns it.
+
+| Module | Exercise | Command |
+|---:|---|---|
+| 0 | Prove the destination allowlist and traffic envelope | `python -m lab.clients.safe_client --dry-run` |
+| 1 | Inventory the local request path and form attack hypotheses | `python -m lab.run recon` |
+| 2 | Execute credential and business-workflow abuse | `python -m lab.run credential` and `python -m lab.run workflow` |
+| 3 | Execute and trace a browser-driven authorization bypass | `npm run playwright:foundation` |
+| 4 | Map and evade the toy detector decision boundary | `python -m lab.analysis.analyze` and `python -m lab.run evasion` |
+| 5 | Replay a challenge, rotate a rate key, and compare bounded route cost | `python -m lab.run bypass`, `ratelimit`, and `resilience` |
+| 6 | Read, extend, constrain, and test the offensive clients | Commands assigned in Module 6 |
+| 7 | Turn preserved attack evidence into a finding and identical retest | `evasion` and `bypass` evidence |
+| 8 | Explain and defend the completed attack lifecycle | No new traffic |
+
 ```bash
 # Show the safety envelope without traffic
 python -m lab.clients.safe_client --dry-run
