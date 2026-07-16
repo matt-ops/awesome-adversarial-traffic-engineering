@@ -76,13 +76,28 @@ nav:
           - Authentication and rate controls: modules/04-automated-abuse/03-auth-and-rate-controls.md
           - Inventory and promotion abuse: modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
           - Race and resource limits: modules/04-automated-abuse/05-race-and-resource-limits.md
-      - "05 - Control reconnaissance": modules/05-control-recon/index.md
+      - "05 - Control reconnaissance":
+          - Overview: modules/05-control-recon/index.md
+          - Signal families: modules/05-control-recon/01-signal-families.md
+          - Browser environment: modules/05-control-recon/02-browser-environment.md
+          - Cross-context consistency: modules/05-control-recon/03-cross-context-consistency.md
+          - Session, behavior, workflow: modules/05-control-recon/04-session-behavior-workflow.md
+          - Blocked baseline: modules/05-control-recon/05-blocked-baseline.md
+      - "06 - Browser evasion":
+          - Overview: modules/06-browser-evasion/index.md
+          - Evasion hypotheses: modules/06-browser-evasion/01-evasion-hypotheses.md
+          - One-variable experiment: modules/06-browser-evasion/02-one-variable-experiments.md
+          - Identity coherence: modules/06-browser-evasion/03-identity-coherence.md
+          - Replay and temporal consistency: modules/06-browser-evasion/04-replay-and-temporal-consistency.md
+          - Version drift: modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
+      - "07 - Protocol identity": modules/07-protocol-identity/index.md
   - Labs:
       - Overview: labs/index.md
       - Foundation static site: labs/foundation/static-site.md
       - First Playwright workflow: labs/foundation/first-playwright.md
       - Integrated local API: labs/applied/local-api.md
       - Workflow authorization: labs/applied/workflow-authorization.md
+      - Control reconnaissance: labs/integrated/control-recon.md
   - References:
       - Overview: references/index.md
       - Source ledger: references/source-ledger.md

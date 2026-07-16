@@ -4,11 +4,12 @@
 HTTP-client populations, then establish the blocked baseline required before an
 evasion hypothesis.
 
-| Depth | Planned evidence |
+| Depth | Lessons and evidence |
 |---|---|
 | Foundation | Five signal families and browser-environment collection |
 | Applied | Top-page/frame/worker consistency plus session/workflow observations |
 | Integrated | Manual, headed, headless, and HTTP-client population matrix |
 | Deep | False-positive, drift, and alternative-explanation analysis |
 
-The lesson sequence begins after Module 04 has passed its gates.
+Start with [signal families](01-signal-families.md). This module observes and
+maps; signal changes wait until Module 06.

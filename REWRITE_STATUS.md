@@ -12,8 +12,8 @@ Remote state: **not pushed**
 | 1 - Sources, provenance, Module 00 | Complete | 47-entry ledger; three lessons; source/lesson/link validation and strict build pass |
 | 2 - HTTP, browser, JavaScript, Playwright | Complete | 13 new lessons; zero-Docker static site and headed-first Playwright workflow tested |
 | 3 - Automated abuse | Complete | Five lessons; exact OWASP/PortSwigger assignments; local runners and renamed authorization proof tested |
-| 4 - Control reconnaissance and evasion | In progress | Next work |
-| 5 - Protocol identity | Not started | - |
+| 4 - Control reconnaissance and evasion | Complete | Ten lessons; three-context enforced local control; stock baselines, action proof, replay, research limits |
+| 5 - Protocol identity | In progress | Next work |
 | 6 - DDoS and resilience | Not started | - |
 | 7 - Tooling, findings, interview | Not started | - |
 | 8 - Integration and review | Not started | - |
@@ -37,12 +37,17 @@ Remote state: **not pushed**
   credential, workflow, authorization, and rate-limit runners executed against
   the loopback API. The authorization artifact proves inventory changed 5 -> 4
   without authentication and explicitly states that this is not browser evasion.
+- Modules 05-06 add ten lessons grounded in FPScanner, Rebrowser,
+  FP-Inconsistent, and Gummy Browsers. The local control test passes: stock
+  headed/headless populations are challenged; one top-page change is allowed;
+  the protected report returns `200`; one-use replay returns `403`. Verification
+  mode records that its requested headed trial actually launched headless.
 
 ## Next exact task
 
-Build the manual/headed/headless/HTTP-client control-recon populations, add
-top-page/frame/worker sensor capture, replace score-only evasion with a protected
-local action, and write Modules 05-06 from the fingerprinting research sources.
+Write Module 07 from the selected RFC and JA4 assignments, add/test local
+handshake and HTTP comparison helpers, and preserve the rule that a fingerprint
+is a versioned pivot rather than identity proof.
 
 ## Completion rule
 
