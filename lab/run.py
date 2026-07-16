@@ -199,7 +199,7 @@ def recon_demo() -> None:
             "control": "workflow authorization",
             "observation": "reserve accepts a caller-supplied identity in the discovered API schema",
             "next_test": "attempt the protected reservation with an identity that was never authenticated",
-            "course_command": "npm run playwright:foundation",
+            "course_command": "npm run playwright:workflow-authorization",
         },
         {
             "control": "challenge token",
