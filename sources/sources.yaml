@@ -662,6 +662,23 @@
     - Practitioner guidance from one large provider; adapt mechanisms to the target architecture.
   modules: [module-08]
 
+- id: aws-builders-library-timeouts-retries-jitter
+  title: Timeouts, retries, and backoff with jitter
+  url: https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/
+  source_type: PRACTITIONER_PERSPECTIVE
+  publisher: AWS Builders' Library
+  published_or_updated: living-article
+  last_verified: "2026-07-15"
+  assigned_sections:
+    - Timeouts
+    - Retries and backoff
+    - Jitter
+    - Conclusion
+  supports: [timeouts, retry-budgets, exponential-backoff, jitter, overload-amplification]
+  limitations:
+    - Practitioner guidance from one large provider; timeout values and retry policy require target-specific measurement.
+  modules: [module-09]
+
 - id: k6-thresholds
   title: Thresholds
   url: https://grafana.com/docs/k6/latest/using-k6/thresholds/

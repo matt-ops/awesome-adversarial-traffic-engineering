@@ -15,8 +15,8 @@ Remote state: **not pushed**
 | 4 - Control reconnaissance and evasion | Complete | Ten lessons; three-context enforced local control; stock baselines, action proof, replay, research limits |
 | 5 - Protocol identity | Complete | Five lessons; generated ClientHello comparison; fixed-loopback HTTP observation; protocol identity bounded as a pivot rather than identity proof |
 | 6 - DDoS and resilience | Complete | Five lessons; seven bounded k6 scenarios; hard target, duration, VU, rate, total-request, threshold, abort, dry-run, and recovery controls |
-| 7 - Tooling, findings, interview | In progress | Next work |
-| 8 - Integration and review | Not started | - |
+| 7 - Tooling, findings, interview | Complete | Nine lessons; executable telemetry, bounded concurrency/retry tooling, four code-review cases, finding/retest/briefing/narrative/mock artifacts |
+| 8 - Integration and review | In progress | Next work |
 
 ## Verified facts
 
@@ -54,12 +54,25 @@ Remote state: **not pushed**
   thresholds abort; teardown checks recovery.
 - The Phase 6 suite has 19 passing Python tests, passing mypy, Ruff, TypeScript,
   source, lesson, internal-link, load-safety, and strict MkDocs checks.
+- Modules 09-10 add nine lessons and three lab guides. The standard-library
+  tooling parses fixture telemetry, validates bounded concurrency before task
+  creation, records a two-attempt 503 -> 200 retry trace, and rejects a fourth
+  attempt. Four synthetic code-review cases connect attacker input to a
+  protected effect and exact remediation test.
+- The Module 10 sequence produces a finding, remediation invariant, exact
+  negative/positive retest, five-minute briefing, public-safe role narrative,
+  and full mock repair loop. It does not convert local lab work into production
+  experience claims or include personal/employer-specific artifacts.
+- Phase 7 validation resolves 48 ledger entries and 50 lesson source blocks;
+  22 Python tests, mypy, Ruff, TypeScript, lesson/source/link validation, and a
+  strict MkDocs build pass.
 
 ## Next exact task
 
-Write Modules 09-10 from the selected Python, secure-code-review, finding,
-briefing, and interview sources. Every lesson must end in a runnable artifact or
-an exact external assignment, not a topic prompt.
+Build cumulative checkpoint views, the lab-to-course matrix, electives, final
+landing/path/progress/resource/acceptance updates, and the restriction-gap and
+content-quality audits. Then run the complete suite and review every path from a
+zero-experience learner's perspective.
 
 ## Completion rule
 

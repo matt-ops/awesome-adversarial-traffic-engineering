@@ -28,6 +28,14 @@ def fetch_once(url: str, timeout_seconds: float = 2.0) -> dict[str, object]:
                 "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
                 "body": body,
             }
+    except urllib.error.HTTPError as exc:
+        body = exc.read(4096).decode("utf-8", errors="replace")
+        return {
+            "ok": False,
+            "status": exc.code,
+            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
+            "body": body,
+        }
     except (urllib.error.URLError, TimeoutError) as exc:
         return {
             "ok": False,

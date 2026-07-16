@@ -104,16 +104,31 @@ nav:
           - Edge controls: modules/08-ddos-resilience/03-edge-controls.md
           - Bounded load testing: modules/08-ddos-resilience/04-bounded-load-testing.md
           - Recovery and retest: modules/08-ddos-resilience/05-recovery-and-retest.md
-      - "09 - Tooling and code review": modules/09-tooling-code-review/index.md
+      - "09 - Tooling and code review":
+          - Overview: modules/09-tooling-code-review/index.md
+          - Python telemetry: modules/09-tooling-code-review/01-python-telemetry.md
+          - Async and bounded concurrency: modules/09-tooling-code-review/02-async-and-bounded-concurrency.md
+          - Retries, timeouts, and jitter: modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md
+          - Secure code review: modules/09-tooling-code-review/04-secure-code-review.md
+      - "10 - Findings and interview practice":
+          - Overview: modules/10-findings-interview/index.md
+          - Finding and evidence: modules/10-findings-interview/01-finding-and-evidence.md
+          - Remediation and exact retest: modules/10-findings-interview/02-remediation-and-retest.md
+          - Technical briefing: modules/10-findings-interview/03-technical-briefing.md
+          - Public-safe role narrative: modules/10-findings-interview/04-role-narrative.md
+          - Full mock loop: modules/10-findings-interview/05-mock-loop.md
   - Labs:
       - Overview: labs/index.md
       - Foundation static site: labs/foundation/static-site.md
       - First Playwright workflow: labs/foundation/first-playwright.md
       - Integrated local API: labs/applied/local-api.md
       - Workflow authorization: labs/applied/workflow-authorization.md
+      - Python tooling: labs/applied/python-tooling.md
       - Control reconnaissance: labs/integrated/control-recon.md
       - Protocol identity: labs/integrated/protocol-identity.md
       - Bounded load and recovery: labs/deep/bounded-load.md
+      - Synthetic code review: labs/deep/code-review.md
+      - Finding, briefing, and mock: labs/deep/finding-briefing.md
   - References:
       - Overview: references/index.md
       - Source ledger: references/source-ledger.md

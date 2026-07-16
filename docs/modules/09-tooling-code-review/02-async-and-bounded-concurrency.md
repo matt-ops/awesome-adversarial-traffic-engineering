@@ -1,0 +1,169 @@
+# Async and bounded concurrency
+
+<!-- source-ids: python-standard-library, pytest-documentation, aate-local-lab -->
+
+> **Progress**
+>
+> Module: 09 - Tooling and secure code review
+>
+> Lesson: 2 of 4
+>
+> Depth: Applied
+>
+> Estimated time: 3 hours
+>
+> Prerequisites: Python telemetry as evidence
+>
+> Artifact: `artifacts/module-09/concurrency-trace.md`
+>
+> Next: Retries, timeouts, and jitter
+
+## Role outcome
+
+Build a local request population with explicit total-work and in-flight ceilings,
+then explain where concurrency begins, waits, and ends.
+
+## Prerequisites
+
+- [Python telemetry as evidence](01-python-telemetry.md)
+- Local synthetic API setup from [the lab page](../../labs/applied/local-api.md)
+
+## Source basis
+
+| Label | Source | Assigned area | Why it is used |
+|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Python `asyncio`](https://docs.python.org/3/library/asyncio.html) | coroutines, tasks, synchronization, threads | Grounds the concurrency model |
+| OFFICIAL_DOCUMENTATION | [`Semaphore`](https://docs.python.org/3/library/asyncio-sync.html#asyncio.Semaphore), [`gather`](https://docs.python.org/3/library/asyncio-task.html#asyncio.gather), and [`to_thread`](https://docs.python.org/3/library/asyncio-task.html#asyncio.to_thread) | exact APIs used | Grounds the lab implementation |
+| OFFICIAL_DOCUMENTATION | [pytest parametrization](https://docs.pytest.org/en/stable/how-to/parametrize.html) | boundary cases | Grounds ceiling tests |
+| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | bounded concurrency command | Supplies observed output |
+
+## Mental model
+
+| Term | Meaning | Bound in the lab |
+|---|---|---|
+| Coroutine | Pausable async function invocation | one `one(sequence)` per requested item |
+| Task | Scheduled coroutine | gathered into one result list |
+| Semaphore | Permit counter around the scarce operation | at most `concurrency` fetches in flight |
+| Thread handoff | Runs blocking `urllib` away from the event loop | one handoff per admitted fetch |
+| Total work | All operations created | validated by `LoadEnvelope.total_requests` |
+
+Concurrency is not request rate. Six tasks with a semaphore of two can still
+complete in a burst if each response is fast. A safe client therefore needs
+separate ceilings for in-flight work, total work, duration, and rate whenever
+it produces repeated traffic.
+
+## Required external instruction
+
+### Required asyncio assignment
+
+**Direct link:** [`asyncio` coroutines and tasks](https://docs.python.org/3/library/asyncio-task.html) and [synchronization primitives](https://docs.python.org/3/library/asyncio-sync.html)
+
+**Exact assignment:** read Coroutines; Creating Tasks; Running Tasks Concurrently (`gather` only); Running in Threads; Semaphore; and the warning that synchronization primitives are not thread-safe
+
+**Estimated time:** 70 minutes
+
+**Focus on:** coroutine versus execution, result ordering, exception propagation, blocking I/O, permit acquisition/release, and separate work ceilings
+
+**Skip:** subprocesses, queues, streams, low-level event loops, and cross-thread scheduling
+
+**Expected takeaway:** trace one operation from task creation through semaphore admission, thread handoff, response, and permit release.
+
+## Course bridge
+
+`bounded_fetch()` validates the local URL and a conservative envelope before it
+creates tasks. `async with semaphore` releases a permit even when a request
+raises. `gather()` returns results in input order, which is not proof they
+completed in that order.
+
+!!! warning "Safety boundary"
+    The exercise targets only the bundled loopback service. Its ceilings are
+    educational defaults, not authorization to direct concurrent traffic elsewhere.
+
+## Worked example
+
+For `total=6` and `concurrency=2`, six tasks exist but only two may enter the
+fetch region. If task 1 takes 200 ms and task 2 takes 20 ms, task 2 can free the
+next permit first while the final `gather()` list still places result 1 before
+result 2. Sequence labels preserve planned order; timestamps reveal completion.
+
+## Guided exercise
+
+### Objective
+
+Observe bounded concurrency and distinguish task count, in-flight count, rate,
+and output order.
+
+### Setup
+
+Start the local API as described in the lab page and confirm `/health` returns
+`200`. Open `bounded_fetch()` before executing it.
+
+### Actions
+
+1. Mark the target validation, envelope validation, semaphore, thread handoff,
+   and gather call in the source.
+2. Execute `python -m lab.tooling.client concurrent --total 6 --concurrency 2`.
+3. Confirm six sequence values and successful health responses.
+4. Repeat with `--concurrency 1`; compare meaning, not just elapsed time.
+5. Try `--concurrency 6`; record the rejection and the ceiling that caused it.
+6. Add a timeline diagram showing created, admitted, completed, and serialized.
+
+### Expected output
+
+The first two commands return six result objects. The excessive concurrency
+case raises a safety error before any request is issued.
+
+### Interpretation
+
+Successful requests prove only that the local client respected its tested
+envelope and the fixture answered. They do not demonstrate a production-safe
+rate, distributed-load behavior, or precise simultaneous execution.
+
+### Common failure modes
+
+- Calling `async def` code concurrent before it is scheduled
+- Using task count as the in-flight ceiling
+- Calling blocking I/O directly inside the event loop
+- Assuming `gather()` output order is completion order
+- Raising concurrency to compensate for an unexplained timeout
+
+### Cleanup
+
+Stop the local API after saving the trace.
+
+## Why this matters offensively
+
+Browser agents and abuse clients coordinate parallel workflows. An operator who
+cannot bound work may create an accidental availability test, contaminate the
+experiment, or mistake client queueing for a target control.
+
+## Required artifact
+
+`artifacts/module-09/concurrency-trace.md` with the code-path diagram, both valid
+runs, the rejected run, four distinct ceilings, and limitations.
+
+## Pass gate
+
+1. What starts a coroutine's execution?
+2. What does the semaphore bound here?
+3. Why use `to_thread()`?
+4. Does `gather()` output show completion order?
+5. Why are concurrency and rate different?
+6. What must happen before task creation?
+
+## Answer key
+
+<details><summary>Check your reasoning</summary>
+
+1. Awaiting it directly or scheduling it as a task within a running event loop.
+2. Fetch operations that have entered the protected region at one time.
+3. `urllib` is blocking; the handoff prevents it from blocking the event loop.
+4. No. It preserves the input awaitable order.
+5. Concurrency is simultaneous in-flight work; rate is starts or completions per time unit.
+6. Authorization, local-target validation, and hard envelope validation.
+
+</details>
+
+## Next lesson
+
+Continue to [Retries, timeouts, and jitter](03-retries-timeouts-and-jitter.md).
