@@ -3,6 +3,23 @@
 Review only the bundled application. For each case, trace attacker input to a
 decision and protected effect, then locate or design the named test.
 
+## Lab contract
+
+- Authorization boundary: bundled source and in-process synthetic tests only
+- Target: `lab/app/main.py`, clients, tooling, and tests
+- Adversary objective: locate a security assumption that reaches protected state/work
+- Protected action: named per reservation, report, rate-key, or retry case
+- Baseline: trace intended decision/effect before proposing the alternate path
+- Hypothesis: named missing binding or work-budget invariant in each row
+- Changed variable: only authentication/session/action/use key or retry failure class
+- Fixed variables: function, fixture state, input schema, effect query, and test environment
+- Success: code path plus bounded test demonstrate the effect
+- Evidence: line/function trace and negative/positive test design
+- Limitations: deliberate local flaws; taxonomy or scanner match alone is not proof
+- Cleanup: reset in-process state; no external target exists
+- Remediation: enforce the named subject/object/action/resource invariant
+- Retest: former attack fails while intended near-neighbor succeeds
+
 | Case | Entry and effect | Evidence to inspect | Required acceptance test |
 |---|---|---|---|
 | Reservation authorization | `ReserveRequest` changes `INVENTORY` | `reserve()` and workflow-authorization test | unauthenticated mutation denied; authorized reservation succeeds |

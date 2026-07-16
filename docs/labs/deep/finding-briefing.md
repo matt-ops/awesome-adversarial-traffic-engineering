@@ -2,6 +2,23 @@
 
 Use only synthetic/public-safe course evidence.
 
+## Lab contract
+
+- Authorization boundary: existing synthetic/public-safe artifacts only
+- Target: one completed local or provider-assigned course exercise
+- Adversary objective: communicate a demonstrated protected action or service effect
+- Protected action: copied exactly from the selected finding
+- Baseline: copied, not reinvented, from the experiment plan
+- Hypothesis: copied from the experiment plan and kept falsifiable
+- Changed variable: copied from the experiment plan
+- Fixed variables: copied from the experiment plan
+- Success: reproducible finding, timed briefing, evidence-based answers, and exact repair links
+- Evidence: raw artifact references, claim/evidence map, retest matrix, and scorecard
+- Limitations: practice does not prove production tenure, scale, or universal expertise
+- Cleanup: keep private recordings and confidential notes outside the repository
+- Remediation: state the failed invariant and measurable control outcome
+- Retest: preserve the former attack and legitimate near-neighbor acceptance cases
+
 ## Finding structure
 
 1. Boundary and precondition

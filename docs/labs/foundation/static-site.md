@@ -12,6 +12,18 @@ state, and no protected server mutation.
 - Protected action: none; search is deliberately not represented as a bypass
 - Safety: bind only to loopback and keep the fixed port/path
 
+## Lab contract
+
+- Baseline: manual page load before search
+- Hypothesis: one submitted query causes a same-origin fetch, DOM update, and storage write
+- Changed variable: query changes from empty to `widget`
+- Fixed variables: browser, origin, page version, inventory file, frame, and worker
+- Success: one `Synthetic Widget` result and stored query `widget`
+- Evidence: DevTools request/response, DOM result, storage value, frame, and worker observation
+- Limitation: no protected action or defensive control exists in this mechanics lab
+- Remediation: not applicable; failures are corrected in the static fixture or learner trace
+- Retest: reset storage/reload and repeat the identical query
+
 ## Start and expected output
 
 The command starts Python's static-file server, restricts it to loopback, and
@@ -30,4 +42,3 @@ script, frame, and worker; the search fetches `inventory.json`.
 Press Ctrl+C in the server terminal. The application has no authentication,
 server session, reservation, WAF, or bot control. It teaches client mechanics
 and supplies a controlled baseline; it cannot demonstrate a control bypass.
-

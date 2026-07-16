@@ -52,12 +52,14 @@ The same lessons support four honest review points:
 
 | Review point | Claim |
 |---|---|
-| About 24 focused hours | Foundation and informational readiness, not domain expertise |
-| About 7 cumulative days | Functional hands-on foundation |
-| About 21 cumulative days | Interview-loop readiness with a defensible portfolio |
-| About 6 cumulative weeks | Practitioner-depth portfolio, not proof of production expertise |
+| [Foundation review](checkpoints/24-hours.md) | Foundation and informational readiness, not domain expertise |
+| [Applied review](checkpoints/7-days.md) | Functional hands-on foundation |
+| [Integrated review](checkpoints/21-days.md) | Interview-loop readiness with a defensible portfolio |
+| [Deep review](checkpoints/6-weeks.md) | Practitioner-depth portfolio, not proof of production expertise |
 
 Checkpoint pages are views into this path. They never duplicate lessons.
+Use the plain [progress table](progress.md) if you want checkboxes; no account or
+course platform is required.
 
 ## Install now
 

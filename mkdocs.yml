@@ -39,6 +39,12 @@ nav:
   - Start the path: index.md
   - Start here: start-here.md
   - Path: path.md
+  - Progress: progress.md
+  - Cumulative checkpoints:
+      - Foundation: checkpoints/24-hours.md
+      - Applied: checkpoints/7-days.md
+      - Integrated: checkpoints/21-days.md
+      - Deep: checkpoints/6-weeks.md
   - Method:
       - Provenance: methodology/provenance.md
       - Authorization and safety: methodology/authorization-and-safety.md
@@ -129,10 +135,12 @@ nav:
       - Bounded load and recovery: labs/deep/bounded-load.md
       - Synthetic code review: labs/deep/code-review.md
       - Finding, briefing, and mock: labs/deep/finding-briefing.md
+      - Integrated and deep portfolio drills: labs/deep/portfolio-drills.md
   - References:
       - Overview: references/index.md
       - Source ledger: references/source-ledger.md
       - Glossary: references/glossary.md
+      - Electives: references/electives.md
   - Safety:
       - Boundary: safety/index.md
       - Local target policy: safety/local-target-policy.md

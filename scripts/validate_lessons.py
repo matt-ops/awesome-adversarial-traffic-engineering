@@ -41,6 +41,7 @@ ASSIGNMENT_FIELDS = (
     "**Skip:**",
     "**Expected takeaway:**",
 )
+DEPTH_HEADINGS = ("## Foundation", "## Applied", "## Integrated", "## Deep")
 REJECTED_PATTERNS = {
     r"\bTODO\b": "TODO placeholder",
     r"\bTKTK\b": "TKTK placeholder",
@@ -59,6 +60,12 @@ def lesson_files() -> list[Path]:
     return sorted(path for path in LESSON_ROOT.glob("*/*.md") if path.name != "index.md")
 
 
+def module_indexes() -> list[Path]:
+    if not LESSON_ROOT.exists():
+        return []
+    return sorted(LESSON_ROOT.glob("*/index.md"))
+
+
 def section(text: str, heading: str, next_heading: str | None) -> str:
     start = text.find(heading)
     if start < 0:
@@ -70,6 +77,13 @@ def section(text: str, heading: str, next_heading: str | None) -> str:
 def main() -> int:
     errors: list[str] = []
     lessons = lesson_files()
+    indexes = module_indexes()
+    for index in indexes:
+        text = index.read_text(encoding="utf-8")
+        relative = index.relative_to(ROOT)
+        for heading in DEPTH_HEADINGS:
+            if text.count(heading) != 1:
+                errors.append(f"{relative}: expected exactly one {heading} section")
     for lesson in lessons:
         text = lesson.read_text(encoding="utf-8")
         relative = lesson.relative_to(ROOT)
@@ -121,6 +135,7 @@ def main() -> int:
         return 1
     print("Lesson validation: PASS")
     print(f"- {len(lessons)} lesson pages meet the teaching template")
+    print(f"- {len(indexes)} module indexes expose Foundation, Applied, Integrated, and Deep")
     return 0
 
 

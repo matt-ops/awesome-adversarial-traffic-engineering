@@ -1,29 +1,28 @@
 # Adversarial Traffic Engineering
 
-A source-first, red-team course for automated adversaries, browser-control
+A source-first red-team course for automated adversaries, browser-control
 evasion, traffic-control testing, bounded application-layer pressure, findings,
 remediation, and exact retest.
 
 ## Start
 
-**[Start the path](docs/start-here.md)**
+1. Open **[Start the path](docs/start-here.md)**.
+2. Complete the required source sections, guided exercise, artifact, and pass gate.
+3. Use **Next lesson**. Repeat.
 
-Then use the **Next lesson** link at the bottom of each page. Every lesson gives
-you one required source assignment, one guided exercise, one artifact, a pass
-gate, and an explained answer key.
+There is one ordered path. You do not need to choose a course, search for your
+own curriculum, or understand the repository layout. Docker, Playwright browsers,
+and k6 appear only when their prerequisites are complete.
 
-Do not install the full lab stack first. The course introduces browser tooling,
-Docker, and load tools only after their prerequisites.
+Optional maintenance indexes:
 
-## Local rewrite state
+- [Progress](docs/progress.md)
+- [Lab-to-course map](lab/LAB_COURSE_MAP.md)
+- [Source ledger](sources/sources.yaml)
+- [Coverage and external-resource audit](COVERAGE_AUDIT.md)
 
-The source-first rewrite is being developed on a local branch. See
-[`REWRITE_STATUS.md`](REWRITE_STATUS.md). The former course is preserved under
-`archive/v1-course/` and is not part of learner navigation.
+## Boundary
 
-## Safety
-
-Use only the bundled loopback target, your own non-routable isolated target, or
-the exact target assigned by a training provider. Never test unrelated public or
-production services. The executable boundary is documented in
-[`docs/safety/`](docs/safety/).
+Use only the bundled loopback target, your isolated target, or the exact target
+assigned by a training provider. A resource link is not authorization to test
+the linked site. See [Safety](docs/safety/index.md).

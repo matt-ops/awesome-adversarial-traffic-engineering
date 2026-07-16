@@ -4,12 +4,25 @@
 and how the minimum JavaScript needed for browser automation performs and
 observes asynchronous network work.
 
-| Depth | Lessons and evidence |
-|---|---|
-| Foundation | Browser processes, DOM/Web APIs, core JavaScript, async/fetch/errors |
-| Applied | Inspect the Foundation page, frame, worker, storage, and fetch behavior |
-| Integrated | Use these contexts to interpret automation and signal differences |
-| Deep | Revisit context boundaries during cross-context consistency experiments |
+## Foundation
+
+Complete [browser processes](01-browser-process-model.md), [DOM and Web
+APIs](02-dom-and-web-apis.md), and [JavaScript core](03-javascript-core.md).
+Produce the process/context diagram and working JavaScript artifact.
+
+## Applied
+
+Complete [async, fetch, and errors](04-async-fetch-and-errors.md). Inspect the
+Foundation page, iframe, worker, storage, request, response, and failure path.
+
+## Integrated
+
+Reuse the same top-page/frame/worker model to explain why Playwright and manual
+populations can expose different state and signals.
+
+## Deep
+
+Return to origin, realm, lifecycle, serialization, and worker boundaries during
+cross-context consistency and browser-version drift experiments.
 
 Start with the [browser process model](01-browser-process-model.md).
-

@@ -16,13 +16,20 @@ site-serve:
 
 test:
 	python -m unittest discover -s lab/tests -v
+	python -m mypy lab scripts
+	python -m ruff check lab scripts
 	npm run typecheck
 
 validate:
 	python scripts/validate_sources.py
 	python scripts/validate_lessons.py
+	python scripts/validate_labs.py
+	python scripts/validate_load_scripts.py
 	python scripts/check_internal_links.py
+	python scripts/build_docs.py
 	python -m unittest discover -s lab/tests -v
+	python -m mypy lab scripts
+	python -m ruff check lab scripts
 	npm run typecheck
 	docker compose -f lab/docker-compose.yml config --quiet
 

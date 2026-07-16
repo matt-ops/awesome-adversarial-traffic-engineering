@@ -10,8 +10,14 @@ REQUIRED = (
     "index.md",
     "start-here.md",
     "path.md",
+    "progress.md",
+    "checkpoints/24-hours.md",
+    "checkpoints/7-days.md",
+    "checkpoints/21-days.md",
+    "checkpoints/6-weeks.md",
     "methodology/provenance.md",
     "references/source-ledger.md",
+    "references/electives.md",
     "safety/index.md",
 )
 

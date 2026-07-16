@@ -6,6 +6,7 @@ import argparse
 import re
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -15,7 +16,18 @@ LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 
 def markdown_files() -> list[Path]:
     files = list((ROOT / "docs").rglob("*.md")) if (ROOT / "docs").exists() else []
-    for relative in ("README.md", "lab/README.md", "sources/README.md", "sources/methodology-provenance.md"):
+    for relative in (
+        "README.md",
+        "RESOURCES.md",
+        "COVERAGE_AUDIT.md",
+        "CONTENT_QUALITY_CHECKLIST.md",
+        "REWRITE_AUDIT.md",
+        "REWRITE_STATUS.md",
+        "lab/README.md",
+        "lab/LAB_COURSE_MAP.md",
+        "sources/README.md",
+        "sources/methodology-provenance.md",
+    ):
         path = ROOT / relative
         if path.exists():
             files.append(path)
@@ -43,6 +55,21 @@ def classify_external(url: str) -> tuple[str, str]:
         with urllib.request.urlopen(request, timeout=12) as response:  # noqa: S310 - explicit public link check
             return "ok", str(response.status)
     except urllib.error.HTTPError as exc:
+        if exc.code in {404, 405}:
+            fallback = urllib.request.Request(  # noqa: S310 - same validated public URL.
+                url,
+                headers={"User-Agent": "aate-link-check/1.0", "Range": "bytes=0-0"},
+                method="GET",
+            )
+            try:
+                with urllib.request.urlopen(fallback, timeout=12) as response:  # noqa: S310
+                    return "ok", str(response.status)
+            except urllib.error.HTTPError as fallback_exc:
+                if fallback_exc.code in {401, 403, 405, 429} or 500 <= fallback_exc.code <= 599:
+                    return "transient", str(fallback_exc.code)
+                return "broken", str(fallback_exc.code)
+            except (urllib.error.URLError, TimeoutError, OSError) as fallback_exc:
+                return "transient", type(fallback_exc).__name__
         if exc.code in {401, 403, 405, 429} or 500 <= exc.code <= 599:
             return "transient", str(exc.code)
         return "broken", str(exc.code)
@@ -87,8 +114,10 @@ def main() -> int:
                 errors.append(f"{source.relative_to(ROOT)}: missing anchor {target}")
 
     if args.external:
-        for url in sorted(external_urls):
-            category, detail = classify_external(url)
+        urls = sorted(external_urls)
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            results = executor.map(classify_external, urls)
+        for url, (category, detail) in zip(urls, results, strict=True):
             if category == "broken":
                 errors.append(f"external link returned permanent failure {detail}: {url}")
             elif category == "transient":

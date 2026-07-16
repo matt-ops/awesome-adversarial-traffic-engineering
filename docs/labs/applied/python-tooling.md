@@ -3,6 +3,23 @@
 This lab turns local evidence into transparent telemetry and demonstrates bounded
 concurrency and retries. It is assigned only after Modules 01-08.
 
+## Lab contract
+
+- Authorization boundary: offline fixture or fixed loopback API
+- Target: `lab/fixtures/requests.jsonl` and `http://localhost:8080`
+- Adversary objective: build safe, inspectable tooling for attack evidence
+- Protected action: none for telemetry/health; retry reaches the accepted synthetic operation
+- Baseline: deterministic fixture counts and one local health request
+- Hypothesis: explicit work/attempt ceilings produce reproducible evidence without unbounded traffic
+- Changed variable: concurrency or retry attempt within the assigned command
+- Fixed variables: fixture, URL, seed, timeout, total work, and output schema
+- Success: expected JSON shape; six health results; or `503 -> 200` within two attempts
+- Evidence: terminal JSON and tooling unit tests
+- Limitations: standard-library local client, small fixture, no production latency distribution
+- Cleanup: reset/stop the local API; offline telemetry needs none
+- Remediation: unsafe clients gain local validation and explicit total/concurrency/timeout/attempt budgets
+- Retest: rerun the same command plus rejection boundary tests
+
 ## Commands and expected results
 
 | Command | Service required | Expected result |

@@ -4,12 +4,26 @@
 intermediaries, application code, and dependencies before reasoning about where
 an adversary can observe or influence a control.
 
-| Depth | Lessons and evidence |
-|---|---|
-| Foundation | Request/response, session/workflow, and DevTools trace |
-| Applied | A labeled request-path diagram for the zero-Docker application |
-| Integrated | Revisit the diagram when Module 04 introduces the API and edge |
-| Deep | Compare how an intermediary changes routing, state, caching, and evidence |
+## Foundation
+
+Complete [request and response](01-http-request-response.md), [sessions and
+workflows](02-sessions-and-workflows.md), and [DevTools Network](03-devtools-network.md).
+Produce a request worksheet and one browser trace.
+
+## Applied
+
+Complete [the edge request path](04-edge-request-path.md) and label the zero-Docker
+path from browser through intermediary roles to application/resource.
+
+## Integrated
+
+Revisit that diagram during Module 04. Add the API route, state mutation,
+authentication decision, rate key, and evidence points used by the attack.
+
+## Deep
+
+Compare origin and intermediary views: routing, connection termination, session
+state, caching, normalization, forwarded claims, and what evidence each can observe.
 
 Start with [HTTP request and response](01-http-request-response.md). No Docker is
 needed in this module.
