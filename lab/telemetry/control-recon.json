@@ -1,0 +1,302 @@
+{
+  "target": "http://localhost:8080",
+  "objective": "map the toy control, then create one protected synthetic report",
+  "trials": [
+    {
+      "population": "stock-headed",
+      "requestedHeadless": false,
+      "launchHeadless": true,
+      "changed": "none",
+      "browserVersion": "149.0.7827.55",
+      "signals": {
+        "trial_id": "stock-headed-1784162743143",
+        "population": "stock-headed",
+        "nonce": "stock-headed-1784162743143-nonce",
+        "captured_at_ms": 1784162743143,
+        "webdriver": true,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36",
+        "timezone": "America/Chicago",
+        "viewport_width": 1280,
+        "screen_width": 1280,
+        "page": {
+          "language": "en-US",
+          "platform": "Win32"
+        },
+        "frame": {
+          "language": "en-US",
+          "platform": "Win32"
+        },
+        "worker": {
+          "language": "en-US",
+          "platform": "Win32"
+        }
+      },
+      "evaluation": {
+        "status": 200,
+        "body": {
+          "trial_id": "stock-headed-1784162743143",
+          "population": "stock-headed",
+          "decision": "challenge",
+          "reasons": [
+            "top_page_webdriver"
+          ],
+          "action_token": null,
+          "limitations": "transparent synthetic rules; not a production bot-control model"
+        }
+      },
+      "protectedAction": null,
+      "replay": null,
+      "network": [
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-lab"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-lab"
+        },
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-frame"
+        },
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-worker.js"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-frame"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-worker.js"
+        },
+        {
+          "kind": "request",
+          "method": "POST",
+          "url": "http://localhost:8080/api/control/evaluate"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/api/control/evaluate"
+        }
+      ]
+    },
+    {
+      "population": "stock-headless",
+      "requestedHeadless": true,
+      "launchHeadless": true,
+      "changed": "none",
+      "browserVersion": "149.0.7827.55",
+      "signals": {
+        "trial_id": "stock-headless-1784162744113",
+        "population": "stock-headless",
+        "nonce": "stock-headless-1784162744113-nonce",
+        "captured_at_ms": 1784162744113,
+        "webdriver": true,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36",
+        "timezone": "America/Chicago",
+        "viewport_width": 1280,
+        "screen_width": 1280,
+        "page": {
+          "language": "en-US",
+          "platform": "Win32"
+        },
+        "frame": {
+          "language": "en-US",
+          "platform": "Win32"
+        },
+        "worker": {
+          "language": "en-US",
+          "platform": "Win32"
+        }
+      },
+      "evaluation": {
+        "status": 200,
+        "body": {
+          "trial_id": "stock-headless-1784162744113",
+          "population": "stock-headless",
+          "decision": "challenge",
+          "reasons": [
+            "top_page_webdriver"
+          ],
+          "action_token": null,
+          "limitations": "transparent synthetic rules; not a production bot-control model"
+        }
+      },
+      "protectedAction": null,
+      "replay": null,
+      "network": [
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-lab"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-lab"
+        },
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-frame"
+        },
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-worker.js"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-frame"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-worker.js"
+        },
+        {
+          "kind": "request",
+          "method": "POST",
+          "url": "http://localhost:8080/api/control/evaluate"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/api/control/evaluate"
+        }
+      ]
+    },
+    {
+      "population": "one-variable",
+      "requestedHeadless": true,
+      "launchHeadless": true,
+      "changed": "top-page navigator.webdriver true -> false",
+      "browserVersion": "149.0.7827.55",
+      "signals": {
+        "trial_id": "one-variable-1784162745088",
+        "population": "one-variable",
+        "nonce": "one-variable-1784162745088-nonce",
+        "captured_at_ms": 1784162745088,
+        "webdriver": false,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.7827.55 Safari/537.36",
+        "timezone": "America/Chicago",
+        "viewport_width": 1280,
+        "screen_width": 1280,
+        "page": {
+          "language": "en-US",
+          "platform": "Win32"
+        },
+        "frame": {
+          "language": "en-US",
+          "platform": "Win32"
+        },
+        "worker": {
+          "language": "en-US",
+          "platform": "Win32"
+        }
+      },
+      "evaluation": {
+        "status": 200,
+        "body": {
+          "trial_id": "one-variable-1784162745088",
+          "population": "one-variable",
+          "decision": "allow",
+          "reasons": [],
+          "action_token": "371e5ab594b66a64976d530f",
+          "limitations": "transparent synthetic rules; not a production bot-control model"
+        }
+      },
+      "protectedAction": {
+        "status": 200,
+        "body": {
+          "accepted": true,
+          "session_id": "one-variable-1784162745088",
+          "action": "synthetic-report-created"
+        }
+      },
+      "replay": {
+        "status": 403,
+        "body": {
+          "detail": "synthetic control authorization required"
+        }
+      },
+      "network": [
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-lab"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-lab"
+        },
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-frame"
+        },
+        {
+          "kind": "request",
+          "method": "GET",
+          "url": "http://localhost:8080/control-worker.js"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-frame"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/control-worker.js"
+        },
+        {
+          "kind": "request",
+          "method": "POST",
+          "url": "http://localhost:8080/api/control/evaluate"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/api/control/evaluate"
+        },
+        {
+          "kind": "request",
+          "method": "POST",
+          "url": "http://localhost:8080/api/control/protected?session_id=one-variable-1784162745088"
+        },
+        {
+          "kind": "response",
+          "status": 200,
+          "url": "http://localhost:8080/api/control/protected?session_id=one-variable-1784162745088"
+        },
+        {
+          "kind": "request",
+          "method": "POST",
+          "url": "http://localhost:8080/api/control/protected?session_id=one-variable-1784162745088"
+        },
+        {
+          "kind": "response",
+          "status": 403,
+          "url": "http://localhost:8080/api/control/protected?session_id=one-variable-1784162745088"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Transparent educational rules, not a production control",
+    "One-property change is deliberately incoherent and does not imply general stealth",
+    "AATE_HEADLESS=1 forces verification mode and is recorded in launchHeadless"
+  ]
+}

@@ -323,7 +323,16 @@ def evasion_demo() -> None:
             sort_keys=True,
         )
     )
-    print(json.dumps({"result": "control bypassed", "protected_workflow": "/api/cart/reserve"}))
+    print(
+        json.dumps(
+            {
+                "result": "offline toy decision changed",
+                "protected_action_proved": False,
+                "successor": "npm run playwright:control-recon",
+                "limitation": "use the successor exercise for enforced action evidence",
+            }
+        )
+    )
 
 
 def bypass_demo() -> None:

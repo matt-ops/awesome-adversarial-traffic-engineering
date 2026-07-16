@@ -11,7 +11,7 @@ from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Query, Request
 from pydantic import BaseModel, Field
-from starlette.responses import Response
+from starlette.responses import HTMLResponse, PlainTextResponse, Response
 
 app = FastAPI(title="AATE Local App", version="0.1.0")
 EVENTS: list[dict[str, Any]] = []
@@ -22,6 +22,8 @@ CREATED_USERS: dict[str, str] = {}
 LOGIN_ATTEMPTS: list[dict[str, Any]] = []
 CHALLENGE_TOKENS: set[str] = set()
 LIMITED_REPORT_CALLS: defaultdict[str, int] = defaultdict(int)
+CONTROL_NONCES: set[str] = set()
+CONTROL_TOKENS: set[str] = set()
 
 
 class Event(BaseModel):
@@ -58,6 +60,26 @@ class ChallengeRequest(BaseModel):
     answer: str = Field(min_length=1, max_length=32)
 
 
+class ContextObservation(BaseModel):
+    language: str = Field(min_length=1, max_length=32)
+    platform: str = Field(min_length=1, max_length=64)
+
+
+class ControlEvaluationRequest(BaseModel):
+    trial_id: str = Field(min_length=1, max_length=64)
+    population: str = Field(min_length=1, max_length=64)
+    nonce: str = Field(min_length=8, max_length=128)
+    captured_at_ms: int = Field(gt=0)
+    webdriver: bool
+    user_agent: str = Field(min_length=1, max_length=512)
+    timezone: str = Field(min_length=1, max_length=64)
+    viewport_width: int = Field(gt=0, le=10000)
+    screen_width: int = Field(gt=0, le=10000)
+    page: ContextObservation
+    frame: ContextObservation
+    worker: ContextObservation
+
+
 @app.middleware("http")
 async def request_context(request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
     started = time.perf_counter()
@@ -76,6 +98,75 @@ def root() -> dict[str, str]:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "service": "aate-local-app"}
+
+
+@app.get("/control-lab", response_class=HTMLResponse)
+def control_lab() -> str:
+    """Serve three same-origin execution contexts for local signal collection."""
+    return """<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>AATE control lab</title></head>
+<body><h1>AATE control lab</h1><p id="status">ready</p>
+<iframe title="sensor frame" src="/control-frame"></iframe>
+<script>
+window.aateWorkerReady = new Promise((resolve, reject) => {
+  const worker = new Worker('/control-worker.js');
+  worker.onmessage = (event) => resolve(event.data);
+  worker.onerror = reject;
+});
+</script></body></html>"""
+
+
+@app.get("/control-frame", response_class=HTMLResponse)
+def control_frame() -> str:
+    return "<!doctype html><html lang='en'><body><p>sensor frame ready</p></body></html>"
+
+
+@app.get("/control-worker.js", response_class=PlainTextResponse)
+def control_worker() -> str:
+    return "postMessage({language: navigator.language, platform: navigator.platform || 'worker-unavailable'});"
+
+
+@app.post("/api/control/evaluate")
+def evaluate_control(payload: ControlEvaluationRequest) -> dict[str, Any]:
+    """Evaluate transparent toy rules and issue a single-use local action token."""
+    if payload.nonce in CONTROL_NONCES:
+        raise HTTPException(status_code=409, detail="synthetic sensor nonce replayed")
+    CONTROL_NONCES.add(payload.nonce)
+
+    reasons: list[str] = []
+    if payload.webdriver:
+        reasons.append("top_page_webdriver")
+    languages = {payload.page.language, payload.frame.language, payload.worker.language}
+    if len(languages) != 1:
+        reasons.append("cross_context_language_mismatch")
+    if payload.viewport_width > payload.screen_width:
+        reasons.append("viewport_exceeds_screen")
+
+    decision = "challenge" if reasons else "allow"
+    token: str | None = None
+    if decision == "allow":
+        token = hashlib.sha256(f"{payload.trial_id}:{payload.nonce}:aate-control".encode()).hexdigest()[:24]
+        CONTROL_TOKENS.add(token)
+    return {
+        "trial_id": payload.trial_id,
+        "population": payload.population,
+        "decision": decision,
+        "reasons": reasons,
+        "action_token": token,
+        "limitations": "transparent synthetic rules; not a production bot-control model",
+    }
+
+
+@app.post("/api/control/protected")
+def control_protected(
+    session_id: str = Query(min_length=1, max_length=64),
+    x_aate_control: str | None = Header(default=None),
+) -> dict[str, Any]:
+    """Perform the toy protected action once for an allowed evaluation token."""
+    if x_aate_control not in CONTROL_TOKENS:
+        raise HTTPException(status_code=403, detail="synthetic control authorization required")
+    CONTROL_TOKENS.remove(x_aate_control)
+    return {"accepted": True, "session_id": session_id, "action": "synthetic-report-created"}
 
 
 @app.get("/api/search")
@@ -236,4 +327,6 @@ def reset() -> dict[str, bool]:
     LOGIN_ATTEMPTS.clear()
     CHALLENGE_TOKENS.clear()
     LIMITED_REPORT_CALLS.clear()
+    CONTROL_NONCES.clear()
+    CONTROL_TOKENS.clear()
     return {"reset": True}

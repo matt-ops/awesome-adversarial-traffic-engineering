@@ -80,6 +80,60 @@ class SyntheticAppTests(unittest.TestCase):
         self.assertEqual(fixed, [200, 200, 429])
         self.assertEqual(rotated, [200, 200, 200])
 
+    def test_control_requires_consistent_non_automated_observation_and_single_use(self) -> None:
+        baseline = {
+            "trial_id": "baseline",
+            "population": "stock-headless",
+            "nonce": "baseline-nonce-0001",
+            "captured_at_ms": 1,
+            "webdriver": True,
+            "user_agent": "Synthetic Chrome",
+            "timezone": "America/Chicago",
+            "viewport_width": 1280,
+            "screen_width": 1280,
+            "page": {"language": "en-US", "platform": "Win32"},
+            "frame": {"language": "en-US", "platform": "Win32"},
+            "worker": {"language": "en-US", "platform": "Win32"},
+        }
+        challenged = self.client.post("/api/control/evaluate", json=baseline)
+        self.assertEqual(challenged.status_code, 200)
+        self.assertEqual(challenged.json()["decision"], "challenge")
+        self.assertIsNone(challenged.json()["action_token"])
+
+        changed = {**baseline, "trial_id": "one-variable", "nonce": "changed-nonce-0001", "webdriver": False}
+        allowed = self.client.post("/api/control/evaluate", json=changed)
+        self.assertEqual(allowed.json()["decision"], "allow")
+        token = allowed.json()["action_token"]
+        protected = self.client.post(
+            "/api/control/protected", params={"session_id": "one-variable"}, headers={"X-AATE-Control": token}
+        )
+        self.assertEqual(protected.status_code, 200)
+        replay = self.client.post(
+            "/api/control/protected", params={"session_id": "replay"}, headers={"X-AATE-Control": token}
+        )
+        self.assertEqual(replay.status_code, 403)
+        nonce_replay = self.client.post("/api/control/evaluate", json=changed)
+        self.assertEqual(nonce_replay.status_code, 409)
+
+    def test_control_rejects_cross_context_mismatch(self) -> None:
+        payload = {
+            "trial_id": "mismatch",
+            "population": "patched-page-only",
+            "nonce": "mismatch-nonce-0001",
+            "captured_at_ms": 1,
+            "webdriver": False,
+            "user_agent": "Synthetic Chrome",
+            "timezone": "UTC",
+            "viewport_width": 800,
+            "screen_width": 800,
+            "page": {"language": "en-US", "platform": "Win32"},
+            "frame": {"language": "en-US", "platform": "Win32"},
+            "worker": {"language": "fr-FR", "platform": "Win32"},
+        }
+        response = self.client.post("/api/control/evaluate", json=payload)
+        self.assertEqual(response.json()["decision"], "challenge")
+        self.assertIn("cross_context_language_mismatch", response.json()["reasons"])
+
 
 if __name__ == "__main__":
     unittest.main()

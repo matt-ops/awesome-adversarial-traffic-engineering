@@ -1,0 +1,127 @@
+{
+  "confusion_matrix": {
+    "fn": 0,
+    "fp": 0,
+    "tn": 6,
+    "tp": 4
+  },
+  "false_positive_rate": 0.0,
+  "limitations": [
+    "Small deterministic synthetic fixture",
+    "Transparent educational rules, not a production detector",
+    "No real population diversity, drift, privacy governance, or enforcement feedback"
+  ],
+  "outputs": [
+    {
+      "decision": "allow",
+      "event_id": "e01",
+      "reasons": [],
+      "score": 0
+    },
+    {
+      "decision": "allow",
+      "event_id": "e02",
+      "reasons": [],
+      "score": 0
+    },
+    {
+      "decision": "allow",
+      "event_id": "e03",
+      "reasons": [],
+      "score": 0
+    },
+    {
+      "decision": "allow",
+      "event_id": "e04",
+      "reasons": [
+        "rapid_navigation"
+      ],
+      "score": 1
+    },
+    {
+      "decision": "allow",
+      "event_id": "e05",
+      "reasons": [
+        "automation_property"
+      ],
+      "score": 2
+    },
+    {
+      "decision": "allow",
+      "event_id": "e06",
+      "reasons": [
+        "automation_property"
+      ],
+      "score": 2
+    },
+    {
+      "decision": "challenge",
+      "event_id": "e07",
+      "reasons": [
+        "missing_browser_headers",
+        "rapid_navigation",
+        "expensive_workflow_burst"
+      ],
+      "score": 4
+    },
+    {
+      "decision": "challenge",
+      "event_id": "e08",
+      "reasons": [
+        "missing_browser_headers",
+        "rapid_navigation",
+        "expensive_workflow_burst"
+      ],
+      "score": 4
+    },
+    {
+      "decision": "challenge",
+      "event_id": "e09",
+      "reasons": [
+        "automation_property",
+        "ua_platform_mismatch",
+        "rapid_navigation"
+      ],
+      "score": 5
+    },
+    {
+      "decision": "challenge",
+      "event_id": "e10",
+      "reasons": [
+        "automation_property",
+        "ua_platform_mismatch",
+        "rapid_navigation"
+      ],
+      "score": 5
+    }
+  ],
+  "populations": {
+    "accessibility_like": {
+      "events": 2,
+      "false_positives": 0,
+      "positives": 0
+    },
+    "manual_chrome": {
+      "events": 2,
+      "false_positives": 0,
+      "positives": 0
+    },
+    "mismatched_browser": {
+      "events": 2,
+      "false_positives": 0,
+      "positives": 2
+    },
+    "playwright_normal": {
+      "events": 2,
+      "false_positives": 0,
+      "positives": 0
+    },
+    "python_abuse": {
+      "events": 2,
+      "false_positives": 0,
+      "positives": 2
+    }
+  },
+  "precision": 1.0,
+  "recall": 1.0
+}
