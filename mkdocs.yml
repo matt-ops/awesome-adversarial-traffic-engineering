@@ -69,11 +69,20 @@ nav:
           - Contexts and state: modules/03-playwright/03-contexts-and-state.md
           - Network events: modules/03-playwright/04-network-events.md
           - Frames, workers, and CDP: modules/03-playwright/05-frames-workers-and-cdp.md
-      - "04 - Automated abuse": modules/04-automated-abuse/index.md
+      - "04 - Automated abuse":
+          - Overview: modules/04-automated-abuse/index.md
+          - Abuse objectives: modules/04-automated-abuse/01-abuse-objectives.md
+          - Workflow and API mapping: modules/04-automated-abuse/02-workflow-mapping.md
+          - Authentication and rate controls: modules/04-automated-abuse/03-auth-and-rate-controls.md
+          - Inventory and promotion abuse: modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
+          - Race and resource limits: modules/04-automated-abuse/05-race-and-resource-limits.md
+      - "05 - Control reconnaissance": modules/05-control-recon/index.md
   - Labs:
       - Overview: labs/index.md
       - Foundation static site: labs/foundation/static-site.md
       - First Playwright workflow: labs/foundation/first-playwright.md
+      - Integrated local API: labs/applied/local-api.md
+      - Workflow authorization: labs/applied/workflow-authorization.md
   - References:
       - Overview: references/index.md
       - Source ledger: references/source-ledger.md

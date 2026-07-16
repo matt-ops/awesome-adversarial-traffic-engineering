@@ -11,8 +11,8 @@ Remote state: **not pushed**
 | 0 - Protect and audit | Complete | Baseline tests/build recorded; lab commands executed; old render archived; audit written |
 | 1 - Sources, provenance, Module 00 | Complete | 47-entry ledger; three lessons; source/lesson/link validation and strict build pass |
 | 2 - HTTP, browser, JavaScript, Playwright | Complete | 13 new lessons; zero-Docker static site and headed-first Playwright workflow tested |
-| 3 - Automated abuse | In progress | Next work |
-| 4 - Control reconnaissance and evasion | Not started | - |
+| 3 - Automated abuse | Complete | Five lessons; exact OWASP/PortSwigger assignments; local runners and renamed authorization proof tested |
+| 4 - Control reconnaissance and evasion | In progress | Next work |
 | 5 - Protocol identity | Not started | - |
 | 6 - DDoS and resilience | Not started | - |
 | 7 - Tooling, findings, interview | Not started | - |
@@ -33,12 +33,16 @@ Remote state: **not pushed**
   local request/response events. The learner command remains headed by default.
 - Source validation resolves all 47 IDs, lesson and internal-link validation
   pass, TypeScript passes, and the Phase 2 site builds in strict mode.
+- Module 04 adds five lessons with exact provider assignments. Local recon,
+  credential, workflow, authorization, and rate-limit runners executed against
+  the loopback API. The authorization artifact proves inventory changed 5 -> 4
+  without authentication and explicitly states that this is not browser evasion.
 
 ## Next exact task
 
-Write Module 04 from the verified OWASP and PortSwigger assignments, move and
-rename the existing workflow-authorization exercise, execute every mapped local
-runner, and preserve protected-action evidence.
+Build the manual/headed/headless/HTTP-client control-recon populations, add
+top-page/frame/worker sensor capture, replace score-only evasion with a protected
+local action, and write Modules 05-06 from the fingerprinting research sources.
 
 ## Completion rule
 
