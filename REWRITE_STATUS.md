@@ -13,9 +13,9 @@ Remote state: **not pushed**
 | 2 - HTTP, browser, JavaScript, Playwright | Complete | 13 new lessons; zero-Docker static site and headed-first Playwright workflow tested |
 | 3 - Automated abuse | Complete | Five lessons; exact OWASP/PortSwigger assignments; local runners and renamed authorization proof tested |
 | 4 - Control reconnaissance and evasion | Complete | Ten lessons; three-context enforced local control; stock baselines, action proof, replay, research limits |
-| 5 - Protocol identity | In progress | Next work |
-| 6 - DDoS and resilience | Not started | - |
-| 7 - Tooling, findings, interview | Not started | - |
+| 5 - Protocol identity | Complete | Five lessons; generated ClientHello comparison; fixed-loopback HTTP observation; protocol identity bounded as a pivot rather than identity proof |
+| 6 - DDoS and resilience | Complete | Five lessons; seven bounded k6 scenarios; hard target, duration, VU, rate, total-request, threshold, abort, dry-run, and recovery controls |
+| 7 - Tooling, findings, interview | In progress | Next work |
 | 8 - Integration and review | Not started | - |
 
 ## Verified facts
@@ -42,12 +42,24 @@ Remote state: **not pushed**
   headed/headless populations are challenged; one top-page change is allowed;
   the protected report returns `200`; one-use replay returns `403`. Verification
   mode records that its requested headed trial actually launched headless.
+- Module 07 adds five lessons grounded in the TLS, HTTP/2, HTTP/3, and JA4
+  sources. The local helper generates and parses ClientHello records without a
+  network socket, demonstrates ALPN-dependent byte changes, and keeps its digest
+  explicitly separate from JA4 and identity claims. Fixed-loopback HTTP
+  observation records what a server can actually see.
+- Module 08 adds five lessons and a bounded k6 exercise. All seven scenarios ran
+  successfully against the local fixture with 100% checks in the verification
+  envelope. The script rejects non-loopback targets and excessive duration,
+  VUs, request rate, and worst-case total requests; dry-run sends no traffic;
+  thresholds abort; teardown checks recovery.
+- The Phase 6 suite has 19 passing Python tests, passing mypy, Ruff, TypeScript,
+  source, lesson, internal-link, load-safety, and strict MkDocs checks.
 
 ## Next exact task
 
-Write Module 07 from the selected RFC and JA4 assignments, add/test local
-handshake and HTTP comparison helpers, and preserve the rule that a fingerprint
-is a versioned pivot rather than identity proof.
+Write Modules 09-10 from the selected Python, secure-code-review, finding,
+briefing, and interview sources. Every lesson must end in a runnable artifact or
+an exact external assignment, not a topic prompt.
 
 ## Completion rule
 

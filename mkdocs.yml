@@ -90,7 +90,21 @@ nav:
           - Identity coherence: modules/06-browser-evasion/03-identity-coherence.md
           - Replay and temporal consistency: modules/06-browser-evasion/04-replay-and-temporal-consistency.md
           - Version drift: modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
-      - "07 - Protocol identity": modules/07-protocol-identity/index.md
+      - "07 - Protocol identity":
+          - Overview: modules/07-protocol-identity/index.md
+          - TLS ClientHello: modules/07-protocol-identity/01-tls-clienthello.md
+          - JA4 and JA4H: modules/07-protocol-identity/02-ja4-and-ja4h.md
+          - HTTP/2: modules/07-protocol-identity/03-http2.md
+          - Proxies and connection reuse: modules/07-protocol-identity/04-proxies-and-connection-reuse.md
+          - HTTP/3 and QUIC: modules/07-protocol-identity/05-http3-quic.md
+      - "08 - DDoS and resilience":
+          - Overview: modules/08-ddos-resilience/index.md
+          - Resource-exhaustion model: modules/08-ddos-resilience/01-resource-exhaustion-model.md
+          - Metrics: modules/08-ddos-resilience/02-metrics.md
+          - Edge controls: modules/08-ddos-resilience/03-edge-controls.md
+          - Bounded load testing: modules/08-ddos-resilience/04-bounded-load-testing.md
+          - Recovery and retest: modules/08-ddos-resilience/05-recovery-and-retest.md
+      - "09 - Tooling and code review": modules/09-tooling-code-review/index.md
   - Labs:
       - Overview: labs/index.md
       - Foundation static site: labs/foundation/static-site.md
@@ -98,6 +112,8 @@ nav:
       - Integrated local API: labs/applied/local-api.md
       - Workflow authorization: labs/applied/workflow-authorization.md
       - Control reconnaissance: labs/integrated/control-recon.md
+      - Protocol identity: labs/integrated/protocol-identity.md
+      - Bounded load and recovery: labs/deep/bounded-load.md
   - References:
       - Overview: references/index.md
       - Source ledger: references/source-ledger.md

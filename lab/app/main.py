@@ -24,6 +24,8 @@ CHALLENGE_TOKENS: set[str] = set()
 LIMITED_REPORT_CALLS: defaultdict[str, int] = defaultdict(int)
 CONTROL_NONCES: set[str] = set()
 CONTROL_TOKENS: set[str] = set()
+CACHEABLE_REPORTS: dict[str, str] = {}
+UNSTABLE_CALLS: defaultdict[str, int] = defaultdict(int)
 
 
 class Event(BaseModel):
@@ -179,6 +181,20 @@ def search(q: str = Query(default="demo", max_length=64)) -> dict[str, Any]:
     return {"query": q, "results": [item for item in products if needle in item["name"].casefold() or needle == "demo"]}
 
 
+@app.get("/api/protocol/observe")
+def protocol_observe(request: Request) -> dict[str, Any]:
+    """Return server-visible HTTP metadata for the fixed local comparison."""
+    return {
+        "http_version": request.scope.get("http_version", "unknown"),
+        "method": request.method,
+        "path": request.url.path,
+        "host": request.headers.get("host", ""),
+        "user_agent": request.headers.get("user-agent", ""),
+        "accept": request.headers.get("accept", ""),
+        "accept_language": request.headers.get("accept-language", ""),
+    }
+
+
 @app.post("/api/auth/login")
 def login(payload: LoginRequest) -> dict[str, Any]:
     expected = CREATED_USERS.get(payload.username, LAB_USERS.get(payload.username))
@@ -261,6 +277,31 @@ def expensive(work: int = Query(default=25, ge=1, le=100)) -> dict[str, Any]:
     return {"work": work, "digest_prefix": digest.hex()[:12]}
 
 
+@app.get("/api/reports/cacheable")
+def cacheable_report(
+    cache_key: str = Query(min_length=1, max_length=64), bypass: bool = Query(default=False)
+) -> dict[str, Any]:
+    """Model cached versus cache-bypass application work with bounded CPU."""
+    if not bypass and cache_key in CACHEABLE_REPORTS:
+        return {"cache_key": cache_key, "cache_hit": True, "digest_prefix": CACHEABLE_REPORTS[cache_key]}
+    digest = b"aate-cacheable-synthetic"
+    for _ in range(100 * 200):
+        digest = hashlib.sha256(digest).digest()
+    prefix = digest.hex()[:12]
+    if not bypass:
+        CACHEABLE_REPORTS[cache_key] = prefix
+    return {"cache_key": cache_key, "cache_hit": False, "digest_prefix": prefix}
+
+
+@app.get("/api/reports/unstable")
+def unstable_report(operation_id: str = Query(min_length=1, max_length=64)) -> dict[str, Any]:
+    """Fail once per operation so bounded retry amplification can be measured."""
+    UNSTABLE_CALLS[operation_id] += 1
+    if UNSTABLE_CALLS[operation_id] == 1:
+        raise HTTPException(status_code=503, detail="synthetic first-attempt failure")
+    return {"accepted": True, "operation_id": operation_id, "attempt": UNSTABLE_CALLS[operation_id]}
+
+
 @app.get("/api/reports/protected")
 def protected_report(
     session_id: str = Query(min_length=1, max_length=64),
@@ -329,4 +370,6 @@ def reset() -> dict[str, bool]:
     LIMITED_REPORT_CALLS.clear()
     CONTROL_NONCES.clear()
     CONTROL_TOKENS.clear()
+    CACHEABLE_REPORTS.clear()
+    UNSTABLE_CALLS.clear()
     return {"reset": True}

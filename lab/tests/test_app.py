@@ -23,6 +23,11 @@ class SyntheticAppTests(unittest.TestCase):
         self.assertEqual(self.client.get("/api/reports/expensive", params={"work": 1}).status_code, 200)
         self.assertEqual(self.client.get("/api/reports/expensive", params={"work": 101}).status_code, 422)
 
+        protocol = self.client.get("/api/protocol/observe", headers={"User-Agent": "test-protocol"})
+        self.assertEqual(protocol.json()["method"], "GET")
+        self.assertEqual(protocol.json()["path"], "/api/protocol/observe")
+        self.assertEqual(protocol.json()["user_agent"], "test-protocol")
+
     def test_event_validation_and_session_summary(self) -> None:
         accepted = self.client.post(
             "/telemetry/events",
@@ -133,6 +138,20 @@ class SyntheticAppTests(unittest.TestCase):
         response = self.client.post("/api/control/evaluate", json=payload)
         self.assertEqual(response.json()["decision"], "challenge")
         self.assertIn("cross_context_language_mismatch", response.json()["reasons"])
+
+    def test_cache_and_retry_fixtures_are_bounded_and_deterministic(self) -> None:
+        first = self.client.get("/api/reports/cacheable", params={"cache_key": "fixed"})
+        second = self.client.get("/api/reports/cacheable", params={"cache_key": "fixed"})
+        bypass = self.client.get("/api/reports/cacheable", params={"cache_key": "fixed", "bypass": True})
+        self.assertFalse(first.json()["cache_hit"])
+        self.assertTrue(second.json()["cache_hit"])
+        self.assertFalse(bypass.json()["cache_hit"])
+
+        failed = self.client.get("/api/reports/unstable", params={"operation_id": "bounded"})
+        retried = self.client.get("/api/reports/unstable", params={"operation_id": "bounded"})
+        self.assertEqual(failed.status_code, 503)
+        self.assertEqual(retried.status_code, 200)
+        self.assertEqual(retried.json()["attempt"], 2)
 
 
 if __name__ == "__main__":
