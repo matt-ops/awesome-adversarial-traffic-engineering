@@ -5,7 +5,7 @@
 > **Progress**  
 > Module: 06 - Browser-control evasion  
 > Lesson: 2 of 5  
-> Depth: Foundation  
+> Depth: Integrated  
 > Estimated time: 2 hours  
 > Prerequisites: Evasion hypothesis  
 > Artifact: `lab/telemetry/control-recon.json`  

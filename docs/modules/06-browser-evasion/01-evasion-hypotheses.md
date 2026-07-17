@@ -5,7 +5,7 @@
 > **Progress**  
 > Module: 06 - Browser-control evasion  
 > Lesson: 1 of 5  
-> Depth: Foundation  
+> Depth: Integrated  
 > Estimated time: 3 hours  
 > Prerequisites: Module 05 blocked baseline  
 > Artifact: `artifacts/module-06/evasion-plan.md`  

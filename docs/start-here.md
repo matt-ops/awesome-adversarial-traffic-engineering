@@ -50,12 +50,12 @@ source assignment, artifact, pass gate, and next lesson.
 
 The same lessons support four honest review points:
 
-| Review point | Claim |
-|---|---|
-| [Foundation review](checkpoints/24-hours.md) | Foundation and informational readiness, not domain expertise |
-| [Applied review](checkpoints/7-days.md) | Functional hands-on foundation |
-| [Integrated review](checkpoints/21-days.md) | Interview-loop readiness with a defensible portfolio |
-| [Deep review](checkpoints/6-weeks.md) | Practitioner-depth portfolio, not proof of production expertise |
+| Review point | Validated time | Claim |
+|---|---:|---|
+| [24 focused hours](checkpoints/24-hours.md) | 23.75 hours | Foundation and informational readiness, not browser-evasion competence |
+| [7 days](checkpoints/7-days.md) | 39.75 hours | Functional hands-on readiness in bounded local and provider-authorized exercises |
+| [21 days](checkpoints/21-days.md) | 71.75 hours | Interview-loop readiness with an integrated, defensible synthetic portfolio |
+| [6 weeks](checkpoints/6-weeks.md) | 101.75 hours | Practitioner-depth portfolio, not proof of production expertise |
 
 Checkpoint pages are views into this path. They never duplicate lessons.
 Use the plain [progress table](progress.md) if you want checkboxes; no account or

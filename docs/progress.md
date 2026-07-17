@@ -21,3 +21,18 @@ repository does not need an account, plugin, or tracking framework.
 When a box remains open, write the exact missing lesson, source section, lab
 action, expected output, and artifact repair. Do not substitute time spent or a
 provider completion badge for the pass gate.
+
+## Checkpoint progress
+
+The checkpoint definitions are cumulative and validator-backed. Mark a row only
+when every required lesson artifact and the checkpoint exit gate pass.
+
+| Checkpoint | Depth ceiling | Lessons | Calculated time | Complete |
+|---|---:|---:|---:|---:|
+| [24 focused hours](checkpoints/24-hours.md) | Foundation | 10 | 23.75 hours | [ ] |
+| [7 days](checkpoints/7-days.md) | Applied | 15 | 39.75 hours | [ ] |
+| [21 days](checkpoints/21-days.md) | Integrated | 25 | 71.75 hours | [ ] |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 34 | 101.75 hours | [ ] |
+
+Canonical membership, prerequisite closure, and time calculations live in
+`curriculum/manifest.yaml` and are enforced by `scripts/validate_curriculum.py`.

@@ -5,7 +5,7 @@
 > **Progress**  
 > Module: 06 - Browser-control evasion  
 > Lesson: 3 of 5  
-> Depth: Applied  
+> Depth: Integrated  
 > Estimated time: 4 hours  
 > Prerequisites: One-variable experiment  
 > Artifact: `artifacts/module-06/coherent-profile.md`  

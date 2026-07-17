@@ -7,7 +7,7 @@
 > Lesson: 1 of 5  
 > Depth: Foundation  
 > Estimated time: 3 hours  
-> Prerequisites: Module 06  
+> Prerequisites: Network events and signal families  
 > Artifact: `artifacts/module-07/clienthello.md`  
 > Next: JA4 and JA4H
 
@@ -18,7 +18,8 @@ why client configuration/version changes a fingerprintable handshake.
 
 ## Prerequisites
 
-- [Module 06](../06-browser-evasion/index.md)
+- [Network events and evidence](../03-playwright/04-network-events.md)
+- [Five signal families](../05-control-recon/01-signal-families.md)
 - Basic TLS purpose; no packet-crafting experience required
 
 ## Source basis

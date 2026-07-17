@@ -12,7 +12,7 @@
 >
 > Estimated time: 2 hours
 >
-> Prerequisites: Technical briefing
+> Prerequisites: Finding and evidence
 >
 > Artifact: `artifacts/module-10/role-narrative.md`
 >
@@ -25,7 +25,7 @@ public-safe example of scope, attack, evidence, collaboration, and measurable im
 
 ## Prerequisites
 
-- [Technical briefing](03-technical-briefing.md)
+- [Finding and evidence](01-finding-and-evidence.md)
 - One course artifact you can discuss without confidential information
 
 ## Source basis

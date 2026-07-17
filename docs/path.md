@@ -3,6 +3,11 @@
 There is one sequence. A later lesson may assume every earlier lesson and
 artifact exists.
 
+`curriculum/manifest.yaml` is the authoritative machine-readable record for
+lesson IDs, depth, estimates, prerequisites, artifacts, source IDs, module
+indexes, and checkpoint membership. Visible lesson progress boxes and the
+checkpoint pages are validated against it.
+
 | Order | Module | Offensive outcome |
 |---:|---|---|
 | 00 | [Method and authorization](modules/00-method/index.md) | Design a legal, falsifiable, evidence-producing engagement |
@@ -28,3 +33,16 @@ Each module index identifies four cumulative depths:
 
 You do not choose a separate course. Follow the Next link, and use checkpoint
 pages only when you want to assess whether you can pause with an honest claim.
+
+## Validated cumulative checkpoints
+
+| Checkpoint | Depth ceiling | Required lessons | Calculated focused time |
+|---|---:|---:|---:|
+| [24 focused hours](checkpoints/24-hours.md) | Foundation | 10 | 1,425 minutes / 23.75 hours |
+| [7 days](checkpoints/7-days.md) | Applied | 15 | 2,385 minutes / 39.75 hours |
+| [21 days](checkpoints/21-days.md) | Integrated | 25 | 4,305 minutes / 71.75 hours |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 34 | 6,105 minutes / 101.75 hours |
+
+These are calculated selections, not guarantees. If a prerequisite is not yet
+complete, add its canonical estimate; never hide prerequisite work inside a
+checkpoint title.

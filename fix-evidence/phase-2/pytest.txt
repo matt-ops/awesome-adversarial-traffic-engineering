@@ -1,0 +1,12 @@
+=== COMMAND ===
+python -m pytest lab/tests -q
+=== RUNTIME ===
+C:\Users\mattn\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe
+=== START UTC ===
+2026-07-17T13:43:54.2078841+00:00
+=== END UTC ===
+2026-07-17T13:43:56.1537058+00:00
+=== OUTPUT ===
+......................................                                   [100%]
+=== EXIT STATUS ===
+0

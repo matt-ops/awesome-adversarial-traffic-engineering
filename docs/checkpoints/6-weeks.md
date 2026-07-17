@@ -1,32 +1,76 @@
-# Deep checkpoint
+# 6 weeks cumulative
 
-> **Claim:** Practitioner-depth portfolio, not proof of production expertise.
+<!-- checkpoint-id: 6-weeks -->
+<!-- calculated-minutes: 6105 -->
 
-This cumulative view asks for original comparison, drift/false-positive work,
-remediation, exact retest, and honest transfer limits. The time label is a review
-milestone, not a replacement for evidence quality.
+This cumulative Deep selection adds version drift, deeper protocol work, recovery and exact retest, expanded bounded tooling, and a full mock loop.
 
-## Required references
+## Time calculation
 
-First satisfy the [Integrated checkpoint](21-days.md), then complete or review:
+- Calculated required lesson time: **6105 minutes (101.75 hours)**
+- Declared cumulative range: **5400-7200 minutes (90-120 hours)**
+- Maximum lesson depth: **Deep**
 
-| Deep evidence | Section |
-|---|---|
-| Change control, staged gates, rollback, and ownership | [Module 00 Deep](../modules/00-method/index.md#deep) |
-| Intermediary-dependent routing/state/cache/evidence comparison | [Module 01 Deep](../modules/01-http-edge/index.md#deep) |
-| Cross-context and version-boundary study | [Module 02 Deep](../modules/02-browser-javascript/index.md#deep) |
-| Context/protocol evidence reused in drift work | [Module 03 Deep](../modules/03-playwright/index.md#deep) |
-| Original workflow replay after remediation | [Module 04 Deep](../modules/04-automated-abuse/index.md#deep) |
-| False-positive, drift, and alternate-explanation analysis | [Module 05 Deep](../modules/05-control-recon/index.md#deep) |
-| Version drift and residual anomaly study | [Module 06 Deep](../modules/06-browser-evasion/index.md#deep) |
-| HTTP/3/QUIC comparison with identity limits | [Module 07 Deep](../modules/07-protocol-identity/index.md#deep) |
-| Resource-mapped remediation, recovery, and same-load retest | [Module 08 Deep](../modules/08-ddos-resilience/index.md#deep) |
-| Tooling/test suite reused in exact remediation acceptance | [Module 09 Deep](../modules/09-tooling-code-review/index.md#deep) |
-| Full mock, rebuttal, gap repair, and portfolio limits | [Module 10 Deep](../modules/10-findings-interview/index.md#deep) |
-| Original question, version/runtime/protocol studies, privacy/accessibility populations, coherent identity, implemented remediation, public-safe portfolio, two more mocks, and first-90-day proposal | [Deep research package](../labs/deep/portfolio-drills.md#deep-research-package) |
+The calculation sums each required canonical lesson exactly once. The manifest
+validator checks prerequisite existence, cycles, and closure depth separately.
+A learner who has not completed a prerequisite should add its full canonical
+estimate rather than pretending the checkpoint title absorbs that work.
 
-## Self-assess
+## Required lessons
 
-Present an original, public-safe question, method, evidence, alternate
-explanations, control improvement, exact retest, and limitations. A portfolio is
-evidence of practice; it is not proof of production scale or universal expertise.
+| ID | Canonical lesson | Depth | Minutes | Required artifact |
+|---|---|---:|---:|---|
+| `m00-l01` | [The authorized red-team role](../modules/00-method/01-red-team-role.md) | Foundation | 75 | `artifacts/module-00/role-comparison.md` |
+| `m01-l02` | [Sessions and workflows](../modules/01-http-edge/02-sessions-and-workflows.md) | Foundation | 90 | `artifacts/module-01/workflow-map.md` |
+| `m02-l03` | [Minimum JavaScript for automation](../modules/02-browser-javascript/03-javascript-core.md) | Foundation | 180 | `artifacts/module-02/javascript-exercise.js` |
+| `m03-l02` | [First local Playwright workflow](../modules/03-playwright/02-first-browser.md) | Foundation | 180 | `lab/telemetry/playwright-first-workflow.json` |
+| `m04-l01` | [Automated-abuse objectives](../modules/04-automated-abuse/01-abuse-objectives.md) | Foundation | 180 | `artifacts/module-04/abuse-threat-map.md` |
+| `m05-l01` | [Five signal families](../modules/05-control-recon/01-signal-families.md) | Foundation | 120 | `artifacts/module-05/signal-matrix.md` |
+| `m08-l01` | [Resource-exhaustion model](../modules/08-ddos-resilience/01-resource-exhaustion-model.md) | Foundation | 120 | `artifacts/module-08/resource-model.md` |
+| `m09-l01` | [Python telemetry as evidence](../modules/09-tooling-code-review/01-python-telemetry.md) | Foundation | 180 | `artifacts/module-09/telemetry-summary.json` |
+| `m10-l01` | [Finding and evidence](../modules/10-findings-interview/01-finding-and-evidence.md) | Foundation | 180 | `artifacts/module-10/finding.md` |
+| `m10-l04` | [Public-safe role narrative](../modules/10-findings-interview/04-role-narrative.md) | Foundation | 120 | `artifacts/module-10/role-narrative.md` |
+| `m03-l05` | [Frames, workers, and CDP](../modules/03-playwright/05-frames-workers-and-cdp.md) | Applied | 120 | `artifacts/module-03/context-observations.json` |
+| `m04-l03` | [Authentication and rate controls](../modules/04-automated-abuse/03-auth-and-rate-controls.md) | Applied | 240 | `artifacts/module-04/auth-rate-evidence.md` |
+| `m05-l03` | [Cross-context consistency](../modules/05-control-recon/03-cross-context-consistency.md) | Applied | 180 | `artifacts/module-05/context-matrix.md` |
+| `m07-l02` | [JA4 and JA4H as pivots](../modules/07-protocol-identity/02-ja4-and-ja4h.md) | Applied | 180 | `artifacts/module-07/ja4-interpretation.md` |
+| `m08-l04` | [Bounded application-layer load testing](../modules/08-ddos-resilience/04-bounded-load-testing.md) | Applied | 240 | `artifacts/module-08/bounded-results.md` |
+| `m04-l05` | [Race conditions and resource limits](../modules/04-automated-abuse/05-race-and-resource-limits.md) | Integrated | 240 | `artifacts/module-04/limit-overrun-report.md` |
+| `m05-l05` | [Establish the blocked baseline](../modules/05-control-recon/05-blocked-baseline.md) | Integrated | 180 | `artifacts/module-05/blocked-baseline.md` |
+| `m06-l01` | [Form an evasion hypothesis](../modules/06-browser-evasion/01-evasion-hypotheses.md) | Integrated | 180 | `artifacts/module-06/evasion-plan.md` |
+| `m06-l02` | [One-variable evasion experiment](../modules/06-browser-evasion/02-one-variable-experiments.md) | Integrated | 120 | `lab/telemetry/control-recon.json` |
+| `m06-l03` | [Identity coherence](../modules/06-browser-evasion/03-identity-coherence.md) | Integrated | 240 | `artifacts/module-06/coherent-profile.md` |
+| `m06-l04` | [Replay and temporal consistency](../modules/06-browser-evasion/04-replay-and-temporal-consistency.md) | Integrated | 180 | `artifacts/module-06/replay-temporal.md` |
+| `m07-l03` | [HTTP/2 connections and streams](../modules/07-protocol-identity/03-http2.md) | Integrated | 180 | `artifacts/module-07/http2-map.md` |
+| `m07-l04` | [Proxies and connection reuse](../modules/07-protocol-identity/04-proxies-and-connection-reuse.md) | Integrated | 120 | `artifacts/module-07/observation-points.md` |
+| `m09-l04` | [Secure code review through an adversary's path](../modules/09-tooling-code-review/04-secure-code-review.md) | Integrated | 300 | `artifacts/module-09/code-review.md` |
+| `m10-l03` | [Technical briefing](../modules/10-findings-interview/03-technical-briefing.md) | Integrated | 180 | `artifacts/module-10/briefing.md` |
+| `m04-l02` | [Workflow and API mapping](../modules/04-automated-abuse/02-workflow-mapping.md) | Foundation | 180 | `artifacts/module-04/local-api-map.md` |
+| `m07-l01` | [TLS ClientHello](../modules/07-protocol-identity/01-tls-clienthello.md) | Foundation | 180 | `artifacts/module-07/clienthello.md` |
+| `m08-l03` | [Edge and admission controls](../modules/08-ddos-resilience/03-edge-controls.md) | Applied | 180 | `artifacts/module-08/control-map.md` |
+| `m09-l02` | [Async and bounded concurrency](../modules/09-tooling-code-review/02-async-and-bounded-concurrency.md) | Applied | 180 | `artifacts/module-09/concurrency-trace.md` |
+| `m09-l03` | [Retries, timeouts, and jitter](../modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md) | Applied | 180 | `artifacts/module-09/retry-budget.md` |
+| `m06-l05` | [Version drift and residual anomalies](../modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md) | Deep | 240 | `artifacts/module-06/version-drift-study.md` |
+| `m07-l05` | [HTTP/3 and QUIC](../modules/07-protocol-identity/05-http3-quic.md) | Deep | 180 | `artifacts/module-07/http3-quic.md` |
+| `m08-l05` | [Recovery, remediation, and retest](../modules/08-ddos-resilience/05-recovery-and-retest.md) | Deep | 180 | `artifacts/module-08/recovery-retest.md` |
+| `m10-l05` | [Full mock loop](../modules/10-findings-interview/05-mock-loop.md) | Deep | 300 | `artifacts/module-10/mock-loop.md` |
+
+## Required artifacts
+
+Every artifact in the final column of the required-lessons table is required.
+The artifact remains learner-created; its linked lesson defines the procedure,
+expected output, interpretation, cleanup, and pass gate.
+
+Use the [Deep research package](../labs/deep/portfolio-drills.md#deep-research-package) for the original question, privacy/accessibility study, public-safe write-up, added mocks, and first-90-day proposal.
+
+## Capability claim
+
+Practitioner-depth portfolio, not proof of production expertise.
+
+## What this does not claim
+
+You are not claiming production expertise, universal stealth, Internet-scale load testing, or that synthetic evidence transfers unchanged to a real control stack.
+
+## Exit gate
+
+Present an original public-safe question, version-drift and deeper runtime/protocol study, privacy/accessibility false-positive population, implemented remediation, identical retest, portfolio write-up, additional mock loops, and first-90-day research proposal.

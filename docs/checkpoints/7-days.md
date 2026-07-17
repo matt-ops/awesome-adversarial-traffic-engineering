@@ -1,34 +1,57 @@
-# Applied checkpoint
+# 7 days cumulative
 
-> **Claim:** Functional hands-on foundation.
+<!-- checkpoint-id: 7-days -->
+<!-- calculated-minutes: 2385 -->
 
-This cumulative view adds repeatable local and provider-assigned exercises. It
-does not create a seven-day course or permit skipping prerequisites.
+This cumulative Applied selection adds context/CDP observation, provider-assigned authentication work, cross-context control reconnaissance, basic TLS/HTTP interpretation, and one bounded Layer 7 experiment.
 
-## Required references
+## Time calculation
 
-First satisfy the [Foundation checkpoint](24-hours.md), then complete or review:
+- Calculated required lesson time: **2385 minutes (39.75 hours)**
+- Declared cumulative range: **1800-2400 minutes (30-40 hours)**
+- Maximum lesson depth: **Applied**
 
-| Applied evidence | Section |
-|---|---|
-| Executable target rejection and dry-run boundary | [Module 00 Applied](../modules/00-method/index.md#applied) |
-| Complete request-path diagram | [Module 01 Applied](../modules/01-http-edge/index.md#applied) |
-| Page/frame/worker/storage/fetch inspection | [Module 02 Applied](../modules/02-browser-javascript/index.md#applied) |
-| Frame, worker, and read-only CDP evidence | [Module 03 Applied](../modules/03-playwright/index.md#applied) |
-| Local authorization proof and exact authentication lab | [Module 04 Applied](../modules/04-automated-abuse/index.md#applied) |
-| Cross-context plus session/workflow observations | [Module 05 Applied](../modules/05-control-recon/index.md#applied) |
-| Manual, Python, headed, and headless population matrix | [Module 05 Integrated](../modules/05-control-recon/index.md#integrated) |
-| Declared browser-identity coherence experiment | [Module 06 Applied](../modules/06-browser-evasion/index.md#applied) |
-| TLS/HTTP comparison and bounded fingerprint interpretation | [Module 07 Applied](../modules/07-protocol-identity/index.md#applied) |
-| Edge/admission-control hypothesis | [Module 08 Applied](../modules/08-ddos-resilience/index.md#applied) |
-| Three Python exercises with hard ceilings | [Module 09 Applied](../modules/09-tooling-code-review/index.md#applied) |
-| First four input-to-effect code reviews | [Secure code review](../modules/09-tooling-code-review/04-secure-code-review.md#guided-exercise) |
-| Remediation invariant and exact retest matrix | [Module 10 Applied](../modules/10-findings-interview/index.md#applied) |
-| Three-to-five-page report and two domain mocks | [Module 10 Integrated](../modules/10-findings-interview/index.md#integrated) and [two Applied domain mocks](../labs/deep/portfolio-drills.md#two-applied-domain-mocks) |
+The calculation sums each required canonical lesson exactly once. The manifest
+validator checks prerequisite existence, cycles, and closure depth separately.
+A learner who has not completed a prerequisite should add its full canonical
+estimate rather than pretending the checkpoint title absorbs that work.
 
-## Self-assess
+## Required lessons
 
-Demonstrate commands, expected outputs, interpretation, cleanup, and limitations.
-A provider badge without attack notes and evidence is not an artifact.
+| ID | Canonical lesson | Depth | Minutes | Required artifact |
+|---|---|---:|---:|---|
+| `m00-l01` | [The authorized red-team role](../modules/00-method/01-red-team-role.md) | Foundation | 75 | `artifacts/module-00/role-comparison.md` |
+| `m01-l02` | [Sessions and workflows](../modules/01-http-edge/02-sessions-and-workflows.md) | Foundation | 90 | `artifacts/module-01/workflow-map.md` |
+| `m02-l03` | [Minimum JavaScript for automation](../modules/02-browser-javascript/03-javascript-core.md) | Foundation | 180 | `artifacts/module-02/javascript-exercise.js` |
+| `m03-l02` | [First local Playwright workflow](../modules/03-playwright/02-first-browser.md) | Foundation | 180 | `lab/telemetry/playwright-first-workflow.json` |
+| `m04-l01` | [Automated-abuse objectives](../modules/04-automated-abuse/01-abuse-objectives.md) | Foundation | 180 | `artifacts/module-04/abuse-threat-map.md` |
+| `m05-l01` | [Five signal families](../modules/05-control-recon/01-signal-families.md) | Foundation | 120 | `artifacts/module-05/signal-matrix.md` |
+| `m08-l01` | [Resource-exhaustion model](../modules/08-ddos-resilience/01-resource-exhaustion-model.md) | Foundation | 120 | `artifacts/module-08/resource-model.md` |
+| `m09-l01` | [Python telemetry as evidence](../modules/09-tooling-code-review/01-python-telemetry.md) | Foundation | 180 | `artifacts/module-09/telemetry-summary.json` |
+| `m10-l01` | [Finding and evidence](../modules/10-findings-interview/01-finding-and-evidence.md) | Foundation | 180 | `artifacts/module-10/finding.md` |
+| `m10-l04` | [Public-safe role narrative](../modules/10-findings-interview/04-role-narrative.md) | Foundation | 120 | `artifacts/module-10/role-narrative.md` |
+| `m03-l05` | [Frames, workers, and CDP](../modules/03-playwright/05-frames-workers-and-cdp.md) | Applied | 120 | `artifacts/module-03/context-observations.json` |
+| `m04-l03` | [Authentication and rate controls](../modules/04-automated-abuse/03-auth-and-rate-controls.md) | Applied | 240 | `artifacts/module-04/auth-rate-evidence.md` |
+| `m05-l03` | [Cross-context consistency](../modules/05-control-recon/03-cross-context-consistency.md) | Applied | 180 | `artifacts/module-05/context-matrix.md` |
+| `m07-l02` | [JA4 and JA4H as pivots](../modules/07-protocol-identity/02-ja4-and-ja4h.md) | Applied | 180 | `artifacts/module-07/ja4-interpretation.md` |
+| `m08-l04` | [Bounded application-layer load testing](../modules/08-ddos-resilience/04-bounded-load-testing.md) | Applied | 240 | `artifacts/module-08/bounded-results.md` |
 
-The next exit ramp is [Integrated](21-days.md).
+## Required artifacts
+
+Every artifact in the final column of the required-lessons table is required.
+The artifact remains learner-created; its linked lesson defines the procedure,
+expected output, interpretation, cleanup, and pass gate.
+
+Use the [Applied portfolio drill definitions](../labs/deep/portfolio-drills.md#two-applied-domain-mocks) for three Python drills, four code-review drills, one short report, and two domain mocks.
+
+## Capability claim
+
+Functional hands-on readiness in bounded local and provider-authorized exercises.
+
+## What this does not claim
+
+You are not claiming controlled evasion, cross-time replay analysis, Integrated protocol reasoning, a complete portfolio, or production experience.
+
+## Exit gate
+
+Reproduce the listed local and provider-authorized work with versions, raw output, cleanup, and limitations; show the context matrix, basic protocol interpretation, and bounded-load result.

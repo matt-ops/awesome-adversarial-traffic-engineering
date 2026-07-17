@@ -6,19 +6,21 @@ without claiming universal stealth.
 
 ## Foundation
 
-Complete [evasion hypotheses](01-evasion-hypotheses.md) and [one-variable
-experiments](02-one-variable-experiments.md). Preserve the blocked baseline and
-prove the protected action after one declared change.
+No browser-evasion lesson is a Foundation requirement. Foundation ends with
+signal-family and informational readiness, not browser-evasion competence.
 
 ## Applied
 
-Complete [identity coherence](03-identity-coherence.md). Replace isolated property
-thinking with a declared, evidence-backed relationship across exposed surfaces.
+No browser-evasion lesson is an Applied requirement. Applied work establishes
+the local populations and control observations needed by the Integrated gate.
 
 ## Integrated
 
-Complete [replay and temporal consistency](04-replay-and-temporal-consistency.md).
-Join protected-action proof with token/session/action/time behavior and residual anomalies.
+Complete [evasion hypotheses](01-evasion-hypotheses.md), [one-variable
+experiments](02-one-variable-experiments.md), [identity
+coherence](03-identity-coherence.md), and [replay and temporal
+consistency](04-replay-and-temporal-consistency.md). Join protected-action proof
+with token/session/action/time behavior and residual anomalies.
 
 ## Deep
 

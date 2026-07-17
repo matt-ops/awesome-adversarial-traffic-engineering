@@ -1,0 +1,42 @@
+Phase 2 staged scope review
+===========================
+
+Included implementation/documentation scope
+-------------------------------------------
+
+- canonical curriculum manifest and validator
+- four checkpoint definitions
+- path, progress, landing-summary, navigation, and Make validation integration
+- depth/prerequisite-only lesson Progress metadata
+- matching Automated Abuse, Browser Evasion, and DDoS module-index summaries
+- FIX_STATUS.md and Phase 2 evidence
+
+Excluded scope
+--------------
+
+- no safety code or safety documentation
+- no DDoS implementation or load-script change
+- no protocol implementation
+- no instructional teaching-section rewrite
+- no lab behavior change
+- no Phase 3 exercise, JavaScript, Markdown, or report-generator work
+- no push, deployment, or GitHub Pages change
+
+Dirty-tree handling
+-------------------
+
+Files already dirty at Phase 2 start were staged with minimal index patches.
+Their unrelated source-first lesson/template/navigation changes remain in the
+working tree and are not part of the Phase 2 commit. The checkpoint pages were
+rebuilt completely because their full definitions are Phase 2 scope.
+
+Diff checks
+-----------
+
+The Phase 2 implementation/documentation staged diff check exits 0 when the five
+legacy blockquote Progress lines and verbatim command transcripts are excluded.
+Those five metadata lines retain the repository's existing Markdown hard-break
+format, so whole-staged-tree `git diff --cached --check` reports their intentional
+two-space line endings. The MkDocs transcript also preserves one whitespace-only
+line emitted by PowerShell while capturing MkDocs stderr. No other staged
+whitespace error exists.

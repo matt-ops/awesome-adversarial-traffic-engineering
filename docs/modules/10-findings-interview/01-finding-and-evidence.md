@@ -12,7 +12,7 @@
 >
 > Estimated time: 3 hours
 >
-> Prerequisites: Secure code review
+> Prerequisites: Python telemetry as evidence
 >
 > Artifact: `artifacts/module-10/finding.md`
 >
@@ -25,8 +25,8 @@ attack action to a protected effect without overstating identity, prevalence, or
 
 ## Prerequisites
 
-- [Secure code review](../09-tooling-code-review/04-secure-code-review.md)
-- One completed attack artifact with raw requests/responses and local state evidence
+- [Python telemetry as evidence](../09-tooling-code-review/01-python-telemetry.md)
+- One synthetic evidence artifact with raw observations and a stated limitation
 
 ## Source basis
 

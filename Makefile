@@ -22,6 +22,7 @@ test:
 
 validate:
 	python scripts/validate_sources.py
+	python scripts/validate_curriculum.py
 	python scripts/validate_lessons.py
 	python scripts/validate_labs.py
 	python scripts/validate_load_scripts.py

@@ -1,0 +1,13 @@
+=== COMMAND ===
+python scripts/check_internal_links.py
+=== RUNTIME ===
+C:\Users\mattn\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe
+=== START UTC ===
+2026-07-17T13:43:52.7589148+00:00
+=== END UTC ===
+2026-07-17T13:43:52.9815182+00:00
+=== OUTPUT ===
+Internal link validation: PASS
+- checked 103 Markdown files
+=== EXIT STATUS ===
+0

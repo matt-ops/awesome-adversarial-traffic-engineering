@@ -130,3 +130,129 @@ Phase 1 local commit message:
 ```text
 fix: enforce redirect-safe targets and wall-clock load budgets
 ```
+
+---
+
+## Phase 2: curriculum integrity
+
+Status: **Phase 2 complete; acceptance passed; local commit prepared**
+
+- Starting branch: `fix/audit-remediation`
+- Starting commit: `8baff6ba6a5b1536851a604e0f9b4e83e3ea16c6`
+- Phase 1 confirmation: Phase 1 is the current starting commit, its recorded
+  ten-command acceptance matrix is all exit 0, and a fresh 38-test lab run passed
+  before Phase 2 edits.
+- Phase scope: canonical lesson metadata, prerequisite/depth validation, honest
+  checkpoint time calculations, four checkpoint repairs, and matching
+  navigation/progress language only.
+- Explicitly excluded: instructional rewrites, safety code, DDoS implementation,
+  protocol implementation, Phase 3 work, push, and deployment.
+
+### Canonical metadata and dependency repairs
+
+- `curriculum/manifest.yaml` is the one authoritative manifest for 50 canonical
+  lessons, 11 module indexes, and four cumulative checkpoints.
+- Lesson counts are 24 Foundation, 12 Applied, 10 Integrated, and 4 Deep.
+- Every lesson has an ID, path, module, title, depth, `estimated_minutes`, exact
+  prerequisite IDs, required artifacts, and source IDs.
+- The 50-node prerequisite graph has no missing IDs, cycles, or forward-depth
+  dependencies.
+- Browser-evasion hypothesis, one-variable, and identity-coherence lessons were
+  moved to Integrated because their blocked-baseline dependency is Integrated.
+- Bounded application-layer load testing was moved to Applied so the Applied
+  checkpoint can honestly require one bounded Layer 7 experiment.
+- TLS ClientHello now depends on Foundation network-evidence and signal-family
+  lessons instead of the later browser-evasion module.
+- Foundation finding and role-narrative lessons now depend on Foundation
+  evidence work rather than Integrated secure-review or briefing work.
+- Automated Abuse, Browser Evasion, and DDoS module indexes now agree with the
+  canonical lesson depths.
+
+### Checkpoint hours before and after
+
+The old pages had no machine-readable membership. Expanding their linked module
+sections and direct lesson links, deduplicating lessons, and excluding
+unestimated lab/portfolio pages produces these exact lower bounds:
+
+| Checkpoint | Before | After |
+|---|---:|---:|
+| 24 focused hours | 3,895 minutes / 64h55m | 1,425 minutes / 23h45m |
+| 7 days cumulative | 5,575 minutes / 92h55m | 2,385 minutes / 39h45m |
+| 21 days cumulative | 6,835 minutes / 113h55m | 4,305 minutes / 71h45m |
+| 6 weeks cumulative | 7,435 minutes / 123h55m | 6,105 minutes / 101h45m |
+
+The repaired checkpoint pages contain required canonical lesson links,
+calculated time, required artifacts, a capability claim, explicit non-claims,
+and an exit gate. The 24-hour claim is exactly:
+
+> Foundation and informational readiness, not browser-evasion competence.
+
+### Validator coverage
+
+`scripts/validate_curriculum.py` rejects:
+
+- missing metadata and duplicate lesson IDs or paths;
+- missing prerequisite IDs, cycles, and forward-depth dependencies;
+- checkpoint lessons or prerequisite closure above the depth ceiling;
+- checkpoint totals outside the declared range;
+- module-index links that overstate lesson depth;
+- visible lesson depth, estimate, artifact, or source-ID disagreement;
+- checkpoint links to non-canonical lessons; and
+- checkpoint artifacts that are undefined, unowned, or absent from the page.
+
+It prints lesson counts by depth, checkpoint lesson counts, exact minutes and
+hours, prerequisite-closure sizes, and all validation errors.
+
+### Files changed
+
+- `curriculum/manifest.yaml` and `scripts/validate_curriculum.py`: canonical
+  metadata and the complete Phase 2 validator.
+- `docs/checkpoints/*.md`: manifest-backed 24-hour, 7-day, 21-day, and 6-week
+  definitions.
+- `docs/path.md`, `docs/progress.md`, `docs/start-here.md`, `mkdocs.yml`, and
+  `Makefile`: calculated checkpoint navigation/progress and gate integration.
+- Seven lesson Progress boxes and three module indexes: depth/prerequisite
+  consistency repairs only.
+- `fix-evidence/phase-2/`: starting state, before/after budget method, command
+  transcripts, scope review, and acceptance summary.
+
+No instructional teaching section, safety file, lab implementation, DDoS
+implementation, or protocol implementation was changed.
+
+### Phase 2 acceptance results
+
+- `python scripts/validate_curriculum.py`: exit 0; 50 lessons, 11 indexes, four
+  depth-safe and time-valid checkpoints.
+- `python scripts/validate_sources.py`: exit 0.
+- `python scripts/validate_lessons.py`: exit 0.
+- `python scripts/check_internal_links.py`: exit 0; 103 Markdown files.
+- `mkdocs build --strict`: exit 0.
+- `python -m pytest lab/tests -q`: exit 0; 38 tests.
+- Focused `ruff check scripts/validate_curriculum.py`: exit 0.
+- Focused strict `mypy scripts/validate_curriculum.py`: exit 0.
+
+Complete required-gate output and timestamps are under
+`fix-evidence/phase-2/`. The final matrix is in `acceptance-summary.txt`.
+
+### Remaining limitations
+
+- Checkpoint totals sum the explicitly required canonical lesson selections.
+  Learners who have not completed a prerequisite must add its full estimate;
+  every checkpoint page states this boundary.
+- The old checkpoint totals are exact lower bounds for lesson time only because
+  the old lab and portfolio pages did not carry estimates.
+- Checkpoints are curated cumulative capability selections, not every lesson at
+  or below their depth ceiling.
+- Substantial unrelated pre-existing work remains uncommitted and outside the
+  scoped Phase 2 commit.
+- Acceptance was run against that preserved source-first working tree. The
+  scoped Phase 2 commit intentionally does not absorb the pre-existing lesson,
+  source-ledger, lab, or navigation rewrite and is therefore not a standalone
+  clean-checkout release commit; clean release integration remains Phase 4 work.
+- Phase 3 has not begun.
+
+Phase 2 local commit message:
+
+```text
+fix: validate curriculum depth dependencies and checkpoint budgets
+```

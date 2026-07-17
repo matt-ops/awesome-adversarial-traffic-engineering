@@ -1,35 +1,50 @@
-# Foundation checkpoint
+# 24 focused hours
 
-> **Claim:** Foundation and informational readiness, not domain expertise.
+<!-- checkpoint-id: 24-focused-hours -->
+<!-- calculated-minutes: 1425 -->
 
-This is the smallest honest exit ramp: understand, discuss, and demonstrate the
-role. It is not a separate course, does not change lesson order, and does not
-claim realistic anti-bot, WAF, protocol, or DDoS mastery. “24 hours” is a review
-target, not a guarantee; take longer when a prerequisite is new.
+This is the minimum Foundation selection for role, method, HTTP/workflow, browser/JavaScript, first non-Docker Playwright, automated-abuse, signal-family, resource-model, Python-analysis, finding, and role-narrative readiness.
 
-## Required references
+## Time calculation
 
-Use these existing module sections. Do not recreate their lesson content here.
+- Calculated required lesson time: **1425 minutes (23.75 hours)**
+- Declared cumulative range: **1200-1440 minutes (20-24 hours)**
+- Maximum lesson depth: **Foundation**
 
-| Minimum capability | Section to complete or review | Evidence to show |
-|---|---|---|
-| Explain authorized adversary work and a falsifiable test | [Module 00 Foundation](../modules/00-method/index.md#foundation) | engagement and experiment plan |
-| Trace request, response, state, workflow, and edge | [Module 01 Foundation](../modules/01-http-edge/index.md#foundation) | request worksheet and trace |
-| Draw the browser-to-resource request path | [Module 01 Applied](../modules/01-http-edge/index.md#applied) | labeled request-path diagram |
-| Explain process, document, DOM, Web API, and basic JavaScript | [Module 02 Foundation](../modules/02-browser-javascript/index.md#foundation) | process diagram and JavaScript artifact |
-| Build and explain a basic local browser workflow | [Module 03 Foundation](../modules/03-playwright/index.md#foundation) | headed workflow and network trace |
-| Map an automated-abuse objective to a protected action | [Module 04 Foundation](../modules/04-automated-abuse/index.md#foundation) | objective and workflow maps |
-| Explain five control-signal families and why one is insufficient | [Module 05 Foundation](../modules/05-control-recon/index.md#foundation) | signal matrix |
-| Compare browser automation with a raw HTTP client | [population-matrix procedure](../modules/05-control-recon/05-blocked-baseline.md#guided-exercise) | compact browser-versus-HTTP comparison |
-| Explain denial as exhausted resources and name service metrics | [Module 08 Foundation](../modules/08-ddos-resilience/index.md#foundation) | bounded test plan, no pressure required |
-| Analyze a small log and spot unsafe work bounds | [Module 09 Foundation](../modules/09-tooling-code-review/index.md#foundation) plus the [Applied mental models](../modules/09-tooling-code-review/index.md#applied) | telemetry summary and bounded-client notes |
-| Identify an authorization flaw from code and name its regression test | [Secure-review worked example and exercise](../modules/09-tooling-code-review/04-secure-code-review.md#worked-example) | one compact entry/decision/effect/retest table |
-| Write one synthetic finding and explain the role in 90 seconds | [Module 10 Foundation](../modules/10-findings-interview/index.md#foundation) | one-page finding and public-safe narrative |
+The calculation sums each required canonical lesson exactly once. The manifest
+validator checks prerequisite existence, cycles, and closure depth separately.
+A learner who has not completed a prerequisite should add its full canonical
+estimate rather than pretending the checkpoint title absorbs that work.
 
-## Self-assess
+## Required lessons
 
-You pass only if you can explain every artifact without reading its answer key,
-rerun the basic local demonstration, and state what it does not prove. Record
-gaps in [Progress](../progress.md) and continue in the canonical path.
+| ID | Canonical lesson | Depth | Minutes | Required artifact |
+|---|---|---:|---:|---|
+| `m00-l01` | [The authorized red-team role](../modules/00-method/01-red-team-role.md) | Foundation | 75 | `artifacts/module-00/role-comparison.md` |
+| `m01-l02` | [Sessions and workflows](../modules/01-http-edge/02-sessions-and-workflows.md) | Foundation | 90 | `artifacts/module-01/workflow-map.md` |
+| `m02-l03` | [Minimum JavaScript for automation](../modules/02-browser-javascript/03-javascript-core.md) | Foundation | 180 | `artifacts/module-02/javascript-exercise.js` |
+| `m03-l02` | [First local Playwright workflow](../modules/03-playwright/02-first-browser.md) | Foundation | 180 | `lab/telemetry/playwright-first-workflow.json` |
+| `m04-l01` | [Automated-abuse objectives](../modules/04-automated-abuse/01-abuse-objectives.md) | Foundation | 180 | `artifacts/module-04/abuse-threat-map.md` |
+| `m05-l01` | [Five signal families](../modules/05-control-recon/01-signal-families.md) | Foundation | 120 | `artifacts/module-05/signal-matrix.md` |
+| `m08-l01` | [Resource-exhaustion model](../modules/08-ddos-resilience/01-resource-exhaustion-model.md) | Foundation | 120 | `artifacts/module-08/resource-model.md` |
+| `m09-l01` | [Python telemetry as evidence](../modules/09-tooling-code-review/01-python-telemetry.md) | Foundation | 180 | `artifacts/module-09/telemetry-summary.json` |
+| `m10-l01` | [Finding and evidence](../modules/10-findings-interview/01-finding-and-evidence.md) | Foundation | 180 | `artifacts/module-10/finding.md` |
+| `m10-l04` | [Public-safe role narrative](../modules/10-findings-interview/04-role-narrative.md) | Foundation | 120 | `artifacts/module-10/role-narrative.md` |
 
-The next exit ramp is [Applied](7-days.md).
+## Required artifacts
+
+Every artifact in the final column of the required-lessons table is required.
+The artifact remains learner-created; its linked lesson defines the procedure,
+expected output, interpretation, cleanup, and pass gate.
+
+## Capability claim
+
+Foundation and informational readiness, not browser-evasion competence.
+
+## What this does not claim
+
+You are not claiming browser-evasion competence, integrated Docker-lab mastery, protocol-capture competence, production control fidelity, or DDoS expertise.
+
+## Exit gate
+
+Explain every listed artifact without an answer key, rerun the first local browser workflow, show one small telemetry analysis and one synthetic finding, give the role narrative, and state the boundary claim verbatim.

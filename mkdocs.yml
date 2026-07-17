@@ -41,10 +41,10 @@ nav:
   - Path: path.md
   - Progress: progress.md
   - Cumulative checkpoints:
-      - Foundation: checkpoints/24-hours.md
-      - Applied: checkpoints/7-days.md
-      - Integrated: checkpoints/21-days.md
-      - Deep: checkpoints/6-weeks.md
+      - 24 focused hours - Foundation: checkpoints/24-hours.md
+      - 7 days - Applied: checkpoints/7-days.md
+      - 21 days - Integrated: checkpoints/21-days.md
+      - 6 weeks - Deep: checkpoints/6-weeks.md
   - Method:
       - Provenance: methodology/provenance.md
       - Authorization and safety: methodology/authorization-and-safety.md

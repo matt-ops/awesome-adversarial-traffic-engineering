@@ -5,7 +5,7 @@
 > **Progress**  
 > Module: 08 - DDoS and resilience  
 > Lesson: 4 of 5  
-> Depth: Integrated  
+> Depth: Applied  
 > Estimated time: 4 hours  
 > Prerequisites: Edge and admission controls  
 > Artifact: `artifacts/module-08/bounded-results.md`  
