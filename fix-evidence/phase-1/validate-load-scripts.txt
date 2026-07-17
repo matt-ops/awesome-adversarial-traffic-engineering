@@ -1,0 +1,15 @@
+﻿=== COMMAND ===
+bundled python scripts/validate_load_scripts.py
+=== START UTC ===
+2026-07-17T03:17:52.2782385+00:00
+=== END UTC ===
+2026-07-17T03:17:52.3146593+00:00
+=== STDOUT ===
+Load-script validation: PASS
+- 1 script(s) contain target, duration, VU, rate, total, threshold, abort, dry-run, and recovery controls
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0
+

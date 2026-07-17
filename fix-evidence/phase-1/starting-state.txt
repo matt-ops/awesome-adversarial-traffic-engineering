@@ -1,0 +1,355 @@
+﻿=== COMMAND ===
+git branch --show-current
+=== START UTC ===
+2026-07-17T03:07:31.1394585+00:00
+=== END UTC ===
+2026-07-17T03:07:31.1996840+00:00
+=== STDOUT ===
+fix/audit-remediation
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0
+
+=== COMMAND ===
+git rev-parse HEAD
+=== START UTC ===
+2026-07-17T03:07:31.2152194+00:00
+=== END UTC ===
+2026-07-17T03:07:31.2457606+00:00
+=== STDOUT ===
+e33b9751f67030b2a1da9e4ffd7b4f83bbda0b3d
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0
+
+=== COMMAND ===
+git status --short
+=== START UTC ===
+2026-07-17T03:07:31.2567734+00:00
+=== END UTC ===
+2026-07-17T03:07:31.2948146+00:00
+=== STDOUT ===
+ M Makefile
+ M README.md
+ M docs/checkpoints/21-days.md
+ M docs/checkpoints/7-days.md
+ M docs/labs/integrated/control-recon.md
+ M docs/methodology/provenance.md
+ M docs/modules/00-method/01-red-team-role.md
+ M docs/modules/00-method/02-scope-and-rules.md
+ M docs/modules/00-method/03-experimental-method.md
+ M docs/modules/01-http-edge/01-http-request-response.md
+ M docs/modules/01-http-edge/02-sessions-and-workflows.md
+ M docs/modules/01-http-edge/03-devtools-network.md
+ M docs/modules/01-http-edge/04-edge-request-path.md
+ M docs/modules/02-browser-javascript/01-browser-process-model.md
+ M docs/modules/02-browser-javascript/02-dom-and-web-apis.md
+ M docs/modules/02-browser-javascript/03-javascript-core.md
+ M docs/modules/02-browser-javascript/04-async-fetch-and-errors.md
+ M docs/modules/03-playwright/01-object-model.md
+ M docs/modules/03-playwright/02-first-browser.md
+ M docs/modules/03-playwright/03-contexts-and-state.md
+ M docs/modules/03-playwright/04-network-events.md
+ M docs/modules/03-playwright/05-frames-workers-and-cdp.md
+ M docs/modules/04-automated-abuse/01-abuse-objectives.md
+ M docs/modules/04-automated-abuse/02-workflow-mapping.md
+ M docs/modules/04-automated-abuse/03-auth-and-rate-controls.md
+ M docs/modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
+ M docs/modules/04-automated-abuse/05-race-and-resource-limits.md
+ M docs/modules/05-control-recon/01-signal-families.md
+ M docs/modules/05-control-recon/02-browser-environment.md
+ M docs/modules/05-control-recon/03-cross-context-consistency.md
+ M docs/modules/05-control-recon/04-session-behavior-workflow.md
+ M docs/modules/05-control-recon/05-blocked-baseline.md
+ M docs/modules/05-control-recon/index.md
+ M docs/modules/06-browser-evasion/01-evasion-hypotheses.md
+ M docs/modules/06-browser-evasion/02-one-variable-experiments.md
+ M docs/modules/06-browser-evasion/03-identity-coherence.md
+ M docs/modules/06-browser-evasion/04-replay-and-temporal-consistency.md
+ M docs/modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
+ M docs/modules/06-browser-evasion/index.md
+ M docs/modules/07-protocol-identity/01-tls-clienthello.md
+ M docs/modules/07-protocol-identity/02-ja4-and-ja4h.md
+ M docs/modules/07-protocol-identity/03-http2.md
+ M docs/modules/07-protocol-identity/04-proxies-and-connection-reuse.md
+ M docs/modules/07-protocol-identity/05-http3-quic.md
+ M docs/modules/08-ddos-resilience/01-resource-exhaustion-model.md
+ M docs/modules/08-ddos-resilience/02-metrics.md
+ M docs/modules/08-ddos-resilience/03-edge-controls.md
+ M docs/modules/08-ddos-resilience/04-bounded-load-testing.md
+ M docs/modules/08-ddos-resilience/05-recovery-and-retest.md
+ M docs/modules/09-tooling-code-review/01-python-telemetry.md
+ M docs/modules/09-tooling-code-review/02-async-and-bounded-concurrency.md
+ M docs/modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md
+ M docs/modules/09-tooling-code-review/04-secure-code-review.md
+ M docs/modules/10-findings-interview/01-finding-and-evidence.md
+ M docs/modules/10-findings-interview/02-remediation-and-retest.md
+ M docs/modules/10-findings-interview/03-technical-briefing.md
+ M docs/modules/10-findings-interview/04-role-narrative.md
+ M docs/modules/10-findings-interview/05-mock-loop.md
+ M docs/references/electives.md
+ M docs/safety/local-target-policy.md
+ M docs/start-here.md
+ M lab/LAB_COURSE_MAP.md
+ M lab/clients/playwright/control_recon.ts
+ M lab/clients/playwright/first_workflow.ts
+ M lab/docker-compose.yml
+ M lab/telemetry/control-recon.json
+ M lab/telemetry/playwright-first-workflow.json
+ M lab/telemetry/workflow-authorization.json
+ M mkdocs.yml
+ M package-lock.json
+ M scripts/validate_labs.py
+ M scripts/validate_lessons.py
+ M scripts/validate_sources.py
+ M sources/methodology-provenance.md
+ M sources/sources.yaml
+?? AATE-CODEX-PREPARE-LOCAL-AUDIT-BUNDLE.md
+?? AATE-CODEX-REMEDIATION-AUDIT-AND-FIX.md
+?? AATE-CODEX-TARGETED-REPAIR-PLAYBOOK.zip
+?? AATE-CODEX-TARGETED-REPAIR-PLAYBOOK/
+?? REMEDIATION_AUDIT.md
+?? REMEDIATION_STATUS.md
+?? archive/pre-remediation-course/
+?? artifacts/
+?? audit-evidence/
+?? docs/labs/course-map.md
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0
+
+=== COMMAND ===
+git diff --stat
+=== START UTC ===
+2026-07-17T03:07:31.3083425+00:00
+=== END UTC ===
+2026-07-17T03:07:31.4245833+00:00
+=== STDOUT ===
+ Makefile                                           |   9 +-
+ README.md                                          |   5 +
+ docs/checkpoints/21-days.md                        |  13 +-
+ docs/checkpoints/7-days.md                         |   6 +-
+ docs/labs/integrated/control-recon.md              |  28 +-
+ docs/methodology/provenance.md                     |  82 +++-
+ docs/modules/00-method/01-red-team-role.md         |  58 ++-
+ docs/modules/00-method/02-scope-and-rules.md       |  41 +-
+ docs/modules/00-method/03-experimental-method.md   |  62 ++-
+ .../01-http-edge/01-http-request-response.md       |  41 +-
+ .../01-http-edge/02-sessions-and-workflows.md      |  41 +-
+ docs/modules/01-http-edge/03-devtools-network.md   |  39 +-
+ docs/modules/01-http-edge/04-edge-request-path.md  |  41 +-
+ .../01-browser-process-model.md                    |  41 +-
+ .../02-browser-javascript/02-dom-and-web-apis.md   |  41 +-
+ .../02-browser-javascript/03-javascript-core.md    |  41 +-
+ .../04-async-fetch-and-errors.md                   |  82 ++--
+ docs/modules/03-playwright/01-object-model.md      |  47 +-
+ docs/modules/03-playwright/02-first-browser.md     | 122 +++--
+ .../modules/03-playwright/03-contexts-and-state.md |  47 +-
+ docs/modules/03-playwright/04-network-events.md    |  43 +-
+ .../03-playwright/05-frames-workers-and-cdp.md     |  43 +-
+ .../04-automated-abuse/01-abuse-objectives.md      |  44 +-
+ .../04-automated-abuse/02-workflow-mapping.md      |  45 +-
+ .../03-auth-and-rate-controls.md                   |  45 +-
+ .../04-inventory-and-promotion-abuse.md            |  45 +-
+ .../05-race-and-resource-limits.md                 |  39 +-
+ .../modules/05-control-recon/01-signal-families.md |  59 ++-
+ .../05-control-recon/02-browser-environment.md     |  59 ++-
+ .../03-cross-context-consistency.md                |  44 +-
+ .../04-session-behavior-workflow.md                |  41 +-
+ .../05-control-recon/05-blocked-baseline.md        |  60 ++-
+ docs/modules/05-control-recon/index.md             |  29 ++
+ .../06-browser-evasion/01-evasion-hypotheses.md    |  41 +-
+ .../02-one-variable-experiments.md                 |  41 +-
+ .../06-browser-evasion/03-identity-coherence.md    |  61 ++-
+ .../04-replay-and-temporal-consistency.md          |  61 ++-
+ .../05-version-drift-and-residual-anomalies.md     |  71 ++-
+ docs/modules/06-browser-evasion/index.md           |  20 +
+ .../07-protocol-identity/01-tls-clienthello.md     |  55 ++-
+ .../07-protocol-identity/02-ja4-and-ja4h.md        |  54 +-
+ docs/modules/07-protocol-identity/03-http2.md      |  42 +-
+ .../04-proxies-and-connection-reuse.md             |  63 ++-
+ docs/modules/07-protocol-identity/05-http3-quic.md |  70 +--
+ .../01-resource-exhaustion-model.md                |  69 +--
+ docs/modules/08-ddos-resilience/02-metrics.md      |  49 +-
+ .../modules/08-ddos-resilience/03-edge-controls.md |  73 +--
+ .../08-ddos-resilience/04-bounded-load-testing.md  |  48 +-
+ .../08-ddos-resilience/05-recovery-and-retest.md   |  48 +-
+ .../09-tooling-code-review/01-python-telemetry.md  |  72 +--
+ .../02-async-and-bounded-concurrency.md            |  67 ++-
+ .../03-retries-timeouts-and-jitter.md              |  48 +-
+ .../04-secure-code-review.md                       |  72 ++-
+ .../01-finding-and-evidence.md                     |  53 +-
+ .../02-remediation-and-retest.md                   |  58 +--
+ .../10-findings-interview/03-technical-briefing.md |  74 +--
+ .../10-findings-interview/04-role-narrative.md     |  73 +--
+ docs/modules/10-findings-interview/05-mock-loop.md |  80 +--
+ docs/references/electives.md                       |  18 +
+ docs/safety/local-target-policy.md                 |   6 +
+ docs/start-here.md                                 |  14 +-
+ lab/LAB_COURSE_MAP.md                              | 542 ++++++++++++++++++---
+ lab/clients/playwright/control_recon.ts            |  26 +-
+ lab/clients/playwright/first_workflow.ts           |  60 ++-
+ lab/docker-compose.yml                             |   5 +-
+ lab/telemetry/control-recon.json                   | 135 ++++-
+ lab/telemetry/playwright-first-workflow.json       |  10 +-
+ mkdocs.yml                                         | 158 +++---
+ scripts/validate_labs.py                           |  87 ++++
+ scripts/validate_lessons.py                        | 151 ++++--
+ scripts/validate_sources.py                        | 172 ++++++-
+ sources/methodology-provenance.md                  |  55 +--
+ sources/sources.yaml                               |  60 +--
+ 73 files changed, 2786 insertions(+), 1659 deletions(-)
+
+=== STDERR ===
+git : warning: in the working copy of 'Makefile', LF will be replaced by CRLF the next time Git touches it
+At C:\tmp\aate-phase1-capture-start.ps1:9 char:46
++ Invoke-AuditCommand 'git diff --stat' $out { git diff --stat } -Appen ...
++                                              ~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/checkpoints/21-days.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/checkpoints/7-days.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/labs/integrated/control-recon.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'docs/methodology/provenance.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'docs/modules/00-method/01-red-team-role.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'docs/modules/00-method/02-scope-and-rules.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'docs/modules/00-method/03-experimental-method.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/01-http-edge/01-http-request-response.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/01-http-edge/02-sessions-and-workflows.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/01-http-edge/03-devtools-network.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/01-http-edge/04-edge-request-path.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/02-browser-javascript/01-browser-process-model.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/02-browser-javascript/02-dom-and-web-apis.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/02-browser-javascript/03-javascript-core.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/02-browser-javascript/04-async-fetch-and-errors.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/03-playwright/01-object-model.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'docs/modules/03-playwright/02-first-browser.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'docs/modules/03-playwright/03-contexts-and-state.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/03-playwright/04-network-events.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/03-playwright/05-frames-workers-and-cdp.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/04-automated-abuse/01-abuse-objectives.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/04-automated-abuse/02-workflow-mapping.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/04-automated-abuse/03-auth-and-rate-controls.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/04-automated-abuse/04-inventory-and-promotion-abuse.md', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/04-automated-abuse/05-race-and-resource-limits.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/05-control-recon/01-signal-families.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/05-control-recon/02-browser-environment.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/05-control-recon/03-cross-context-consistency.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/05-control-recon/04-session-behavior-workflow.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/05-control-recon/05-blocked-baseline.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/05-control-recon/index.md', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'docs/modules/06-browser-evasion/01-evasion-hypotheses.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/06-browser-evasion/02-one-variable-experiments.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/06-browser-evasion/03-identity-coherence.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/06-browser-evasion/04-replay-and-temporal-consistency.md', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md', LF will 
+be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/06-browser-evasion/index.md', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'docs/modules/07-protocol-identity/01-tls-clienthello.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/07-protocol-identity/02-ja4-and-ja4h.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/07-protocol-identity/03-http2.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'docs/modules/07-protocol-identity/04-proxies-and-connection-reuse.md', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/07-protocol-identity/05-http3-quic.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/08-ddos-resilience/01-resource-exhaustion-model.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/08-ddos-resilience/02-metrics.md', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'docs/modules/08-ddos-resilience/03-edge-controls.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/modules/08-ddos-resilience/04-bounded-load-testing.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/08-ddos-resilience/05-recovery-and-retest.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/09-tooling-code-review/01-python-telemetry.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/09-tooling-code-review/02-async-and-bounded-concurrency.md', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md', LF will be 
+replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/09-tooling-code-review/04-secure-code-review.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/10-findings-interview/01-finding-and-evidence.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/10-findings-interview/02-remediation-and-retest.md', LF will be replaced 
+by CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/10-findings-interview/03-technical-briefing.md', LF will be replaced by 
+CRLF the next time Git touches it
+warning: in the working copy of 'docs/modules/10-findings-interview/04-role-narrative.md', LF will be replaced by CRLF 
+the next time Git touches it
+warning: in the working copy of 'docs/modules/10-findings-interview/05-mock-loop.md', LF will be replaced by CRLF the 
+next time Git touches it
+warning: in the working copy of 'docs/references/electives.md', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'docs/safety/local-target-policy.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'docs/start-here.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lab/LAB_COURSE_MAP.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lab/clients/playwright/control_recon.ts', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'lab/clients/playwright/first_workflow.ts', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'lab/docker-compose.yml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lab/telemetry/control-recon.json', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'lab/telemetry/playwright-first-workflow.json', LF will be replaced by CRLF the next 
+time Git touches it
+warning: in the working copy of 'lab/telemetry/workflow-authorization.json', LF will be replaced by CRLF the next time 
+Git touches it
+warning: in the working copy of 'mkdocs.yml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/validate_labs.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/validate_lessons.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/validate_sources.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'sources/methodology-provenance.md', LF will be replaced by CRLF the next time Git 
+touches it
+warning: in the working copy of 'sources/sources.yaml', LF will be replaced by CRLF the next time Git touches it
+
+=== EXIT STATUS ===
+0
+

@@ -1,0 +1,48 @@
+﻿=== COMMAND ===
+C:\tmp\aate-dev\bin\ruff.exe check lab scripts (Phase 1 binary preflight)
+=== START UTC ===
+2026-07-17T03:13:03.8676565+00:00
+=== END UTC ===
+2026-07-17T03:13:03.9308177+00:00
+=== STDOUT ===
+All checks passed!
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0
+
+=== COMMAND ===
+C:\tmp\aate-dev\bin\mypy.exe lab scripts (Phase 1 binary preflight)
+=== START UTC ===
+2026-07-17T03:13:03.9464526+00:00
+=== END UTC ===
+2026-07-17T03:13:04.7970690+00:00
+=== STDOUT ===
+lab\tests\test_safe_client.py:60: error: "type[SafeClientBoundaryTests]" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:61: error: "type[SafeClientBoundaryTests]" has no attribute "port"  [attr-defined]
+lab\tests\test_safe_client.py:61: error: "type[SafeClientBoundaryTests]" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:62: error: "type[SafeClientBoundaryTests]" has no attribute "origin"  [attr-defined]
+lab\tests\test_safe_client.py:62: error: "type[SafeClientBoundaryTests]" has no attribute "port"  [attr-defined]
+lab\tests\test_safe_client.py:63: error: "type[SafeClientBoundaryTests]" has no attribute "thread"  [attr-defined]
+lab\tests\test_safe_client.py:63: error: "type[SafeClientBoundaryTests]" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:64: error: "type[SafeClientBoundaryTests]" has no attribute "thread"  [attr-defined]
+lab\tests\test_safe_client.py:68: error: "type[SafeClientBoundaryTests]" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:69: error: "type[SafeClientBoundaryTests]" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:70: error: "type[SafeClientBoundaryTests]" has no attribute "thread"  [attr-defined]
+lab\tests\test_safe_client.py:73: error: "SafeClientBoundaryTests" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:76: error: "SafeClientBoundaryTests" has no attribute "port"  [attr-defined]
+lab\tests\test_safe_client.py:80: error: "SafeClientBoundaryTests" has no attribute "origin"  [attr-defined]
+lab\tests\test_safe_client.py:83: error: "SafeClientBoundaryTests" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:108: error: "SafeClientBoundaryTests" has no attribute "origin"  [attr-defined]
+lab\tests\test_safe_client.py:109: error: "SafeClientBoundaryTests" has no attribute "server"  [attr-defined]
+lab\tests\test_safe_client.py:115: error: "SafeClientBoundaryTests" has no attribute "origin"  [attr-defined]
+lab\tests\test_safe_client.py:163: error: "SafeClientBoundaryTests" has no attribute "origin"  [attr-defined]
+lab\tests\test_safe_client.py:172: error: "SafeClientBoundaryTests" has no attribute "origin"  [attr-defined]
+Found 20 errors in 1 file (checked 30 source files)
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+1
+

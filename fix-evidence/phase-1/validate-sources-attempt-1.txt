@@ -1,0 +1,24 @@
+﻿=== COMMAND ===
+bundled python scripts/validate_sources.py
+=== START UTC ===
+2026-07-17T03:16:07.8883663+00:00
+=== END UTC ===
+2026-07-17T03:16:07.9411551+00:00
+=== STDOUT ===
+
+=== STDERR ===
+python.exe : Traceback (most recent call last):
+At C:\tmp\aate-phase1-acceptance.ps1:47 char:9
++         & $python $script
++         ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\dev\awesome-adversarial-traffic-engineering\scripts\validate_sources.py", line 11, in <module>
+    import yaml  # type: ignore[import-untyped]
+    ^^^^^^^^^^^
+ModuleNotFoundError: No module named 'yaml'
+
+=== EXIT STATUS ===
+1
+

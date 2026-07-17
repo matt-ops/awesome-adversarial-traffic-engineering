@@ -1,0 +1,63 @@
+﻿=== COMMAND ===
+bundled python -m pip install --disable-pip-version-check --target C:\tmp\aate-dev pytest==8.4.1
+=== START UTC ===
+2026-07-17T03:14:16.4965750+00:00
+=== END UTC ===
+2026-07-17T03:14:22.1925144+00:00
+=== STDOUT ===
+Collecting pytest==8.4.1
+  Downloading pytest-8.4.1-py3-none-any.whl.metadata (7.7 kB)
+Collecting colorama>=0.4 (from pytest==8.4.1)
+  Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting iniconfig>=1 (from pytest==8.4.1)
+  Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting packaging>=20 (from pytest==8.4.1)
+  Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting pluggy<2,>=1.5 (from pytest==8.4.1)
+  Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Collecting pygments>=2.7.2 (from pytest==8.4.1)
+  Using cached pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+Downloading pytest-8.4.1-py3-none-any.whl (365 kB)
+Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Using cached packaging-26.2-py3-none-any.whl (100 kB)
+Using cached pygments-2.20.0-py3-none-any.whl (1.2 MB)
+Installing collected packages: pygments, pluggy, packaging, iniconfig, colorama, pytest
+
+Successfully installed colorama-0.4.6 iniconfig-2.3.0 packaging-26.2 pluggy-1.6.0 pygments-2.20.0 pytest-8.4.1
+
+=== STDERR ===
+python.exe : WARNING: Target directory C:\tmp\aate-dev\colorama already exists. Specify --upgrade to force replacement.
+At C:\tmp\aate-phase1-install-pytest.ps1:8 char:5
++     & $python -m pip install --disable-pip-version-check --target 'C: ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: Target...ce replacement.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: Target directory C:\tmp\aate-dev\colorama-0.4.6.dist-info already exists. Specify --upgrade to force 
+replacement.
+WARNING: Target directory C:\tmp\aate-dev\__pycache__ already exists. Specify --upgrade to force replacement.
+WARNING: Target directory C:\tmp\aate-dev\bin already exists. Specify --upgrade to force replacement.
+
+=== EXIT STATUS ===
+0
+
+=== COMMAND ===
+bundled python -m pip install --disable-pip-version-check --target C:\tmp\aate-dev PyYAML==6.0.2
+=== START UTC ===
+2026-07-17T03:17:04.4923016+00:00
+=== END UTC ===
+2026-07-17T03:17:05.4506298+00:00
+=== STDOUT ===
+Collecting PyYAML==6.0.2
+  Downloading PyYAML-6.0.2-cp312-cp312-win_amd64.whl.metadata (2.1 kB)
+Downloading PyYAML-6.0.2-cp312-cp312-win_amd64.whl (156 kB)
+Installing collected packages: PyYAML
+Successfully installed PyYAML-6.0.2
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0
+

@@ -1,0 +1,64 @@
+﻿=== COMMAND ===
+bundled python -m unittest lab.tests.test_safety lab.tests.test_safe_client -v (post-fix preflight)
+=== START UTC ===
+2026-07-17T03:11:04.4247747+00:00
+=== END UTC ===
+2026-07-17T03:11:06.2968007+00:00
+=== STDOUT ===
+
+=== STDERR ===
+python.exe : test_accepts_conservative_envelope 
+(lab.tests.test_safety.LoadEnvelopeTests.test_accepts_conservative_envelope) ... ok
+At C:\tmp\aate-phase1-capture-post-preflight.ps1:9 char:5
++     & $python -m unittest lab.tests.test_safety lab.tests.test_safe_c ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_accepts_co...nvelope) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_rejects_each_excessive_parameter (lab.tests.test_safety.LoadEnvelopeTests.test_rejects_each_excessive_parameter) 
+... ok
+test_approved_local_targets (lab.tests.test_safety.TargetSafetyTests.test_approved_local_targets) ... ok
+test_course_client_uses_exact_approved_origins 
+(lab.tests.test_safety.TargetSafetyTests.test_course_client_uses_exact_approved_origins) ... ok
+test_rejects_public_private_and_arbitrary_targets 
+(lab.tests.test_safety.TargetSafetyTests.test_rejects_public_private_and_arbitrary_targets) ... ok
+test_approved_local_to_local_redirect_is_explicitly_rejected 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_approved_local_to_local_redirect_is_explicitly_rejected) ... 
+ok
+test_approved_local_url_without_redirect_succeeds 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_approved_local_url_without_redirect_succeeds) ... ok
+test_invalid_direct_timeout_is_rejected 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_invalid_direct_timeout_is_rejected) ... ok
+test_no_new_request_starts_after_deadline 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_no_new_request_starts_after_deadline) ... ok
+test_normal_local_run_succeeds (lab.tests.test_safe_client.SafeClientBoundaryTests.test_normal_local_run_succeeds) ... 
+ok
+test_redirect_cannot_bypass_port_restriction 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_redirect_cannot_bypass_port_restriction) ... ok
+test_redirect_loop_is_rejected_on_first_hop 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_redirect_loop_is_rejected_on_first_hop) ... ok
+test_redirect_to_external_hostname_is_rejected 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_redirect_to_external_hostname_is_rejected) ... ok
+test_redirect_to_private_network_ip_is_rejected 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_redirect_to_private_network_ip_is_rejected) ... ok
+test_redirect_to_public_ip_is_rejected 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_redirect_to_public_ip_is_rejected) ... ok
+test_redirect_to_unapproved_scheme_is_rejected 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_redirect_to_unapproved_scheme_is_rejected) ... ok
+test_request_rate_ceiling_still_applies 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_request_rate_ceiling_still_applies) ... ok
+test_request_timeout_is_bounded_by_remaining_duration 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_request_timeout_is_bounded_by_remaining_duration) ... ok
+test_slow_response_hits_real_wall_clock_budget 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_slow_response_hits_real_wall_clock_budget) ... ok
+test_total_request_ceiling_still_applies 
+(lab.tests.test_safe_client.SafeClientBoundaryTests.test_total_request_ceiling_still_applies) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.693s
+
+OK
+
+=== EXIT STATUS ===
+0
+

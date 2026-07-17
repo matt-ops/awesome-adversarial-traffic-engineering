@@ -1,0 +1,91 @@
+﻿=== COMMAND ===
+bundled python -m unittest discover -s lab/tests -v
+=== START UTC ===
+2026-07-17T03:17:49.9683081+00:00
+=== END UTC ===
+2026-07-17T03:17:51.6402021+00:00
+=== STDOUT ===
+
+=== STDERR ===
+python.exe : test_cache_and_retry_fixtures_are_bounded_and_deterministic 
+(test_app.SyntheticAppTests.test_cache_and_retry_fixtures_are_bounded_and_deterministic) ... ok
+At C:\tmp\aate-phase1-acceptance.ps1:21 char:5
++     & $python -m unittest discover -s lab/tests -v
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_cache_and_...inistic) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_challenge_token_is_intentionally_replayable_across_sessions 
+(test_app.SyntheticAppTests.test_challenge_token_is_intentionally_replayable_across_sessions) ... ok
+test_control_rejects_cross_context_mismatch (test_app.SyntheticAppTests.test_control_rejects_cross_context_mismatch) 
+... ok
+test_control_requires_consistent_non_automated_observation_and_single_use 
+(test_app.SyntheticAppTests.test_control_requires_consistent_non_automated_observation_and_single_use) ... ok
+test_event_validation_and_session_summary (test_app.SyntheticAppTests.test_event_validation_and_session_summary) ... ok
+test_health_search_and_bounded_expensive_route 
+(test_app.SyntheticAppTests.test_health_search_and_bounded_expensive_route) ... ok
+test_per_session_limit_is_intentionally_bypassable_by_key_rotation 
+(test_app.SyntheticAppTests.test_per_session_limit_is_intentionally_bypassable_by_key_rotation) ... ok
+test_synthetic_account_and_challenge (test_app.SyntheticAppTests.test_synthetic_account_and_challenge) ... ok
+test_synthetic_login_and_attempt_summary (test_app.SyntheticAppTests.test_synthetic_login_and_attempt_summary) ... ok
+test_fixture_metrics_are_deterministic (test_detector.DetectorTests.test_fixture_metrics_are_deterministic) ... ok
+test_one_signal_change_bypasses_challenge (test_detector.DetectorTests.test_one_signal_change_bypasses_challenge) ... 
+ok
+test_reasons_are_explainable (test_detector.DetectorTests.test_reasons_are_explainable) ... ok
+test_alpn_configuration_changes_generated_bytes 
+(test_protocol.ProtocolFixtureTests.test_alpn_configuration_changes_generated_bytes) ... ok
+test_generated_bytes_are_tls_clienthello (test_protocol.ProtocolFixtureTests.test_generated_bytes_are_tls_clienthello) 
+... ok
+test_recon_maps_surface_and_produces_attack_hypotheses 
+(test_run.ReconRunnerTests.test_recon_maps_surface_and_produces_attack_hypotheses) ... ok
+test_approved_local_to_local_redirect_is_explicitly_rejected 
+(test_safe_client.SafeClientBoundaryTests.test_approved_local_to_local_redirect_is_explicitly_rejected) ... ok
+test_approved_local_url_without_redirect_succeeds 
+(test_safe_client.SafeClientBoundaryTests.test_approved_local_url_without_redirect_succeeds) ... ok
+test_invalid_direct_timeout_is_rejected 
+(test_safe_client.SafeClientBoundaryTests.test_invalid_direct_timeout_is_rejected) ... ok
+test_no_new_request_starts_after_deadline 
+(test_safe_client.SafeClientBoundaryTests.test_no_new_request_starts_after_deadline) ... ok
+test_normal_local_run_succeeds (test_safe_client.SafeClientBoundaryTests.test_normal_local_run_succeeds) ... ok
+test_redirect_cannot_bypass_port_restriction 
+(test_safe_client.SafeClientBoundaryTests.test_redirect_cannot_bypass_port_restriction) ... ok
+test_redirect_loop_is_rejected_on_first_hop 
+(test_safe_client.SafeClientBoundaryTests.test_redirect_loop_is_rejected_on_first_hop) ... ok
+test_redirect_to_external_hostname_is_rejected 
+(test_safe_client.SafeClientBoundaryTests.test_redirect_to_external_hostname_is_rejected) ... ok
+test_redirect_to_private_network_ip_is_rejected 
+(test_safe_client.SafeClientBoundaryTests.test_redirect_to_private_network_ip_is_rejected) ... ok
+test_redirect_to_public_ip_is_rejected 
+(test_safe_client.SafeClientBoundaryTests.test_redirect_to_public_ip_is_rejected) ... ok
+test_redirect_to_unapproved_scheme_is_rejected 
+(test_safe_client.SafeClientBoundaryTests.test_redirect_to_unapproved_scheme_is_rejected) ... ok
+test_request_rate_ceiling_still_applies 
+(test_safe_client.SafeClientBoundaryTests.test_request_rate_ceiling_still_applies) ... ok
+test_request_timeout_is_bounded_by_remaining_duration 
+(test_safe_client.SafeClientBoundaryTests.test_request_timeout_is_bounded_by_remaining_duration) ... ok
+test_slow_response_hits_real_wall_clock_budget 
+(test_safe_client.SafeClientBoundaryTests.test_slow_response_hits_real_wall_clock_budget) ... ok
+test_total_request_ceiling_still_applies 
+(test_safe_client.SafeClientBoundaryTests.test_total_request_ceiling_still_applies) ... ok
+test_accepts_conservative_envelope (test_safety.LoadEnvelopeTests.test_accepts_conservative_envelope) ... ok
+test_rejects_each_excessive_parameter (test_safety.LoadEnvelopeTests.test_rejects_each_excessive_parameter) ... ok
+test_approved_local_targets (test_safety.TargetSafetyTests.test_approved_local_targets) ... ok
+test_course_client_uses_exact_approved_origins 
+(test_safety.TargetSafetyTests.test_course_client_uses_exact_approved_origins) ... ok
+test_rejects_public_private_and_arbitrary_targets 
+(test_safety.TargetSafetyTests.test_rejects_public_private_and_arbitrary_targets) ... ok
+test_retry_rejects_unbounded_attempt_count 
+(test_tooling.ToolingExerciseTests.test_retry_rejects_unbounded_attempt_count) ... ok
+test_retry_stops_after_success_and_records_budget 
+(test_tooling.ToolingExerciseTests.test_retry_stops_after_success_and_records_budget) ... ok
+test_summary_counts_labels_and_preserves_limitations 
+(test_tooling.ToolingExerciseTests.test_summary_counts_labels_and_preserves_limitations) ... ok
+
+----------------------------------------------------------------------
+Ran 38 tests in 1.278s
+
+OK
+
+=== EXIT STATUS ===
+0
+

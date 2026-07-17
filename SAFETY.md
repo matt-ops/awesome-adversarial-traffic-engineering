@@ -34,13 +34,27 @@ Deep packet, spoofing, reflection, amplification, and connection-state exercises
 
 The included client accepts only local targets and enforces:
 
+- exact fixed origins: `http://localhost:8080`, `http://127.0.0.1:8080`,
+  `http://app:8000`, and `http://edge:8080`
+- rejection of every redirect, including local-to-local redirects
 - 15 seconds maximum duration
+- a monotonic wall-clock deadline; no request starts after it expires
+- a two-second maximum per-request timeout, reduced to the remaining duration
+  budget when that is smaller
 - 5 maximum concurrency
 - 10 requests/second maximum rate
 - 100 maximum total requests
 - 20 maximum expensive requests
 
-Course exercises usually use much less. Stop immediately on an unexpected status, failed health check, breached limit, or owner request.
+The broader `validate_local_url()` helper accepts arbitrary valid ports only for
+controlled local development and in-process tests. The executable course client
+uses the stricter fixed-origin policy, and neither exposes a flag that disables
+redirect or destination validation.
+
+Course exercises usually use much less. A run that consumes its deadline records
+`duration_budget_exceeded`; it does not silently start another request. Stop
+immediately on an unexpected status, failed health check, breached limit, or
+owner request.
 
 ## Before every run
 

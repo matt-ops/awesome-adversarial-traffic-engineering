@@ -7,6 +7,14 @@ from ipaddress import ip_address
 from urllib.parse import urlsplit
 
 APPROVED_HOSTS = frozenset({"localhost", "127.0.0.1", "::1", "app", "edge", "aate-app", "aate-edge"})
+APPROVED_COURSE_ORIGINS = frozenset(
+    {
+        ("http", "localhost", 8080),
+        ("http", "127.0.0.1", 8080),
+        ("http", "app", 8000),
+        ("http", "edge", 8080),
+    }
+)
 
 
 class SafetyError(ValueError):
@@ -14,7 +22,7 @@ class SafetyError(ValueError):
 
 
 def validate_local_url(url: str) -> str:
-    """Return *url* only when it names an explicitly approved local target."""
+    """Validate a general local-development URL, including an arbitrary valid port."""
 
     try:
         parsed = urlsplit(url)
@@ -42,6 +50,22 @@ def validate_local_url(url: str) -> str:
     if address is not None:
         raise SafetyError(f"IP address {host!r} is not an approved loopback target")
     raise SafetyError(f"hostname {host!r} is not an approved local service")
+
+
+def validate_course_client_url(url: str) -> str:
+    """Validate *url* against the fixed origins used by the bundled course client."""
+
+    validate_local_url(url)
+    parsed = urlsplit(url)
+    if parsed.hostname is None:  # Defensive; validate_local_url already rejects this case.
+        raise SafetyError("target must include a hostname")
+    host = parsed.hostname.lower().rstrip(".")
+    port = parsed.port if parsed.port is not None else (443 if parsed.scheme == "https" else 80)
+    origin = (parsed.scheme, host, port)
+    if origin not in APPROVED_COURSE_ORIGINS:
+        rendered_origin = f"{parsed.scheme}://{host}:{port}"
+        raise SafetyError(f"origin {rendered_origin!r} is not approved for the course client")
+    return url
 
 
 @dataclass(frozen=True)
@@ -85,4 +109,3 @@ class LoadEnvelope:
         if self.total_requests > self.duration_seconds * self.requests_per_second:
             raise SafetyError("total_requests exceeds the duration/rate envelope")
         return self
-

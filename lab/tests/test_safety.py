@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from lab.safety import LoadEnvelope, SafetyError, validate_local_url
+from lab.safety import LoadEnvelope, SafetyError, validate_course_client_url, validate_local_url
 
 
 class TargetSafetyTests(unittest.TestCase):
@@ -23,6 +23,27 @@ class TargetSafetyTests(unittest.TestCase):
         for target in rejected:
             with self.subTest(target=target), self.assertRaises(SafetyError):
                 validate_local_url(target)
+
+    def test_course_client_uses_exact_approved_origins(self) -> None:
+        approved = (
+            "http://localhost:8080/health",
+            "http://127.0.0.1:8080/",
+            "http://app:8000/health",
+            "http://edge:8080/control-lab",
+        )
+        rejected = (
+            "http://localhost:8081/health",
+            "https://localhost:8080/health",
+            "http://127.0.0.1/health",
+            "http://aate-app:8000/health",
+            "http://10.0.0.1:8080/health",
+        )
+        for target in approved:
+            with self.subTest(target=target):
+                self.assertEqual(validate_course_client_url(target), target)
+        for target in rejected:
+            with self.subTest(target=target), self.assertRaises(SafetyError):
+                validate_course_client_url(target)
 
 
 class LoadEnvelopeTests(unittest.TestCase):

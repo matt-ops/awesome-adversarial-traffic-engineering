@@ -1,0 +1,15 @@
+Phase 1 acceptance command summary
+==================================
+
+0	python -m pytest lab/tests -q
+0	python -m unittest discover -s lab/tests -v
+0	ruff check .
+0	mypy lab scripts
+0	python scripts/validate_sources.py
+0	python scripts/validate_lessons.py
+0	python scripts/validate_labs.py
+0	python scripts/validate_load_scripts.py
+0	python scripts/check_internal_links.py
+0	mkdocs build --strict
+
+Overall: PASS
