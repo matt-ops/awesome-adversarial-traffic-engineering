@@ -31,6 +31,9 @@ Use only synthetic/public-safe course evidence.
 8. Remediation invariant and exact retest
 
 The complete example is `lab/reports/synthetic-finding.md` in the repository.
+It is a report template and validated static sample, not generated output. The
+learner writes the selected finding from evidence; no report-generation command
+or deterministic generator is included or claimed.
 
 ## Five-minute briefing card
 

@@ -48,9 +48,9 @@ learner exercise. Their replacements produce stronger evidence.
 
 | Command | Lesson / depth | Prerequisite | Objective and expected output | Source basis | Safety boundary | Artifact |
 |---|---|---|---|---|---|---|
-| `python -m lab.protocol.compare clienthello` | Module 07 TLS / Foundation | TLS lesson | Generate two socket-free ClientHello records and show ALPN-dependent bytes | RFC 8446 | no socket opened | ClientHello comparison |
-| `python -m lab.protocol.compare http` | Module 07 intermediaries / Integrated | local stack | Record server-visible HTTP version, headers, and address for one request | MDN HTTP; OWASP architecture | fixed loopback URL | observation-point map |
-| `k6 run lab/load/bounded.js` | Module 08 bounded load / Integrated | Modules 00-08 and local stack | Run selected scenario; pass checks/thresholds and recovery health | k6 threshold docs; load-shedding source | local target, <=15 s, <=5 VUs, <=10 req/s, <=100 worst-case requests, aborts | scenario result |
+| `python -m lab.protocol.compare clienthello` | Module 07 TLS / Foundation | TLS lesson | Generate two socket-free Python/OpenSSL ClientHello records; report selected outer fields, byte counts, non-JA4 digests, `bytes_differ`, and the declared ALPN configuration change without claiming parsed ALPN/offsets/browser TLS | RFC 8446 | no socket opened | ClientHello comparison |
+| `python -m lab.protocol.compare http` | Module 07 intermediaries / Integrated | local stack | Record the fixed Python helper's plain-HTTP version, headers, and address; do not claim browser TLS, JA4, HTTP/2, HTTP/3, QUIC, or proxy-change evidence | MDN HTTP; OWASP architecture | fixed loopback URL | observation-point map |
+| `k6 run lab/load/bounded.js` | Module 08 bounded load / Integrated | Modules 00-08 and local stack | Run one of seven scenario contracts with named assertions; endpoint-cost/workflow-sequence cases are observations, not mitigation tests | k6 threshold docs; load-shedding source | local target, <=15 s, <=5 VUs, <=10 req/s, <=100 worst-case requests, aborts | scenario result |
 | `$env:AATE_DRY_RUN='1'; k6 run lab/load/bounded.js` | Module 08 bounded load / Integrated | k6 installed | Print validated configuration; network I/O remains zero | k6 docs; local specification | dry run is traffic-free | safety configuration |
 | `python -m lab.tooling.client telemetry` | Module 09 telemetry / Foundation | fixture only | Print record/population/label counts and limitations | Python `json`/`Counter` | offline fixture | telemetry summary |
 | `python -m lab.tooling.client concurrent --total 6 --concurrency 2` | Module 09 concurrency / Applied | local stack | Return six health results within two in-flight permits | Python `asyncio` | local validation and envelope precede tasks | concurrency trace |
@@ -67,7 +67,7 @@ For k6 scenario selection, use the environment values documented in
 | `python scripts/validate_lessons.py` | every lesson meets the teaching template | none |
 | `python scripts/check_internal_links.py` | all local pages and anchors resolve | none |
 | `python scripts/check_internal_links.py --external` | malformed/permanent links fail; transient remote failures warn | HEAD requests to cited public resources |
-| `python scripts/validate_load_scripts.py` | every load script contains all hard controls | none |
+| `python scripts/validate_load_scripts.py` | every load script contains all hard controls, truthful names, and outcome assertions | none |
 | `python -m unittest discover -s lab/tests -v` | all Python lab tests pass | in-process fixture only |
 | `python -m mypy lab scripts` | strict type check passes | none |
 | `python -m ruff check lab scripts` | lint/security rules pass | none |

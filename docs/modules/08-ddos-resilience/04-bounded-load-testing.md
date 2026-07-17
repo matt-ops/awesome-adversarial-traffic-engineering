@@ -56,7 +56,10 @@ abort thresholds, dry-run evidence, and scenario-specific interpretation.
 
 The script validates configuration during initialization, before a traffic
 executor exists. Dry run performs one zero-request iteration. Each live iteration
-uses at most two requests; setup/teardown add reset/recovery checks.
+uses at most two requests. Reset/recovery and scenario-specific cache or identity
+seeding add at most four lifecycle requests, and the 100-request formula includes
+that worst case. A pair is called a control comparison only when the local
+application implements the control.
 
 !!! warning "Safety boundary"
     Never edit out a guard, use an external target, or raise a ceiling. These are
@@ -65,8 +68,10 @@ uses at most two requests; setup/teardown add reset/recovery checks.
 ## Worked example
 
 At one iteration/s for one second, a two-request scenario may schedule two
-iterations plus setup/teardown and report six HTTP requests. The ceiling formula
-accounts for the boundary iteration and two lifecycle requests.
+iterations plus setup/teardown and report six HTTP requests. Cache priming can
+raise that total to seven; two fixed-key seed calls can raise it to eight. The
+ceiling formula accounts for the boundary iteration and the worst-case four
+lifecycle requests.
 
 ## Guided exercise
 
@@ -85,17 +90,22 @@ Start/reset the local API. Follow the load guide; preserve console output.
 3. Execute the seven scenario values one at a time.
 4. Preserve checks, requests, latency, errors, thresholds, configuration, and recovery.
 5. For retry, verify expected `503` is classified and one retry returns `200`.
-6. Do not increase load to create a dramatic effect.
+6. Separate runtime observations, deterministic fixture assertions, and course interpretation.
+7. Do not increase load to create a dramatic effect.
 
 ### Expected output
 
-All seven scenarios pass thresholds and recovery health. Initial verified runs
-used six requests for two-request scenarios and four for recovery.
+All seven scenarios pass their named assertions, thresholds, and immediate
+recovery-health checks. The one-second initial envelope ordinarily uses six
+requests for two-request scenarios, seven for cache priming, eight for fixed-key
+seeding, and four for recovery. `endpoint-cost-observation` and
+`workflow-sequence-observation` explicitly report that no mitigation is active.
 
 ### Interpretation
 
-Results demonstrate relative local behavior and working safety controls. They do
-not establish DDoS magnitude or production protection.
+Results demonstrate the specifically asserted local fixture behavior and working
+safety controls. They do not establish endpoint/workflow mitigation, DDoS
+magnitude, sustained recovery, or production protection.
 
 ### Common failure modes
 

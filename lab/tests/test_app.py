@@ -10,6 +10,7 @@ from lab.app.main import app
 class SyntheticAppTests(unittest.TestCase):
     def setUp(self) -> None:
         self.client = TestClient(app)
+        self.assertEqual(self.client.post("/api/reset").status_code, 200)
 
     def test_health_search_and_bounded_expensive_route(self) -> None:
         health = self.client.get("/health")
@@ -152,6 +153,45 @@ class SyntheticAppTests(unittest.TestCase):
         self.assertEqual(failed.status_code, 503)
         self.assertEqual(retried.status_code, 200)
         self.assertEqual(retried.json()["attempt"], 2)
+
+    def test_load_scenario_fixture_assertions_match_application_behavior(self) -> None:
+        self.assertEqual(self.client.post("/api/reset").status_code, 200)
+
+        low_work = self.client.get("/api/reports/expensive", params={"work": 1})
+        high_work = self.client.get("/api/reports/expensive", params={"work": 100})
+        self.assertEqual((low_work.json()["work"], high_work.json()["work"]), (1, 100))
+
+        prime = self.client.get("/api/reports/cacheable", params={"cache_key": "fixed"})
+        cached = self.client.get("/api/reports/cacheable", params={"cache_key": "fixed"})
+        bypass = self.client.get(
+            "/api/reports/cacheable", params={"cache_key": "unique", "bypass": True}
+        )
+        self.assertFalse(prime.json()["cache_hit"])
+        self.assertTrue(cached.json()["cache_hit"])
+        self.assertFalse(bypass.json()["cache_hit"])
+        self.assertEqual(cached.json()["digest_prefix"], bypass.json()["digest_prefix"])
+
+        seeded = [
+            self.client.get("/api/reports/limited", params={"session_id": "fixed"}).status_code
+            for _ in range(2)
+        ]
+        rejected = self.client.get("/api/reports/limited", params={"session_id": "fixed"})
+        rotated = self.client.get("/api/reports/limited", params={"session_id": "rotated"})
+        self.assertEqual(seeded, [200, 200])
+        self.assertEqual(rejected.status_code, 429)
+        self.assertEqual(rotated.status_code, 200)
+        self.assertEqual(rotated.json()["session_count"], 1)
+
+        search = self.client.get("/api/search", params={"q": "demo"}).json()
+        product = self.client.get("/api/products/demo-1").json()
+        self.assertIn("demo-1", {item["id"] for item in search["results"]})
+        self.assertEqual(product["id"], "demo-1")
+
+        failed = self.client.get("/api/reports/unstable", params={"operation_id": "scenario"})
+        retried = self.client.get("/api/reports/unstable", params={"operation_id": "scenario"})
+        self.assertEqual((failed.status_code, retried.status_code), (503, 200))
+        self.assertEqual(retried.json()["attempt"], 2)
+        self.assertEqual(self.client.get("/health").status_code, 200)
 
 
 if __name__ == "__main__":

@@ -3,6 +3,12 @@
 This single page supplies the additional repetitions required by the Integrated
 and Deep exit ramps. It reuses completed lessons; it does not introduce a second path.
 
+These are rubric-driven **portfolio drills**, not independently packaged
+exercises. A packaged exercise would have its own README, starter material,
+learner task, expected artifact, tests or grading criteria, solution, and
+explanation. The counted lists below reuse shared course code, tests, lessons,
+and answer guidance and therefore make no package claim.
+
 ## Lab contract
 
 - Authorization boundary: bundled source/fixtures/loopback target and named provider assignments only
@@ -10,7 +16,7 @@ and Deep exit ramps. It reuses completed lessons; it does not introduce a second
 - Adversary objective: build repeated evidence across attack, tooling, design, and communication domains
 - Protected action: named by each selected workflow/control/resource case
 - Baseline: copy the relevant completed module baseline before extending it
-- Hypothesis: one falsifiable sentence per exercise before execution/review
+- Hypothesis: one falsifiable sentence per drill before execution/review
 - Changed variable: one declared value or one deliberately coherent set
 - Fixed variables: target/version/reset/evidence schema and all unrelated inputs
 - Success: the row's artifact meets its stated proof and limitation requirement
@@ -20,7 +26,7 @@ and Deep exit ramps. It reuses completed lessons; it does not introduce a second
 - Remediation: state the failed invariant and measurable legitimate/hostile outcomes
 - Retest: repeat the original attack with the same success definition after the change
 
-## Six Python exercises
+## Six Python drills
 
 Complete all six. Existing code is the teacher: read the named function, explain
 it, run its test, then make the stated artifact or test extension.
@@ -48,7 +54,7 @@ Run each for 25 minutes, then use the Module 10 scorecard and repair the weakest
 
 Artifact: two prompt/answer outlines, evidence links, scorecards, and exact repairs.
 
-## Ten code-review exercises
+## Ten code-review drills
 
 Use the [secure code-review method](../../modules/09-tooling-code-review/04-secure-code-review.md).
 For every row record entry, transformation, decision, protected effect, proof,
@@ -67,7 +73,7 @@ limitation, remediation invariant, negative test, legitimate positive test, and 
 | 9 | `unstable_report()` | Are operation identity and side effects safe under retry/replay? |
 | 10 | `lab/load/bounded.js` | Do setup, scenario requests, retries, and teardown fit the worst-case formula and recovery gate? |
 
-## Five threat models
+## Five threat-model drills
 
 Use the same compact structure for each: adversary objective, protected action,
 entry points, assets/state, trust boundaries, preconditions, abuse sequence,
@@ -81,7 +87,7 @@ controls/assumptions, effect evidence, legitimate near-neighbor, and retest.
 | Cross-layer protocol identity | browser claim, ClientHello/HTTP observer, intermediary boundary, and fingerprint limits |
 | Application-resource exhaustion | Module 08 resource chain, seven bounded scenarios, collateral population, and recovery |
 
-## Five system-design exercises
+## Five system-design drills
 
 For each design, draw components/trust boundaries and specify inputs, state,
 decision, failure mode, observability, privacy/accessibility risk, degradation,

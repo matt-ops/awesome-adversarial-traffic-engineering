@@ -28,7 +28,7 @@ why client configuration/version changes a fingerprintable handshake.
 |---|---|---|---|
 | STANDARD | [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) | §4.1 and §4.1.2 | Defines handshake messages and ClientHello fields |
 | PROJECT_DOCUMENTATION | [JA4 project](https://github.com/FoxIO-LLC/ja4) | overview; JA4 TLS summary | Connects field patterns to a practical fingerprint |
-| LAB_SPECIFIC | [Protocol lab](../../labs/integrated/protocol-identity.md) | in-memory ClientHello helper | Supplies safe inspectable bytes |
+| LAB_SPECIFIC | [Protocol identity foundations lab](../../labs/integrated/protocol-identity.md) | in-memory ClientHello helper | Supplies safe inspectable bytes and selected outer fields; it does not parse ALPN from bytes, calculate JA4, or capture browser TLS |
 
 ## Mental model
 
@@ -88,8 +88,11 @@ Read `lab/protocol/compare.py`; it parses only outer record and handshake fields
 
 ### Expected output
 
-Two ClientHello summaries with different bytes/digests and explicit non-JA4,
-non-identity limitations.
+Two socket-free ClientHello summaries with the declared ALPN configuration for
+the changed fixture, selected outer record/handshake fields, byte counts,
+SHA-256 digests, and a `bytes_differ` result. The helper does not claim to parse
+the ALPN extension or identify which offsets ALPN changed, and it retains
+explicit non-JA4/non-identity limitations.
 
 ### Interpretation
 

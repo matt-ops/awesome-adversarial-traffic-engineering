@@ -1,0 +1,14 @@
+=== COMMAND ===
+python scripts/check_internal_links.py
+=== START UTC ===
+2026-07-17T20:05:21.1236786+00:00
+=== END UTC ===
+2026-07-17T20:05:21.3573440+00:00
+=== STDOUT ===
+Internal link validation: PASS
+- checked 103 Markdown files
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0

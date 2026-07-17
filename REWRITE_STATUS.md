@@ -13,8 +13,8 @@ Remote state: **not pushed**
 | 2 - HTTP, browser, JavaScript, Playwright | Complete | 13 new lessons; zero-Docker static site and headed-first Playwright workflow tested |
 | 3 - Automated abuse | Complete | Five lessons; exact OWASP/PortSwigger assignments; local runners and renamed authorization proof tested |
 | 4 - Control reconnaissance and evasion | Complete | Ten lessons; three-context enforced local control; stock baselines, action proof, replay, research limits |
-| 5 - Protocol identity | Complete | Five lessons; generated ClientHello comparison; fixed-loopback HTTP observation; protocol identity bounded as a pivot rather than identity proof |
-| 6 - DDoS and resilience | Complete | Five lessons; seven bounded k6 scenarios; hard target, duration, VU, rate, total-request, threshold, abort, dry-run, and recovery controls |
+| 5 - Protocol identity | Complete | Five source-led lessons; executable Python/OpenSSL ClientHello fixtures and fixed-loopback plain-HTTP observation; advanced protocol behavior is not an executable claim |
+| 6 - DDoS and resilience | Complete | Five lessons; seven bounded k6 scenario contracts with named assertions and two observation-only cases; hard target, duration, VU, rate, total-request, threshold, abort, dry-run, and recovery controls |
 | 7 - Tooling, findings, interview | Complete | Nine lessons; executable telemetry, bounded concurrency/retry tooling, four code-review cases, finding/retest/briefing/narrative/mock artifacts |
 | 8 - Integration and review | Complete | Four cumulative checkpoint views; four-depth module indexes; lab/command matrix; progress, electives, coverage and quality audits; full suite and strict build pass |
 
@@ -47,11 +47,13 @@ Remote state: **not pushed**
   network socket, demonstrates ALPN-dependent byte changes, and keeps its digest
   explicitly separate from JA4 and identity claims. Fixed-loopback HTTP
   observation records what a server can actually see.
-- Module 08 adds five lessons and a bounded k6 exercise. All seven scenarios ran
-  successfully against the local fixture with 100% checks in the verification
-  envelope. The script rejects non-loopback targets and excessive duration,
-  VUs, request rate, and worst-case total requests; dry-run sends no traffic;
-  thresholds abort; teardown checks recovery.
+- Module 08 adds five lessons and a bounded k6 exercise. Historical pre-repair
+  runs returned allowed statuses for all seven old labels; that result alone did
+  not prove scenario effects. The repaired script uses truthful observation
+  names and named latency/state/sequence/retry/recovery assertions. It rejects
+  non-loopback targets and excessive duration, VUs, request rate, and worst-case
+  total requests; dry-run sends no traffic; thresholds abort; teardown checks
+  immediate recovery.
 - The Phase 6 suite has 19 passing Python tests, passing mypy, Ruff, TypeScript,
   source, lesson, internal-link, load-safety, and strict MkDocs checks.
 - Modules 09-10 add nine lessons and three lab guides. The standard-library
@@ -70,8 +72,8 @@ Remote state: **not pushed**
   module indexes. Four checkpoint pages link to those sections without copying
   lesson instruction. A plain progress page, 11-page lab contract set, complete
   command map, curated electives, and capability/restriction-gap audit are present.
-- The Integrated portfolio now explicitly assigns six Python exercises, ten
-  code reviews, five threat models, five system designs, a six-to-eight-page
+- The Integrated portfolio now explicitly assigns six Python drills, ten
+  code-review drills, five threat-model drills, five system-design drills, a six-to-eight-page
   report, and executive summary. The Deep package explicitly assigns original,
   drift, runtime, protocol, privacy/accessibility, coherence, remediation,
   portfolio, mock, and first-90-day research work.

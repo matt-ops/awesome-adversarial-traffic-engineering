@@ -1,7 +1,13 @@
-# Module 07 - Protocol identity
+# Module 07 - Protocol identity foundations
 
-**Outcome:** compare claimed browser identity with TLS and HTTP behavior, explain
-what intermediaries can change, and avoid treating fingerprints as identity proof.
+**Outcome:** use source-led protocol models to reason about browser/TLS/HTTP
+coherence, generate bounded Python/OpenSSL ClientHello fixtures, observe plain
+HTTP metadata, explain what intermediaries can change, and avoid treating
+fingerprints as identity proof.
+
+The executable lab does not compare Chrome with Playwright TLS, calculate JA4,
+capture HTTP/2 settings, exercise HTTP/3/QUIC, or measure proxy-induced transport
+changes. Those topics remain standards/project instruction and evidence plans.
 
 ## Foundation
 

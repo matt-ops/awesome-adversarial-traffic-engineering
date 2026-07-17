@@ -1,0 +1,13 @@
+=== COMMAND ===
+ruff check .
+=== START UTC ===
+2026-07-17T20:05:23.3243424+00:00
+=== END UTC ===
+2026-07-17T20:05:23.3538503+00:00
+=== STDOUT ===
+All checks passed!
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0

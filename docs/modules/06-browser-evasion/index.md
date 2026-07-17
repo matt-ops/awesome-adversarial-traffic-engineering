@@ -22,6 +22,10 @@ coherence](03-identity-coherence.md), and [replay and temporal
 consistency](04-replay-and-temporal-consistency.md). Join protected-action proof
 with token/session/action/time behavior and residual anomalies.
 
+Browser/protocol coherence remains a source-led model and future evidence plan:
+the executable local protocol lab generates Python/OpenSSL fixtures and
+plain-HTTP metadata, not browser TLS or HTTP/2 captures.
+
 ## Deep
 
 Complete [version drift and residual anomalies](05-version-drift-and-residual-anomalies.md).

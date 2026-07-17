@@ -19,7 +19,9 @@ then run one bounded Layer 7 experiment.
 
 Repeat [bounded load testing](04-bounded-load-testing.md) across the defined
 fixed-loopback scenarios within hard target, duration, VU, rate, total,
-threshold, abort, dry-run, and recovery controls, then compare the results.
+threshold, abort, dry-run, and recovery controls, then compare the results. Keep
+`endpoint-cost-observation` and `workflow-sequence-observation` labeled as
+observations; the local stack does not implement those two mitigations.
 
 ## Deep
 

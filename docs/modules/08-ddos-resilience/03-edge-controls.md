@@ -35,10 +35,10 @@ load shedding into specific authorized bypass/pressure hypotheses.
 | Control | Assumption to test | Local scenario |
 |---|---|---|
 | per-key rate | key groups one workflow | identity-key |
-| endpoint scope | expensive paths need different limit | endpoint-specific |
-| workflow-aware | sequence/account ties distributed calls | workflow-aware |
+| endpoint scope | expensive paths may need different admission | `endpoint-cost-observation` (observation only) |
+| workflow-aware | sequence/account can tie distributed calls | `workflow-sequence-observation` (observation only) |
 | cache | reusable responses reduce work | cache-bypass |
-| admission/shedding | excess work rejected before collapse | recovery/thresholds |
+| admission/shedding | excess work can be rejected before collapse | source-led design only; local recovery is an observation |
 
 ## Required external instruction
 
@@ -64,9 +64,11 @@ protects critical work even when traffic classification is imperfect.
 
 ## Worked example
 
-Per-session `session_id` allows rotation; endpoint-specific control distinguishes
-health from expensive reports; workflow-aware control would correlate search,
-product, and report to a durable identity/state rather than one request key.
+Per-session `session_id` allows rotation. The local lab observes route/input cost
+and a search-to-product sequence, but it does not implement endpoint-specific or
+workflow-aware admission. A real workflow-aware control would correlate search,
+product, and protected work to durable server-derived identity/state rather than
+one request key.
 
 ## Guided exercise
 
@@ -89,7 +91,12 @@ Use the resource/metric plans and load guide.
 
 ### Expected output
 
-Seven pre-registered experiments with no public target and no L3/L4 method.
+Seven pre-registered local experiments: cheap/expensive at equal rate, cache
+hit/bypass, fixed/rotated synthetic identity, `endpoint-cost-observation`,
+`workflow-sequence-observation`, bounded retry amplification, and immediate
+recovery. Each row names the actual control (or explicitly `none`), expected
+statuses, deterministic assertion, runtime observation, collateral population,
+abort, and retest; no public target or L3/L4 method appears.
 
 ### Interpretation
 

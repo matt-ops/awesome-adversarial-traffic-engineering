@@ -17,7 +17,7 @@ checkpoint pages are validated against it.
 | 04 | [Automated abuse](modules/04-automated-abuse/index.md) | Reproduce credential, inventory, promotion, race, and rate abuse |
 | 05 | [Control reconnaissance](modules/05-control-recon/index.md) | Map candidate relied-upon signals and establish a blocked baseline |
 | 06 | [Browser evasion](modules/06-browser-evasion/index.md) | Test controlled changes, coherence, replay, and version drift |
-| 07 | [Protocol identity](modules/07-protocol-identity/index.md) | Compare browser claims with TLS and HTTP behavior |
+| 07 | [Protocol identity foundations](modules/07-protocol-identity/index.md) | Generate Python/OpenSSL fixtures and use source-led models for browser/protocol coherence |
 | 08 | [DDoS and resilience](modules/08-ddos-resilience/index.md) | Test resource assumptions with bounded, abortable load |
 | 09 | [Tooling and code review](modules/09-tooling-code-review/index.md) | Build safe attack tooling and find exploitable implementation flaws |
 | 10 | [Findings and interview](modules/10-findings-interview/index.md) | Turn evidence into remediation, retest, briefing, and role narrative |

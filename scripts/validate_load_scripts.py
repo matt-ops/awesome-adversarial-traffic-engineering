@@ -8,6 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 LOAD_ROOT = ROOT / "lab" / "load"
 REQUIRED = (
     "ALLOWED_TARGETS",
+    '"endpoint-cost-observation"',
+    '"workflow-sequence-observation"',
     "AATE_DRY_RUN",
     "DURATION_SECONDS > 15",
     "RATE * 2 > 10",
@@ -18,6 +20,20 @@ REQUIRED = (
     "http_req_failed",
     "teardown",
     'http.get(`${TARGET}/health`)',
+    "cheap-expensive: expensive request took longer",
+    "cache-bypass: fixed key is a cache hit",
+    "cache-bypass: bypass path performs fresh work",
+    "identity-key: pre-seeded fixed key is rejected",
+    "identity-key: rotated caller key is accepted",
+    "endpoint-cost-observation: higher work took longer",
+    "workflow-sequence-observation: search exposes demo-1",
+    "workflow-sequence-observation: product step resolves demo-1",
+    "retry-amplification: exactly one retry is attempt two",
+    "recovery health returned within 1000ms",
+)
+PROHIBITED = (
+    '"endpoint-specific"',
+    '"workflow-aware"',
 )
 
 
@@ -31,6 +47,9 @@ def main() -> int:
         for marker in REQUIRED:
             if marker not in text:
                 errors.append(f"{script.relative_to(ROOT)}: missing safety marker {marker!r}")
+        for marker in PROHIBITED:
+            if marker in text:
+                errors.append(f"{script.relative_to(ROOT)}: obsolete scenario name {marker!r}")
         if "http://" in text and "localhost:8080" not in text and "127.0.0.1:8080" not in text:
             errors.append(f"{script.relative_to(ROOT)}: unexpected HTTP target")
     if errors:
@@ -41,7 +60,7 @@ def main() -> int:
     print("Load-script validation: PASS")
     print(
         f"- {len(scripts)} script(s) contain target, duration, VU, rate, total, "
-        "threshold, abort, dry-run, and recovery controls"
+        "threshold, abort, dry-run, recovery, truthful scenario names, and outcome assertions"
     )
     return 0
 

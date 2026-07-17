@@ -813,7 +813,7 @@ module_indexes:
 - id: module-07
   path: docs/modules/07-protocol-identity/index.md
   module: 07-protocol-identity
-  title: Module 07 - Protocol identity
+  title: Module 07 - Protocol identity foundations
   lesson_ids:
   - m07-l01
   - m07-l02

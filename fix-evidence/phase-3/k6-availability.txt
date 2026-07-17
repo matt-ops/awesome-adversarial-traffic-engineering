@@ -1,0 +1,12 @@
+Optional bounded k6 execution
+=============================
+
+Command checked: Get-Command k6 -ErrorAction SilentlyContinue
+Result: no k6 executable was available on PATH
+Decision: SKIPPED under the Phase 3 instruction to run bounded scenarios only
+when the tool is available.
+
+No substitute download, container image pull, external target, or expanded
+traffic capability was used. The k6 script passed Node syntax parsing, the
+load-script validator enforces every new scenario/assertion marker, and the
+application fixture contracts passed in the 39-test Python suite.

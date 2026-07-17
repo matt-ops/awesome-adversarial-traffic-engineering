@@ -61,9 +61,11 @@ Shedding may intentionally reject excess requests while improving critical healt
 
 ## Worked example
 
-Remediation caches fixed report inputs, applies endpoint admission, bounds retry
-budget, and aggregates a workflow identity. Retest repeats cache-bypass,
-endpoint-specific, retry, and identity-key scenarios; success is protected health
+Remediation may cache fixed report inputs, add endpoint admission, bound retry
+budget, and aggregate a workflow identity. The current lab can exactly repeat
+`cache-bypass`, `endpoint-cost-observation`, `retry-amplification`, and
+`identity-key`; proving a newly implemented endpoint/workflow control requires a
+separate before/after configuration plus assertions. Success is protected health
 and bounded recovery, not zero rejections.
 
 ## Guided exercise
@@ -92,8 +94,9 @@ criteria, and exact command/config for retest.
 
 ### Interpretation
 
-The local teardown `200` proves immediate synthetic health only; it does not
-measure queues/dependencies absent from the toy app. State that limit.
+The local teardown assertion proves a `200` health response within 1,000 ms. It
+does not measure sustained recovery or queues/dependencies absent from the toy
+app. State that limit.
 
 ### Common failure modes
 

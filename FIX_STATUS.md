@@ -256,3 +256,152 @@ Phase 2 local commit message:
 ```text
 fix: validate curriculum depth dependencies and checkpoint budgets
 ```
+
+---
+
+## Phase 3: lab and claim fidelity
+
+Status: **Phase 3 complete; acceptance passed; local commit prepared**
+
+- Starting branch: `fix/audit-remediation`
+- Starting commit: `2c6da2d` (`fix: validate curriculum depth dependencies and checkpoint budgets`)
+- Phase 1 confirmation: committed as `8baff6b`; the fresh pre-Phase 3 lab suite passed.
+- Phase 2 confirmation: committed as `2c6da2d`; fresh curriculum, source,
+  lesson, link, Ruff, strict MyPy, pytest, and strict MkDocs checks passed.
+- Phase scope: DDoS scenario truthfulness/assertions, protocol-lab claim
+  alignment, exercise-packaging language, report-generation claim alignment,
+  and directly required maps/metadata/navigation/evidence only.
+- Explicitly excluded: foundational lesson rewrites, checkpoint scope/time/depth
+  changes, fake endpoint/workflow controls, Phase 4, push, and deployment.
+
+### Scenario names before and after
+
+| Before | After | Reason |
+|---|---|---|
+| `endpoint-specific` | `endpoint-cost-observation` | Same-endpoint low/high work is observed; no endpoint-specific quota or admission control exists. |
+| `workflow-aware` | `workflow-sequence-observation` | Search/product continuity is observed; no workflow-aware identity, quota, reservation, or admission control exists. |
+
+The other five names remain `cheap-expensive`, `cache-bypass`, `identity-key`,
+`retry-amplification`, and `recovery`.
+
+### Controls implemented or intentionally not implemented
+
+- Retained the real application cache and per-session quota fixtures.
+- Retained the deterministic fail-once retry fixture and the global Nginx
+  per-IP rate limit.
+- Added cache priming and two fixed-key setup calls so cache/identity outcomes
+  have deterministic baselines. Worst-case lifecycle accounting increased from
+  two to four requests inside the unchanged 100-request ceiling.
+- Intentionally did not add endpoint-specific or workflow-aware controls. The
+  two scenarios are observations and all current claims say so.
+- Did not claim the unchanged global Nginx limit is a scenario before/after
+  treatment.
+
+### Assertions added
+
+- `cheap-expensive`: `work=100` and report latency greater than health latency.
+- `cache-bypass`: warmed cache hit, bypass miss/fresh work, same digest.
+- `identity-key`: pre-seeded fixed key `429`, rotated key `200` with count 1.
+- `endpoint-cost-observation`: work values 1/100 and higher-work latency greater.
+- `workflow-sequence-observation`: search exposes `demo-1`; product resolves it.
+- `retry-amplification`: exact `503 -> 200`, same operation, accepted attempt 2.
+- `recovery`: work 50 and teardown health `200` within 1,000 ms.
+
+`scripts/validate_load_scripts.py` now requires the new names and assertion
+markers and rejects the two obsolete executable names. The app test suite adds
+one complete deterministic scenario-fixture contract test and resets synthetic
+state before every app test.
+
+### Protocol claims narrowed
+
+The visible capability is now **Protocol identity foundations**. Executable
+support is limited to Python/OpenSSL ClientHello generation, a declared ALPN
+configuration change with uncontrolled per-handshake variation, selected outer
+TLS fields, raw byte/digest comparison, and fixed-loopback plain HTTP metadata.
+
+Removed unsupported executable claims that the helper parses ALPN values or
+reports differing byte offsets. The lab/course map now explicitly says it does
+not compare Chrome with Playwright TLS, calculate JA4/JA4H, capture HTTP/2
+settings, exercise HTTP/3/QUIC, or measure proxy-induced transport changes.
+Those topics remain source-led theory/evidence planning.
+
+### Exercise claims changed
+
+The counted six Python, ten code-review, five threat-model, and five
+system-design assignments are now explicitly **portfolio drills**. The page
+states they are not independent packaged exercises with a per-case README,
+starter, task, artifact, tests/grading criteria, solution, and explanation. The
+21-day checkpoint link changed only to the renamed `#six-python-drills` anchor;
+checkpoint membership, time, depth, and capability architecture are unchanged.
+
+### Report capability changed
+
+The supported capability is **report template and validated sample**. The
+static `lab/reports/synthetic-finding.md` and finding/briefing lab explicitly say
+there is no report generator or report-generation command. No generator was
+added or claimed.
+
+### Files changed by Phase 3
+
+- Executable assertions/tests: `lab/load/bounded.js`,
+  `scripts/validate_load_scripts.py`, and `lab/tests/test_app.py`.
+- DDoS truthfulness: the Module 08 index/lessons, bounded-load lab, and both
+  working copies of the lab-to-course map.
+- Protocol claims: Module 07 naming/ClientHello boundary, the protocol lab,
+  capability audit, manifest/navigation/path/progress labels, and one
+  browser-evasion index qualifier.
+- Exercise/report wording: portfolio drills, 21-day anchor, finding/briefing
+  lab, sample report, and rewrite status.
+- Status/evidence: `FIX_STATUS.md` and `fix-evidence/phase-3/`.
+
+No foundational instructional sequence was rewritten. No checkpoint lesson,
+estimate, prerequisite, time range, depth ceiling, or exit gate changed.
+
+### Phase 3 acceptance results
+
+- `python scripts/validate_sources.py`: exit 0.
+- `python scripts/validate_lessons.py`: exit 0; 50 lessons, 11 indexes.
+- `python scripts/validate_labs.py`: exit 0; 11 labs, 29 command records.
+- `python scripts/validate_load_scripts.py`: exit 0; truthful names/assertions.
+- `python scripts/validate_curriculum.py`: exit 0; checkpoint totals unchanged.
+- `python scripts/check_internal_links.py`: exit 0; 103 Markdown files.
+- `python -m pytest lab/tests -q`: exit 0; 39 tests.
+- `ruff check .`: exit 0.
+- `mypy .`: exit 0; 31 source files.
+- `npm run typecheck`: exit 0.
+- `mkdocs build --strict`: exit 0.
+
+Complete stdout, stderr, UTC timestamps, and exit codes are under
+`fix-evidence/phase-3/`. The final matrix is `acceptance-summary.txt`.
+
+### Optional local k6 result
+
+`Get-Command k6` found no k6 executable, so the optional local scenario rerun
+was skipped exactly as permitted by the phase prompt. No tool was downloaded and
+no substitute container was pulled. Node syntax parsing, the load validator,
+and deterministic application fixture tests passed. No external target was used.
+
+### Known limitations
+
+- The two observation-only cases do not become mitigation tests without a real
+  changed control and before/after assertion.
+- Runtime latency checks use intentionally large bounded CPU-work differences;
+  they remain local observations, not portable performance thresholds.
+- Recovery proves one immediate health response under 1,000 ms, not queue drain,
+  dependency recovery, sustained health, or production capacity.
+- The protocol lab remains Python/OpenSSL plus plain HTTP only.
+- The portfolio drill counts do not represent independently packaged exercises.
+- Reporting remains a learner-written template/validated sample, not generated.
+- The repository retains pre-existing unrelated source-first work. The Phase 3
+  commit is scoped not to absorb that work; clean release integration is Phase 4.
+
+### Exact next phase
+
+Phase 4 is release hygiene and clean integration. It has **not** begun. No push,
+deployment, GitHub Pages change, prompt cleanup, or release packaging occurred.
+
+Phase 3 local commit message:
+
+```text
+fix: align resilience scenarios and course claims with executable behavior
+```

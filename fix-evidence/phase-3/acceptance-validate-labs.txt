@@ -1,0 +1,16 @@
+=== COMMAND ===
+python scripts/validate_labs.py
+=== START UTC ===
+2026-07-17T20:05:20.8681407+00:00
+=== END UTC ===
+2026-07-17T20:05:20.9196517+00:00
+=== STDOUT ===
+Lab validation: PASS
+- 11 lab pages contain the complete experiment contract
+- 29 command records contain every course-map field and the public copy is synchronized
+- the synthetic sample report contains evidence, impact, remediation, retest, and limits
+
+=== STDERR ===
+
+=== EXIT STATUS ===
+0

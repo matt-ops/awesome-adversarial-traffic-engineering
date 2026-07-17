@@ -52,7 +52,7 @@ Every artifact in the final column of the required-lessons table is required.
 The artifact remains learner-created; its linked lesson defines the procedure,
 expected output, interpretation, cleanup, and pass gate.
 
-Use the [Integrated portfolio drill definitions](../labs/deep/portfolio-drills.md#six-python-exercises) for the full Python, code-review, threat-model, system-design, report, executive-summary, and mock set.
+Use the [Integrated portfolio drill definitions](../labs/deep/portfolio-drills.md#six-python-drills) for the full Python, code-review, threat-model, system-design, report, executive-summary, and mock set.
 
 ## Capability claim
 

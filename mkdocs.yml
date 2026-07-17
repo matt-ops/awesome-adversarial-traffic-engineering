@@ -96,7 +96,7 @@ nav:
           - Identity coherence: modules/06-browser-evasion/03-identity-coherence.md
           - Replay and temporal consistency: modules/06-browser-evasion/04-replay-and-temporal-consistency.md
           - Version drift: modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
-      - "07 - Protocol identity":
+      - "07 - Protocol identity foundations":
           - Overview: modules/07-protocol-identity/index.md
           - TLS ClientHello: modules/07-protocol-identity/01-tls-clienthello.md
           - JA4 and JA4H: modules/07-protocol-identity/02-ja4-and-ja4h.md
@@ -131,7 +131,7 @@ nav:
       - Workflow authorization: labs/applied/workflow-authorization.md
       - Python tooling: labs/applied/python-tooling.md
       - Control reconnaissance: labs/integrated/control-recon.md
-      - Protocol identity: labs/integrated/protocol-identity.md
+      - Protocol identity foundations: labs/integrated/protocol-identity.md
       - Bounded load and recovery: labs/deep/bounded-load.md
       - Synthetic code review: labs/deep/code-review.md
       - Finding, briefing, and mock: labs/deep/finding-briefing.md
