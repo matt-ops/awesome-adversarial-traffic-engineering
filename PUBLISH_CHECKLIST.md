@@ -1,18 +1,21 @@
 # Publish checklist
 
-This checklist records the local release-candidate gate. The release remains
-local until a human reviews the screenshots and explicitly authorizes a push.
+This checklist records the final local release gate and human-readable review.
+The repair branch is authorized for push and pull-request creation only; direct
+pushes to `main`, merge, and manual deployment remain prohibited.
 
 ## Release identity and cleanliness
 
 - [x] **Clean Git status:** required and verified at handoff with
   `git status --short` producing no output.
-- [x] **Release commit:** the commit containing this checklist has subject
-  `fix: make checkpoint timing closure-accurate and verify k6`; its exact SHA
-  is recorded in the local Phase 5 release and audit evidence.
-- [x] **Clean-worktree validation:** the complete gate is run from a temporary
-  worktree created from that release commit, not from the development tree.
-- [x] **No push or deployment:** Phase 4 performs neither operation.
+- [x] **Release commit:** the final commit has subject
+  `docs: finalize cross-platform release instructions`; its exact SHA is
+  reported in the pull-request handoff.
+- [x] **Isolated-worktree validation:** the complete gate ran from a temporary
+  detached worktree created from audited commit `2385fcf`, containing only the
+  portability patch with the same stable patch ID as the development tree.
+- [x] **Publication boundary:** only `fix/audit-remediation` may be pushed and
+  opened as an unmerged pull request to `main`; no manual deployment is allowed.
 
 ## Automated acceptance
 
@@ -25,16 +28,17 @@ local until a human reviews the screenshots and explicitly authorizes a push.
   validated sample report pass.
 - [x] **Safety tests:** local-target, redirect, timeout, wall-clock, rate, total,
   retry, and fixed-origin tests pass.
-- [x] **Python tests:** the complete `lab/tests` pytest suite passes.
+- [x] **Python tests:** the complete `lab/tests` pytest suite passes (46 tests),
+  as does the 41-test unittest discovery run.
 - [x] **JavaScript tests:** the six fast pure-helper tests pass without
   launching a browser.
 - [x] **Lint:** Ruff, ESLint, Markdown lint, and Prettier check pass.
 - [x] **Type checking:** strict MyPy and TypeScript checks pass.
 - [x] **Strict docs build:** `mkdocs build --strict` passes.
 - [x] **Compose configuration:** `docker compose ... config --quiet` passes.
-- [x] **k6 runtime:** all seven bounded scenarios pass against only the bundled
-  loopback Docker lab with checks, thresholds, requests, summaries, local logs,
-  and cleanup preserved in the sanitized audit evidence.
+- [x] **k6 runtime:** the existing all-seven-scenario evidence remains passing,
+  and a current `cheap-expensive` representative run passes against only the
+  bundled loopback fixture with 42/42 checks and all thresholds passing.
 - [x] **Fixture analysis:** deterministic fixture analysis passes.
 
 ## Release-content review
@@ -73,11 +77,11 @@ release tree.
 
 ## Human review gate
 
-- [ ] **Human screenshot review:** inspect the 11 images under the local
-  `artifacts/release-review/screenshots/` directory in this order:
+- [x] **Human screenshot review:** the 11 images under the local
+  `artifacts/final-publish-review/screenshots/` directory were inspected in this order:
   Start Here, Methodology Provenance, First HTTP Lesson, Browser Process Model,
   JavaScript Core, First Browser, Control Reconnaissance, One-Variable Evasion,
   DDoS Resource Model, Checkpoints, and Safety.
-- [ ] **Explicit approval before push:** a human must approve the content and
-  screenshots in a new instruction. This checklist does not authorize push or
-  deployment.
+- [x] **Explicit approval before push:** the final publish instruction
+  explicitly authorizes pushing only `fix/audit-remediation` and opening an
+  unmerged pull request to `main`; it does not authorize merge or deployment.

@@ -51,7 +51,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** press Ctrl+C and verify the page no longer refreshes
 - **Retest use:** repeat the same manual workflow before comparing Playwright output
 
-### `npm.cmd install`
+### `npm install`
 
 - **Canonical lesson:** `docs/modules/03-playwright/02-first-browser.md`
 - **Checkpoint:** Foundation
@@ -66,7 +66,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** none; retain `package-lock.json`, and do not commit `node_modules`
 - **Retest use:** rerun only when rebuilding the local dependency environment
 
-### `npx.cmd playwright install chromium`
+### `npx playwright install chromium`
 
 - **Canonical lesson:** `docs/modules/03-playwright/02-first-browser.md`
 - **Checkpoint:** Foundation
@@ -81,7 +81,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** none; use Playwright's normal cache management if removal is later required
 - **Retest use:** verify the recorded browser version before version-drift comparisons
 
-### `npm.cmd run playwright:first`
+### `npm run playwright:first`
 
 - **Canonical lesson:** `docs/modules/03-playwright/02-first-browser.md`
 - **Checkpoint:** Foundation
@@ -96,7 +96,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** nested `finally` blocks close the BrowserContext and Browser; stop the static server separately
 - **Retest use:** rerun unchanged after dependency/browser updates to establish drift in events or behavior
 
-### `npm.cmd run typecheck`
+### `npm run typecheck`
 
 - **Canonical lesson:** `docs/modules/03-playwright/02-first-browser.md`
 - **Checkpoint:** Foundation
@@ -188,7 +188,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** call `/api/reset`
 - **Retest use:** replay the identical transition sequence after binding/authorization remediation
 
-### `npm.cmd run playwright:workflow-authorization`
+### `npm run playwright:workflow-authorization`
 
 - **Canonical lesson:** `docs/modules/04-automated-abuse/04-inventory-and-promotion-abuse.md`
 - **Checkpoint:** Applied
@@ -233,7 +233,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** none
 - **Retest use:** compare the same fixture after a rule change to explain collateral and drift
 
-### `npm.cmd run playwright:control-recon`
+### `npm run playwright:control-recon`
 
 - **Canonical lesson:** `docs/modules/05-control-recon/05-blocked-baseline.md`
 - **Checkpoint:** Integrated
@@ -325,7 +325,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** call `/api/reset`
 - **Retest use:** quick resource-path check after endpoint implementation changes
 
-### `npm.cmd run playwright:foundation`
+### `npm run playwright:foundation`
 
 - **Canonical lesson:** `docs/modules/03-playwright/02-first-browser.md`
 - **Checkpoint:** Foundation
@@ -387,7 +387,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** teardown health check, `/api/reset`, then Compose down when finished
 - **Retest use:** repeat the identical scenario, rate, duration, assertions, thresholds, and legitimate-neighbor check; a mitigation claim also requires a real changed control
 
-### `$env:AATE_DRY_RUN='1'; k6 run lab/load/bounded.js`
+### `Dry-run bounded load (platform commands below)`
 
 - **Canonical lesson:** `docs/modules/08-ddos-resilience/04-bounded-load-testing.md`
 - **Checkpoint:** Integrated
@@ -401,6 +401,19 @@ command. A command is never a substitute for its canonical lesson.
 - **Artifact:** configuration JSON
 - **Cleanup:** none
 - **Retest use:** mandatory before every changed scenario configuration
+
+#### PowerShell
+
+```powershell
+$env:AATE_DRY_RUN = "1"
+k6 run lab/load/bounded.js
+```
+
+#### Bash or zsh
+
+```bash
+AATE_DRY_RUN=1 k6 run lab/load/bounded.js
+```
 
 ### `python -m lab.tooling.client telemetry`
 
@@ -461,6 +474,6 @@ These commands validate the course but do not perform an attack:
 | `python -m unittest discover -s lab/tests -v` | Python application, safety, protocol, analysis, and tooling tests pass |
 | `python -m mypy lab scripts` | strict Python type checking passes |
 | `python -m ruff check lab scripts` | Python lint and security rules pass |
-| `npm.cmd run typecheck` | TypeScript type checking passes |
+| `npm run typecheck` | TypeScript type checking passes |
 | `docker compose -f lab/docker-compose.yml config --quiet` | Compose configuration parses without mutation |
 | `mkdocs build --strict` | the same local public site builds without warnings |

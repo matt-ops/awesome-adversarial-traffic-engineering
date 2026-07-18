@@ -161,8 +161,8 @@ in `package-lock.json`. Browser installation downloads the matching Chromium if
 it is not already present.
 
 ```powershell
-npm.cmd install
-npx.cmd playwright install chromium
+npm install
+npx playwright install chromium
 ```
 
 Then start the static target in its own terminal:
@@ -175,11 +175,11 @@ python -m http.server 4173 --bind 127.0.0.1 --directory lab/foundation-web
 
 1. Read `lab/clients/playwright/first_workflow.ts` from imports through cleanup.
 2. Predict the ordered resource requests using the Module 01 trace.
-3. Start the headed workflow with `npm.cmd run playwright:first`.
+3. Start the headed workflow with `npm run playwright:first`.
 4. Watch the browser search, then inspect
    `lab/telemetry/playwright-first-workflow.json`.
 5. Compare resource families, result, and stored query with the manual baseline.
-6. Execute `npm.cmd run typecheck` and explain why static type success is not a
+6. Execute `npm run typecheck` and explain why static type success is not a
    substitute for runtime assertions.
 
 ### Expected output

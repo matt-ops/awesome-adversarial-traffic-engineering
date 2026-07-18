@@ -82,7 +82,7 @@ baseline. Read the runner's change block and protected/replay calls.
 
 ### Exact actions or commands
 
-1. Execute `npm.cmd run playwright:control-recon`.
+1. Execute `npm run playwright:control-recon`.
 2. Compare only stock-headless and one-variable trial fields.
 3. Verify changed property, decision, token, action body/status, replay status,
    page/frame/worker values, and network evidence.

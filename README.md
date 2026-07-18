@@ -26,6 +26,12 @@ Optional maintenance indexes:
 - [Source ledger](sources/sources.yaml)
 - [Coverage and external-resource audit](COVERAGE_AUDIT.md)
 
+## Command platforms
+
+Commands use portable executable names such as `python`, `npm`, `npx`,
+`docker`, and `k6`. When a command sets environment variables, the course shows
+separate PowerShell and Bash/zsh examples; use the block for your shell.
+
 ## Boundary
 
 Use only the bundled loopback target, your isolated target, or the exact target

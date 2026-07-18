@@ -76,6 +76,12 @@ course platform is required.
 - A text editor
 - Git for saving your artifacts privately
 
+## Command platforms
+
+Commands use portable executable names such as `python`, `npm`, `npx`,
+`docker`, and `k6`. When a command sets environment variables, the course shows
+separate PowerShell and Bash/zsh examples; use the block for your shell.
+
 ## Do not install yet
 
 Do not install Docker, Playwright browsers, k6, anti-detect projects, packet

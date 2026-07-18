@@ -97,7 +97,7 @@ the local API running and resettable.
 ### Exact actions or commands
 
 1. Predict the initial/final inventory and browser-visible event set.
-2. Execute `npm.cmd run playwright:workflow-authorization`.
+2. Execute `npm run playwright:workflow-authorization`.
 3. Inspect `lab/telemetry/workflow-authorization.json`.
 4. Verify `authenticationPerformed` is false, inventory changes 5 -> 4, and the
    protected action is named.

@@ -27,7 +27,7 @@ With the static server already active, this command starts the headed learner
 workflow:
 
 ```powershell
-npm.cmd run playwright:first
+npm run playwright:first
 ```
 
 The browser visibly searches for `widget`. The terminal prints the synthetic

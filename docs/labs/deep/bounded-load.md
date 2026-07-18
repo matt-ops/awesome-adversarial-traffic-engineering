@@ -25,9 +25,17 @@ traffic generation.
 
 ## Dry run first
 
+### PowerShell
+
 ```powershell
-$env:AATE_DRY_RUN='1'
+$env:AATE_DRY_RUN = "1"
 k6 run lab/load/bounded.js
+```
+
+### Bash or zsh
+
+```bash
+AATE_DRY_RUN=1 k6 run lab/load/bounded.js
 ```
 
 Expected network totals are zero and the console prints target, scenario,
@@ -37,13 +45,23 @@ duration, rate, and maximum VUs.
 
 Remove the dry-run variable, use conservative values, and set one scenario:
 
+### PowerShell
+
 ```powershell
 Remove-Item Env:AATE_DRY_RUN -ErrorAction SilentlyContinue
-$env:AATE_DURATION='5'
-$env:AATE_RATE='2'
-$env:AATE_MAX_VUS='3'
-$env:AATE_SCENARIO='cheap-expensive'
+$env:AATE_DURATION = "5"
+$env:AATE_RATE = "2"
+$env:AATE_MAX_VUS = "3"
+$env:AATE_SCENARIO = "cheap-expensive"
 k6 run lab/load/bounded.js
+```
+
+### Bash or zsh
+
+```bash
+unset AATE_DRY_RUN
+AATE_DURATION=5 AATE_RATE=2 AATE_MAX_VUS=3 \
+  AATE_SCENARIO=cheap-expensive k6 run lab/load/bounded.js
 ```
 
 The seven assigned values are `cheap-expensive`, `cache-bypass`, `identity-key`,

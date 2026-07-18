@@ -28,7 +28,7 @@ python -m lab.clients.safe_client --target http://localhost:8080/control-lab --d
 The browser populations and local action use:
 
 ```powershell
-npm.cmd run playwright:control-recon
+npm run playwright:control-recon
 ```
 
 The learner command launches four fixed trials: stock headed, stock headless,

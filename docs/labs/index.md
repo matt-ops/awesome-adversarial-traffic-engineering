@@ -3,6 +3,10 @@
 The course uses only synthetic loopback targets or explicitly assigned training
 providers. The first target is a static application and requires no Docker.
 
+Commands use portable executable names such as `python`, `npm`, `npx`,
+`docker`, and `k6`. When a command sets environment variables, lab pages show
+separate PowerShell and Bash/zsh examples; use the block for your shell.
+
 - [Foundation static site](foundation/static-site.md)
 - [First Playwright workflow](foundation/first-playwright.md)
 - [Integrated local API](applied/local-api.md)

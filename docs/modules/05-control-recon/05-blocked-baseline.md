@@ -97,7 +97,7 @@ environment variable on a workstation with a visible browser.
 
 1. Preserve the manual baseline.
 2. Execute the bounded HTTP-only command and record that JavaScript contexts are absent.
-3. Execute `npm.cmd run playwright:control-recon` and isolate only stock-headed
+3. Execute `npm run playwright:control-recon` and isolate only stock-headed
    and stock-headless records; do not interpret one-variable yet.
 4. Verify requested/actual head mode, versions, contexts, decisions, and absence
    of protected action for challenged trials.
