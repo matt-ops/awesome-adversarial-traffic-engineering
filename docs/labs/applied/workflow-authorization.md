@@ -18,7 +18,7 @@
 With the local API healthy, execute:
 
 ```powershell
-npm.cmd run playwright:workflow-authorization
+npm run playwright:workflow-authorization
 ```
 
 The terminal names the protected state change and artifact. The script is

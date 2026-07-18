@@ -2,33 +2,32 @@
 
 <!-- source-ids: fpscanner-project, fp-inconsistent, chrome-browser-process-model, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 05 - Control reconnaissance  
-> Lesson: 3 of 5  
-> Depth: Applied  
-> Estimated time: 3 hours  
-> Prerequisites: Browser-environment observations  
-> Artifact: `artifacts/module-05/context-matrix.md`  
-> Next: Session, behavior, and workflow
+## Progress
+
+- Module: 05 - Control reconnaissance
+- Lesson: 3 of 5
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Browser environment](02-browser-environment.md)
+  - Module 03 frame/worker collection
+- Required artifact: `artifacts/module-05/context-matrix.md`
+- Next lesson: Session, behavior, and workflow
 
 ## Role outcome
 
 Compare top-page, iframe, and worker observations and identify cross-attribute,
 cross-context, and temporal inconsistencies without overgeneralizing them.
 
-## Prerequisites
-
-- [Browser environment](02-browser-environment.md)
-- Module 03 frame/worker collection
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Cross-Context Validation; limits | Supplies an inspectable implementation concept |
-| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | Abstract; 1; 3-7; 8.4; 9 | Supports measured inconsistency categories and limits |
-| OFFICIAL_DOCUMENTATION | [Chrome process model](https://developer.chrome.com/blog/inside-browser-part1/) | Browser architecture | Grounds separate execution contexts |
-| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | Page/frame/worker collectors | Supplies deterministic local evidence |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Cross-Context Validation; limits and non-goals | Supplies an inspectable implementation concept | Inspectable detection-side implementation; not a complete commercial bot defense. |
+| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | Abstract; 1; 3-7; 8.4; 9 | Supports measured inconsistency categories and limits | Preprint studying a specific dataset, honey-site design, bot population, and selected services; not universal proof. |
+| OFFICIAL_DOCUMENTATION | [Chrome process model](https://developer.chrome.com/blog/inside-browser-part1/) | Browser architecture | Grounds separate execution contexts | Historical Chrome architecture article; implementation details evolve. |
+| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | Page/frame/worker collectors | Supplies deterministic local evidence | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE adversarial-control loop](../../methodology/adversarial-control-loop.md) | Steps 7-12 | Connects context observations to a falsifiable hypothesis, protected-action result, and residual evidence | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,10 +43,10 @@ cross-context, and temporal inconsistencies without overgeneralizing them.
 ### FP-Inconsistent assignment
 
 **Direct link:** [FP-Inconsistent](https://arxiv.org/abs/2406.07647)  
-**Exact assignment:** Abstract; §1 Introduction; §3 Threat Model; §4 Measurement Infrastructure; §5 Analysis; §6 Inconsistency Analysis; §7 FP-Inconsistent; §8 with emphasis on §8.4 Limitations; §9  
+**Exact section, chapter, or unit:** Abstract; §1 Introduction; §3 Threat Model; §4 Measurement Infrastructure; §5 Analysis; §6 Inconsistency Analysis; §7 FP-Inconsistent; §8 with emphasis on §8.4 Limitations; §9  
 **Estimated time:** 90 minutes  
-**Focus on:** measurement design, cross-attribute and temporal categories, evaluated population, and limits on generalization  
-**Skip:** exhaustive table values not needed to explain the method  
+**What to focus on:** measurement design, cross-attribute and temporal categories, evaluated population, and limits on generalization  
+**What to skip:** exhaustive table values not needed to explain the method  
 **Expected takeaway:** explain why a top-page property patch can leave correlated evidence and why the paper is not universal proof.
 
 ## Course bridge
@@ -83,7 +82,7 @@ Build a context matrix from manual and stock automation observations.
 Use your manual baseline and inspect the `signals` portions of a verified
 `lab/telemetry/control-recon.json`. Do not analyze the one-variable trial yet.
 
-### Actions
+### Exact actions or commands
 
 1. Compare language/platform across page, frame, and worker.
 2. Record unavailable values separately.

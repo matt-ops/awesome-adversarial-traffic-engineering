@@ -2,32 +2,30 @@
 
 <!-- source-ids: chrome-browser-process-model, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 02 - Browser and JavaScript foundations  
-> Lesson: 1 of 4  
-> Depth: Foundation  
-> Estimated time: 80 minutes  
-> Prerequisites: Module 01  
-> Artifact: `artifacts/module-02/browser-process-map.md`  
-> Next: DOM and Web APIs
+## Progress
+
+- Module: 02 - Browser and JavaScript foundations
+- Lesson: 1 of 4
+- Depth: Foundation
+- Estimated time: 80 minutes
+- Prerequisites:
+  - [Module 01](../01-http-edge/index.md)
+  - Your request-path and manual-trace artifacts
+- Required artifact: `artifacts/module-02/browser-process-map.md`
+- Next lesson: DOM and Web APIs
 
 ## Role outcome
 
 Locate browser UI, network coordination, rendering, frames, and workers in a
 process/thread model without treating "the browser" as one execution context.
 
-## Prerequisites
-
-- [Module 01](../01-http-edge/index.md)
-- Your request-path and manual-trace artifacts
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Chrome: Inside look at a modern web browser, Part 1](https://developer.chrome.com/blog/inside-browser-part1/) | Process and Thread; Browser architecture; Which process controls what? | Establishes the multiprocess architecture and responsibilities |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Foundation page, iframe, and worker | Supplies visible execution contexts for inspection |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Candidate signals and residual evidence | Connects context boundaries to controlled observation |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Chrome: Inside look at a modern web browser, Part 1](https://developer.chrome.com/blog/inside-browser-part1/) | Process and Thread; Browser architecture; Which process controls what? | Establishes the multiprocess architecture and responsibilities | Historical Chrome architecture article; implementation details evolve. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Foundation page, iframe, and worker | Supplies visible execution contexts for inspection | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Candidate signals and residual evidence | Connects context boundaries to controlled observation | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ process/thread model without treating "the browser" as one execution context.
 ### Chrome architecture assignment
 
 **Direct link:** [Inside look at a modern web browser, Part 1](https://developer.chrome.com/blog/inside-browser-part1/)  
-**Exact assignment:** Execute program on Process and Thread; Browser architecture; Which process controls what?  
+**Exact section, chapter, or unit:** Execute program on Process and Thread; Browser architecture; Which process controls what?  
 **Estimated time:** 30 minutes  
-**Focus on:** process isolation, browser/renderer responsibilities, multiple renderer processes, and why architecture varies by browser/environment  
-**Skip:** deep process-optimization discussion after the assigned sections  
+**What to focus on:** process isolation, browser/renderer responsibilities, multiple renderer processes, and why architecture varies by browser/environment  
+**What to skip:** deep process-optimization discussion after the assigned sections  
 **Expected takeaway:** draw the major browser processes and state which objects and observations belong to content execution versus browser-wide coordination.
 
 ## Course bridge
@@ -95,7 +93,7 @@ Observe process/context boundaries and map them to the resources from Module 01.
 Start the Foundation static server. Open Chrome's built-in Task Manager (More
 Tools -> Task Manager) and DevTools Sources. Exact process rows vary by version.
 
-### Actions
+### Exact actions or commands
 
 1. Load the page and note the browser, tab/renderer, GPU, and utility rows shown.
 2. In DevTools Sources, locate the top page, `frame.html`, and `worker.js`.

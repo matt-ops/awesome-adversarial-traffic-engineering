@@ -2,32 +2,33 @@
 
 <!-- source-ids: rfc-8446, ja4-project, aate-local-lab -->
 
-> **Progress**  
-> Module: 07 - Protocol identity  
-> Lesson: 1 of 5  
-> Depth: Foundation  
-> Estimated time: 3 hours  
-> Prerequisites: Module 06  
-> Artifact: `artifacts/module-07/clienthello.md`  
-> Next: JA4 and JA4H
+## Progress
+
+- Module: 07 - Protocol identity
+- Lesson: 1 of 5
+- Depth: Foundation
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Network events and evidence](../03-playwright/04-network-events.md)
+  - [Five signal families](../05-control-recon/01-signal-families.md)
+  - Basic TLS purpose; no packet-crafting experience required
+- Required artifact: `artifacts/module-07/clienthello.md`
+- Next lesson: JA4 and JA4H
 
 ## Role outcome
 
 Explain the ClientHello's role, identify its major offered parameters, and show
 why client configuration/version changes a fingerprintable handshake.
 
-## Prerequisites
-
-- [Module 06](../06-browser-evasion/index.md)
-- Basic TLS purpose; no packet-crafting experience required
+> A network fingerprint is an analytical pivot, not proof of a specific user or browser.
 
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) | §4.1 and §4.1.2 | Defines handshake messages and ClientHello fields |
-| PROJECT_DOCUMENTATION | [JA4 project](https://github.com/FoxIO-LLC/ja4) | overview; JA4 TLS summary | Connects field patterns to a practical fingerprint |
-| LAB_SPECIFIC | [Protocol lab](../../labs/integrated/protocol-identity.md) | in-memory ClientHello helper | Supplies safe inspectable bytes |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) | §4.1 and §4.1.2 | Defines handshake messages and ClientHello fields | Assigned only at Integrated depth; it does not define JA4. |
+| PROJECT_DOCUMENTATION | [JA4 project](https://github.com/FoxIO-LLC/ja4) | overview; JA4 TLS summary | Connects field patterns to a practical fingerprint | Fingerprints change with implementations; licensing differs across JA4+ methods; fingerprints are not identity proof. |
+| LAB_SPECIFIC | [Protocol identity foundations lab](../../labs/integrated/protocol-identity.md) | in-memory ClientHello helper | Supplies safe inspectable bytes and selected outer fields | It does not parse ALPN from bytes, calculate JA4, capture browser TLS, or generalize to production systems. |
 
 ## Mental model
 
@@ -43,10 +44,10 @@ server -> ServerHello: selected parameters
 ### TLS assignment
 
 **Direct link:** [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)  
-**Exact assignment:** §4.1 Cryptographic Negotiation and §4.1.2 Client Hello  
+**Exact section, chapter, or unit:** §4.1 Cryptographic Negotiation and §4.1.2 Client Hello  
 **Estimated time:** 70 minutes  
-**Focus on:** offered versus selected values, legacy compatibility fields, extensions, random/session fields, and retry behavior  
-**Skip:** cryptographic derivations, certificate processing, and all other sections  
+**What to focus on:** offered versus selected values, legacy compatibility fields, extensions, random/session fields, and retry behavior  
+**What to skip:** cryptographic derivations, certificate processing, and all other sections  
 **Expected takeaway:** annotate a ClientHello structure and explain which fields reflect implementation/configuration rather than a verified person.
 
 ## Course bridge
@@ -77,7 +78,7 @@ Generate and annotate two local ClientHello fixtures.
 
 Read `lab/protocol/compare.py`; it parses only outer record and handshake fields.
 
-### Actions
+### Exact actions or commands
 
 1. Execute `python -m lab.protocol.compare clienthello`.
 2. Verify record type 22 and handshake type 1.
@@ -87,13 +88,20 @@ Read `lab/protocol/compare.py`; it parses only outer record and handshake fields
 
 ### Expected output
 
-Two ClientHello summaries with different bytes/digests and explicit non-JA4,
-non-identity limitations.
+The artifact contains two valid TLS ClientHello records generated without a
+socket, the declared ALPN configuration for the changed fixture, selected outer
+record/handshake fields, byte counts, SHA-256 digests, and a `bytes_differ`
+result. It does not claim to parse the ALPN extension or identify which offsets
+ALPN changed. It labels the digest as a fixture comparison—not JA3, JA4, or
+identity evidence.
 
 ### Interpretation
 
-Configuration affects protocol shape. A robust fingerprint method normalizes or
-selects fields deliberately; this helper does not claim to implement one.
+Changing only ALPN changes the serialized ClientHello and therefore any raw-byte
+digest. A production fingerprint method deliberately selects, orders, and
+normalizes fields so ephemeral values do not dominate. This helper proves the
+field-to-byte relationship; it does not implement JA4 or attribute the record to
+a unique browser, device, or user.
 
 ### Common failure modes
 
@@ -140,4 +148,3 @@ and uncontrolled changes, observation point, and limits.
 
 [JA4 and JA4H](02-ja4-and-ja4h.md) examines a documented fingerprint method and
 its correct use as a versioned pivot.
-

@@ -2,32 +2,30 @@
 
 <!-- source-ids: fpscanner-project, rebrowser-bot-detector, aate-local-lab -->
 
-> **Progress**  
-> Module: 05 - Control reconnaissance  
-> Lesson: 2 of 5  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Five signal families  
-> Artifact: `artifacts/module-05/manual-browser-baseline.json`  
-> Next: Cross-context consistency
+## Progress
+
+- Module: 05 - Control reconnaissance
+- Lesson: 2 of 5
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Five signal families](01-signal-families.md)
+  - Chrome DevTools Console and Module 02 context model
+- Required artifact: `artifacts/module-05/manual-browser-baseline.json`
+- Next lesson: Cross-context consistency
 
 ## Role outcome
 
 Collect a versioned manual browser-environment baseline and explain the source,
 meaning, attacker influence, and limit of each observation.
 
-## Prerequisites
-
-- [Five signal families](01-signal-families.md)
-- Chrome DevTools Console and Module 02 context model
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Features; What It Detects | Provides categories for a concrete control target |
-| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | navigatorWebdriver; viewport; main-world tests | Provides version-sensitive automation examples |
-| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | Manual baseline target | Supplies the local collection page |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Features; What It Detects | Provides categories for a concrete control target | Observations are valid only for the recorded code and browser versions. |
+| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | navigatorWebdriver; viewport; main-world tests | Provides version-sensitive automation examples | Version-sensitive artifact catalog with strong project claims; not a model of every commercial control. |
+| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | Manual baseline target | Supplies the local collection page | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -41,14 +39,23 @@ meaning, attacker influence, and limit of each observation.
 
 ## Required external instruction
 
-### Browser-observation assignment
+### FPScanner browser-surface assignment
 
-**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner) and [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector)  
-**Exact assignment:** reread FPScanner Features and What It Detects; Rebrowser navigatorWebdriver, viewport, and mainWorldExecution  
-**Estimated time:** 35 minutes  
-**Focus on:** exact JavaScript surface, context, and version limitation for each check  
-**Skip:** bypass code and claims not supported by the documented test  
-**Expected takeaway:** explain five observations without claiming they uniquely identify automation or a person.
+**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner)  
+**Exact section, chapter, or unit:** Features and What It Detects  
+**Estimated time:** 20 minutes  
+**What to focus on:** each browser-exposed surface, where it is collected, and the project's stated constraint  
+**What to skip:** installation and bypass code  
+**Expected takeaway:** write a collection-location and limitation row for each selected browser observation.
+
+### Rebrowser environment-test assignment
+
+**Direct link:** [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector)  
+**Exact section, chapter, or unit:** navigatorWebdriver; viewport; mainWorldExecution  
+**Estimated time:** 20 minutes  
+**What to focus on:** the exact property or execution behavior, context, and version sensitivity of each test  
+**What to skip:** bypass packages and tests outside the three assigned entries  
+**Expected takeaway:** explain why the three observations can support a hypothesis but cannot uniquely identify automation or a person.
 
 ## Course bridge
 
@@ -89,7 +96,7 @@ Capture the normal manual population before any automation trial.
 Open `http://localhost:8080/control-lab` manually in Chrome after local health
 passes. Open DevTools Console and record the exact browser version.
 
-### Actions
+### Exact actions or commands
 
 1. Evaluate the worked object and save its JSON-compatible values.
 2. Record page URL, time, version, extensions/privacy mode, and whether DevTools
@@ -154,4 +161,3 @@ HTTP, missing observations, and allowed/prohibited conclusions.
 
 [Cross-context consistency](03-cross-context-consistency.md) compares page,
 frame, and worker observations rather than assuming the top page is complete.
-

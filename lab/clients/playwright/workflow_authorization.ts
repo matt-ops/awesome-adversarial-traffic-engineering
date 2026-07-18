@@ -1,6 +1,8 @@
 import { chromium, type APIResponse, type Request, type Response } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
+import { assertArtifactSchema } from "./quality.js";
+
 const BASE_URL = "http://localhost:8080";
 const OUTPUT = "lab/telemetry/workflow-authorization.json";
 
@@ -69,7 +71,9 @@ async function main(): Promise<void> {
     const beforeBody = (await json(before)) as { available?: number };
     const afterBody = (await json(after)) as { available?: number };
     if (!after.ok() || beforeBody.available !== 5 || afterBody.available !== 4) {
-      throw new Error(`Inventory proof changed: before=${JSON.stringify(beforeBody)}, after=${JSON.stringify(afterBody)}`);
+      throw new Error(
+        `Inventory proof changed: before=${JSON.stringify(beforeBody)}, after=${JSON.stringify(afterBody)}`,
+      );
     }
 
     const artifact = {
@@ -83,6 +87,17 @@ async function main(): Promise<void> {
       evidence,
       limitation: "intentional synthetic authorization flaw; browser variation is not required",
     };
+    assertArtifactSchema(artifact, [
+      "target",
+      "objective",
+      "protectedAction",
+      "authenticationPerformed",
+      "before",
+      "reservation",
+      "after",
+      "evidence",
+      "limitation",
+    ]);
     await mkdir("lab/telemetry", { recursive: true });
     await writeFile(OUTPUT, `${JSON.stringify(artifact, null, 2)}\n`, "utf8");
     console.log(`Protected action confirmed: inventory changed from 5 to 4 without authentication.`);

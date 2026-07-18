@@ -2,32 +2,30 @@
 
 <!-- source-ids: aws-builders-library-load-shedding, k6-thresholds, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 08 - DDoS and resilience  
-> Lesson: 5 of 5  
-> Depth: Deep  
-> Estimated time: 3 hours  
-> Prerequisites: Bounded load testing  
-> Artifact: `artifacts/module-08/recovery-retest.md`  
-> Next: Python telemetry
+## Progress
+
+- Module: 08 - DDoS and resilience
+- Lesson: 5 of 5
+- Depth: Deep
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Bounded load testing](04-bounded-load-testing.md)
+  - Complete resource, metric, and scenario artifacts
+- Required artifact: `artifacts/module-08/recovery-retest.md`
+- Next lesson: Python telemetry
 
 ## Role outcome
 
 Measure return to health, recommend resource-specific controls, and replay the
 same bounded attack as a remediation acceptance test.
 
-## Prerequisites
-
-- [Bounded load testing](04-bounded-load-testing.md)
-- Complete resource, metric, and scenario artifacts
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | Complete article | Supports admission and graceful recovery |
-| OFFICIAL_DOCUMENTATION | [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/) | thresholds and failure | Supplies measurable acceptance criteria |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | impact, remediation, same-attack retest | Defines completion |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | Complete article | Supports admission and graceful recovery | Practitioner guidance from one large provider; adapt mechanisms to the target architecture. |
+| OFFICIAL_DOCUMENTATION | [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/) | thresholds and failure | Supplies measurable acceptance criteria | Tool documentation; AATE adds stricter local target and load ceilings. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | impact, remediation, same-attack retest | Defines completion | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -42,10 +40,10 @@ remediation -> same target/scenario/config/evidence -> compare objective
 ### Recovery assignment
 
 **Direct link:** [Using load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/)  
-**Exact assignment:** reread overload prevention, admission/load shedding, critical work, and recovery discussion in the complete article  
+**Exact section, chapter, or unit:** reread overload prevention, admission/load shedding, critical work, and recovery discussion in the complete article  
 **Estimated time:** 45 minutes  
-**Focus on:** local decisions, fail-open/fail-closed effects, critical work, fairness, and proving recovery  
-**Skip:** no product implementation is assigned  
+**What to focus on:** local decisions, fail-open/fail-closed effects, critical work, fairness, and proving recovery  
+**What to skip:** no product implementation is assigned  
 **Expected takeaway:** propose resource-specific remediation with a measurable legitimate-health objective.
 
 ## Course bridge
@@ -61,9 +59,11 @@ Shedding may intentionally reject excess requests while improving critical healt
 
 ## Worked example
 
-Remediation caches fixed report inputs, applies endpoint admission, bounds retry
-budget, and aggregates a workflow identity. Retest repeats cache-bypass,
-endpoint-specific, retry, and identity-key scenarios; success is protected health
+Remediation may cache fixed report inputs, add endpoint admission, bound retry
+budget, and aggregate a workflow identity. The current lab can exactly repeat
+`cache-bypass`, `endpoint-cost-observation`, `retry-amplification`, and
+`identity-key`; proving a newly implemented endpoint/workflow control requires a
+separate before/after configuration plus assertions. Success is protected health
 and bounded recovery, not zero rejections.
 
 ## Guided exercise
@@ -76,7 +76,7 @@ Write recovery evidence and one exact remediation retest.
 
 Use the verified k6 outputs and teardown health results. No additional pressure is needed.
 
-### Actions
+### Exact actions or commands
 
 1. Record pre/pressure/post health and timestamped recovery.
 2. Separate unexpected errors from intentional shedding.
@@ -87,13 +87,17 @@ Use the verified k6 outputs and teardown health results. No additional pressure 
 
 ### Expected output
 
-A recovery timeline, evidence limitations, mapped remediation, measurable
-criteria, and exact command/config for retest.
+A timestamped recovery timeline records when traffic stops, the next health
+sample, latency/error return to the declared objective, and any queue/cache/state
+that remains. The plan maps remediation to the exhausted resource, supplies
+hostile and legitimate-neighbor criteria, and preserves the exact scenario,
+rate, duration, thresholds, and cleanup for retest.
 
 ### Interpretation
 
-The local teardown `200` proves immediate synthetic health only; it does not
-measure queues/dependencies absent from the toy app. State that limit.
+The local teardown assertion proves a `200` health response within 1,000 ms. It
+does not measure sustained recovery or queues/dependencies absent from the toy
+app. State that limit.
 
 ### Common failure modes
 

@@ -10,14 +10,18 @@ Complete [the resource-exhaustion model](01-resource-exhaustion-model.md) and
 
 ## Applied
 
-Complete [edge controls](03-edge-controls.md). Map aggregation key, endpoint,
-window, cache/admission behavior, bypass hypothesis, and collateral-risk population.
+Complete [edge controls](03-edge-controls.md) and [bounded load
+testing](04-bounded-load-testing.md). Map aggregation key, endpoint, window,
+cache/admission behavior, bypass hypothesis, and collateral-risk population,
+then run one bounded Layer 7 experiment.
 
 ## Integrated
 
-Complete [bounded load testing](04-bounded-load-testing.md). Run all seven
-fixed-loopback scenarios within hard target, duration, VU, rate, total, threshold,
-abort, dry-run, and recovery controls.
+Repeat [bounded load testing](04-bounded-load-testing.md) across the defined
+fixed-loopback scenarios within hard target, duration, VU, rate, total,
+threshold, abort, dry-run, and recovery controls, then compare the results. Keep
+`endpoint-cost-observation` and `workflow-sequence-observation` labeled as
+observations; the local stack does not implement those two mitigations.
 
 ## Deep
 

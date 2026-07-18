@@ -4,6 +4,11 @@ A source-first red-team course for automated adversaries, browser-control
 evasion, traffic-control testing, bounded application-layer pressure, findings,
 remediation, and exact retest.
 
+The path starts at the specialty foundation. Prior browser automation,
+fingerprinting, bot-control, DDoS-testing, or Playwright experience is not
+assumed. When a mature source teaches a prerequisite better, the lesson assigns
+the exact section and then bridges it into a bounded offensive exercise.
+
 ## Start
 
 1. Open **[Start the path](docs/start-here.md)**.
@@ -20,6 +25,12 @@ Optional maintenance indexes:
 - [Lab-to-course map](lab/LAB_COURSE_MAP.md)
 - [Source ledger](sources/sources.yaml)
 - [Coverage and external-resource audit](COVERAGE_AUDIT.md)
+
+## Command platforms
+
+Commands use portable executable names such as `python`, `npm`, `npx`,
+`docker`, and `k6`. When a command sets environment variables, the course shows
+separate PowerShell and Bash/zsh examples; use the block for your shell.
 
 ## Boundary
 

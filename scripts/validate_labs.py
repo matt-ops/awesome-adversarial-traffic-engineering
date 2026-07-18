@@ -8,6 +8,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LAB_ROOT = ROOT / "docs" / "labs"
 SAMPLE_REPORT = ROOT / "lab" / "reports" / "synthetic-finding.md"
+LAB_MAP = ROOT / "lab" / "LAB_COURSE_MAP.md"
+PUBLIC_LAB_MAP = ROOT / "docs" / "labs" / "course-map.md"
+COMPOSE_FILE = ROOT / "lab" / "docker-compose.yml"
 REQUIRED_CONCEPTS = (
     "authorization",
     "target",
@@ -24,6 +27,48 @@ REQUIRED_CONCEPTS = (
     "remediation",
     "retest",
 )
+MAP_FIELDS = (
+    "- **Canonical lesson:**",
+    "- **Checkpoint:**",
+    "- **Prerequisite:**",
+    "- **Offensive objective:**",
+    "- **Protected action or service effect:**",
+    "- **Expected output:**",
+    "- **Interpretation:**",
+    "- **Source basis:**",
+    "- **Safety boundary:**",
+    "- **Artifact:**",
+    "- **Cleanup:**",
+    "- **Retest use:**",
+)
+REQUIRED_COMMAND_MARKERS = (
+    "lab.clients.safe_client --dry-run",
+    "python -m http.server 4173",
+    "playwright:first",
+    "docker compose -f lab/docker-compose.yml up",
+    "python -m lab.run recon",
+    "python -m lab.run credential",
+    "python -m lab.run workflow",
+    "playwright:workflow-authorization",
+    "python -m lab.run ratelimit",
+    "python -m lab.analysis.analyze",
+    "playwright:control-recon",
+    "python -m lab.run bypass",
+    "python -m lab.protocol.compare clienthello",
+    "python -m lab.protocol.compare http",
+    "k6 run lab/load/bounded.js",
+    "lab.tooling.client telemetry",
+    "lab.tooling.client concurrent",
+    "lab.tooling.client retry",
+)
+
+
+def command_blocks(text: str) -> list[tuple[str, str]]:
+    matches = list(re.finditer(r"^### `([^`]+)`\s*$", text, re.MULTILINE))
+    return [
+        (match.group(1), text[match.start() : matches[index + 1].start() if index + 1 < len(matches) else len(text)])
+        for index, match in enumerate(matches)
+    ]
 
 
 def main() -> int:
@@ -57,6 +102,47 @@ def main() -> int:
             if report.count(heading) != 1:
                 errors.append(f"lab/reports/synthetic-finding.md: expected exactly one {heading}")
 
+    if not LAB_MAP.is_file():
+        errors.append("lab/LAB_COURSE_MAP.md: complete command map is missing")
+        blocks: list[tuple[str, str]] = []
+    else:
+        map_text = LAB_MAP.read_text(encoding="utf-8")
+        blocks = command_blocks(map_text)
+        for command, block in blocks:
+            for field in MAP_FIELDS:
+                if block.count(field) != 1:
+                    errors.append(f"lab/LAB_COURSE_MAP.md: {command!r} requires exactly one {field}")
+        for marker in REQUIRED_COMMAND_MARKERS:
+            if marker not in map_text:
+                errors.append(f"lab/LAB_COURSE_MAP.md: required command is orphaned: {marker}")
+    if not PUBLIC_LAB_MAP.is_file():
+        errors.append("docs/labs/course-map.md: public command map is missing")
+    elif LAB_MAP.is_file() and PUBLIC_LAB_MAP.read_text(encoding="utf-8") != LAB_MAP.read_text(encoding="utf-8"):
+        errors.append("docs/labs/course-map.md: public map drifted from lab/LAB_COURSE_MAP.md")
+
+    if not COMPOSE_FILE.is_file():
+        errors.append("lab/docker-compose.yml: local lab definition is missing")
+    else:
+        compose = COMPOSE_FILE.read_text(encoding="utf-8")
+        for required_safety_text in (
+            '"127.0.0.1:8080:8080"',
+            "aate-local:",
+            "internal: true",
+            "aate-loopback-publish:",
+            "networks: [aate-local, aate-loopback-publish]",
+        ):
+            if required_safety_text not in compose:
+                errors.append(
+                    "lab/docker-compose.yml: missing loopback/isolation control "
+                    f"{required_safety_text!r}"
+                )
+        app_block, _, remainder = compose.partition("\n  edge:")
+        edge_block, _, _ = remainder.partition("\nnetworks:")
+        if "networks: [aate-local]" not in app_block or "ports:" in app_block:
+            errors.append("lab/docker-compose.yml: app must stay internal and publish no host port")
+        if "networks: [aate-local, aate-loopback-publish]" not in edge_block:
+            errors.append("lab/docker-compose.yml: only the edge may join the loopback-publish network")
+
     if errors:
         print("Lab validation: FAIL")
         for error in errors:
@@ -64,6 +150,7 @@ def main() -> int:
         return 1
     print("Lab validation: PASS")
     print(f"- {len(pages)} lab pages contain the complete experiment contract")
+    print(f"- {len(blocks)} command records contain every course-map field and the public copy is synchronized")
     print("- the synthetic sample report contains evidence, impact, remediation, retest, and limits")
     return 0
 

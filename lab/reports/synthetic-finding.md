@@ -1,6 +1,10 @@
-# Synthetic finding: challenge token replays across sessions
+# Validated sample report: challenge token replays across sessions
 
 > Synthetic educational finding against the bundled local target; not a production assessment.
+
+This file is the course's **report template and validated sample**. It is static,
+learner-adapted guidance; the repository does not contain or claim a report
+generator.
 
 ## Summary
 

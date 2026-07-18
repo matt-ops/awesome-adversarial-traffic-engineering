@@ -1,41 +1,31 @@
 # Full mock loop
 
-<!-- source-ids: amazon-security-engineer-interview-prep, amazon-leadership-principles, nist-sp-800-115, aate-adversarial-control-loop -->
+<!-- source-ids: owasp-wstg-reporting-structure, nist-sp-800-115, aate-adversarial-control-loop -->
 
-> **Progress**
->
-> Module: 10 - Findings, briefing, and interview practice
->
-> Lesson: 5 of 5
->
-> Depth: Deep
->
-> Estimated time: 5 hours
->
-> Prerequisites: Public-safe role narrative
->
-> Artifact: `artifacts/module-10/mock-loop.md`
->
-> Next: Checkpoint and portfolio review
+## Progress
+
+- Module: 10 - Findings, briefing, and interview practice
+- Lesson: 5 of 5
+- Depth: Deep
+- Estimated time: 5 hours
+- Prerequisites:
+  - All Modules 00-10
+  - Finding, retest, briefing, role narrative, and runnable lab artifacts
+- Required artifact: `artifacts/module-10/mock-loop.md`
+- Next lesson: Checkpoint and portfolio review
 
 ## Role outcome
 
 Complete a timed, evidence-based mock that tests foundations, attack planning,
 code, system reasoning, reporting, and rebuttal without hiding gaps.
 
-## Prerequisites
-
-- All Modules 00-10
-- Finding, retest, briefing, role narrative, and runnable lab artifacts
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Public security-engineer interview guide](https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep) | interview format, technical topics, behavioral preparation | Grounds session categories |
-| OFFICIAL_DOCUMENTATION | [Public engineering-principles rubric](https://www.amazon.jobs/content/en/our-workplace/leadership-principles) | selected observable behaviors | Grounds reflection prompts |
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | planning, execution, reporting, mitigation | Grounds full assessment arc |
-| Course synthesis (`COURSE_SYNTHESIS`) | [Adversarial-control loop](../../methodology/adversarial-control-loop.md) | experiment sequence and exact retest | Keeps mock tied to course method |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [OWASP WSTG Reporting Structure](https://owasp.org/www-project-web-security-testing-guide/latest/5-Reporting/01-Reporting_Structure) | Scope; limitations; executive summary; findings; reproducible artifacts | Grounds evidence and communication review categories | The latest WSTG reporting page is development guidance and may change; it is a suggested consultancy-oriented structure, not a mandatory universal format. |
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | planning, execution, reporting, mitigation | Grounds full assessment arc | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| COURSE_SYNTHESIS | [Adversarial-control loop](../../methodology/adversarial-control-loop.md) | experiment sequence and exact retest | Keeps the review tied to the course method | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -53,19 +43,33 @@ bounded reasoning with the right experiment.
 
 ## Required external instruction
 
-### Required format assignment
+### OWASP reporting assignment
 
-**Direct link:** [Public security-engineer interview guide](https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep)
+**Direct link:** [OWASP WSTG Reporting Structure](https://owasp.org/www-project-web-security-testing-guide/latest/5-Reporting/01-Reporting_Structure)
 
-**Exact assignment:** reread Interview format and Technical topics; turn each listed topic relevant to this course into one fundamentals question and one applied follow-up
+**Exact section, chapter, or unit:** About This Section; 1.4 Scope; 1.5 Limitations; 2 Executive Summary; 3 Findings; 3.2 Findings Details; Reproducible Test Artifacts
 
-**Estimated time:** 30 minutes
+**Estimated time:** 35 minutes
 
-**Focus on:** coding, security fundamentals, system design, ambiguity clarification, structured communication, and concrete examples
+**What to focus on:** whether another person can reproduce the attack, distinguish evidence from inference, understand impact, act on remediation, and run the retest
 
-**Skip:** employer logistics and topics outside the course capability map
+**What to skip:** consultancy boilerplate and report sections that do not improve the local mock artifact
 
-**Expected takeaway:** assemble a balanced mock that exposes weak prerequisites instead of rehearsing only favorite attacks.
+**Expected takeaway:** construct review questions from missing or weak report evidence instead of rehearsing generic prompts.
+
+### NIST assessment-lifecycle assignment
+
+**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)
+
+**Exact section, chapter, or unit:** §5.2.1 and §§8.1-8.3
+
+**Estimated time:** 25 minutes
+
+**What to focus on:** planning, discovery, attack validation, analysis, reporting, mitigation, and follow-up as one review loop
+
+**What to skip:** technique details not represented in the portfolio artifact under review
+
+**Expected takeaway:** sample both foundational mechanism questions and applied evidence questions across the complete assessment lifecycle.
 
 ## Course bridge
 
@@ -73,6 +77,11 @@ Use the course matrix to sample across HTTP/browser foundations, workflow abuse,
 control recon/evasion, protocol identity, resilience, Python/code review, and findings.
 Every attack question begins with authorization and immediate recon relevant to
 the control; there is no generic recon question repeated for every module.
+
+!!! note "Course synthesis"
+    **COURSE_SYNTHESIS:** The mock loop uses the same fifteen AATE steps as the
+    labs so weak baselines, protected-action proof, residual anomalies,
+    alternative explanations, remediation criteria, and exact retest are visible.
 
 ## Worked example
 
@@ -93,7 +102,7 @@ Run, score, and repair one full mock loop.
 Use the scorecard in [the lab page](../../labs/deep/finding-briefing.md). Ask a
 partner to choose prompts or shuffle them yourself. Keep recordings private.
 
-### Actions
+### Exact actions or commands
 
 1. Select two fundamentals prompts, one workflow/control attack, one protocol or
    resilience design, one Python/code review, one finding briefing, and one behavior prompt.

@@ -1,40 +1,31 @@
 # Technical briefing
 
-<!-- source-ids: nist-sp-800-115, amazon-security-engineer-interview-prep, aate-local-lab -->
+<!-- source-ids: nist-sp-800-115, google-technical-writing-one, aate-local-lab -->
 
-> **Progress**
->
-> Module: 10 - Findings, briefing, and interview practice
->
-> Lesson: 3 of 5
->
-> Depth: Integrated
->
-> Estimated time: 3 hours
->
-> Prerequisites: Remediation and exact retest
->
-> Artifact: `artifacts/module-10/briefing.md`
->
-> Next: Role narrative
+## Progress
+
+- Module: 10 - Findings, briefing, and interview practice
+- Lesson: 3 of 5
+- Depth: Integrated
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Remediation and exact retest](02-remediation-and-retest.md)
+  - A completed finding and retest matrix
+- Required artifact: `artifacts/module-10/briefing.md`
+- Next lesson: Role narrative
 
 ## Role outcome
 
 Deliver a five-minute evidence-led briefing, answer skeptical questions, and
 separate demonstrated impact from assumptions and next research.
 
-## Prerequisites
-
-- [Remediation and exact retest](02-remediation-and-retest.md)
-- A completed finding and retest matrix
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §8.1 audience and final report | Grounds audience-aware communication |
-| OFFICIAL_DOCUMENTATION | [Public security-engineer interview guide](https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep) | interview format and technical topics | Supplies one public question environment |
-| LAB_SPECIFIC | [Finding and briefing lab](../../labs/deep/finding-briefing.md) | timing and evidence checklist | Supplies the rehearsal format |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §8.1 audience and final report | Grounds audience-aware communication | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| OFFICIAL_DOCUMENTATION | [Google Technical Writing One](https://developers.google.com/tech-writing/one) | Audience; active voice; clear and short sentences; paragraphs; lists and tables | Supports audience-aware, concise technical explanation | General technical-writing instruction; it does not define security finding evidence, severity, or retest requirements. |
+| LAB_SPECIFIC | [Finding and briefing lab](../../labs/deep/finding-briefing.md) | timing and evidence checklist | Supplies the rehearsal format | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -53,19 +44,33 @@ remains uncertain, and what action/retest follows. Keep raw detail ready for que
 
 ## Required external instruction
 
-### Required communication assignment
+### Google audience and clarity assignment
 
-**Direct link:** [Public security-engineer interview guide](https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep)
+**Direct link:** [Google Technical Writing One](https://developers.google.com/tech-writing/one)
 
-**Exact assignment:** read Interview format, Technical topics, and Behavioral preparation; list where a reviewer may ask for fundamentals, system reasoning, code, evidence, or a concrete past example
+**Exact section, chapter, or unit:** Audience; Active voice versus passive voice; Clear sentences; Short sentences; Paragraphs; Lists and tables
 
-**Estimated time:** 35 minutes
+**Estimated time:** 45 minutes
 
-**Focus on:** explaining fundamentals, reasoning aloud, clarifying ambiguous scope, structured examples, and technical depth under follow-up
+**What to focus on:** identifying the decision-maker, naming the actor and action, keeping one idea per sentence, and using a table only when comparison is clearer than prose
 
-**Skip:** application logistics, location information, and any employer-specific preparation not relevant to communication
+**What to skip:** grammar units unrelated to the briefing artifact and the optional classroom exercises
 
-**Expected takeaway:** prepare an evidence narrative that remains coherent when the reviewer changes altitude or challenges an assumption.
+**Expected takeaway:** rewrite one finding as a 90-second briefing whose evidence, limitation, and decision remain clear to both an engineer and a non-specialist.
+
+### NIST audience assignment
+
+**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)
+
+**Exact section, chapter, or unit:** §8.1 Developing Mitigation Recommendations and §8.2 Reporting Recommendations
+
+**Estimated time:** 20 minutes
+
+**What to focus on:** tying evidence to mitigation, separating technical detail from management-level conclusions, and retaining scope and limitations
+
+**What to skip:** assessment techniques outside the reporting and mitigation sections
+
+**Expected takeaway:** explain which details belong in the spoken decision path and which belong in backup evidence.
 
 ## Course bridge
 
@@ -100,7 +105,7 @@ Record and critique a five-minute briefing with two minutes of adversarial quest
 Use the timing card in the lab page. Put raw evidence and code references in a
 separate backup sheet. Use only synthetic/public-safe material.
 
-### Actions
+### Exact actions or commands
 
 1. Write one sentence for boundary, objective, baseline, action/effect, evidence,
    limitation, remediation invariant, retest, and decision requested.

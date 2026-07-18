@@ -2,32 +2,30 @@
 
 <!-- source-ids: nist-sp-800-115, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 00 — Method and authorization  
-> Lesson: 2 of 3  
-> Depth: Foundation  
-> Estimated time: 90 minutes  
-> Prerequisites: The authorized red-team role  
-> Artifact: `artifacts/module-00/engagement-plan.md`  
-> Next: Experimental method
+## Progress
+
+- Module: 00 — Method and authorization
+- Lesson: 2 of 3
+- Depth: Foundation
+- Estimated time: 90 minutes
+- Prerequisites:
+  - [The authorized red-team role](01-red-team-role.md)
+  - A terminal capable of running Python 3.12 or newer
+- Required artifact: `artifacts/module-00/engagement-plan.md`
+- Next lesson: Experimental method
 
 ## Role outcome
 
 Translate owner permission into target, action, data, traffic, abort, evidence,
 cleanup, and retest controls that can be checked before and during execution.
 
-## Prerequisites
-
-- [The authorized red-team role](01-red-team-role.md)
-- A terminal capable of running Python 3.12 or newer
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §6.5 and Appendix B | Defines assessment-plan and Rules of Engagement content |
-| LAB_SPECIFIC | [AATE local target policy](../../safety/local-target-policy.md) | Allowed hosts and rejected examples | Shows the repository's executable destination boundary |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Steps 1 and 15 | Makes authorization and identical retest bookends of the method |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §6.5 and Appendix B | Defines assessment-plan and Rules of Engagement content | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| LAB_SPECIFIC | [AATE local target policy](../../safety/local-target-policy.md) | Allowed hosts and rejected examples | Shows the repository's executable destination boundary | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Steps 1 and 15 | Makes authorization and identical retest bookends of the method | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -48,10 +46,10 @@ written ownership is only a technical restriction, not authorization.
 ### NIST planning and Rules of Engagement
 
 **Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)  
-**Exact assignment:** §6.5 Assessment Plan Development and Appendix B Rules of Engagement  
+**Exact section, chapter, or unit:** §6.5 Assessment Plan Development and Appendix B Rules of Engagement  
 **Estimated time:** 35 minutes  
-**Focus on:** scope, authorized and excluded systems, personnel, logistics, data handling, incident handling, and reporting  
-**Skip:** detailed technique sections and tool descriptions  
+**What to focus on:** scope, authorized and excluded systems, personnel, logistics, data handling, incident handling, and reporting  
+**What to skip:** detailed technique sections and tool descriptions  
 **Expected takeaway:** produce a plan another operator could execute without guessing whether a target, action, rate, data source, or stop condition is allowed.
 
 ## Course bridge
@@ -106,7 +104,7 @@ imports the standard-library client, validates its default loopback URL, validat
 the default envelope, prints the plan, and exits without a request because
 `--dry-run` is set.
 
-### Actions
+### Exact actions or commands
 
 First display the safe plan:
 

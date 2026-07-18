@@ -2,32 +2,30 @@
 
 <!-- source-ids: tau-javascript-introduction, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 02 - Browser and JavaScript foundations  
-> Lesson: 3 of 4  
-> Depth: Foundation  
-> Estimated time: 3 hours  
-> Prerequisites: DOM and Web APIs  
-> Artifact: `artifacts/module-02/javascript-exercise.js`  
-> Next: Async, fetch, and errors
+## Progress
+
+- Module: 02 - Browser and JavaScript foundations
+- Lesson: 3 of 4
+- Depth: Foundation
+- Estimated time: 3 hours
+- Prerequisites:
+  - [DOM and Web APIs](02-dom-and-web-apis.md)
+  - No prior JavaScript is assumed
+- Required artifact: `artifacts/module-02/javascript-exercise.js`
+- Next lesson: Async, fetch, and errors
 
 ## Role outcome
 
 Read and write the variables, values, arrays, functions, objects, conditions,
 and loops used by the Foundation browser client.
 
-## Prerequisites
-
-- [DOM and Web APIs](02-dom-and-web-apis.md)
-- No prior JavaScript is assumed
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PRACTITIONER_PERSPECTIVE | [Test Automation University: Introduction to JavaScript](https://testautomationu.applitools.com/javascript-tutorial/) | 1.1, 1.2, 2.1, 2.2, 3.1, 3.2, 4.1, 5.1, 6.1 | Provides one ordered beginner path through the exact language subset |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | `lab/foundation-web/app.js` after assigned instruction | Shows the subset in the actual target |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence and controlled-variable steps | Frames telemetry transformation as preserved evidence |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PRACTITIONER_PERSPECTIVE | [Test Automation University: Introduction to JavaScript](https://testautomationu.applitools.com/javascript-tutorial/) | 1.1, 1.2, 2.1, 2.2, 3.1, 3.2, 4.1, 5.1, 6.1 | Provides one ordered beginner path through the exact language subset | Third-party instructional course; MDN is used for platform and async behavior. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | `lab/foundation-web/app.js` after assigned instruction | Shows the subset in the actual target | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence and controlled-variable steps | Frames telemetry transformation as preserved evidence | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -45,10 +43,10 @@ and loops used by the Foundation browser client.
 ### JavaScript assignment
 
 **Direct link:** [Introduction to JavaScript](https://testautomationu.applitools.com/javascript-tutorial/)  
-**Exact assignment:** 1.1 Variables; 1.2 Data Types; 2.1 Arrays Introduction; 2.2 Using Arrays; 3.1 Functions; 3.2 Anonymous and Arrow Functions; 4.1 Objects; 5.1 Conditionals; 6.1 Loops  
+**Exact section, chapter, or unit:** 1.1 Variables; 1.2 Data Types; 2.1 Arrays Introduction; 2.2 Using Arrays; 3.1 Functions; 3.2 Anonymous and Arrow Functions; 4.1 Objects; 5.1 Conditionals; 6.1 Loops  
 **Estimated time:** 2 hours  
-**Focus on:** predicting values and control flow before executing each example  
-**Skip:** chapters not listed; browser automation appears in the next module  
+**What to focus on:** predicting values and control flow before executing each example  
+**What to skip:** chapters not listed; browser automation appears in the next module  
 **Expected takeaway:** explain and modify a small transformation from an array of request records to a filtered evidence summary.
 
 ## Course bridge
@@ -94,7 +92,7 @@ Turn a small event population into a method/status summary without network work.
 Create `artifacts/module-02/javascript-exercise.js`. Use a browser console or
 Node after the file is written. The input is synthetic.
 
-### Actions
+### Exact actions or commands
 
 1. Copy the worked-example array.
 2. Write `summarize(events)` that returns an object keyed by `METHOD-status`.

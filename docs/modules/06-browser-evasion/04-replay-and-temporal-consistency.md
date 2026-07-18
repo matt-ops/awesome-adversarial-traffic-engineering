@@ -2,33 +2,31 @@
 
 <!-- source-ids: fpscanner-project, fp-inconsistent, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 06 - Browser-control evasion  
-> Lesson: 4 of 5  
-> Depth: Integrated  
-> Estimated time: 3 hours  
-> Prerequisites: Identity coherence  
-> Artifact: `artifacts/module-06/replay-temporal.md`  
-> Next: Version drift
+## Progress
+
+- Module: 06 - Browser-control evasion
+- Lesson: 4 of 5
+- Depth: Integrated
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Identity coherence](03-identity-coherence.md)
+  - Local challenge and control artifacts
+- Required artifact: `artifacts/module-06/replay-temporal.md`
+- Next lesson: Version drift
 
 ## Role outcome
 
 Test sensor and authorization replay separately and identify temporal changes
 that invalidate an otherwise coherent snapshot.
 
-## Prerequisites
-
-- [Identity coherence](03-identity-coherence.md)
-- Local challenge and control artifacts
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Anti-replay discussion; limits | Provides sensor freshness concepts |
-| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | Temporal inconsistency analysis; §8.4 | Supports cross-time comparison and limits |
-| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | nonce and one-use action token | Supplies replay outcomes |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Repeat action, alternatives, retest | Separates replay layers |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Anti-replay discussion; limits | Provides sensor freshness concepts | Observations are valid only for the recorded code and browser versions. |
+| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | Temporal inconsistency analysis; §8.4 | Supports cross-time comparison and limits | Preprint studying a specific dataset, honey-site design, bot population, and selected services; not universal proof. |
+| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | nonce and one-use action token | Supplies replay outcomes | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Repeat action, alternatives, retest | Separates replay layers | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -41,14 +39,23 @@ that invalidate an otherwise coherent snapshot.
 
 ## Required external instruction
 
-### Replay/temporal assignment
+### FPScanner anti-replay assignment
 
-**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner) and [FP-Inconsistent](https://arxiv.org/abs/2406.07647)  
-**Exact assignment:** FPScanner anti-replay discussion and non-goals; FP-Inconsistent temporal-inconsistency portions of §§6-8.4  
-**Estimated time:** 60 minutes  
-**Focus on:** payload freshness, binding, time windows, longitudinal change, and limits  
-**Skip:** external replay attempts and unrelated implementation details  
-**Expected takeaway:** explain which replay layer a nonce protects and which downstream action may remain weak.
+**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner)  
+**Exact section, chapter, or unit:** anti-replay discussion, payload collection flow, limits, and non-goals  
+**Estimated time:** 25 minutes  
+**What to focus on:** payload freshness, nonce purpose, collection location, and the downstream action not covered by a sensor nonce  
+**What to skip:** external replay attempts and unrelated implementation details  
+**Expected takeaway:** explain which exact payload replay a nonce can reject and why an action token still needs independent binding.
+
+### FP-Inconsistent temporal assignment
+
+**Direct link:** [FP-Inconsistent](https://arxiv.org/abs/2406.07647)  
+**Exact section, chapter, or unit:** temporal-inconsistency analysis in §§6-7 and §8.4 Limitations  
+**Estimated time:** 35 minutes  
+**What to focus on:** longitudinal change, observation windows, population/dataset limits, and alternative causes of temporal inconsistency  
+**What to skip:** claims beyond the paper's threat model and collection method  
+**Expected takeaway:** separate one captured snapshot, replay resistance, and longitudinal identity consistency into different hypotheses.
 
 ## Course bridge
 
@@ -79,7 +86,7 @@ Compare two local replay designs and build a temporal observation plan.
 Use existing control-recon evidence. With local API healthy, the challenge replay
 runner is fixed and bounded.
 
-### Actions
+### Exact actions or commands
 
 1. Verify control artifact's first action `200` and second `403`.
 2. Execute `python -m lab.run bypass` and preserve `403` baseline, token issuance,
@@ -143,4 +150,3 @@ two outcomes, temporal plan, alternatives, remediation, and exact retest.
 
 [Version drift and residual anomalies](05-version-drift-and-residual-anomalies.md)
 turns version metadata and unexplained evidence into a durable retest plan.
-

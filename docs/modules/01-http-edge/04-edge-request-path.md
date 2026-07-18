@@ -2,32 +2,30 @@
 
 <!-- source-ids: owasp-wstg-map-architecture-v42, mdn-http-overview, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 01 - HTTP and the edge  
-> Lesson: 4 of 4  
-> Depth: Applied  
-> Estimated time: 100 minutes  
-> Prerequisites: DevTools Network  
-> Artifact: `artifacts/module-01/request-path.svg`  
-> Next: Browser process model
+## Progress
+
+- Module: 01 - HTTP and the edge
+- Lesson: 4 of 4
+- Depth: Applied
+- Estimated time: 100 minutes
+- Prerequisites:
+  - [Observe requests with DevTools](03-devtools-network.md)
+  - Your manual trace and workflow map
+- Required artifact: `artifacts/module-01/request-path.svg`
+- Next lesson: Browser process model
 
 ## Role outcome
 
 Draw the complete request path and identify where routing, caching, identity,
 challenge, rate, application, and dependency decisions can occur.
 
-## Prerequisites
-
-- [Observe requests with DevTools](03-devtools-network.md)
-- Your manual trace and workflow map
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [OWASP WSTG: Map Application Architecture](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture) | Summary; objectives; How to Test | Establishes architecture and intermediary mapping |
-| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | Components of HTTP-based systems | Describes proxies and client/server components |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Step 3 | Specializes mapping around control and resource paths |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [OWASP WSTG: Map Application Architecture](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture) | Summary; objectives; How to Test | Establishes architecture and intermediary mapping | Version 4.2 is intentionally pinned and does not model every modern edge service. |
+| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | Components of HTTP-based systems | Describes proxies and client/server components | Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Step 3 | Specializes mapping around control and resource paths | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -51,10 +49,10 @@ The visible URL is the start of a path, not the architecture.
 ### OWASP architecture assignment
 
 **Direct link:** [Map Application Architecture](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture)  
-**Exact assignment:** Summary; Test Objectives; How to Test  
+**Exact section, chapter, or unit:** Summary; Test Objectives; How to Test  
 **Estimated time:** 30 minutes  
-**Focus on:** components, hosting relationships, intermediary behavior, trust boundaries, and evidence sources  
-**Skip:** unrelated information-gathering tests and broad infrastructure scanning  
+**What to focus on:** components, hosting relationships, intermediary behavior, trust boundaries, and evidence sources  
+**What to skip:** unrelated information-gathering tests and broad infrastructure scanning  
 **Expected takeaway:** turn a URL and trace into a hypothesis-bearing component map without inventing hidden infrastructure.
 
 ## Course bridge
@@ -97,7 +95,7 @@ with hypothesis.
 Use your manual trace. You do not need to start Docker. Choose a diagram format
 that exports to SVG.
 
-### Actions
+### Exact actions or commands
 
 1. Draw the browser, loopback network, Python static server, files, iframe, and
    worker.

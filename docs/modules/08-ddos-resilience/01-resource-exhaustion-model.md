@@ -2,32 +2,30 @@
 
 <!-- source-ids: cloudflare-ddos-introduction, aws-builders-library-load-shedding, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 08 - DDoS and resilience  
-> Lesson: 1 of 5  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Modules 00-07  
-> Artifact: `artifacts/module-08/resource-model.md`  
-> Next: Metrics
+## Progress
+
+- Module: 08 - DDoS and resilience
+- Lesson: 1 of 5
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - Request/control/resource path from Module 01
+  - Authorization and load-envelope safety artifacts
+- Required artifact: `artifacts/module-08/resource-model.md`
+- Next lesson: Metrics
 
 ## Role outcome
 
 Map a traffic dimension to the resource consumed, health effect, control,
 legitimate near-neighbor, safe test, and recovery evidence.
 
-## Prerequisites
-
-- Request/control/resource path from Module 01
-- Authorization and load-envelope safety artifacts
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| VENDOR_RESEARCH | [Cloudflare DDoS introduction](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/) | operation; common types; volumetric/protocol/application; mitigation | Supplies introductory taxonomy only |
-| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | Complete article | Connects overload to admission control and critical work |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | resource path, service effect, remediation/retest | Defines offensive proof |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| VENDOR_RESEARCH | [Cloudflare DDoS introduction](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/) | operation; common types; volumetric/protocol/application; mitigation | Supplies introductory taxonomy only | Vendor educational overview; canonical page rejected the automated verifier but was confirmed through current browser-search indexing. |
+| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | Complete article | Connects overload to admission control and critical work | Practitioner guidance from one large provider; adapt mechanisms to the target architecture. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | resource path, service effect, remediation/retest | Defines offensive proof | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -46,13 +44,22 @@ traffic dimension -> finite resource -> queue/contention -> health signal
 
 ## Required external instruction
 
-### DDoS/resource assignment
+### DDoS taxonomy assignment
 
-**Direct link:** [Cloudflare DDoS introduction](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/) and [Using load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/)  
-**Exact assignment:** Cloudflare How it works, Common types, Volumetric, Protocol, Application layer, Mitigation; complete AWS article  
-**Estimated time:** 70 minutes  
-**Focus on:** classification by resource/path, overload feedback, admission, critical work, and recovery  
-**Skip:** product comparisons and any attack-tool instructions  
+**Direct link:** [Cloudflare DDoS introduction](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/)  
+**Exact section, chapter, or unit:** How it works, Common types, Volumetric, Protocol, Application layer, and Mitigation  
+**Estimated time:** 30 minutes  
+**What to focus on:** the resource and path targeted by each traffic class, not product names  
+**What to skip:** product comparisons and any attack-tool instructions  
+**Expected takeaway:** classify a scenario by the finite resource and service path it pressures rather than by traffic volume alone.
+
+### Overload and shedding assignment
+
+**Direct link:** [Using load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/)  
+**Exact section, chapter, or unit:** Complete article  
+**Estimated time:** 40 minutes  
+**What to focus on:** overload feedback, admission, critical work, latency, rejection, and recovery  
+**What to skip:** organization-specific anecdotes that do not transfer to the local service model  
 **Expected takeaway:** explain why equal RPS can produce unequal impact and why successful shedding may increase rejected requests while protecting health.
 
 ## Course bridge
@@ -83,7 +90,7 @@ Build one resource chain for every required dimension.
 
 Use your architecture map; no load tool yet.
 
-### Actions
+### Exact actions or commands
 
 1. Add bps, pps, new connections/s, concurrent connections, RPS, concurrent
    application work, HTTP streams, CPU, memory, queues, cache ratio, and dependency use.
@@ -94,12 +101,18 @@ Use your architecture map; no load tool yet.
 
 ### Expected output
 
-A complete chain per dimension with no raw flood or spoofing procedure.
+For each assigned traffic dimension, the worksheet names the application route,
+resource consumed, measurable health signal, current control, legitimate
+near-neighbor, bounded local comparison, abort condition, recovery observation,
+and identical retest. It contains no raw flood, spoofing, reflection, or
+amplification procedure.
 
 ### Interpretation
 
-The model selects relevant measurements before traffic exists and prevents RPS
-from becoming a proxy for every availability mechanism.
+The model makes request rate only one input. Equal RPS can produce different CPU,
+queue, cache, database, or downstream work, so the claimed service effect must be
+tied to the consumed resource and health signal. This is the decision gate for
+whether a bounded experiment can answer the hypothesis at all.
 
 ### Common failure modes
 
@@ -145,4 +158,3 @@ controls, near-neighbors, safe tests, aborts, and recovery.
 ## Next lesson
 
 [Metrics](02-metrics.md) defines service effect, thresholds, and recovery measurements.
-

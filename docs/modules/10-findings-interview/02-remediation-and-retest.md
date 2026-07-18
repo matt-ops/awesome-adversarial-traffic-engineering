@@ -2,40 +2,31 @@
 
 <!-- source-ids: nist-sp-800-115, owasp-code-review-guide, aate-adversarial-control-loop, aate-local-lab -->
 
-> **Progress**
->
-> Module: 10 - Findings, briefing, and interview practice
->
-> Lesson: 2 of 5
->
-> Depth: Applied
->
-> Estimated time: 3 hours
->
-> Prerequisites: Finding and evidence
->
-> Artifact: `artifacts/module-10/retest-plan.md`
->
-> Next: Technical briefing
+## Progress
+
+- Module: 10 - Findings, briefing, and interview practice
+- Lesson: 2 of 5
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Finding and evidence](01-finding-and-evidence.md)
+  - The original command, input, state reset, raw evidence, and result
+- Required artifact: `artifacts/module-10/retest-plan.md`
+- Next lesson: Technical briefing
 
 ## Role outcome
 
 Translate attack evidence into a control invariant and an exact acceptance test
 that rejects the former attack while preserving intended behavior.
 
-## Prerequisites
-
-- [Finding and evidence](01-finding-and-evidence.md)
-- The original command, input, state reset, raw evidence, and result
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §§8.2-8.3 | Grounds mitigation and resolution |
-| PROJECT_DOCUMENTATION | [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/) | authorization and error/logging review | Grounds invariant review |
-| Course synthesis (`COURSE_SYNTHESIS`) | [Adversarial-control loop](../../methodology/adversarial-control-loop.md) | remediation and exact retest | Defines course acceptance logic |
-| LAB_SPECIFIC | [Code-review cases](../../labs/deep/code-review.md) | negative and positive cases | Supplies local examples |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §§8.2-8.3 | Grounds mitigation and resolution | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| PROJECT_DOCUMENTATION | [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/) | authorization and error/logging review | Grounds invariant review | Broad guide; lessons assign only sections relevant to the local review case. |
+| COURSE_SYNTHESIS | [Adversarial-control loop](../../methodology/adversarial-control-loop.md) | Steps 14-15 | Defines measurable remediation criteria and exact-retest acceptance | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
+| LAB_SPECIFIC | [Code-review cases](../../labs/deep/code-review.md) | negative and positive cases | Supplies local examples | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -58,21 +49,23 @@ may use different mechanisms. The retest checks the invariant at the same trust 
 
 **Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)
 
-**Exact assignment:** reread §8.2 Mitigation Recommendations and §8.3 Post-Testing Activities; extract how recommendations account for root cause, feasibility, compensating controls, validation, and residual risk
+**Exact section, chapter, or unit:** reread §8.2 Mitigation Recommendations and §8.3 Post-Testing Activities; extract how recommendations account for root cause, feasibility, compensating controls, validation, and residual risk
 
 **Estimated time:** 40 minutes
 
-**Focus on:** root-cause alignment, prioritization, owner/action, validation, cleanup, and residual risk
+**What to focus on:** root-cause alignment, prioritization, owner/action, validation, cleanup, and residual risk
 
-**Skip:** assessment execution chapters
+**What to skip:** assessment execution chapters
 
 **Expected takeaway:** write a recommendation that can be implemented in more than one way and verified by objective tests.
 
 ## Course bridge
 
-Exact retest is Course synthesis: replay the former adversary objective and proof,
-then add legitimate positive and boundary-negative cases. Do not weaken the test
-by changing the attack population, path, or success definition after remediation.
+!!! note "Course synthesis"
+    **COURSE_SYNTHESIS:** Exact retest replays the former adversary objective
+    and proof, then adds legitimate positive and boundary-negative cases. Do not
+    weaken the test by changing the attack population, path, or success
+    definition after remediation.
 
 ## Worked example
 
@@ -91,7 +84,7 @@ Create an executable retest matrix for the finding written in the previous lesso
 
 Copy the original setup, reset, command/request, and expected effect into a new plan.
 
-### Actions
+### Exact actions or commands
 
 1. Name the failed invariant in subject-object-action or resource terms.
 2. State the remediation outcome without prescribing a vendor.

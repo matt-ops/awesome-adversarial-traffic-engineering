@@ -2,32 +2,30 @@
 
 <!-- source-ids: rebrowser-bot-detector, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 06 - Browser-control evasion  
-> Lesson: 2 of 5  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Evasion hypothesis  
-> Artifact: `lab/telemetry/control-recon.json`  
-> Next: Identity coherence
+## Progress
+
+- Module: 06 - Browser-control evasion
+- Lesson: 2 of 5
+- Depth: Integrated
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Form an evasion hypothesis](01-evasion-hypotheses.md)
+  - Genuine stock-headless blocked baseline with matching environment
+- Required artifact: `lab/telemetry/control-recon.json`
+- Next lesson: Identity coherence
 
 ## Role outcome
 
 Execute a single-property local evasion, prove the protected action, and state why
 the result is not a coherent browser identity or general bypass.
 
-## Prerequisites
-
-- [Form an evasion hypothesis](01-evasion-hypotheses.md)
-- Genuine stock-headless blocked baseline with matching environment
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | navigatorWebdriver and limitations | Documents the observed property as one version-sensitive artifact |
-| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | One-variable trial, action, replay | Supplies transparent enforced behavior |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Change, repeat, prove, residuals | Defines causal comparison |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | navigatorWebdriver and limitations | Documents the observed property as one version-sensitive artifact | Version-sensitive artifact catalog with strong project claims; not a model of every commercial control. |
+| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | One-variable trial, action, replay | Supplies transparent enforced behavior | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Change, repeat, prove, residuals | Defines causal comparison | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ the result is not a coherent browser identity or general bypass.
 ### Property-specific assignment
 
 **Direct link:** [Rebrowser navigatorWebdriver test](https://github.com/rebrowser/rebrowser-bot-detector)  
-**Exact assignment:** README `navigatorWebdriver` description and current limitations  
+**Exact section, chapter, or unit:** README `navigatorWebdriver` description and current limitations  
 **Estimated time:** 20 minutes  
-**Focus on:** what the property exposes, test context, and version sensitivity  
-**Skip:** bypass libraries and unrelated tests  
+**What to focus on:** what the property exposes, test context, and version sensitivity  
+**What to skip:** bypass libraries and unrelated tests  
 **Expected takeaway:** explain why removing one test result leaves other automation and coherence evidence.
 
 ## Course bridge
@@ -82,9 +80,9 @@ Run the pre-registered treatment and compare it to stock headless.
 Keep the local API healthy. Confirm versions and actual headless mode match the
 baseline. Read the runner's change block and protected/replay calls.
 
-### Actions
+### Exact actions or commands
 
-1. Execute `npm.cmd run playwright:control-recon`.
+1. Execute `npm run playwright:control-recon`.
 2. Compare only stock-headless and one-variable trial fields.
 3. Verify changed property, decision, token, action body/status, replay status,
    page/frame/worker values, and network evidence.

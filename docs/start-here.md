@@ -2,10 +2,16 @@
 
 ## Who this is for
 
-You already work comfortably with networks, security telemetry, incident
-analysis, and basic Python. You may be new to browser processes, DOM/Web APIs,
-JavaScript asynchronous behavior, Playwright, fingerprint collection,
-cross-context consistency, and DDoS red-team engagement design.
+This path assumes no prior browser automation, bot-control, fingerprinting,
+protocol-identity, or DDoS red-team experience. It teaches the web request path,
+browser processes, DOM/Web APIs, JavaScript, and Playwright before asking you to
+use the integrated lab. Basic computer use and willingness to run documented
+local commands are the only entry requirements; when Python or TypeScript first
+appears, the lesson explains the code used or assigns the exact prerequisite.
+
+This is "from zero" for adversarial traffic engineering, not a promise that one
+short checkpoint replaces years of engineering practice. Follow the path in
+order and take longer than the estimated time whenever a prerequisite is new.
 
 ## The role
 
@@ -48,14 +54,16 @@ source assignment, artifact, pass gate, and next lesson.
 
 ## Cumulative checkpoints
 
-The same lessons support four honest review points:
+The same path supports four honest review points. The direct selection names the
+capability targets; the from-zero closure is the published checkpoint time for
+a new learner because it includes every recursive prerequisite exactly once.
 
-| Review point | Claim |
-|---|---|
-| [Foundation review](checkpoints/24-hours.md) | Foundation and informational readiness, not domain expertise |
-| [Applied review](checkpoints/7-days.md) | Functional hands-on foundation |
-| [Integrated review](checkpoints/21-days.md) | Interview-loop readiness with a defensible portfolio |
-| [Deep review](checkpoints/6-weeks.md) | Practitioner-depth portfolio, not proof of production expertise |
+| Review point | Direct selection | From-zero closure | Claim |
+|---|---:|---:|---|
+| [24 focused hours](checkpoints/24-hours.md) | 3.00 hours | 21.67 hours | Foundation and informational readiness, not browser-evasion competence |
+| [7 days](checkpoints/7-days.md) | 9.00 hours | 37.25 hours | Local browser, workflow-mapping, and authorized authentication/rate-control readiness |
+| [21 days](checkpoints/21-days.md) | 16.00 hours | 71.25 hours | Integrated experiment, finding, briefing, and role-narrative readiness |
+| [6 weeks](checkpoints/6-weeks.md) | 30.00 hours | 119.92 hours | Practitioner-depth portfolio, not proof of production expertise |
 
 Checkpoint pages are views into this path. They never duplicate lessons.
 Use the plain [progress table](progress.md) if you want checkboxes; no account or
@@ -67,6 +75,12 @@ course platform is required.
 - Python 3.12 or newer
 - A text editor
 - Git for saving your artifacts privately
+
+## Command platforms
+
+Commands use portable executable names such as `python`, `npm`, `npx`,
+`docker`, and `k6`. When a command sets environment variables, the course shows
+separate PowerShell and Bash/zsh examples; use the block for your shell.
 
 ## Do not install yet
 

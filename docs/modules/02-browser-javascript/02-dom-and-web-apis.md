@@ -2,32 +2,30 @@
 
 <!-- source-ids: mdn-dom, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 02 - Browser and JavaScript foundations  
-> Lesson: 2 of 4  
-> Depth: Foundation  
-> Estimated time: 95 minutes  
-> Prerequisites: Browser process model  
-> Artifact: `artifacts/module-02/dom-inventory.md`  
-> Next: JavaScript core
+## Progress
+
+- Module: 02 - Browser and JavaScript foundations
+- Lesson: 2 of 4
+- Depth: Foundation
+- Estimated time: 95 minutes
+- Prerequisites:
+  - [Browser process model](01-browser-process-model.md)
+  - Ability to open Elements and Console in DevTools
+- Required artifact: `artifacts/module-02/dom-inventory.md`
+- Next lesson: JavaScript core
 
 ## Role outcome
 
 Distinguish HTML, the live DOM, JavaScript language objects, and browser Web APIs
 while locating the elements and state used by an automated workflow.
 
-## Prerequisites
-
-- [Browser process model](01-browser-process-model.md)
-- Ability to open Elements and Console in DevTools
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [MDN: Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) | Concepts and usage; DOM tree; DOM and JavaScript; Accessing the DOM | Separates the document object model from source text and language |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Search form, results, frame, worker | Supplies concrete nodes and APIs |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Protected-action evidence | Prevents DOM observations from being overstated as impact |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [MDN: Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) | Concepts and usage; DOM tree; DOM and JavaScript; Accessing the DOM | Separates the document object model from source text and language | API reference; the course bridge supplies the offensive workflow context. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Search form, results, frame, worker | Supplies concrete nodes and APIs | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Protected-action evidence | Prevents DOM observations from being overstated as impact | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -47,10 +45,10 @@ host-provided browser APIs available to JavaScript.
 ### MDN DOM assignment
 
 **Direct link:** [Document Object Model (DOM)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)  
-**Exact assignment:** Concepts and usage; DOM tree; DOM and JavaScript; Accessing the DOM  
+**Exact section, chapter, or unit:** Concepts and usage; DOM tree; DOM and JavaScript; Accessing the DOM  
 **Estimated time:** 30 minutes  
-**Focus on:** nodes, elements, documents, tree relationships, selectors, and mutation  
-**Skip:** exhaustive interface lists and SVG-specific references  
+**What to focus on:** nodes, elements, documents, tree relationships, selectors, and mutation  
+**What to skip:** exhaustive interface lists and SVG-specific references  
 **Expected takeaway:** explain how parsed markup becomes a live object tree and how code locates and changes it.
 
 ## Course bridge
@@ -96,7 +94,7 @@ Inventory the document nodes and Web APIs that implement the search workflow.
 Start the Foundation server, load the page, and open DevTools Elements and
 Console. Work only in this local document.
 
-### Actions
+### Exact actions or commands
 
 1. In Elements locate `form`, `input`, `button`, `#status`, `#results`, and the
    `iframe`.

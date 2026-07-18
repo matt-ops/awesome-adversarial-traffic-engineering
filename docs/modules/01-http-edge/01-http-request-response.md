@@ -2,32 +2,30 @@
 
 <!-- source-ids: mdn-http-overview, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 01 - HTTP and the edge  
-> Lesson: 1 of 4  
-> Depth: Foundation  
-> Estimated time: 90 minutes  
-> Prerequisites: Module 00  
-> Artifact: `artifacts/module-01/request-anatomy.md`  
-> Next: Sessions and workflows
+## Progress
+
+- Module: 01 - HTTP and the edge
+- Lesson: 1 of 4
+- Depth: Foundation
+- Estimated time: 90 minutes
+- Prerequisites:
+  - [Module 00](../00-method/index.md), especially protected-action proof
+  - A browser and the Python runtime already present on the course workstation
+- Required artifact: `artifacts/module-01/request-anatomy.md`
+- Next lesson: Sessions and workflows
 
 ## Role outcome
 
 Trace a browser action into a concrete HTTP request and response, naming what
 each component can and cannot prove about the caller.
 
-## Prerequisites
-
-- [Module 00](../00-method/index.md), especially protected-action proof
-- A browser and the Python runtime already present on the course workstation
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [MDN: An overview of HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | Components; basic aspects; stateless but not sessionless; connections; flow; messages | Defines the protocol model and separates messages from connections and state |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Synthetic target and local-only policy | Identifies the deliberately small target used below |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence and protected-action steps | Separates protocol observations from offensive proof |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [MDN: An overview of HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | Components; basic aspects; stateless but not sessionless; connections; flow; messages | Defines the protocol model and separates messages from connections and state | Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Synthetic target and local-only policy | Identifies the deliberately small target used below | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence and protected-action steps | Separates protocol observations from offensive proof | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -49,10 +47,10 @@ or a complete business workflow.
 ### MDN assignment
 
 **Direct link:** [An overview of HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)  
-**Exact assignment:** Components of HTTP-based systems; Basic aspects of HTTP; HTTP is stateless, but not sessionless; HTTP and connections; HTTP flow; HTTP Messages  
+**Exact section, chapter, or unit:** Components of HTTP-based systems; Basic aspects of HTTP; HTTP is stateless, but not sessionless; HTTP and connections; HTTP flow; HTTP Messages  
 **Estimated time:** 35 minutes  
-**Focus on:** client, proxy, server, method, target, headers, body, status, connection, and how cookies add continuity above a stateless exchange  
-**Skip:** stop before APIs based on HTTP  
+**What to focus on:** client, proxy, server, method, target, headers, body, status, connection, and how cookies add continuity above a stateless exchange  
+**What to skip:** stop before APIs based on HTTP  
 **Expected takeaway:** narrate a complete HTTP exchange and explain why a connection, request, session, and user are different units.
 
 ## Course bridge
@@ -116,7 +114,7 @@ python -m http.server 4173 --bind 127.0.0.1 --directory lab/foundation-web
 The module starts a basic static-file server. Port `4173` is local; `--bind`
 prevents listening on other interfaces; `--directory` limits the document root.
 
-### Actions
+### Exact actions or commands
 
 1. Keep the terminal open and visit `http://127.0.0.1:4173`.
 2. Search for `widget` and observe the result.

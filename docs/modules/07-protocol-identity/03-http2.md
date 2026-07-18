@@ -2,32 +2,32 @@
 
 <!-- source-ids: rfc-9113, ja4-project, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 07 - Protocol identity  
-> Lesson: 3 of 5  
-> Depth: Integrated  
-> Estimated time: 3 hours  
-> Prerequisites: JA4 and JA4H  
-> Artifact: `artifacts/module-07/http2-map.md`  
-> Next: Proxies and connection reuse
+## Progress
+
+- Module: 07 - Protocol identity
+- Lesson: 3 of 5
+- Depth: Integrated
+- Estimated time: 3 hours
+- Prerequisites:
+  - [JA4 and JA4H](02-ja4-and-ja4h.md)
+  - HTTP request/session distinction from Module 01
+- Required artifact: `artifacts/module-07/http2-map.md`
+- Next lesson: Proxies and connection reuse
 
 ## Role outcome
 
 Explain HTTP/2 framing, streams, multiplexing, and connection state and identify
 which observations may reflect a client implementation or intermediary.
 
-## Prerequisites
-
-- [JA4 and JA4H](02-ja4-and-ja4h.md)
-- HTTP request/session distinction from Module 01
+> A network fingerprint is an analytical pivot, not proof of a specific user or browser.
 
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113) | §2 and §5 | Defines framing/streams and stream lifecycle |
-| PROJECT_DOCUMENTATION | [JA4 project](https://github.com/FoxIO-LLC/ja4) | JA4H technical details | Connects HTTP behavior to fingerprint pivots |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | cross-layer hypotheses and limits | Frames offensive comparisons |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113) | §2 and §5 | Defines framing/streams and stream lifecycle | Selected protocol sections only; implementation fingerprinting is separate. |
+| PROJECT_DOCUMENTATION | [JA4 project](https://github.com/FoxIO-LLC/ja4) | JA4H technical details | Connects HTTP behavior to fingerprint pivots | Fingerprints change with implementations; licensing differs across JA4+ methods; fingerprints are not identity proof. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | cross-layer hypotheses and limits | Frames offensive comparisons | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,10 +44,10 @@ one HTTP/2 connection
 ### HTTP/2 assignment
 
 **Direct link:** [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113)  
-**Exact assignment:** §2 HTTP/2 Protocol Overview and §5 Streams and Multiplexing  
+**Exact section, chapter, or unit:** §2 HTTP/2 Protocol Overview and §5 Streams and Multiplexing  
 **Estimated time:** 80 minutes  
-**Focus on:** binary frames, connection versus stream, identifiers/states, multiplexing, and flow-control scope  
-**Skip:** frame-by-frame chapters, HPACK details, priority history, and error catalogs  
+**What to focus on:** binary frames, connection versus stream, identifiers/states, multiplexing, and flow-control scope  
+**What to skip:** frame-by-frame chapters, HPACK details, priority history, and error catalogs  
 **Expected takeaway:** trace two overlapping requests without treating streams as connections or sessions.
 
 ## Course bridge
@@ -80,7 +80,7 @@ Map a fictional two-request workflow across connection/stream/session layers.
 Use an offline diagram; the current local edge reports HTTP/1.1 and does not
 pretend to be an HTTP/2 capture lab.
 
-### Actions
+### Exact actions or commands
 
 1. Draw TLS connection, connection settings, streams 1/3, requests, and responses.
 2. Add application session and rate key separately.
@@ -143,4 +143,3 @@ required evidence, and limitations.
 
 [Proxies and connection reuse](04-proxies-and-connection-reuse.md) makes the
 observation-point and lifecycle consequences operational.
-

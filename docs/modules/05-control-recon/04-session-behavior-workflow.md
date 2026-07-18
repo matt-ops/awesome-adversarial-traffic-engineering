@@ -2,32 +2,30 @@
 
 <!-- source-ids: fpscanner-project, aate-adversarial-control-loop, aate-local-lab -->
 
-> **Progress**  
-> Module: 05 - Control reconnaissance  
-> Lesson: 4 of 5  
-> Depth: Applied  
-> Estimated time: 2 hours  
-> Prerequisites: Cross-context consistency  
-> Artifact: `artifacts/module-05/state-behavior-map.md`  
-> Next: Establish the blocked baseline
+## Progress
+
+- Module: 05 - Control reconnaissance
+- Lesson: 4 of 5
+- Depth: Applied
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Cross-context consistency](03-cross-context-consistency.md)
+  - Module 04 workflow/rate artifacts
+- Required artifact: `artifacts/module-05/state-behavior-map.md`
+- Next lesson: Establish the blocked baseline
 
 ## Role outcome
 
 Map replay, session binding, timing, sequence, rate, and resource-use evidence
 alongside browser signals for the same adversary objective.
 
-## Prerequisites
-
-- [Cross-context consistency](03-cross-context-consistency.md)
-- Module 04 workflow/rate artifacts
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Anti-replay discussion; limits/non-goals | Supplies nonce/timestamp concepts and boundaries |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Workflow map, fixed variables, repeat action | Joins browser and server evidence |
-| LAB_SPECIFIC | [Local API guide](../../labs/applied/local-api.md) | Challenge, rate, telemetry, protected control | Supplies stateful examples |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Anti-replay discussion; limits/non-goals | Supplies nonce/timestamp concepts and boundaries | Observations are valid only for the recorded code and browser versions. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Workflow map, fixed variables, repeat action | Joins browser and server evidence | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
+| LAB_SPECIFIC | [Local API guide](../../labs/applied/local-api.md) | Challenge, rate, telemetry, protected control | Supplies stateful examples | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ alongside browser signals for the same adversary objective.
 ### FPScanner anti-replay assignment
 
 **Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner)  
-**Exact assignment:** Anti-replay discussion and Limits/non-goals; reread Cross-Context Validation only where it interacts with payload collection  
+**Exact section, chapter, or unit:** Anti-replay discussion and Limits/non-goals; reread Cross-Context Validation only where it interacts with payload collection  
 **Estimated time:** 30 minutes  
-**Focus on:** freshness, nonce, timestamp, binding, and what replay resistance does not establish  
-**Skip:** installation and unrelated detection tests  
+**What to focus on:** freshness, nonce, timestamp, binding, and what replay resistance does not establish  
+**What to skip:** installation and unrelated detection tests  
 **Expected takeaway:** distinguish making a sensor payload fresh from authorizing the downstream business action.
 
 ## Course bridge
@@ -80,7 +78,7 @@ Add session and behavior fields to the control-surface map.
 Use the local OpenAPI map and existing challenge/rate/control tests. No new
 traffic is required.
 
-### Actions
+### Exact actions or commands
 
 1. Map issuance, storage, presentation, verification, consumption, and expiry
    for challenge and control tokens.
@@ -145,4 +143,3 @@ behavior sequence, server proof, candidate hypotheses, and limits.
 
 [Establish the blocked baseline](05-blocked-baseline.md) captures the required
 population matrix and freezes the evasion experiment.
-

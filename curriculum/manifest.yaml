@@ -1,0 +1,1020 @@
+schema_version: 1
+depth_order:
+- foundation
+- applied
+- integrated
+- deep
+lessons:
+- id: m00-l01
+  path: docs/modules/00-method/01-red-team-role.md
+  module: 00-method
+  title: The authorized red-team role
+  depth: foundation
+  estimated_minutes: 75
+  prerequisites: []
+  required_artifacts:
+  - artifacts/module-00/role-comparison.md
+  source_ids:
+  - nist-sp-800-115
+  - mitre-adversary-emulation-plans
+  - aate-adversarial-control-loop
+- id: m00-l02
+  path: docs/modules/00-method/02-scope-and-rules.md
+  module: 00-method
+  title: Scope and Rules of Engagement
+  depth: foundation
+  estimated_minutes: 90
+  prerequisites:
+  - m00-l01
+  required_artifacts:
+  - artifacts/module-00/engagement-plan.md
+  source_ids:
+  - nist-sp-800-115
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m00-l03
+  path: docs/modules/00-method/03-experimental-method.md
+  module: 00-method
+  title: Experimental method before attack execution
+  depth: foundation
+  estimated_minutes: 100
+  prerequisites:
+  - m00-l02
+  required_artifacts:
+  - artifacts/module-00/experiment-plan.md
+  source_ids:
+  - nist-sp-800-115
+  - owasp-wstg-entry-points-v42
+  - aate-adversarial-control-loop
+  - aate-local-lab
+- id: m01-l01
+  path: docs/modules/01-http-edge/01-http-request-response.md
+  module: 01-http-edge
+  title: HTTP request and response
+  depth: foundation
+  estimated_minutes: 90
+  prerequisites:
+  - m00-l03
+  required_artifacts:
+  - artifacts/module-01/request-anatomy.md
+  source_ids:
+  - mdn-http-overview
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m01-l02
+  path: docs/modules/01-http-edge/02-sessions-and-workflows.md
+  module: 01-http-edge
+  title: Sessions and workflows
+  depth: foundation
+  estimated_minutes: 90
+  prerequisites:
+  - m01-l01
+  required_artifacts:
+  - artifacts/module-01/workflow-map.md
+  source_ids:
+  - mdn-http-overview
+  - owasp-wstg-entry-points-v42
+  - aate-adversarial-control-loop
+- id: m01-l03
+  path: docs/modules/01-http-edge/03-devtools-network.md
+  module: 01-http-edge
+  title: Observe requests with DevTools Network
+  depth: foundation
+  estimated_minutes: 80
+  prerequisites:
+  - m01-l02
+  required_artifacts:
+  - artifacts/module-01/manual-trace.md
+  source_ids:
+  - chrome-devtools-network
+  - aate-local-lab
+- id: m01-l04
+  path: docs/modules/01-http-edge/04-edge-request-path.md
+  module: 01-http-edge
+  title: Map the edge request path
+  depth: applied
+  estimated_minutes: 100
+  prerequisites:
+  - m01-l03
+  required_artifacts:
+  - artifacts/module-01/request-path.svg
+  source_ids:
+  - owasp-wstg-map-architecture-v42
+  - mdn-http-overview
+  - aate-adversarial-control-loop
+- id: m02-l01
+  path: docs/modules/02-browser-javascript/01-browser-process-model.md
+  module: 02-browser-javascript
+  title: Browser process model
+  depth: foundation
+  estimated_minutes: 80
+  prerequisites:
+  - m01-l03
+  required_artifacts:
+  - artifacts/module-02/browser-process-map.md
+  source_ids:
+  - chrome-browser-process-model
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m02-l02
+  path: docs/modules/02-browser-javascript/02-dom-and-web-apis.md
+  module: 02-browser-javascript
+  title: DOM and Web APIs
+  depth: foundation
+  estimated_minutes: 95
+  prerequisites:
+  - m02-l01
+  required_artifacts:
+  - artifacts/module-02/dom-inventory.md
+  source_ids:
+  - mdn-dom
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m02-l03
+  path: docs/modules/02-browser-javascript/03-javascript-core.md
+  module: 02-browser-javascript
+  title: Minimum JavaScript for automation
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m02-l02
+  required_artifacts:
+  - artifacts/module-02/javascript-exercise.js
+  source_ids:
+  - tau-javascript-introduction
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m02-l04
+  path: docs/modules/02-browser-javascript/04-async-fetch-and-errors.md
+  module: 02-browser-javascript
+  title: Promises, async, fetch, and errors
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m02-l03
+  required_artifacts:
+  - artifacts/module-02/fetch-observation.js
+  source_ids:
+  - mdn-promises
+  - mdn-async-function
+  - mdn-try-catch
+  - mdn-using-fetch
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m03-l01
+  path: docs/modules/03-playwright/01-object-model.md
+  module: 03-playwright
+  title: Playwright object model
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m02-l04
+  required_artifacts:
+  - artifacts/module-03/object-model.md
+  source_ids:
+  - microsoft-learn-playwright
+  - playwright-browser-contexts
+  - aate-adversarial-control-loop
+- id: m03-l02
+  path: docs/modules/03-playwright/02-first-browser.md
+  module: 03-playwright
+  title: First local Playwright workflow
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m03-l01
+  required_artifacts:
+  - lab/telemetry/playwright-first-workflow.json
+  source_ids:
+  - microsoft-learn-playwright
+  - aate-local-lab
+- id: m03-l03
+  path: docs/modules/03-playwright/03-contexts-and-state.md
+  module: 03-playwright
+  title: Browser contexts and storage state
+  depth: foundation
+  estimated_minutes: 110
+  prerequisites:
+  - m03-l02
+  required_artifacts:
+  - artifacts/module-03/context-state.md
+  source_ids:
+  - playwright-browser-contexts
+  - playwright-auth
+  - aate-local-lab
+- id: m03-l04
+  path: docs/modules/03-playwright/04-network-events.md
+  module: 03-playwright
+  title: Network events and evidence
+  depth: foundation
+  estimated_minutes: 105
+  prerequisites:
+  - m03-l03
+  - m01-l01
+  required_artifacts:
+  - artifacts/module-03/network-evidence.md
+  source_ids:
+  - playwright-network
+  - mdn-http-overview
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m03-l05
+  path: docs/modules/03-playwright/05-frames-workers-and-cdp.md
+  module: 03-playwright
+  title: Frames, workers, and CDP
+  depth: applied
+  estimated_minutes: 120
+  prerequisites:
+  - m03-l04
+  - m02-l01
+  required_artifacts:
+  - artifacts/module-03/context-observations.json
+  source_ids:
+  - playwright-cdpsession
+  - chrome-browser-process-model
+  - aate-local-lab
+- id: m04-l01
+  path: docs/modules/04-automated-abuse/01-abuse-objectives.md
+  module: 04-automated-abuse
+  title: Automated-abuse objectives
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m03-l04
+  - m01-l02
+  required_artifacts:
+  - artifacts/module-04/abuse-threat-map.md
+  source_ids:
+  - owasp-automated-threats
+  - aate-adversarial-control-loop
+- id: m04-l02
+  path: docs/modules/04-automated-abuse/02-workflow-mapping.md
+  module: 04-automated-abuse
+  title: Workflow and API mapping
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m04-l01
+  - m01-l03
+  required_artifacts:
+  - artifacts/module-04/local-api-map.md
+  source_ids:
+  - portswigger-api-testing-path
+  - owasp-wstg-entry-points-v42
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m04-l03
+  path: docs/modules/04-automated-abuse/03-auth-and-rate-controls.md
+  module: 04-automated-abuse
+  title: Authentication and rate controls
+  depth: applied
+  estimated_minutes: 240
+  prerequisites:
+  - m04-l02
+  required_artifacts:
+  - artifacts/module-04/auth-rate-evidence.md
+  source_ids:
+  - portswigger-authentication-path
+  - owasp-automated-threats
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m04-l04
+  path: docs/modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
+  module: 04-automated-abuse
+  title: Inventory and promotion abuse
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m04-l03
+  - m03-l02
+  required_artifacts:
+  - lab/telemetry/workflow-authorization.json
+  source_ids:
+  - portswigger-business-logic
+  - owasp-automated-threats
+  - playwright-network
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m04-l05
+  path: docs/modules/04-automated-abuse/05-race-and-resource-limits.md
+  module: 04-automated-abuse
+  title: Race conditions and resource limits
+  depth: integrated
+  estimated_minutes: 240
+  prerequisites:
+  - m04-l04
+  required_artifacts:
+  - artifacts/module-04/limit-overrun-report.md
+  source_ids:
+  - portswigger-race-conditions-path
+  - aate-adversarial-control-loop
+- id: m05-l01
+  path: docs/modules/05-control-recon/01-signal-families.md
+  module: 05-control-recon
+  title: Five signal families
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m04-l02
+  required_artifacts:
+  - artifacts/module-05/signal-matrix.md
+  source_ids:
+  - fpscanner-project
+  - rebrowser-bot-detector
+  - aate-adversarial-control-loop
+- id: m05-l02
+  path: docs/modules/05-control-recon/02-browser-environment.md
+  module: 05-control-recon
+  title: Browser-environment observations
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m05-l01
+  - m02-l02
+  required_artifacts:
+  - artifacts/module-05/manual-browser-baseline.json
+  source_ids:
+  - fpscanner-project
+  - rebrowser-bot-detector
+  - aate-local-lab
+- id: m05-l03
+  path: docs/modules/05-control-recon/03-cross-context-consistency.md
+  module: 05-control-recon
+  title: Cross-context consistency
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m05-l02
+  - m03-l05
+  required_artifacts:
+  - artifacts/module-05/context-matrix.md
+  source_ids:
+  - fpscanner-project
+  - fp-inconsistent
+  - chrome-browser-process-model
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m05-l04
+  path: docs/modules/05-control-recon/04-session-behavior-workflow.md
+  module: 05-control-recon
+  title: Session, behavior, and workflow signals
+  depth: applied
+  estimated_minutes: 120
+  prerequisites:
+  - m05-l03
+  - m04-l03
+  required_artifacts:
+  - artifacts/module-05/state-behavior-map.md
+  source_ids:
+  - fpscanner-project
+  - aate-adversarial-control-loop
+  - aate-local-lab
+- id: m05-l05
+  path: docs/modules/05-control-recon/05-blocked-baseline.md
+  module: 05-control-recon
+  title: Establish the blocked baseline
+  depth: integrated
+  estimated_minutes: 180
+  prerequisites:
+  - m05-l04
+  - m04-l04
+  required_artifacts:
+  - artifacts/module-05/blocked-baseline.md
+  source_ids:
+  - rebrowser-bot-detector
+  - fpscanner-version-note
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m06-l01
+  path: docs/modules/06-browser-evasion/01-evasion-hypotheses.md
+  module: 06-browser-evasion
+  title: Form an evasion hypothesis
+  depth: integrated
+  estimated_minutes: 180
+  prerequisites:
+  - m05-l05
+  required_artifacts:
+  - artifacts/module-06/evasion-plan.md
+  source_ids:
+  - gummy-browsers
+  - fp-inconsistent
+  - aate-adversarial-control-loop
+- id: m06-l02
+  path: docs/modules/06-browser-evasion/02-one-variable-experiments.md
+  module: 06-browser-evasion
+  title: One-variable evasion experiment
+  depth: integrated
+  estimated_minutes: 120
+  prerequisites:
+  - m06-l01
+  required_artifacts:
+  - lab/telemetry/control-recon.json
+  source_ids:
+  - rebrowser-bot-detector
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m06-l03
+  path: docs/modules/06-browser-evasion/03-identity-coherence.md
+  module: 06-browser-evasion
+  title: Identity coherence
+  depth: integrated
+  estimated_minutes: 240
+  prerequisites:
+  - m06-l02
+  - m05-l03
+  required_artifacts:
+  - artifacts/module-06/coherent-profile.md
+  source_ids:
+  - gummy-browsers
+  - fp-inconsistent
+  - fpscanner-project
+  - aate-adversarial-control-loop
+- id: m06-l04
+  path: docs/modules/06-browser-evasion/04-replay-and-temporal-consistency.md
+  module: 06-browser-evasion
+  title: Replay and temporal consistency
+  depth: integrated
+  estimated_minutes: 180
+  prerequisites:
+  - m06-l03
+  required_artifacts:
+  - artifacts/module-06/replay-temporal.md
+  source_ids:
+  - fpscanner-project
+  - fp-inconsistent
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m06-l05
+  path: docs/modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
+  module: 06-browser-evasion
+  title: Version drift and residual anomalies
+  depth: deep
+  estimated_minutes: 240
+  prerequisites:
+  - m06-l04
+  required_artifacts:
+  - artifacts/module-06/version-drift-study.md
+  source_ids:
+  - fpscanner-version-note
+  - rebrowser-bot-detector
+  - fp-inconsistent
+  - gummy-browsers
+  - aate-adversarial-control-loop
+- id: m07-l01
+  path: docs/modules/07-protocol-identity/01-tls-clienthello.md
+  module: 07-protocol-identity
+  title: TLS ClientHello
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m03-l04
+  - m05-l01
+  required_artifacts:
+  - artifacts/module-07/clienthello.md
+  source_ids:
+  - rfc-8446
+  - ja4-project
+  - aate-local-lab
+- id: m07-l02
+  path: docs/modules/07-protocol-identity/02-ja4-and-ja4h.md
+  module: 07-protocol-identity
+  title: JA4 and JA4H as pivots
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m07-l01
+  - m05-l01
+  required_artifacts:
+  - artifacts/module-07/ja4-interpretation.md
+  source_ids:
+  - ja4-project
+  - rfc-8446
+  - aate-adversarial-control-loop
+- id: m07-l03
+  path: docs/modules/07-protocol-identity/03-http2.md
+  module: 07-protocol-identity
+  title: HTTP/2 connections and streams
+  depth: integrated
+  estimated_minutes: 180
+  prerequisites:
+  - m07-l02
+  - m01-l02
+  required_artifacts:
+  - artifacts/module-07/http2-map.md
+  source_ids:
+  - rfc-9113
+  - ja4-project
+  - aate-adversarial-control-loop
+- id: m07-l04
+  path: docs/modules/07-protocol-identity/04-proxies-and-connection-reuse.md
+  module: 07-protocol-identity
+  title: Proxies and connection reuse
+  depth: integrated
+  estimated_minutes: 120
+  prerequisites:
+  - m07-l03
+  - m01-l04
+  required_artifacts:
+  - artifacts/module-07/observation-points.md
+  source_ids:
+  - owasp-wstg-map-architecture-v42
+  - mdn-http-overview
+  - ja4-project
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m07-l05
+  path: docs/modules/07-protocol-identity/05-http3-quic.md
+  module: 07-protocol-identity
+  title: HTTP/3 and QUIC
+  depth: deep
+  estimated_minutes: 180
+  prerequisites:
+  - m07-l04
+  required_artifacts:
+  - artifacts/module-07/http3-quic.md
+  source_ids:
+  - rfc-9114
+  - rfc-9000
+  - aate-adversarial-control-loop
+- id: m08-l01
+  path: docs/modules/08-ddos-resilience/01-resource-exhaustion-model.md
+  module: 08-ddos-resilience
+  title: Resource-exhaustion model
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m01-l02
+  - m00-l02
+  required_artifacts:
+  - artifacts/module-08/resource-model.md
+  source_ids:
+  - cloudflare-ddos-introduction
+  - aws-builders-library-load-shedding
+  - aate-adversarial-control-loop
+- id: m08-l02
+  path: docs/modules/08-ddos-resilience/02-metrics.md
+  module: 08-ddos-resilience
+  title: Resilience metrics and thresholds
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m08-l01
+  required_artifacts:
+  - artifacts/module-08/metric-plan.md
+  source_ids:
+  - k6-thresholds
+  - aws-builders-library-load-shedding
+  - aate-adversarial-control-loop
+- id: m08-l03
+  path: docs/modules/08-ddos-resilience/03-edge-controls.md
+  module: 08-ddos-resilience
+  title: Edge and admission controls
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m08-l02
+  - m04-l03
+  required_artifacts:
+  - artifacts/module-08/control-map.md
+  source_ids:
+  - aws-waf-app-layer-ddos
+  - aws-waf-rate-based-rules
+  - aws-builders-library-load-shedding
+  - aate-adversarial-control-loop
+- id: m08-l04
+  path: docs/modules/08-ddos-resilience/04-bounded-load-testing.md
+  module: 08-ddos-resilience
+  title: Bounded application-layer load testing
+  depth: applied
+  estimated_minutes: 240
+  prerequisites:
+  - m08-l03
+  required_artifacts:
+  - artifacts/module-08/bounded-results.md
+  source_ids:
+  - k6-thresholds
+  - aate-local-lab
+  - aate-adversarial-control-loop
+- id: m08-l05
+  path: docs/modules/08-ddos-resilience/05-recovery-and-retest.md
+  module: 08-ddos-resilience
+  title: Recovery, remediation, and retest
+  depth: deep
+  estimated_minutes: 180
+  prerequisites:
+  - m08-l04
+  required_artifacts:
+  - artifacts/module-08/recovery-retest.md
+  source_ids:
+  - aws-builders-library-load-shedding
+  - k6-thresholds
+  - aate-adversarial-control-loop
+- id: m09-l01
+  path: docs/modules/09-tooling-code-review/01-python-telemetry.md
+  module: 09-tooling-code-review
+  title: Python telemetry as evidence
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m00-l03
+  required_artifacts:
+  - artifacts/module-09/telemetry-summary.json
+  source_ids:
+  - python-standard-library
+  - pytest-documentation
+  - aate-local-lab
+- id: m09-l02
+  path: docs/modules/09-tooling-code-review/02-async-and-bounded-concurrency.md
+  module: 09-tooling-code-review
+  title: Async and bounded concurrency
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m09-l01
+  - m04-l02
+  required_artifacts:
+  - artifacts/module-09/concurrency-trace.md
+  source_ids:
+  - python-standard-library
+  - pytest-documentation
+  - aate-local-lab
+- id: m09-l03
+  path: docs/modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md
+  module: 09-tooling-code-review
+  title: Retries, timeouts, and jitter
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m09-l02
+  required_artifacts:
+  - artifacts/module-09/retry-budget.md
+  source_ids:
+  - python-standard-library
+  - aws-builders-library-timeouts-retries-jitter
+  - aate-local-lab
+- id: m09-l04
+  path: docs/modules/09-tooling-code-review/04-secure-code-review.md
+  module: 09-tooling-code-review
+  title: Secure code review through an adversary's path
+  depth: integrated
+  estimated_minutes: 300
+  prerequisites:
+  - m09-l03
+  - m04-l02
+  required_artifacts:
+  - artifacts/module-09/code-review.md
+  source_ids:
+  - owasp-code-review-guide
+  - owasp-api-security-top-10
+  - semgrep-public-rules
+  - pytest-documentation
+  - aate-local-lab
+- id: m10-l01
+  path: docs/modules/10-findings-interview/01-finding-and-evidence.md
+  module: 10-findings-interview
+  title: Finding and evidence
+  depth: foundation
+  estimated_minutes: 180
+  prerequisites:
+  - m09-l01
+  required_artifacts:
+  - artifacts/module-10/finding.md
+  source_ids:
+  - nist-sp-800-115
+  - aate-adversarial-control-loop
+  - aate-local-lab
+- id: m10-l02
+  path: docs/modules/10-findings-interview/02-remediation-and-retest.md
+  module: 10-findings-interview
+  title: Remediation and exact retest
+  depth: applied
+  estimated_minutes: 180
+  prerequisites:
+  - m10-l01
+  required_artifacts:
+  - artifacts/module-10/retest-plan.md
+  source_ids:
+  - nist-sp-800-115
+  - owasp-code-review-guide
+  - aate-adversarial-control-loop
+  - aate-local-lab
+- id: m10-l03
+  path: docs/modules/10-findings-interview/03-technical-briefing.md
+  module: 10-findings-interview
+  title: Technical briefing
+  depth: integrated
+  estimated_minutes: 180
+  prerequisites:
+  - m10-l02
+  required_artifacts:
+  - artifacts/module-10/briefing.md
+  source_ids:
+  - nist-sp-800-115
+  - google-technical-writing-one
+  - aate-local-lab
+- id: m10-l04
+  path: docs/modules/10-findings-interview/04-role-narrative.md
+  module: 10-findings-interview
+  title: Public-safe role narrative
+  depth: foundation
+  estimated_minutes: 120
+  prerequisites:
+  - m10-l01
+  required_artifacts:
+  - artifacts/module-10/role-narrative.md
+  source_ids:
+  - google-technical-writing-one
+  - nist-sp-800-115
+- id: m10-l05
+  path: docs/modules/10-findings-interview/05-mock-loop.md
+  module: 10-findings-interview
+  title: Full mock loop
+  depth: deep
+  estimated_minutes: 300
+  prerequisites:
+  - m10-l03
+  - m06-l04
+  - m07-l04
+  - m08-l04
+  - m09-l04
+  required_artifacts:
+  - artifacts/module-10/mock-loop.md
+  source_ids:
+  - owasp-wstg-reporting-structure
+  - nist-sp-800-115
+  - aate-adversarial-control-loop
+module_indexes:
+- id: module-00
+  path: docs/modules/00-method/index.md
+  module: 00-method
+  title: Module 00 - Method and authorization
+  lesson_ids:
+  - m00-l01
+  - m00-l02
+  - m00-l03
+- id: module-01
+  path: docs/modules/01-http-edge/index.md
+  module: 01-http-edge
+  title: Module 01 - HTTP and the edge
+  lesson_ids:
+  - m01-l01
+  - m01-l02
+  - m01-l03
+  - m01-l04
+- id: module-02
+  path: docs/modules/02-browser-javascript/index.md
+  module: 02-browser-javascript
+  title: Module 02 - Browser and JavaScript foundations
+  lesson_ids:
+  - m02-l01
+  - m02-l02
+  - m02-l03
+  - m02-l04
+- id: module-03
+  path: docs/modules/03-playwright/index.md
+  module: 03-playwright
+  title: Module 03 - Playwright foundations
+  lesson_ids:
+  - m03-l01
+  - m03-l02
+  - m03-l03
+  - m03-l04
+  - m03-l05
+- id: module-04
+  path: docs/modules/04-automated-abuse/index.md
+  module: 04-automated-abuse
+  title: Module 04 - Automated abuse and workflow attacks
+  lesson_ids:
+  - m04-l01
+  - m04-l02
+  - m04-l03
+  - m04-l04
+  - m04-l05
+- id: module-05
+  path: docs/modules/05-control-recon/index.md
+  module: 05-control-recon
+  title: Module 05 - Control reconnaissance and trusted-signal analysis
+  lesson_ids:
+  - m05-l01
+  - m05-l02
+  - m05-l03
+  - m05-l04
+  - m05-l05
+- id: module-06
+  path: docs/modules/06-browser-evasion/index.md
+  module: 06-browser-evasion
+  title: Module 06 - Browser-control evasion experiments
+  lesson_ids:
+  - m06-l01
+  - m06-l02
+  - m06-l03
+  - m06-l04
+  - m06-l05
+- id: module-07
+  path: docs/modules/07-protocol-identity/index.md
+  module: 07-protocol-identity
+  title: Module 07 - Protocol identity foundations
+  lesson_ids:
+  - m07-l01
+  - m07-l02
+  - m07-l03
+  - m07-l04
+  - m07-l05
+- id: module-08
+  path: docs/modules/08-ddos-resilience/index.md
+  module: 08-ddos-resilience
+  title: Module 08 - DDoS and resilience
+  lesson_ids:
+  - m08-l01
+  - m08-l02
+  - m08-l03
+  - m08-l04
+  - m08-l05
+- id: module-09
+  path: docs/modules/09-tooling-code-review/index.md
+  module: 09-tooling-code-review
+  title: Module 09 - Tooling and secure code review
+  lesson_ids:
+  - m09-l01
+  - m09-l02
+  - m09-l03
+  - m09-l04
+- id: module-10
+  path: docs/modules/10-findings-interview/index.md
+  module: 10-findings-interview
+  title: Module 10 - Findings, briefing, and interview practice
+  lesson_ids:
+  - m10-l01
+  - m10-l02
+  - m10-l03
+  - m10-l04
+  - m10-l05
+checkpoints:
+- id: 24-focused-hours
+  path: docs/checkpoints/24-hours.md
+  title: 24 focused hours
+  depth_ceiling: foundation
+  target_minutes:
+    minimum: 1200
+    maximum: 1440
+  lesson_ids:
+  - m03-l02
+  required_artifacts:
+  - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
+  - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
+  - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
+  - lab/telemetry/playwright-first-workflow.json
+  capability_claim: Foundation and informational readiness, not browser-evasion competence.
+- id: 7-days
+  path: docs/checkpoints/7-days.md
+  title: 7 days cumulative
+  depth_ceiling: applied
+  target_minutes:
+    minimum: 1800
+    maximum: 2400
+  lesson_ids:
+  - m03-l02
+  - m03-l05
+  - m04-l03
+  required_artifacts:
+  - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
+  - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
+  - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
+  - lab/telemetry/playwright-first-workflow.json
+  - artifacts/module-03/context-state.md
+  - artifacts/module-03/network-evidence.md
+  - artifacts/module-03/context-observations.json
+  - artifacts/module-04/abuse-threat-map.md
+  - artifacts/module-04/local-api-map.md
+  - artifacts/module-04/auth-rate-evidence.md
+  capability_claim: Functional hands-on readiness in local browser, workflow-mapping, and provider-authorized authentication and rate-control exercises.
+- id: 21-days
+  path: docs/checkpoints/21-days.md
+  title: 21 days cumulative
+  depth_ceiling: integrated
+  target_minutes:
+    minimum: 3600
+    maximum: 4800
+  lesson_ids:
+  - m03-l02
+  - m03-l05
+  - m04-l03
+  - m06-l02
+  - m10-l03
+  - m10-l04
+  required_artifacts:
+  - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
+  - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
+  - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
+  - lab/telemetry/playwright-first-workflow.json
+  - artifacts/module-03/context-state.md
+  - artifacts/module-03/network-evidence.md
+  - artifacts/module-03/context-observations.json
+  - artifacts/module-04/abuse-threat-map.md
+  - artifacts/module-04/local-api-map.md
+  - artifacts/module-04/auth-rate-evidence.md
+  - lab/telemetry/workflow-authorization.json
+  - artifacts/module-05/signal-matrix.md
+  - artifacts/module-05/manual-browser-baseline.json
+  - artifacts/module-05/context-matrix.md
+  - artifacts/module-05/state-behavior-map.md
+  - artifacts/module-05/blocked-baseline.md
+  - artifacts/module-06/evasion-plan.md
+  - lab/telemetry/control-recon.json
+  - artifacts/module-09/telemetry-summary.json
+  - artifacts/module-10/finding.md
+  - artifacts/module-10/retest-plan.md
+  - artifacts/module-10/briefing.md
+  - artifacts/module-10/role-narrative.md
+  capability_claim: Integrated experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
+- id: 6-weeks
+  path: docs/checkpoints/6-weeks.md
+  title: 6 weeks cumulative
+  depth_ceiling: deep
+  target_minutes:
+    minimum: 5400
+    maximum: 7200
+  lesson_ids:
+  - m03-l02
+  - m03-l05
+  - m04-l03
+  - m06-l02
+  - m10-l03
+  - m10-l04
+  - m06-l05
+  - m07-l04
+  - m08-l05
+  - m09-l04
+  required_artifacts:
+  - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
+  - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-01/request-path.svg
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
+  - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
+  - lab/telemetry/playwright-first-workflow.json
+  - artifacts/module-03/context-state.md
+  - artifacts/module-03/network-evidence.md
+  - artifacts/module-03/context-observations.json
+  - artifacts/module-04/abuse-threat-map.md
+  - artifacts/module-04/local-api-map.md
+  - artifacts/module-04/auth-rate-evidence.md
+  - lab/telemetry/workflow-authorization.json
+  - artifacts/module-05/signal-matrix.md
+  - artifacts/module-05/manual-browser-baseline.json
+  - artifacts/module-05/context-matrix.md
+  - artifacts/module-05/state-behavior-map.md
+  - artifacts/module-05/blocked-baseline.md
+  - artifacts/module-06/evasion-plan.md
+  - lab/telemetry/control-recon.json
+  - artifacts/module-06/coherent-profile.md
+  - artifacts/module-06/replay-temporal.md
+  - artifacts/module-06/version-drift-study.md
+  - artifacts/module-07/clienthello.md
+  - artifacts/module-07/ja4-interpretation.md
+  - artifacts/module-07/http2-map.md
+  - artifacts/module-07/observation-points.md
+  - artifacts/module-08/resource-model.md
+  - artifacts/module-08/metric-plan.md
+  - artifacts/module-08/control-map.md
+  - artifacts/module-08/bounded-results.md
+  - artifacts/module-08/recovery-retest.md
+  - artifacts/module-09/telemetry-summary.json
+  - artifacts/module-09/concurrency-trace.md
+  - artifacts/module-09/retry-budget.md
+  - artifacts/module-09/code-review.md
+  - artifacts/module-10/finding.md
+  - artifacts/module-10/retest-plan.md
+  - artifacts/module-10/briefing.md
+  - artifacts/module-10/role-narrative.md
+  capability_claim: Practitioner-depth portfolio, not proof of production expertise.

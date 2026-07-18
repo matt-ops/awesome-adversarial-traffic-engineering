@@ -1,40 +1,30 @@
 # Public-safe role narrative
 
-<!-- source-ids: amazon-security-engineer-interview-prep, amazon-leadership-principles, nist-sp-800-115 -->
+<!-- source-ids: google-technical-writing-one, nist-sp-800-115 -->
 
-> **Progress**
->
-> Module: 10 - Findings, briefing, and interview practice
->
-> Lesson: 4 of 5
->
-> Depth: Foundation
->
-> Estimated time: 2 hours
->
-> Prerequisites: Technical briefing
->
-> Artifact: `artifacts/module-10/role-narrative.md`
->
-> Next: Full mock loop
+## Progress
+
+- Module: 10 - Findings, briefing, and interview practice
+- Lesson: 4 of 5
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Finding and evidence](01-finding-and-evidence.md)
+  - One course artifact you can discuss without confidential information
+- Required artifact: `artifacts/module-10/role-narrative.md`
+- Next lesson: Full mock loop
 
 ## Role outcome
 
 Explain adversarial traffic engineering in 90 seconds and support it with one
 public-safe example of scope, attack, evidence, collaboration, and measurable improvement.
 
-## Prerequisites
-
-- [Technical briefing](03-technical-briefing.md)
-- One course artifact you can discuss without confidential information
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Public security-engineer interview guide](https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep) | behavioral preparation and technical topics | Grounds structured, technically specific answers |
-| OFFICIAL_DOCUMENTATION | [Public engineering-principles rubric](https://www.amazon.jobs/content/en/our-workplace/leadership-principles) | ownership, depth, trust, constructive disagreement, results | Supplies observable behavior prompts |
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | assessment lifecycle and reporting | Grounds scope-to-improvement arc |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Google Technical Writing One](https://developers.google.com/tech-writing/one) | Audience; active voice; clear and short sentences; paragraphs | Grounds a concise, first-person technical narrative | General technical-writing instruction; it does not define security finding evidence, severity, or retest requirements. |
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | assessment lifecycle and reporting | Grounds scope-to-improvement arc | General testing guide; it does not define bot-control or DDoS red-team procedure. |
 
 ## Mental model
 
@@ -52,19 +42,33 @@ example adds situation, responsibility, actions you personally took, result, and
 
 ## Required external instruction
 
-### Required narrative assignment
+### Google narrative assignment
 
-**Direct link:** [Public security-engineer interview guide](https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep) and [public engineering-principles rubric](https://www.amazon.jobs/content/en/our-workplace/leadership-principles)
+**Direct link:** [Google Technical Writing One](https://developers.google.com/tech-writing/one)
 
-**Exact assignment:** read Behavioral preparation; then read Ownership, Dive Deep, Earn Trust, Have Backbone/Disagree and Commit, and Deliver Results; write one observable action from a public-safe course exercise for each
+**Exact section, chapter, or unit:** Audience; Active voice versus passive voice; Clear sentences; Short sentences; Paragraphs
 
-**Estimated time:** 40 minutes
+**Estimated time:** 35 minutes
 
-**Focus on:** first-person ownership, technical detail, disagreement supported by evidence, collaboration, measurable result, and reflection
+**What to focus on:** first-person actor/action sentences, concrete evidence, one causal claim at a time, and explicit limitations
 
-**Skip:** memorizing slogans, inventing work history, confidential examples, and unrelated principles
+**What to skip:** optional classroom exercises and examples unrelated to technical narratives
 
-**Expected takeaway:** connect a real course action to a behavior and technical outcome without exaggerating experience.
+**Expected takeaway:** connect a reproducible course action to a technical decision and result without converting lab work into experience you do not have.
+
+### NIST lifecycle assignment
+
+**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)
+
+**Exact section, chapter, or unit:** §5.2.1 Penetration Testing Phases and §§8.1-8.3
+
+**Estimated time:** 25 minutes
+
+**What to focus on:** how planning, discovery, attack validation, reporting, mitigation, and follow-up form one evidence-backed story
+
+**What to skip:** technique catalogs that are not part of the narrative artifact
+
+**Expected takeaway:** narrate one exercise as scope, obstacle, decision, evidence, limitation, remediation, and retest rather than as a tool demonstration.
 
 ## Course bridge
 
@@ -97,7 +101,7 @@ Produce a truthful 90-second role explanation and one three-minute evidence stor
 
 Choose one public-safe artifact. Write facts in one column and interpretations in another.
 
-### Actions
+### Exact actions or commands
 
 1. Draft the five-part 90-second structure from the table.
 2. Remove tool lists unless a tool explains a decision.

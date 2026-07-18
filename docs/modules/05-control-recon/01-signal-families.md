@@ -2,32 +2,30 @@
 
 <!-- source-ids: fpscanner-project, rebrowser-bot-detector, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 05 - Control reconnaissance  
-> Lesson: 1 of 5  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Module 04  
-> Artifact: `artifacts/module-05/signal-matrix.md`  
-> Next: Browser environment
+## Progress
+
+- Module: 05 - Control reconnaissance
+- Lesson: 1 of 5
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Module 04](../04-automated-abuse/index.md)
+  - One mapped protected workflow and authoritative proof source
+- Required artifact: `artifacts/module-05/signal-matrix.md`
+- Next lesson: Browser environment
 
 ## Role outcome
 
 Classify candidate control observations into five families and estimate attacker
 control, imitation cost, collateral risk, and the evidence required to test them.
 
-## Prerequisites
-
-- [Module 04](../04-automated-abuse/index.md)
-- One mapped protected workflow and authoritative proof source
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Description; Features; What It Detects; constraints | Supplies inspectable signal categories and explicit limits |
-| PROJECT_DOCUMENTATION | [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector) | README overview; test categories and named artifact tests | Shows current automation-artifact probes |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Trusted-signal enumeration through protected-action proof | Organizes detection surfaces for offensive testing |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Description; Features; What It Detects; constraints | Supplies inspectable signal categories and explicit limits | Observations are valid only for the recorded code and browser versions. |
+| PROJECT_DOCUMENTATION | [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector) | README overview; test categories and named artifact tests | Shows current automation-artifact probes | Version-sensitive artifact catalog with strong project claims; not a model of every commercial control. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Trusted-signal enumeration through protected-action proof | Organizes detection surfaces for offensive testing | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -41,14 +39,23 @@ control, imitation cost, collateral risk, and the evidence required to test them
 
 ## Required external instruction
 
-### Detection-target assignment
+### FPScanner assignment
 
-**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner) and [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector)  
-**Exact assignment:** FPScanner Description, open-source/real-world constraints, Features, What It Detects; Rebrowser README overview, What are the tests?, runtimeEnableLeak, sourceUrlLeak, mainWorldExecution, navigatorWebdriver, bypassCsp, viewport, window.dummyFn  
-**Estimated time:** 60 minutes  
-**Focus on:** observation surface, execution context, required instrumentation, version dependency, and project-stated limits  
-**Skip:** installation, bypass packages, issue-thread claims, and unrelated repository files  
-**Expected takeaway:** place every named test in a signal family and explain why it is evidence rather than identity proof.
+**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner)  
+**Exact section, chapter, or unit:** Description and open-source constraints; Features; What It Detects; limits and non-goals  
+**Estimated time:** 30 minutes  
+**What to focus on:** observation surface, collection context, input features, and what the project does not claim  
+**What to skip:** installation, bypass code, issue-thread claims, and unrelated files  
+**Expected takeaway:** place each documented observation in a browser, protocol, session, behavior, or workflow family without turning it into identity proof.
+
+### Rebrowser test-catalog assignment
+
+**Direct link:** [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector)  
+**Exact section, chapter, or unit:** README overview; What are the tests?; runtimeEnableLeak; sourceUrlLeak; mainWorldExecution; navigatorWebdriver; bypassCsp; viewport; window.dummyFn  
+**Estimated time:** 30 minutes  
+**What to focus on:** exact JavaScript/CDP artifact, collection context, required instrumentation, and version dependency for each named test  
+**What to skip:** installation, stealth packages, and unsupported universal claims  
+**Expected takeaway:** distinguish a version-sensitive automation artifact from a durable server-enforced workflow invariant.
 
 ## Course bridge
 
@@ -81,7 +88,7 @@ Create a control-surface matrix before inspecting the local rule.
 
 Use the two assigned source lists. Do not install either project yet.
 
-### Actions
+### Exact actions or commands
 
 1. Add at least three signals to each family.
 2. Record collection point, caller influence, imitation cost, legitimate
@@ -146,4 +153,3 @@ candidate trusted signal, protected action, and prohibited conclusion.
 
 [Browser environment](02-browser-environment.md) collects concrete runtime
 values and records which execution context produced each one.
-

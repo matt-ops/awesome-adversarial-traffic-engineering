@@ -2,33 +2,31 @@
 
 <!-- source-ids: rebrowser-bot-detector, fpscanner-version-note, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 05 - Control reconnaissance  
-> Lesson: 5 of 5  
-> Depth: Integrated  
-> Estimated time: 3 hours  
-> Prerequisites: Session, behavior, and workflow signals  
-> Artifact: `artifacts/module-05/blocked-baseline.md`  
-> Next: Evasion hypotheses
+## Progress
+
+- Module: 05 - Control reconnaissance
+- Lesson: 5 of 5
+- Depth: Integrated
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Session, behavior, and workflow](04-session-behavior-workflow.md)
+  - Healthy local API and manual baseline artifact
+- Required artifact: `artifacts/module-05/blocked-baseline.md`
+- Next lesson: Evasion hypotheses
 
 ## Role outcome
 
 Record manual, stock headed, stock headless, and HTTP-client populations with
 versions, signal matrices, control decisions, and protected-action outcomes.
 
-## Prerequisites
-
-- [Session, behavior, and workflow](04-session-behavior-workflow.md)
-- Healthy local API and manual baseline artifact
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | README tests and limitations | Identifies version-sensitive stock automation observations |
-| VERSION_SENSITIVE | [FPScanner observation record](https://github.com/antoinevastel/fpscanner) | Commit/package/browser/options/output fields | Defines reproducibility metadata |
-| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | HTTP and browser commands; expected decisions | Supplies the transparent local control |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Legitimate and blocked baselines; fixed variables | Gates evasion on comparable evidence |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | README tests and limitations | Identifies version-sensitive stock automation observations | Version-sensitive artifact catalog with strong project claims; not a model of every commercial control. |
+| VERSION_SENSITIVE | [FPScanner observation record](https://github.com/antoinevastel/fpscanner) | Commit/package/browser/options/output fields | Defines reproducibility metadata | Observations are valid only for the recorded code and browser versions. |
+| LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | HTTP and browser commands; expected decisions | Supplies the transparent local control | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Legitimate and blocked baselines; fixed variables | Gates evasion on comparable evidence | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -41,14 +39,23 @@ versions, signal matrices, control decisions, and protected-action outcomes.
 
 ## Required external instruction
 
-### Version-sensitive baseline assignment
+### Rebrowser baseline-version assignment
 
-**Direct link:** [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector) and [FPScanner](https://github.com/antoinevastel/fpscanner)  
-**Exact assignment:** Rebrowser current limitations and named test descriptions; FPScanner record commit SHA, package version, browser version, options, and observed output  
-**Estimated time:** 35 minutes  
-**Focus on:** exact environment and the difference between requested population label and actual launch mode  
-**Skip:** installation and bypass packages  
-**Expected takeaway:** produce a baseline another operator can reproduce after browser/framework drift.
+**Direct link:** [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector)  
+**Exact section, chapter, or unit:** README overview, current limitations, and the named test descriptions used in the signal matrix  
+**Estimated time:** 20 minutes  
+**What to focus on:** framework/browser versions and the difference between a requested population label and the behavior actually observed  
+**What to skip:** installation and bypass packages  
+**Expected takeaway:** state which documented test behavior your recorded version is expected to expose.
+
+### FPScanner reproducibility assignment
+
+**Direct link:** [FPScanner](https://github.com/antoinevastel/fpscanner)  
+**Exact section, chapter, or unit:** version-sensitive observation record: commit SHA, package version, browser version, enabled options, and observed output  
+**Estimated time:** 15 minutes  
+**What to focus on:** the minimum metadata another operator needs to reproduce a browser-control baseline  
+**What to skip:** unrecorded current-main behavior and external execution  
+**Expected takeaway:** produce a baseline record that can be repeated after browser or framework drift.
 
 ## Course bridge
 
@@ -86,11 +93,11 @@ Complete the four-population baseline and freeze an evasion plan.
 Use the control-lab guide. Execute the headed learner run without the verification
 environment variable on a workstation with a visible browser.
 
-### Actions
+### Exact actions or commands
 
 1. Preserve the manual baseline.
 2. Execute the bounded HTTP-only command and record that JavaScript contexts are absent.
-3. Execute `npm.cmd run playwright:control-recon` and isolate only stock-headed
+3. Execute `npm run playwright:control-recon` and isolate only stock-headed
    and stock-headless records; do not interpret one-variable yet.
 4. Verify requested/actual head mode, versions, contexts, decisions, and absence
    of protected action for challenged trials.

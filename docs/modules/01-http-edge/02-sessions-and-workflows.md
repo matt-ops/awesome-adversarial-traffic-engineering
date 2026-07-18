@@ -2,32 +2,30 @@
 
 <!-- source-ids: mdn-http-overview, owasp-wstg-entry-points-v42, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 01 - HTTP and the edge  
-> Lesson: 2 of 4  
-> Depth: Foundation  
-> Estimated time: 90 minutes  
-> Prerequisites: HTTP request and response  
-> Artifact: `artifacts/module-01/workflow-map.md`  
-> Next: DevTools Network
+## Progress
+
+- Module: 01 - HTTP and the edge
+- Lesson: 2 of 4
+- Depth: Foundation
+- Estimated time: 90 minutes
+- Prerequisites:
+  - [HTTP request and response](01-http-request-response.md)
+  - Your request-anatomy artifact
+- Required artifact: `artifacts/module-01/workflow-map.md`
+- Next lesson: DevTools Network
 
 ## Role outcome
 
 Separate request, connection, session, workflow, and adversary objective while
 mapping the state required for a protected action.
 
-## Prerequisites
-
-- [HTTP request and response](01-http-request-response.md)
-- Your request-anatomy artifact
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | Stateless but not sessionless; connections | Grounds message, connection, and session distinctions |
-| PROJECT_DOCUMENTATION | [OWASP WSTG: Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points) | Summary; objectives; How to Test; Requests; Responses | Provides a repeatable way to enumerate inputs and multi-step state |
-| COURSE_SYNTHESIS | [AATE adversarial-control loop](../../methodology/adversarial-control-loop.md) | Steps 2-6 | Connects workflow mapping to legitimate and blocked baselines |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | Stateless but not sessionless; connections | Grounds message, connection, and session distinctions | Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide. |
+| PROJECT_DOCUMENTATION | [OWASP WSTG: Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points) | Summary; objectives; How to Test; Requests; Responses | Provides a repeatable way to enumerate inputs and multi-step state | Version 4.2 is intentionally pinned; examples are general web testing guidance. |
+| COURSE_SYNTHESIS | [AATE adversarial-control loop](../../methodology/adversarial-control-loop.md) | Steps 2-6 | Connects workflow mapping to legitimate and blocked baselines | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ mapping the state required for a protected action.
 ### OWASP entry-point assignment
 
 **Direct link:** [Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points)  
-**Exact assignment:** Summary; Test Objectives; How to Test; Requests; Responses  
+**Exact section, chapter, or unit:** Summary; Test Objectives; How to Test; Requests; Responses  
 **Estimated time:** 35 minutes  
-**Focus on:** parameters, methods, headers, cookies, response clues, and ordering of multi-step actions  
-**Skip:** unrelated WSTG tests linked from the page  
+**What to focus on:** parameters, methods, headers, cookies, response clues, and ordering of multi-step actions  
+**What to skip:** unrelated WSTG tests linked from the page  
 **Expected takeaway:** build an entry-point inventory that preserves where input originates and which state precedes an action.
 
 ## Course bridge
@@ -97,7 +95,7 @@ authorization test.
 Start the loopback static server as explained in the prior lesson and open the
 site. The browser stores the last query in `localStorage`.
 
-### Actions
+### Exact actions or commands
 
 1. Load the page, enter `widget`, and submit the form.
 2. Reload and inspect the query field.
@@ -168,4 +166,3 @@ failure response, and protected-action evidence.
 
 [DevTools Network](03-devtools-network.md) turns the workflow diagram into a
 trace of initiators, messages, timing, and browser-visible state.
-

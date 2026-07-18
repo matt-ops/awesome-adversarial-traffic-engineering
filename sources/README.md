@@ -31,10 +31,19 @@ time, expected takeaway, bridge exercise, artifact, and pass gate. A factual
 claim uses a nearby footnote or source callout. AATE-specific reasoning is
 visibly labeled **COURSE_SYNTHESIS**.
 
-## Verification
+## Review metadata
 
-`last_verified` means that the URL and title were checked on that date. It does
-not mean every future version will preserve the same headings or behavior.
+Each ledger entry separates three facts:
+
+- `last_content_reviewed` records the last human review of the assigned source
+  and its course claim.
+- `last_link_checked` records the last automated reachability attempt.
+- `version_or_accessed` records a source version, publication/update value, or
+  the fact that the source is a living page. It is not a date field.
+
+An automated link result does not prove that headings or behavior are unchanged.
+Local `COURSE_SYNTHESIS` and `LAB_SPECIFIC` records use `not-applicable` for
+`last_link_checked` because the external-link sweep does not contact them.
 Version-sensitive projects require the learner to record the commit, package,
 browser, and framework versions used in the experiment.
 
@@ -46,3 +55,7 @@ python scripts/validate_sources.py
 
 The validator checks schema, source IDs, lesson citations, synthesis labels,
 duplicate IDs, and Foundation use of unverified material.
+
+Run `python scripts/check_external_links.py` separately for a categorized link
+review. Transient network failures remain warnings; malformed URLs and permanent
+not-found responses can be made blocking with `--fail-on-permanent`.

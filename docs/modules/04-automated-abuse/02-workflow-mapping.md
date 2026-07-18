@@ -2,34 +2,32 @@
 
 <!-- source-ids: portswigger-api-testing-path, owasp-wstg-entry-points-v42, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 04 - Automated abuse and workflow attacks  
-> Lesson: 2 of 5  
-> Depth: Foundation  
-> Estimated time: 3 hours  
-> Prerequisites: Automated-abuse objectives  
-> Artifact: `artifacts/module-04/local-api-map.md`  
-> Next: Authentication and rate controls
+## Progress
+
+- Module: 04 - Automated abuse and workflow attacks
+- Lesson: 2 of 5
+- Depth: Foundation
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Automated-abuse objectives](01-abuse-objectives.md)
+  - Module 01 request/workflow/path artifacts
+  - Docker Desktop or compatible Docker Engine for the integrated local lab
+- Required artifact: `artifacts/module-04/local-api-map.md`
+- Next lesson: Authentication and rate controls
 
 ## Role outcome
 
 Inventory API endpoints, methods, inputs, state, and error boundaries, then turn
 observations into bounded attack hypotheses tied to one protected action.
 
-## Prerequisites
-
-- [Automated-abuse objectives](01-abuse-objectives.md)
-- Module 01 request/workflow/path artifacts
-- Docker Desktop or compatible Docker Engine for the integrated local lab
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [PortSwigger API testing path](https://portswigger.net/web-security/learning-paths/api-testing) | API recon through supported content types | Provides an ordered provider-safe API discovery method |
-| PROJECT_DOCUMENTATION | [OWASP entry points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points) | Requests and Responses | Preserves parameters, state, and errors |
-| LAB_SPECIFIC | [Integrated local app guide](../../labs/applied/local-api.md) | Docker topology and recon runner | Defines the fixed synthetic target |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Steps 2-8 | Converts mapping observations into testable hypotheses |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [PortSwigger API testing path](https://portswigger.net/web-security/learning-paths/api-testing) | API recon through supported content types | Provides an ordered provider-safe API discovery method | Use only provider-assigned targets; this is not permission to scan PortSwigger infrastructure. |
+| PROJECT_DOCUMENTATION | [OWASP entry points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points) | Requests and Responses | Preserves parameters, state, and errors | Version 4.2 is intentionally pinned; examples are general web testing guidance. |
+| LAB_SPECIFIC | [Integrated local app guide](../../labs/applied/local-api.md) | Docker topology and recon runner | Defines the fixed synthetic target | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Steps 2-8 | Converts mapping observations into testable hypotheses | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -46,10 +44,10 @@ observations into bounded attack hypotheses tied to one protected action.
 ### PortSwigger API assignment
 
 **Direct link:** [API testing learning path](https://portswigger.net/web-security/learning-paths/api-testing)  
-**Exact assignment:** API recon; API documentation; Discovering API documentation; Using machine-readable documentation; Identifying API endpoints; Interacting with endpoints; Identifying supported methods; Identifying supported content types  
+**Exact section, chapter, or unit:** API recon; API documentation; Discovering API documentation; Using machine-readable documentation; Identifying API endpoints; Interacting with endpoints; Identifying supported methods; Identifying supported content types  
 **Estimated time:** 80 minutes  
-**Focus on:** provider-assigned targets, documentation as a hypothesis source, method/content-type boundaries, and recording evidence  
-**Skip:** complete no additional labs or API topics unless the path explicitly embeds them in these sections  
+**What to focus on:** provider-assigned targets, documentation as a hypothesis source, method/content-type boundaries, and recording evidence  
+**What to skip:** complete no additional labs or API topics unless the path explicitly embeds them in these sections  
 **Expected takeaway:** inventory an API without broad scanning and explain how documentation and observed behavior differ.
 
 ## Course bridge
@@ -109,7 +107,7 @@ curl.exe http://localhost:8080/health
 
 Expected health JSON is `{"status":"ok","service":"aate-local-app"}`.
 
-### Actions
+### Exact actions or commands
 
 1. Read the `/openapi.json` route list in a browser before using the runner.
 2. Execute `python -m lab.run recon` once.

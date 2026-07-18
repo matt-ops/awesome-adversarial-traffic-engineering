@@ -1,6 +1,8 @@
 import { chromium, type Browser, type Page, type Worker } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
+import { assertArtifactSchema, resolveHeadless, selectMutationProfile, type MutationProfile } from "./quality.js";
+
 const BASE_URL = "http://localhost:8080";
 const OUTPUT = "lab/telemetry/control-recon.json";
 
@@ -60,10 +62,10 @@ async function collectSignals(page: Page, worker: Worker, population: string): P
   };
 }
 
-async function browserTrial(population: string, requestedHeadless: boolean, changeWebdriver: boolean) {
+async function browserTrial({ population, requestedHeadless, changeWebdriver, frameLanguage }: MutationProfile) {
   // AATE_HEADLESS=1 makes automated verification possible without changing the
   // requested population label; the artifact records the actual launch mode.
-  const launchHeadless = process.env.AATE_HEADLESS === "1" ? true : requestedHeadless;
+  const launchHeadless = resolveHeadless(requestedHeadless, process.env.AATE_HEADLESS);
   const browser: Browser = await chromium.launch({ headless: launchHeadless });
   const context = await browser.newContext({
     locale: "en-US",
@@ -96,33 +98,51 @@ async function browserTrial(population: string, requestedHeadless: boolean, chan
       );
       if (changed !== false) throw new Error("The one-property local change did not take effect");
     }
+    if (frameLanguage) {
+      const sensorFrame = page.frames().find((frame) => frame.url().endsWith("/control-frame"));
+      if (!sensorFrame) throw new Error("Local sensor frame was not found for the cross-context trial");
+      const changedLanguage = await sensorFrame.evaluate((language) => {
+        Object.defineProperty(navigator, "language", { configurable: true, value: language });
+        return navigator.language;
+      }, frameLanguage);
+      if (changedLanguage !== frameLanguage) throw new Error("Frame-only language change did not take effect");
+    }
     const signals = await collectSignals(page, worker, population);
-    const evaluation = await page.evaluate(async ({ baseUrl, payload }) => {
-      const response = await fetch(`${baseUrl}/api/control/evaluate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      return { status: response.status, body: (await response.json()) as ControlResult };
-    }, { baseUrl: BASE_URL, payload: signals });
+    const evaluation = await page.evaluate(
+      async ({ baseUrl, payload }) => {
+        const response = await fetch(`${baseUrl}/api/control/evaluate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        return { status: response.status, body: (await response.json()) as ControlResult };
+      },
+      { baseUrl: BASE_URL, payload: signals },
+    );
 
     let protectedAction: { status: number; body: unknown } | null = null;
     let replay: { status: number; body: unknown } | null = null;
     if (evaluation.body.action_token) {
-      ({ protectedAction, replay } = await page.evaluate(async ({ baseUrl, token, trial }) => {
-        const target = `${baseUrl}/api/control/protected?session_id=${encodeURIComponent(trial)}`;
-        const first = await fetch(target, { method: "POST", headers: { "X-AATE-Control": token } });
-        const protectedAction = { status: first.status, body: await first.json() };
-        const second = await fetch(target, { method: "POST", headers: { "X-AATE-Control": token } });
-        const replay = { status: second.status, body: await second.json() };
-        return { protectedAction, replay };
-      }, { baseUrl: BASE_URL, token: evaluation.body.action_token, trial: signals.trial_id }));
+      ({ protectedAction, replay } = await page.evaluate(
+        async ({ baseUrl, token, trial }) => {
+          const target = `${baseUrl}/api/control/protected?session_id=${encodeURIComponent(trial)}`;
+          const first = await fetch(target, { method: "POST", headers: { "X-AATE-Control": token } });
+          const protectedAction = { status: first.status, body: await first.json() };
+          const second = await fetch(target, { method: "POST", headers: { "X-AATE-Control": token } });
+          const replay = { status: second.status, body: await second.json() };
+          return { protectedAction, replay };
+        },
+        { baseUrl: BASE_URL, token: evaluation.body.action_token, trial: signals.trial_id },
+      ));
     }
     return {
       population,
       requestedHeadless,
       launchHeadless,
-      changed: changeWebdriver ? "top-page navigator.webdriver true -> false" : "none",
+      changed: [
+        changeWebdriver ? "top-page navigator.webdriver true -> false" : null,
+        frameLanguage ? `frame-only navigator.language -> ${frameLanguage}` : null,
+      ].filter(Boolean),
       browserVersion: browser.version(),
       signals,
       evaluation,
@@ -148,9 +168,13 @@ async function main(): Promise<void> {
   }
 
   const trials = [
-    await browserTrial("stock-headed", false, false),
-    await browserTrial("stock-headless", true, false),
-    await browserTrial("one-variable", true, true),
+    await browserTrial(selectMutationProfile("stock-headed")),
+    await browserTrial(selectMutationProfile("stock-headless")),
+    await browserTrial(selectMutationProfile("one-variable")),
+    // This trial starts from the successful one-variable condition, then adds
+    // one frame-only difference. It should restore a challenge because page,
+    // frame, and worker language observations now contradict one another.
+    await browserTrial(selectMutationProfile("cross-context-mismatch")),
   ];
   const artifact = {
     target: BASE_URL,
@@ -159,13 +183,17 @@ async function main(): Promise<void> {
     limitations: [
       "Transparent educational rules, not a production control",
       "One-property change is deliberately incoherent and does not imply general stealth",
+      "Cross-context trial deliberately adds one frame-only contradiction after the one-variable condition",
       "AATE_HEADLESS=1 forces verification mode and is recorded in launchHeadless",
     ],
   };
+  assertArtifactSchema(artifact, ["target", "objective", "trials", "limitations"]);
   await mkdir("lab/telemetry", { recursive: true });
   await writeFile(OUTPUT, `${JSON.stringify(artifact, null, 2)}\n`, "utf8");
   for (const trial of trials) {
-    console.log(`${trial.population}: ${trial.evaluation.body.decision}; protected=${trial.protectedAction?.status ?? "not attempted"}`);
+    console.log(
+      `${trial.population}: ${trial.evaluation.body.decision}; protected=${trial.protectedAction?.status ?? "not attempted"}`,
+    );
   }
   console.log(`Saved control, context, protected-action, replay, and version evidence to ${OUTPUT}`);
 }
