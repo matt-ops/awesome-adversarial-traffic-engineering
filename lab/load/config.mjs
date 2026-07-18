@@ -9,6 +9,14 @@ export const ALLOWED_SCENARIOS = new Set([
   "recovery",
 ]);
 
+export function buildIterationKey(prefix, iterationId) {
+  if (typeof prefix !== "string" || prefix.length === 0) throw new Error("iteration key prefix is required");
+  if (!Number.isInteger(iterationId) || iterationId < 0) {
+    throw new Error("scenario iteration ID must be a non-negative integer");
+  }
+  return `${prefix}-${iterationId}`;
+}
+
 function parseInteger(value, fallback, name, minimum, maximum) {
   const parsed = Number(value ?? fallback);
   if (!Number.isInteger(parsed) || parsed < minimum || parsed > maximum) {

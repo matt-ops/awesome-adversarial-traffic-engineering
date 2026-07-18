@@ -858,27 +858,20 @@ checkpoints:
     minimum: 1200
     maximum: 1440
   lesson_ids:
-  - m00-l01
-  - m01-l02
-  - m02-l03
   - m03-l02
-  - m04-l01
-  - m05-l01
-  - m08-l01
-  - m09-l01
-  - m10-l01
-  - m10-l04
   required_artifacts:
   - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
   - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
   - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
   - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-05/signal-matrix.md
-  - artifacts/module-08/resource-model.md
-  - artifacts/module-09/telemetry-summary.json
-  - artifacts/module-10/finding.md
-  - artifacts/module-10/role-narrative.md
   capability_claim: Foundation and informational readiness, not browser-evasion competence.
 - id: 7-days
   path: docs/checkpoints/7-days.md
@@ -888,38 +881,29 @@ checkpoints:
     minimum: 1800
     maximum: 2400
   lesson_ids:
-  - m00-l01
-  - m01-l02
-  - m02-l03
   - m03-l02
-  - m04-l01
-  - m05-l01
-  - m08-l01
-  - m09-l01
-  - m10-l01
-  - m10-l04
   - m03-l05
   - m04-l03
-  - m05-l03
-  - m07-l02
-  - m08-l04
   required_artifacts:
   - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
   - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
   - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
   - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-05/signal-matrix.md
-  - artifacts/module-08/resource-model.md
-  - artifacts/module-09/telemetry-summary.json
-  - artifacts/module-10/finding.md
-  - artifacts/module-10/role-narrative.md
+  - artifacts/module-03/context-state.md
+  - artifacts/module-03/network-evidence.md
   - artifacts/module-03/context-observations.json
+  - artifacts/module-04/abuse-threat-map.md
+  - artifacts/module-04/local-api-map.md
   - artifacts/module-04/auth-rate-evidence.md
-  - artifacts/module-05/context-matrix.md
-  - artifacts/module-07/ja4-interpretation.md
-  - artifacts/module-08/bounded-results.md
-  capability_claim: Functional hands-on readiness in bounded local and provider-authorized exercises.
+  capability_claim: Functional hands-on readiness in local browser, workflow-mapping, and provider-authorized authentication and rate-control exercises.
 - id: 21-days
   path: docs/checkpoints/21-days.md
   title: 21 days cumulative
@@ -928,58 +912,45 @@ checkpoints:
     minimum: 3600
     maximum: 4800
   lesson_ids:
-  - m00-l01
-  - m01-l02
-  - m02-l03
   - m03-l02
-  - m04-l01
-  - m05-l01
-  - m08-l01
-  - m09-l01
-  - m10-l01
-  - m10-l04
   - m03-l05
   - m04-l03
-  - m05-l03
-  - m07-l02
-  - m08-l04
-  - m04-l05
-  - m05-l05
-  - m06-l01
   - m06-l02
-  - m06-l03
-  - m06-l04
-  - m07-l03
-  - m07-l04
-  - m09-l04
   - m10-l03
+  - m10-l04
   required_artifacts:
   - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
   - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
   - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
   - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-05/signal-matrix.md
-  - artifacts/module-08/resource-model.md
-  - artifacts/module-09/telemetry-summary.json
-  - artifacts/module-10/finding.md
-  - artifacts/module-10/role-narrative.md
+  - artifacts/module-03/context-state.md
+  - artifacts/module-03/network-evidence.md
   - artifacts/module-03/context-observations.json
+  - artifacts/module-04/abuse-threat-map.md
+  - artifacts/module-04/local-api-map.md
   - artifacts/module-04/auth-rate-evidence.md
+  - lab/telemetry/workflow-authorization.json
+  - artifacts/module-05/signal-matrix.md
+  - artifacts/module-05/manual-browser-baseline.json
   - artifacts/module-05/context-matrix.md
-  - artifacts/module-07/ja4-interpretation.md
-  - artifacts/module-08/bounded-results.md
-  - artifacts/module-04/limit-overrun-report.md
+  - artifacts/module-05/state-behavior-map.md
   - artifacts/module-05/blocked-baseline.md
   - artifacts/module-06/evasion-plan.md
   - lab/telemetry/control-recon.json
-  - artifacts/module-06/coherent-profile.md
-  - artifacts/module-06/replay-temporal.md
-  - artifacts/module-07/http2-map.md
-  - artifacts/module-07/observation-points.md
-  - artifacts/module-09/code-review.md
+  - artifacts/module-09/telemetry-summary.json
+  - artifacts/module-10/finding.md
+  - artifacts/module-10/retest-plan.md
   - artifacts/module-10/briefing.md
-  capability_claim: Interview-loop readiness with an integrated, defensible synthetic portfolio.
+  - artifacts/module-10/role-narrative.md
+  capability_claim: Integrated experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
 - id: 6-weeks
   path: docs/checkpoints/6-weeks.md
   title: 6 weeks cumulative
@@ -988,73 +959,62 @@ checkpoints:
     minimum: 5400
     maximum: 7200
   lesson_ids:
-  - m00-l01
-  - m01-l02
-  - m02-l03
   - m03-l02
-  - m04-l01
-  - m05-l01
-  - m08-l01
-  - m09-l01
-  - m10-l01
-  - m10-l04
   - m03-l05
   - m04-l03
-  - m05-l03
-  - m07-l02
-  - m08-l04
-  - m04-l05
-  - m05-l05
-  - m06-l01
   - m06-l02
-  - m06-l03
-  - m06-l04
-  - m07-l03
-  - m07-l04
-  - m09-l04
   - m10-l03
-  - m04-l02
-  - m07-l01
-  - m08-l03
-  - m09-l02
-  - m09-l03
+  - m10-l04
   - m06-l05
-  - m07-l05
+  - m07-l04
   - m08-l05
-  - m10-l05
+  - m09-l04
   required_artifacts:
   - artifacts/module-00/role-comparison.md
+  - artifacts/module-00/engagement-plan.md
+  - artifacts/module-00/experiment-plan.md
+  - artifacts/module-01/request-anatomy.md
   - artifacts/module-01/workflow-map.md
+  - artifacts/module-01/manual-trace.md
+  - artifacts/module-01/request-path.svg
+  - artifacts/module-02/browser-process-map.md
+  - artifacts/module-02/dom-inventory.md
   - artifacts/module-02/javascript-exercise.js
+  - artifacts/module-02/fetch-observation.js
+  - artifacts/module-03/object-model.md
   - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-05/signal-matrix.md
-  - artifacts/module-08/resource-model.md
-  - artifacts/module-09/telemetry-summary.json
-  - artifacts/module-10/finding.md
-  - artifacts/module-10/role-narrative.md
+  - artifacts/module-03/context-state.md
+  - artifacts/module-03/network-evidence.md
   - artifacts/module-03/context-observations.json
+  - artifacts/module-04/abuse-threat-map.md
+  - artifacts/module-04/local-api-map.md
   - artifacts/module-04/auth-rate-evidence.md
+  - lab/telemetry/workflow-authorization.json
+  - artifacts/module-05/signal-matrix.md
+  - artifacts/module-05/manual-browser-baseline.json
   - artifacts/module-05/context-matrix.md
-  - artifacts/module-07/ja4-interpretation.md
-  - artifacts/module-08/bounded-results.md
-  - artifacts/module-04/limit-overrun-report.md
+  - artifacts/module-05/state-behavior-map.md
   - artifacts/module-05/blocked-baseline.md
   - artifacts/module-06/evasion-plan.md
   - lab/telemetry/control-recon.json
   - artifacts/module-06/coherent-profile.md
   - artifacts/module-06/replay-temporal.md
+  - artifacts/module-06/version-drift-study.md
+  - artifacts/module-07/clienthello.md
+  - artifacts/module-07/ja4-interpretation.md
   - artifacts/module-07/http2-map.md
   - artifacts/module-07/observation-points.md
-  - artifacts/module-09/code-review.md
-  - artifacts/module-10/briefing.md
-  - artifacts/module-04/local-api-map.md
-  - artifacts/module-07/clienthello.md
+  - artifacts/module-08/resource-model.md
+  - artifacts/module-08/metric-plan.md
   - artifacts/module-08/control-map.md
+  - artifacts/module-08/bounded-results.md
+  - artifacts/module-08/recovery-retest.md
+  - artifacts/module-09/telemetry-summary.json
   - artifacts/module-09/concurrency-trace.md
   - artifacts/module-09/retry-budget.md
-  - artifacts/module-06/version-drift-study.md
-  - artifacts/module-07/http3-quic.md
-  - artifacts/module-08/recovery-retest.md
-  - artifacts/module-10/mock-loop.md
+  - artifacts/module-09/code-review.md
+  - artifacts/module-10/finding.md
+  - artifacts/module-10/retest-plan.md
+  - artifacts/module-10/briefing.md
+  - artifacts/module-10/role-narrative.md
   capability_claim: Practitioner-depth portfolio, not proof of production expertise.

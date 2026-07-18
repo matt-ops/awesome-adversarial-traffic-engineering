@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlsplit
@@ -37,12 +38,23 @@ REQUIRED_CHECKPOINT_FIELDS = {
     "capability_claim",
 }
 CHECKPOINT_HEADINGS = (
+    "## Direct capability selection",
     "## Required lessons",
     "## Required artifacts",
     "## Capability claim",
     "## What this does not claim",
     "## Exit gate",
 )
+
+
+@dataclass(frozen=True)
+class CheckpointStats:
+    """Direct-selection and from-zero prerequisite-closure totals."""
+
+    direct_lesson_count: int
+    direct_selection_minutes: int
+    closure_lesson_ids: frozenset[str]
+    prerequisite_closure_minutes: int
 
 
 def as_mapping(value: object, label: str, errors: list[str]) -> dict[str, Any]:
@@ -145,6 +157,71 @@ def prerequisite_closure(start_ids: list[str], lessons_by_id: dict[str, dict[str
         closure.add(current)
         pending.extend(str(value) for value in lessons_by_id[current].get("prerequisites", []))
     return closure
+
+
+def lesson_minutes(lesson_ids: set[str] | list[str], lessons_by_id: dict[str, dict[str, Any]]) -> int:
+    """Sum valid integer lesson estimates exactly once."""
+
+    total = 0
+    for lesson_id in set(lesson_ids):
+        lesson = lessons_by_id.get(lesson_id)
+        if lesson is None:
+            continue
+        estimate = lesson.get("estimated_minutes")
+        if isinstance(estimate, int) and not isinstance(estimate, bool):
+            total += estimate
+    return total
+
+
+def calculate_checkpoint_stats(
+    direct_lesson_ids: list[str], lessons_by_id: dict[str, dict[str, Any]]
+) -> CheckpointStats:
+    """Calculate both selected work and complete from-zero prerequisite work."""
+
+    closure = prerequisite_closure(direct_lesson_ids, lessons_by_id)
+    return CheckpointStats(
+        direct_lesson_count=len(set(direct_lesson_ids)),
+        direct_selection_minutes=lesson_minutes(direct_lesson_ids, lessons_by_id),
+        closure_lesson_ids=frozenset(closure),
+        prerequisite_closure_minutes=lesson_minutes(closure, lessons_by_id),
+    )
+
+
+def cumulative_checkpoint_errors(checkpoints: list[tuple[str, list[str]]]) -> list[str]:
+    """Report any cumulative checkpoint that drops an earlier direct selection."""
+
+    errors: list[str] = []
+    previous_lesson_ids: set[str] = set()
+    for checkpoint_id, lesson_ids in checkpoints:
+        current_ids = set(lesson_ids)
+        if previous_lesson_ids and not previous_lesson_ids.issubset(current_ids):
+            missing = sorted(previous_lesson_ids - current_ids)
+            errors.append(f"{checkpoint_id}: cumulative checkpoint dropped lessons {missing}")
+        previous_lesson_ids = current_ids
+    return errors
+
+
+def required_closure_artifacts(
+    closure_lesson_ids: set[str] | frozenset[str], lessons_by_id: dict[str, dict[str, Any]]
+) -> set[str]:
+    """Return every artifact assigned along a checkpoint's prerequisite closure."""
+
+    artifacts: set[str] = set()
+    for lesson_id in closure_lesson_ids:
+        lesson = lessons_by_id.get(lesson_id)
+        if lesson is None:
+            continue
+        raw_artifacts = lesson.get("required_artifacts", [])
+        if isinstance(raw_artifacts, list):
+            artifacts.update(str(value) for value in raw_artifacts)
+    return artifacts
+
+
+def visible_checkpoint_minutes(text: str, label: str) -> int | None:
+    """Read an explicitly displayed checkpoint minute total."""
+
+    match = re.search(rf"^- {re.escape(label)}: \*\*(\d+) minutes", text, re.MULTILINE)
+    return int(match.group(1)) if match else None
 
 
 def cycle_errors(lessons_by_id: dict[str, dict[str, Any]]) -> list[str]:
@@ -342,8 +419,8 @@ def main() -> int:
             errors.append(f"manifest references non-canonical module index: {extra_path}")
 
     checkpoint_entries = as_list(manifest.get("checkpoints"), "checkpoints", errors)
-    checkpoint_stats: list[tuple[str, int, int, int]] = []
-    previous_lesson_ids: set[str] = set()
+    checkpoint_stats: list[tuple[str, CheckpointStats]] = []
+    checkpoint_selections: list[tuple[str, list[str]]] = []
     for number, raw_entry in enumerate(checkpoint_entries, start=1):
         entry = as_mapping(raw_entry, f"checkpoints[{number}]", errors)
         missing = REQUIRED_CHECKPOINT_FIELDS - set(entry)
@@ -356,37 +433,30 @@ def main() -> int:
         ids = [str(value) for value in as_list(entry.get("lesson_ids"), f"{checkpoint_id}.lesson_ids", errors)]
         if len(ids) != len(set(ids)):
             errors.append(f"{checkpoint_id}: duplicate lesson IDs")
-        current_ids = set(ids)
-        if previous_lesson_ids and not previous_lesson_ids.issubset(current_ids):
-            missing_cumulative = sorted(previous_lesson_ids - current_ids)
-            errors.append(f"{checkpoint_id}: cumulative checkpoint dropped lessons {missing_cumulative}")
-        previous_lesson_ids = current_ids
-        total_minutes = 0
+        checkpoint_selections.append((checkpoint_id, ids))
         for current_id in ids:
             lesson = lessons_by_id.get(current_id)
             if lesson is None:
                 errors.append(f"{checkpoint_id}: missing lesson ID {current_id}")
                 continue
-            estimate = lesson.get("estimated_minutes")
-            if isinstance(estimate, int) and not isinstance(estimate, bool):
-                total_minutes += estimate
             lesson_depth = str(lesson.get("depth", ""))
             if ceiling in depth_rank and lesson_depth in depth_rank:
                 if depth_rank[lesson_depth] > depth_rank[ceiling]:
                     errors.append(
                         f"{checkpoint_id}: includes {current_id} ({lesson_depth}) above {ceiling} ceiling"
                     )
+        stats = calculate_checkpoint_stats(ids, lessons_by_id)
         target_range = as_mapping(entry.get("target_minutes"), f"{checkpoint_id}.target_minutes", errors)
         minimum = target_range.get("minimum")
         maximum = target_range.get("maximum")
         if not isinstance(minimum, int) or not isinstance(maximum, int):
             errors.append(f"{checkpoint_id}: target minimum and maximum must be integers")
-        elif not minimum <= total_minutes <= maximum:
+        elif not minimum <= stats.prerequisite_closure_minutes <= maximum:
             errors.append(
-                f"{checkpoint_id}: {total_minutes} minutes falls outside declared range {minimum}-{maximum}"
+                f"{checkpoint_id}: prerequisite closure {stats.prerequisite_closure_minutes} minutes "
+                f"falls outside declared range {minimum}-{maximum}"
             )
-        closure = prerequisite_closure(ids, lessons_by_id)
-        for closure_id in closure:
+        for closure_id in stats.closure_lesson_ids:
             lesson_depth = str(lessons_by_id[closure_id].get("depth", ""))
             if ceiling in depth_rank and lesson_depth in depth_rank:
                 if depth_rank[lesson_depth] > depth_rank[ceiling]:
@@ -394,7 +464,7 @@ def main() -> int:
                         f"{checkpoint_id}: prerequisite closure adds {closure_id} "
                         f"({lesson_depth}) above {ceiling} ceiling"
                     )
-        checkpoint_stats.append((checkpoint_id, len(ids), total_minutes, len(closure)))
+        checkpoint_stats.append((checkpoint_id, stats))
 
         page_path = ROOT / str(entry.get("path", ""))
         if not page_path.is_file():
@@ -407,9 +477,18 @@ def main() -> int:
         marker = re.search(r"<!-- checkpoint-id:\s*(.*?)\s*-->", page_text)
         if marker is None or marker.group(1) != checkpoint_id:
             errors.append(f"{entry.get('path')}: checkpoint ID marker disagrees with manifest")
-        minute_marker = re.search(r"<!-- calculated-minutes:\s*(\d+)\s*-->", page_text)
-        if minute_marker is None or int(minute_marker.group(1)) != total_minutes:
-            errors.append(f"{entry.get('path')}: calculated-minute marker disagrees with manifest")
+        direct_marker = re.search(r"<!-- direct-selection-minutes:\s*(\d+)\s*-->", page_text)
+        if direct_marker is None or int(direct_marker.group(1)) != stats.direct_selection_minutes:
+            errors.append(f"{entry.get('path')}: direct-selection-minute marker disagrees with manifest")
+        closure_marker = re.search(r"<!-- prerequisite-closure-minutes:\s*(\d+)\s*-->", page_text)
+        if closure_marker is None or int(closure_marker.group(1)) != stats.prerequisite_closure_minutes:
+            errors.append(f"{entry.get('path')}: prerequisite-closure-minute marker disagrees with manifest")
+        displayed_direct = visible_checkpoint_minutes(page_text, "Direct capability-selection time")
+        if displayed_direct != stats.direct_selection_minutes:
+            errors.append(f"{entry.get('path')}: displayed direct-selection time disagrees with manifest")
+        displayed_closure = visible_checkpoint_minutes(page_text, "From-zero prerequisite-closure time")
+        if displayed_closure != stats.prerequisite_closure_minutes:
+            errors.append(f"{entry.get('path')}: displayed prerequisite-closure time disagrees with manifest")
         capability_claim = str(entry.get("capability_claim", ""))
         if capability_claim not in section(page_text, "## Capability claim"):
             errors.append(f"{entry.get('path')}: capability claim disagrees with manifest")
@@ -428,7 +507,9 @@ def main() -> int:
                 else:
                     linked_lesson_paths.add(relative)
         expected_lesson_paths = {
-            str(lessons_by_id[current_id].get("path")) for current_id in ids if current_id in lessons_by_id
+            str(lessons_by_id[current_id].get("path"))
+            for current_id in stats.closure_lesson_ids
+            if current_id in lessons_by_id
         }
         if linked_lesson_paths != expected_lesson_paths:
             missing_links = sorted(expected_lesson_paths - linked_lesson_paths)
@@ -442,24 +523,36 @@ def main() -> int:
             str(value)
             for value in as_list(entry.get("required_artifacts"), f"{checkpoint_id}.required_artifacts", errors)
         ]
+        expected_artifacts = required_closure_artifacts(stats.closure_lesson_ids, lessons_by_id)
+        missing_artifacts = sorted(expected_artifacts - set(checkpoint_artifacts))
+        extra_artifacts = sorted(set(checkpoint_artifacts) - expected_artifacts)
+        if missing_artifacts:
+            errors.append(f"{checkpoint_id}: missing prerequisite closure artifacts {missing_artifacts}")
+        if extra_artifacts:
+            errors.append(f"{checkpoint_id}: artifacts are outside prerequisite closure {extra_artifacts}")
         for artifact in checkpoint_artifacts:
             owners = artifact_owners.get(artifact)
             if not owners:
                 errors.append(f"{checkpoint_id}: required artifact is not defined: {artifact}")
-            elif not owners.intersection(current_ids):
-                errors.append(f"{checkpoint_id}: required artifact owner is not in checkpoint: {artifact}")
+            elif not owners.intersection(stats.closure_lesson_ids):
+                errors.append(f"{checkpoint_id}: required artifact owner is not in checkpoint closure: {artifact}")
             if artifact not in page_text:
                 errors.append(f"{entry.get('path')}: required artifact is not linked or named: {artifact}")
+
+    errors.extend(cumulative_checkpoint_errors(checkpoint_selections))
 
     depth_counts = Counter(str(entry.get("depth", "")) for entry in lessons)
     print("Lesson count by depth")
     for depth in depth_order:
         print(f"- {depth}: {depth_counts[depth]}")
     print("Checkpoint calculations")
-    for checkpoint_id, lesson_count, minutes, closure_size in checkpoint_stats:
+    for checkpoint_id, stats in checkpoint_stats:
         print(
-            f"- {checkpoint_id}: {lesson_count} lessons; {minutes} minutes "
-            f"({format_hours(minutes)} hours); prerequisite closure {closure_size} lessons"
+            f"- {checkpoint_id}: direct selection {stats.direct_lesson_count} lessons, "
+            f"{stats.direct_selection_minutes} minutes ({format_hours(stats.direct_selection_minutes)} hours); "
+            f"prerequisite closure {len(stats.closure_lesson_ids)} lessons, "
+            f"{stats.prerequisite_closure_minutes} minutes "
+            f"({format_hours(stats.prerequisite_closure_minutes)} hours)"
         )
     if errors:
         print("Curriculum validation: FAIL")
@@ -469,7 +562,7 @@ def main() -> int:
     print("Curriculum validation: PASS")
     print(f"- {len(lessons)} canonical lessons and {len(index_entries)} module indexes have metadata")
     print("- prerequisite graph is complete, acyclic, and depth-safe")
-    print("- checkpoint depth, time, link, closure, and artifact gates pass")
+    print("- checkpoint depth, closure time, link, cumulative-selection, and closure-artifact gates pass")
     return 0
 
 

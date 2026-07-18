@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LOAD_ROOT = ROOT / "lab" / "load"
 CONFIG_REQUIRED = (
     "ALLOWED_TARGETS",
+    "buildIterationKey",
     '"endpoint-cost-observation"',
     '"workflow-sequence-observation"',
     "AATE_DRY_RUN",
@@ -22,8 +24,12 @@ CONFIG_REQUIRED = (
     "http_req_failed",
 )
 SCRIPT_REQUIRED = (
+    'from "k6/execution"',
     'from "./config.mjs"',
     "parseLoadConfiguration(__ENV)",
+    "exec.scenario.iterationInTest",
+    "buildIterationKey",
+    "http.expectedStatuses(429)",
     "teardown",
     'http.get(`${TARGET}/health`)',
     "cheap-expensive: expensive request took longer",
@@ -65,7 +71,9 @@ def main() -> int:
                 errors.append(f"{script.relative_to(ROOT)}: missing safety marker {marker!r}")
         for marker in PROHIBITED:
             if marker in text:
-                errors.append(f"{script.relative_to(ROOT)}: obsolete scenario name {marker!r}")
+                errors.append(f"{script.relative_to(ROOT)}: prohibited load-script marker {marker!r}")
+        if re.search(r"=\s*__ITER\b", text):
+            errors.append(f"{script.relative_to(ROOT)}: uses per-VU __ITER for a stateful iteration key")
         if "http://" in text and "localhost:8080" not in text and "127.0.0.1:8080" not in text:
             errors.append(f"{script.relative_to(ROOT)}: unexpected HTTP target")
     if errors:

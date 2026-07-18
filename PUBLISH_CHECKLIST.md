@@ -8,9 +8,8 @@ local until a human reviews the screenshots and explicitly authorizes a push.
 - [x] **Clean Git status:** required and verified at handoff with
   `git status --short` producing no output.
 - [x] **Release commit:** the commit containing this checklist has subject
-  `chore: prepare source-first course release candidate`; its exact SHA is
-  recorded in the local `fix-evidence/phase-4/release-commit.txt` and
-  `FIX_STATUS.md` review records.
+  `fix: make checkpoint timing closure-accurate and verify k6`; its exact SHA
+  is recorded in the local Phase 5 release and audit evidence.
 - [x] **Clean-worktree validation:** the complete gate is run from a temporary
   worktree created from that release commit, not from the development tree.
 - [x] **No push or deployment:** Phase 4 performs neither operation.
@@ -27,13 +26,15 @@ local until a human reviews the screenshots and explicitly authorizes a push.
 - [x] **Safety tests:** local-target, redirect, timeout, wall-clock, rate, total,
   retry, and fixed-origin tests pass.
 - [x] **Python tests:** the complete `lab/tests` pytest suite passes.
-- [x] **JavaScript tests:** the five fast pure-helper tests pass without
+- [x] **JavaScript tests:** the six fast pure-helper tests pass without
   launching a browser.
 - [x] **Lint:** Ruff, ESLint, Markdown lint, and Prettier check pass.
 - [x] **Type checking:** strict MyPy and TypeScript checks pass.
 - [x] **Strict docs build:** `mkdocs build --strict` passes.
-- [x] **Compose configuration:** `docker compose ... config --quiet` passes; no
-  containers or meaningful load run during the release check.
+- [x] **Compose configuration:** `docker compose ... config --quiet` passes.
+- [x] **k6 runtime:** all seven bounded scenarios pass against only the bundled
+  loopback Docker lab with checks, thresholds, requests, summaries, local logs,
+  and cleanup preserved in the sanitized audit evidence.
 - [x] **Fixture analysis:** deterministic fixture analysis passes.
 
 ## Release-content review
@@ -47,8 +48,10 @@ local until a human reviews the screenshots and explicitly authorizes a push.
   development paths.
 - [x] **Employer-confidentiality review:** the release-tree scan finds no
   employer-specific URLs or email markers; course examples remain synthetic.
-- [x] **Checkpoint-hours review:** 23.75, 39.75, 71.75, and 101.75 cumulative
-  lesson hours remain within their declared checkpoint ranges.
+- [x] **Checkpoint-hours review:** from-zero prerequisite closures of 21.67,
+  37.25, 71.25, and 119.92 hours pass their declared checkpoint ranges. Direct
+  selections of 3.00, 9.00, 16.00, and 30.00 hours are reported separately and
+  are not published as new-learner checkpoint time.
 - [x] **Scenario-name review:** the executable observation cases remain
   `endpoint-cost-observation` and `workflow-sequence-observation`; they do not
   claim unimplemented mitigations.

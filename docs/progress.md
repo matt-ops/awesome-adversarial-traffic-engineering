@@ -27,12 +27,14 @@ provider completion badge for the pass gate.
 The checkpoint definitions are cumulative and validator-backed. Mark a row only
 when every required lesson artifact and the checkpoint exit gate pass.
 
-| Checkpoint | Depth ceiling | Lessons | Calculated time | Complete |
-|---|---:|---:|---:|---:|
-| [24 focused hours](checkpoints/24-hours.md) | Foundation | 10 | 23.75 hours | [ ] |
-| [7 days](checkpoints/7-days.md) | Applied | 15 | 39.75 hours | [ ] |
-| [21 days](checkpoints/21-days.md) | Integrated | 25 | 71.75 hours | [ ] |
-| [6 weeks](checkpoints/6-weeks.md) | Deep | 34 | 101.75 hours | [ ] |
+| Checkpoint | Depth ceiling | Direct targets | Closure lessons | From-zero time | Complete |
+|---|---:|---:|---:|---:|---:|
+| [24 focused hours](checkpoints/24-hours.md) | Foundation | 1 | 12 | 21.67 hours | [ ] |
+| [7 days](checkpoints/7-days.md) | Applied | 3 | 18 | 37.25 hours | [ ] |
+| [21 days](checkpoints/21-days.md) | Integrated | 6 | 31 | 71.25 hours | [ ] |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 10 | 47 | 119.92 hours | [ ] |
 
-Canonical membership, prerequisite closure, and time calculations live in
-`curriculum/manifest.yaml` and are enforced by `scripts/validate_curriculum.py`.
+Canonical direct membership, complete prerequisite closure, closure artifacts,
+and both time calculations live in `curriculum/manifest.yaml` and are enforced
+by `scripts/validate_curriculum.py`. Mark a checkpoint complete only after all
+closure lessons and artifacts pass; direct-selection time alone is not enough.

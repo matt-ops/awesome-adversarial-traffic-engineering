@@ -36,13 +36,13 @@ pages only when you want to assess whether you can pause with an honest claim.
 
 ## Validated cumulative checkpoints
 
-| Checkpoint | Depth ceiling | Required lessons | Calculated focused time |
-|---|---:|---:|---:|
-| [24 focused hours](checkpoints/24-hours.md) | Foundation | 10 | 1,425 minutes / 23.75 hours |
-| [7 days](checkpoints/7-days.md) | Applied | 15 | 2,385 minutes / 39.75 hours |
-| [21 days](checkpoints/21-days.md) | Integrated | 25 | 4,305 minutes / 71.75 hours |
-| [6 weeks](checkpoints/6-weeks.md) | Deep | 34 | 6,105 minutes / 101.75 hours |
+| Checkpoint | Depth ceiling | Direct targets/time | Closure lessons | From-zero closure time |
+|---|---:|---:|---:|---:|
+| [24 focused hours](checkpoints/24-hours.md) | Foundation | 1 / 180 minutes | 12 | 1,300 minutes / 21.67 hours |
+| [7 days](checkpoints/7-days.md) | Applied | 3 / 540 minutes | 18 | 2,235 minutes / 37.25 hours |
+| [21 days](checkpoints/21-days.md) | Integrated | 6 / 960 minutes | 31 | 4,275 minutes / 71.25 hours |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 10 / 1,800 minutes | 47 | 7,195 minutes / 119.92 hours |
 
-These are calculated selections, not guarantees. If a prerequisite is not yet
-complete, add its canonical estimate; never hide prerequisite work inside a
-checkpoint title.
+The closure total, not the direct-selection total, is the checkpoint time for a
+learner starting at the course entry point. Each closure contains every
+recursive prerequisite lesson and required artifact exactly once.

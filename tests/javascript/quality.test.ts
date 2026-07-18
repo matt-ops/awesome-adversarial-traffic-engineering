@@ -7,7 +7,7 @@ import {
   resolveHeadless,
   selectMutationProfile,
 } from "../../lab/clients/playwright/quality.js";
-import { buildLoadOptions, parseLoadConfiguration } from "../../lab/load/config.mjs";
+import { buildIterationKey, buildLoadOptions, parseLoadConfiguration } from "../../lab/load/config.mjs";
 
 test("safe boolean configuration accepts only explicit binary values", () => {
   assert.equal(parseBooleanFlag(undefined, "FLAG"), false);
@@ -69,4 +69,15 @@ test("load configuration rejects external targets, unknown scenarios, and unsafe
   assert.throws(() => parseLoadConfiguration({ AATE_SCENARIO: "endpoint-specific" }), /not assigned/);
   assert.throws(() => parseLoadConfiguration({ AATE_DURATION: "15", AATE_RATE: "5" }), /100-request ceiling/);
   assert.throws(() => parseLoadConfiguration({ AATE_DRY_RUN: "yes" }), /must be 0 or 1/);
+});
+
+test("stateful load keys are deterministic and unique by scenario iteration", () => {
+  assert.equal(buildIterationKey("rotated", 42), "rotated-42");
+  assert.deepEqual(
+    new Set([0, 1, 2].map((iterationId) => buildIterationKey("bounded", iterationId))),
+    new Set(["bounded-0", "bounded-1", "bounded-2"]),
+  );
+  assert.notEqual(buildIterationKey("bypass", 1), buildIterationKey("rotated", 1));
+  assert.throws(() => buildIterationKey("", 1), /prefix is required/);
+  assert.throws(() => buildIterationKey("bounded", -1), /non-negative integer/);
 });

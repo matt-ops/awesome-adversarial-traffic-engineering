@@ -53,6 +53,13 @@ current lesson. Setup resets synthetic state, primes the cache or fixed identity
 counter only when its scenario requires that deterministic baseline, and
 teardown checks immediate recovery health.
 
+Stateful per-iteration values use k6's test-wide
+`exec.scenario.iterationInTest`. The older `__ITER` counter is unsafe for these
+keys because it starts at zero independently for every VU, so multiple VUs can
+reuse the same rotated session, cache, or retry-operation identity. Prefixing
+the scenario iteration ID keeps each purpose distinct while preserving
+deterministic evidence.
+
 | Scenario | Runtime observation | Deterministic assertion | Course interpretation |
 |---|---|---|---|
 | `cheap-expensive` | `/health` latency versus bounded report latency | report body confirms `work=100`; report request takes longer in the local pair | route cost can differ at equal request count; no mitigation is compared |

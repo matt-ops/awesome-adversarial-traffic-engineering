@@ -1,11 +1,13 @@
 import http from "k6/http";
+import exec from "k6/execution";
 import { check, group } from "k6";
 
-import { buildLoadOptions, parseLoadConfiguration } from "./config.mjs";
+import { buildIterationKey, buildLoadOptions, parseLoadConfiguration } from "./config.mjs";
 
 // Pure parsing runs before k6 can initialize a traffic-generating executor.
 const config = parseLoadConfiguration(__ENV);
 const { target: TARGET, scenario: SCENARIO, dryRun: DRY_RUN } = config;
+const EXPECTED_429 = http.expectedStatuses(429);
 const EXPECTED_503 = http.expectedStatuses(503);
 
 export const options = buildLoadOptions(config);
@@ -55,7 +57,8 @@ export function setup() {
 
 export default function (data) {
   if (data.dryRun) return;
-  const number = __ITER;
+  // iterationInTest is unique across the scenario; __ITER restarts at zero for every VU.
+  const iterationId = exec.scenario.iterationInTest;
   group(SCENARIO, () => {
     if (SCENARIO === "cheap-expensive") {
       const cheap = http.get(`${TARGET}/health`);
@@ -72,7 +75,8 @@ export default function (data) {
       );
     } else if (SCENARIO === "cache-bypass") {
       const cached = http.get(`${TARGET}/api/reports/cacheable?cache_key=fixed`);
-      const bypass = http.get(`${TARGET}/api/reports/cacheable?cache_key=${number}&bypass=true`);
+      const cacheKey = buildIterationKey("bypass", iterationId);
+      const bypass = http.get(`${TARGET}/api/reports/cacheable?cache_key=${cacheKey}&bypass=true`);
       expect(cached, [200], "cached");
       expect(bypass, [200], "bypass");
       check(
@@ -85,8 +89,11 @@ export default function (data) {
         },
       );
     } else if (SCENARIO === "identity-key") {
-      const fixed = http.get(`${TARGET}/api/reports/limited?session_id=fixed&work=10`);
-      const rotated = http.get(`${TARGET}/api/reports/limited?session_id=rotated-${number}&work=10`);
+      const fixed = http.get(`${TARGET}/api/reports/limited?session_id=fixed&work=10`, {
+        responseCallback: EXPECTED_429,
+      });
+      const sessionId = buildIterationKey("rotated", iterationId);
+      const rotated = http.get(`${TARGET}/api/reports/limited?session_id=${sessionId}&work=10`);
       expect(fixed, [429], "fixed-key");
       expect(rotated, [200], "rotated-key");
       check(
@@ -126,7 +133,7 @@ export default function (data) {
         },
       );
     } else if (SCENARIO === "retry-amplification") {
-      const operation = `bounded-${number}`;
+      const operation = buildIterationKey("bounded", iterationId);
       const firstAttempt = http.get(`${TARGET}/api/reports/unstable?operation_id=${operation}`, {
         responseCallback: EXPECTED_503,
       });

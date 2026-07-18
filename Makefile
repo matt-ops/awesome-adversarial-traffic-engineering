@@ -18,7 +18,7 @@ test:
 	python -m unittest discover -s lab/tests -v
 
 lint:
-	python -m ruff check lab scripts
+	ruff check .
 	npm run lint
 
 typecheck:
@@ -47,7 +47,7 @@ validate:
 	python scripts/build_docs.py
 	python -m unittest discover -s lab/tests -v
 	python -m mypy lab scripts
-	python -m ruff check lab scripts
+	ruff check .
 	npm test
 	npm run lint
 	npm run format:check
