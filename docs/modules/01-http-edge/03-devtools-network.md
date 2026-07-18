@@ -2,31 +2,29 @@
 
 <!-- source-ids: chrome-devtools-network, aate-local-lab -->
 
-> **Progress**  
-> Module: 01 - HTTP and the edge  
-> Lesson: 3 of 4  
-> Depth: Foundation  
-> Estimated time: 80 minutes  
-> Prerequisites: Sessions and workflows  
-> Artifact: `artifacts/module-01/manual-trace.md`  
-> Next: Edge request path
+## Progress
+
+- Module: 01 - HTTP and the edge
+- Lesson: 3 of 4
+- Depth: Foundation
+- Estimated time: 80 minutes
+- Prerequisites:
+  - [Sessions and workflows](02-sessions-and-workflows.md)
+  - Chrome or Chromium with DevTools
+- Required artifact: `artifacts/module-01/manual-trace.md`
+- Next lesson: Edge request path
 
 ## Role outcome
 
 Capture a normal browser trace and explain the initiator, request, response,
 timing, and state evidence for each resource.
 
-## Prerequisites
-
-- [Sessions and workflows](02-sessions-and-workflows.md)
-- Chrome or Chromium with DevTools
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Chrome DevTools: Inspect network activity](https://developer.chrome.com/docs/devtools/network) | Open panel; log activity; show information; inspect resource details | Defines the observation workflow and panel fields |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Zero-Docker target | Supplies deterministic local requests |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Chrome DevTools: Inspect network activity](https://developer.chrome.com/docs/devtools/network) | Open panel; log activity; show information; inspect resource details | Defines the observation workflow and panel fields | Chrome UI and labels can change between releases. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Zero-Docker target | Supplies deterministic local requests | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ timing, and state evidence for each resource.
 ### Chrome DevTools assignment
 
 **Direct link:** [Inspect network activity](https://developer.chrome.com/docs/devtools/network)  
-**Exact assignment:** Open the Network panel; Log network activity; Show more information; Inspect a resource's details  
+**Exact section, chapter, or unit:** Open the Network panel; Log network activity; Show more information; Inspect a resource's details  
 **Estimated time:** 25 minutes  
-**Focus on:** preserving the log, disabling cache for a controlled comparison, initiator, headers, payload, response, and timing  
-**Skip:** throttling, request blocking, HAR editing, overrides, and advanced filtering for now  
+**What to focus on:** preserving the log, disabling cache for a controlled comparison, initiator, headers, payload, response, and timing  
+**What to skip:** throttling, request blocking, HAR editing, overrides, and advanced filtering for now  
 **Expected takeaway:** capture a resource and explain who initiated it, what crossed the network, what returned, and which inference remains unsupported.
 
 ## Course bridge
@@ -93,7 +91,7 @@ Start the loopback static server from Lesson 1. Open DevTools, select Network,
 enable Preserve log, and clear existing rows. Keep cache enabled for the first
 load.
 
-### Actions
+### Exact actions or commands
 
 1. Reload the page and search for `widget`.
 2. Record the document, stylesheet, script, frame, worker, and JSON rows.

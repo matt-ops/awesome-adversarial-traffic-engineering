@@ -2,42 +2,33 @@
 
 <!-- source-ids: owasp-code-review-guide, owasp-api-security-top-10, semgrep-public-rules, pytest-documentation, aate-local-lab -->
 
-> **Progress**
->
-> Module: 09 - Tooling and secure code review
->
-> Lesson: 4 of 4
->
-> Depth: Integrated
->
-> Estimated time: 5 hours
->
-> Prerequisites: Retries, timeouts, and jitter
->
-> Artifact: `artifacts/module-09/code-review.md`
->
-> Next: Finding and evidence
+## Progress
+
+- Module: 09 - Tooling and secure code review
+- Lesson: 4 of 4
+- Depth: Integrated
+- Estimated time: 5 hours
+- Prerequisites:
+  - [Retries, timeouts, and jitter](03-retries-timeouts-and-jitter.md)
+  - [Workflow and API mapping](../04-automated-abuse/02-workflow-mapping.md)
+  - Read basic Python conditionals, collections, functions, and tests
+- Required artifact: `artifacts/module-09/code-review.md`
+- Next lesson: Finding and evidence
 
 ## Role outcome
 
 Review a request path from attacker-controlled input to protected effect, form a
 code-backed abuse hypothesis, and convert it into a bounded regression test.
 
-## Prerequisites
-
-- [Retries, timeouts, and jitter](03-retries-timeouts-and-jitter.md)
-- [Workflow and API mapping](../04-automated-abuse/02-workflow-mapping.md)
-- Read basic Python conditionals, collections, functions, and tests
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/) | objectives, threat modeling, authentication, authorization, error handling/logging | Grounds the review workflow |
-| PROJECT_DOCUMENTATION | [OWASP API Security Top 10](https://owasp.org/API-Security/) | API1, API2, API4, API6 | Supplies risk lenses, not proof |
-| PROJECT_DOCUMENTATION | [Semgrep Registry](https://semgrep.dev/explore) | one Python security rule example | Shows automation's limited role |
-| OFFICIAL_DOCUMENTATION | [pytest assertions](https://docs.pytest.org/en/stable/how-to/assert.html) | result assertions | Grounds regression proof |
-| LAB_SPECIFIC | [Code-review lab](../../labs/deep/code-review.md) | four deliberate local cases | Supplies exact targets and outputs |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/) | objectives, threat modeling, authentication, authorization, error handling/logging | Grounds the review workflow | Broad guide; lessons assign only sections relevant to the local review case. |
+| PROJECT_DOCUMENTATION | [OWASP API Security Top 10](https://owasp.org/API-Security/) | API1, API2, API4, API6 | Supplies risk lenses, not proof | Risk taxonomy; it does not replace code-specific proof and tests. |
+| PROJECT_DOCUMENTATION | [Semgrep Registry](https://semgrep.dev/explore) | one Python security rule example | Shows automation's limited role | Example automation only; never the primary teacher or proof of exploitability. |
+| OFFICIAL_DOCUMENTATION | [pytest assertions](https://docs.pytest.org/en/stable/how-to/assert.html) | result assertions | Grounds regression proof | Only the features used by the code-review exercises are assigned. |
+| LAB_SPECIFIC | [Code-review lab](../../labs/deep/code-review.md) | four deliberate local cases | Supplies exact targets and outputs | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -57,19 +48,23 @@ does none of those things.
 
 ## Required external instruction
 
-### Required review assignment
+### Code-review method assignment
 
-**Direct link:** [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/) and [OWASP API Security Top 10](https://owasp.org/API-Security/)
+**Direct link:** [OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)  
+**Exact section, chapter, or unit:** Introduction/Objectives, Threat Modeling, Authentication, Authorization, and Error Handling and Logging  
+**Estimated time:** 65 minutes  
+**What to focus on:** trust boundaries, subject/object/action, protected effects, alternate paths, and log usefulness  
+**What to skip:** full-language checklists, tool installation, and sections unrelated to the local Python cases  
+**Expected takeaway:** follow one untrusted value through transformation and a security decision to a protected effect, then define exploit and remediation tests.
 
-**Exact assignment:** Code Review Guide Introduction/Objectives, Threat Modeling, Authentication, Authorization, Error Handling and Logging; API Top 10 API1, API2, API4, and API6 pages
+### API risk-lens assignment
 
-**Estimated time:** 110 minutes
-
-**Focus on:** trust boundaries, subject/object/action, business-flow effects, resource ceilings, log usefulness, and converting category language into code-specific proof
-
-**Skip:** other API categories, full-language checklists, tool installation, and unrelated Semgrep rules
-
-**Expected takeaway:** follow one untrusted value to a security decision and protected effect, then define both exploit and remediation tests.
+**Direct link:** [OWASP API Security Top 10](https://owasp.org/API-Security/)  
+**Exact section, chapter, or unit:** API1, API2, API4, and API6 pages  
+**Estimated time:** 45 minutes  
+**What to focus on:** object authorization, authentication, resource consumption, and sensitive business-flow effects  
+**What to skip:** the other API categories and any attempt to treat category membership as proof  
+**Expected takeaway:** use each category as a review prompt, then name the code and test evidence still required to establish a real local finding.
 
 ## Course bridge
 
@@ -101,7 +96,7 @@ Complete four code reviews and write one new failing remediation test design.
 Open `lab/app/main.py`, `lab/clients/safe_client.py`, `lab/tooling/client.py`,
 and `lab/tests/test_app.py`. Use [the case guide](../../labs/deep/code-review.md).
 
-### Actions
+### Exact actions or commands
 
 1. Review reservation: trace `product_id`, `quantity`, inventory check, mutation,
    and missing subject/authorization decision.

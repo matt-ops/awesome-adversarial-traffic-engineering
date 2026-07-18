@@ -2,34 +2,34 @@
 
 <!-- source-ids: owasp-wstg-map-architecture-v42, mdn-http-overview, ja4-project, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 07 - Protocol identity  
-> Lesson: 4 of 5  
-> Depth: Integrated  
-> Estimated time: 2 hours  
-> Prerequisites: HTTP/2  
-> Artifact: `artifacts/module-07/observation-points.md`  
-> Next: HTTP/3 and QUIC
+## Progress
+
+- Module: 07 - Protocol identity
+- Lesson: 4 of 5
+- Depth: Integrated
+- Estimated time: 2 hours
+- Prerequisites:
+  - [HTTP/2](03-http2.md)
+  - Module 01 edge map
+- Required artifact: `artifacts/module-07/observation-points.md`
+- Next lesson: HTTP/3 and QUIC
 
 ## Role outcome
 
 Identify which proxy/client component owns each TLS/HTTP observation and explain
 how pooling/reuse changes identity and rate assumptions.
 
-## Prerequisites
-
-- [HTTP/2](03-http2.md)
-- Module 01 edge map
+> A network fingerprint is an analytical pivot, not proof of a specific user or browser.
 
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [OWASP architecture mapping](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture) | Summary; How to Test | Grounds intermediary discovery |
-| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | components; connections | Defines proxy/connection roles |
-| PROJECT_DOCUMENTATION | [JA4](https://github.com/FoxIO-LLC/ja4) | observation and version considerations | Grounds fingerprint ownership limits |
-| LAB_SPECIFIC | [Protocol lab](../../labs/integrated/protocol-identity.md) | HTTP observation | Supplies fixed local evidence |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | map/control hypothesis | Connects ownership to testing |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [OWASP architecture mapping](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture) | Summary; How to Test | Grounds intermediary discovery | Version 4.2 is intentionally pinned and does not model every modern edge service. |
+| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | components; connections | Defines proxy/connection roles | Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide. |
+| PROJECT_DOCUMENTATION | [JA4](https://github.com/FoxIO-LLC/ja4) | observation and version considerations | Grounds fingerprint ownership limits | Fingerprints change with implementations; licensing differs across JA4+ methods; fingerprints are not identity proof. |
+| LAB_SPECIFIC | [Protocol lab](../../labs/integrated/protocol-identity.md) | HTTP observation | Supplies fixed local evidence | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | map/control hypothesis | Connects ownership to testing | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -41,14 +41,23 @@ how pooling/reuse changes identity and rate assumptions.
 
 ## Required external instruction
 
-### Intermediary assignment
+### Architecture-mapping assignment
 
-**Direct link:** [OWASP Map Application Architecture](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture) and [MDN HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)  
-**Exact assignment:** OWASP Summary/Objectives/How to Test; MDN Components of HTTP-based systems and HTTP and connections  
-**Estimated time:** 45 minutes  
-**Focus on:** explicit/transparent/reverse intermediaries, termination, forwarded claims, pooling, and observation point  
-**Skip:** broad infrastructure scanning and proxy deployment guides  
-**Expected takeaway:** attribute each fingerprint/header/connection feature to the component that actually produced it.
+**Direct link:** [OWASP Map Application Architecture](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture)  
+**Exact section, chapter, or unit:** Summary, Objectives, and How to Test  
+**Estimated time:** 25 minutes  
+**What to focus on:** explicit, transparent, and reverse intermediaries; termination points; and the observation available at each hop  
+**What to skip:** broad infrastructure scanning and proxy deployment guides  
+**Expected takeaway:** draw the intermediary chain and name the component that can create or transform each observation.
+
+### HTTP connection assignment
+
+**Direct link:** [MDN HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)  
+**Exact section, chapter, or unit:** Components of HTTP-based systems; HTTP and connections  
+**Estimated time:** 20 minutes  
+**What to focus on:** client, proxy, server, connection reuse, and why a connection is not the same unit as a request or user  
+**What to skip:** browser APIs built on HTTP  
+**Expected takeaway:** explain how pooling and reuse decouple connection count from request count and caller count.
 
 ## Course bridge
 
@@ -76,7 +85,7 @@ Annotate protocol ownership on the existing edge map.
 
 Start local API and use the fixed HTTP helper once.
 
-### Actions
+### Exact actions or commands
 
 1. Execute `python -m lab.protocol.compare http`.
 2. Record client response version and server-visible version/headers.
@@ -139,4 +148,3 @@ reuse scopes, hypotheses, proof, and limitations.
 
 [HTTP/3 and QUIC](05-http3-quic.md) adds encrypted QUIC transport, streams, and
 connection identifiers to the deep path.
-

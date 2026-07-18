@@ -14,6 +14,17 @@ lab/reports/generated/
 playwright-report/
 test-results/
 
+# Local release-review and audit material (never part of the public tree)
+archive/
+artifacts/
+audit-evidence/
+fix-evidence/
+*.zip
+FIX_STATUS.md
+REMEDIATION_*.md
+REWRITE_*.md
+AATE-CODEX-*
+
 # Local specification and preparation inputs (read-only source material)
 01-AATE-CODEX-MASTER-PROMPT-FINAL.md
 02-AATE-CODEX-KICKOFF.txt

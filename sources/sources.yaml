@@ -3,8 +3,9 @@
   url: https://csrc.nist.gov/pubs/sp/800/115/final
   source_type: STANDARD
   publisher: NIST
-  published_or_updated: "2008-09"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2008-09"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - "5.2 Penetration Testing"
     - "5.2.1 Penetration Testing Phases"
@@ -23,10 +24,11 @@
 - id: mitre-adversary-emulation-plans
   title: Adversary Emulation Plans
   url: https://attack.mitre.org/resources/adversary-emulation-plans/
-  source_type: STANDARD
+  source_type: OFFICIAL_DOCUMENTATION
   publisher: MITRE ATT&CK
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Complete page through Emulation Plan Documents
   supports:
@@ -42,8 +44,9 @@
   url: https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points
   source_type: PROJECT_DOCUMENTATION
   publisher: OWASP WSTG
-  published_or_updated: "2020-12"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2020-12"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Summary
     - Test Objectives
@@ -63,8 +66,9 @@
   url: https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/10-Map_Application_Architecture
   source_type: PROJECT_DOCUMENTATION
   publisher: OWASP WSTG
-  published_or_updated: "2020-12"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2020-12"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Summary
     - Test Objectives
@@ -81,8 +85,9 @@
   url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MDN Web Docs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Components of HTTP-based systems
     - Basic aspects of HTTP
@@ -102,8 +107,9 @@
   url: https://developer.chrome.com/docs/devtools/network
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Chrome for Developers
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Open the Network panel
     - Log network activity
@@ -121,8 +127,9 @@
   url: https://developer.chrome.com/blog/inside-browser-part1/
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Chrome for Developers
-  published_or_updated: "2018-09"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2018-09"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Execute program on Process and Thread
     - Browser architecture
@@ -139,8 +146,9 @@
   url: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MDN Web Docs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Concepts and usage
     - DOM tree
@@ -158,8 +166,9 @@
   url: https://testautomationu.applitools.com/javascript-tutorial/
   source_type: PRACTITIONER_PERSPECTIVE
   publisher: Test Automation University
-  published_or_updated: living-course
-  last_verified: "2026-07-15"
+  version_or_accessed: living-course
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - "1.1 Variables"
     - "1.2 Data Types"
@@ -181,8 +190,9 @@
   url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MDN Web Docs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Description
     - Chained Promises
@@ -196,8 +206,9 @@
   url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MDN Web Docs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Description
     - Examples
@@ -211,8 +222,9 @@
   url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MDN Web Docs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Description
     - The finally block
@@ -226,8 +238,9 @@
   url: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MDN Web Docs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Making a request
     - Setting the method
@@ -244,8 +257,9 @@
   url: https://learn.microsoft.com/en-us/training/modules/build-with-playwright/
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Microsoft Learn
-  published_or_updated: living-module
-  last_verified: "2026-07-15"
+  version_or_accessed: living-module
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - All eight units
   supports:
@@ -261,8 +275,9 @@
   url: https://playwright.dev/docs/browser-contexts
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Microsoft Playwright
-  published_or_updated: versioned-living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: versioned-living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Introduction
     - What is Test Isolation?
@@ -278,8 +293,9 @@
   url: https://playwright.dev/docs/network
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Microsoft Playwright
-  published_or_updated: versioned-living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: versioned-living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - HTTP Authentication
     - Network events
@@ -296,8 +312,9 @@
   url: https://playwright.dev/docs/auth
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Microsoft Playwright
-  published_or_updated: versioned-living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: versioned-living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Introduction
     - Basic shared account in all tests
@@ -313,8 +330,9 @@
   url: https://playwright.dev/docs/api/class-cdpsession
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Microsoft Playwright
-  published_or_updated: versioned-living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: versioned-living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - CDPSession overview
     - send
@@ -329,8 +347,9 @@
   url: https://owasp.org/www-project-automated-threats-to-web-applications/
   source_type: PROJECT_DOCUMENTATION
   publisher: OWASP
-  published_or_updated: living-project
-  last_verified: "2026-07-15"
+  version_or_accessed: living-project
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Project introduction
     - OAT-008 Credential Stuffing — Summary Defining Characteristics, Description, Other Names and Examples
@@ -350,8 +369,9 @@
   url: https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities
   source_type: PROJECT_DOCUMENTATION
   publisher: PortSwigger Web Security Academy
-  published_or_updated: living-learning-path
-  last_verified: "2026-07-15"
+  version_or_accessed: living-learning-path
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - What is authentication?
     - Authentication versus authorization
@@ -370,8 +390,9 @@
   url: https://portswigger.net/web-security/learning-paths/race-conditions
   source_type: PROJECT_DOCUMENTATION
   publisher: PortSwigger Web Security Academy
-  published_or_updated: living-learning-path
-  last_verified: "2026-07-15"
+  version_or_accessed: living-learning-path
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Limit overrun race conditions
     - Detecting and exploiting limit overrun race conditions with Burp Repeater
@@ -388,8 +409,9 @@
   url: https://portswigger.net/web-security/learning-paths/api-testing
   source_type: PROJECT_DOCUMENTATION
   publisher: PortSwigger Web Security Academy
-  published_or_updated: living-learning-path
-  last_verified: "2026-07-15"
+  version_or_accessed: living-learning-path
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - API recon
     - API documentation
@@ -409,8 +431,9 @@
   url: https://portswigger.net/web-security/logic-flaws
   source_type: PROJECT_DOCUMENTATION
   publisher: PortSwigger Web Security Academy
-  published_or_updated: living-topic
-  last_verified: "2026-07-15"
+  version_or_accessed: living-topic
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - What are business logic vulnerabilities?
     - How do business logic vulnerabilities arise?
@@ -427,8 +450,9 @@
   url: https://github.com/antoinevastel/fpscanner
   source_type: PROJECT_DOCUMENTATION
   publisher: Antoine Vastel
-  published_or_updated: living-repository
-  last_verified: "2026-07-15"
+  version_or_accessed: living-repository
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Description and open-source constraints
     - Features
@@ -446,8 +470,9 @@
   url: https://github.com/antoinevastel/fpscanner
   source_type: VERSION_SENSITIVE
   publisher: AATE source ledger
-  published_or_updated: "2026-07-15"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2026-07-15"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Record commit SHA, package version, browser version, enabled options, and observed output
   supports: [version-drift, reproducibility]
@@ -460,8 +485,9 @@
   url: https://github.com/rebrowser/rebrowser-bot-detector
   source_type: PROJECT_DOCUMENTATION
   publisher: Rebrowser
-  published_or_updated: living-repository
-  last_verified: "2026-07-15"
+  version_or_accessed: living-repository
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - README overview
     - What are the tests?
@@ -482,8 +508,9 @@
   url: https://arxiv.org/abs/2406.07647
   source_type: PREPRINT_RESEARCH
   publisher: arXiv
-  published_or_updated: "2025-09-21 v3"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2025-09-21 v3"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Abstract
     - "1 Introduction"
@@ -504,8 +531,9 @@
   url: https://arxiv.org/abs/2110.10129
   source_type: PREPRINT_RESEARCH
   publisher: arXiv
-  published_or_updated: "2021-10-19"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2021-10-19"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Abstract and Introduction
     - "3 Attack Model and Spoofing Methods"
@@ -524,8 +552,9 @@
   url: https://github.com/FoxIO-LLC/ja4
   source_type: PROJECT_DOCUMENTATION
   publisher: FoxIO
-  published_or_updated: living-repository
-  last_verified: "2026-07-15"
+  version_or_accessed: living-repository
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Project overview
     - JA4 TLS fingerprint
@@ -543,8 +572,9 @@
   url: https://www.rfc-editor.org/rfc/rfc8446
   source_type: STANDARD
   publisher: IETF
-  published_or_updated: "2018-08"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2018-08"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - "4.1 Cryptographic Negotiation"
     - "4.1.2 Client Hello"
@@ -558,8 +588,9 @@
   url: https://www.rfc-editor.org/rfc/rfc9113
   source_type: STANDARD
   publisher: IETF
-  published_or_updated: "2022-06"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2022-06"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - "2 HTTP/2 Protocol Overview"
     - "5 Streams and Multiplexing"
@@ -573,8 +604,9 @@
   url: https://www.rfc-editor.org/rfc/rfc9114
   source_type: STANDARD
   publisher: IETF
-  published_or_updated: "2022-06"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2022-06"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - "2 HTTP/3 Protocol Overview"
     - "3 Connection Setup and Management"
@@ -588,8 +620,9 @@
   url: https://www.rfc-editor.org/rfc/rfc9000
   source_type: STANDARD
   publisher: IETF
-  published_or_updated: "2021-05"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2021-05"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - "2 Streams"
     - "5 Connections"
@@ -603,8 +636,9 @@
   url: https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/
   source_type: VENDOR_RESEARCH
   publisher: Cloudflare Learning Center
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - How does a DDoS attack work?
     - Common types of DDoS attacks
@@ -622,8 +656,9 @@
   url: https://docs.aws.amazon.com/waf/latest/developerguide/ddos-app-layer-rbr.html
   source_type: OFFICIAL_DOCUMENTATION
   publisher: AWS
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Complete short page
   supports: [application-layer-ddos, rate-based-rules, endpoint-specific-controls]
@@ -636,8 +671,9 @@
   url: https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html
   source_type: OFFICIAL_DOCUMENTATION
   publisher: AWS
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Aggregation instances
     - Evaluation windows
@@ -653,8 +689,9 @@
   url: https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/
   source_type: PRACTITIONER_PERSPECTIVE
   publisher: AWS Builders' Library
-  published_or_updated: living-article
-  last_verified: "2026-07-15"
+  version_or_accessed: living-article
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Complete article
   supports: [load-shedding, admission-control, overload-recovery]
@@ -667,8 +704,9 @@
   url: https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/
   source_type: PRACTITIONER_PERSPECTIVE
   publisher: AWS Builders' Library
-  published_or_updated: living-article
-  last_verified: "2026-07-15"
+  version_or_accessed: living-article
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Timeouts
     - Retries and backoff
@@ -684,8 +722,9 @@
   url: https://grafana.com/docs/k6/latest/using-k6/thresholds/
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Grafana k6
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Threshold syntax
     - Failure behavior
@@ -701,8 +740,9 @@
   url: https://docs.python.org/3/
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Python Software Foundation
-  published_or_updated: "3.12 and current 3.x docs"
-  last_verified: "2026-07-15"
+  version_or_accessed: "3.12 and current 3.x docs"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Dictionaries
     - Reading and writing files
@@ -721,8 +761,9 @@
   url: https://docs.pytest.org/en/stable/
   source_type: OFFICIAL_DOCUMENTATION
   publisher: pytest
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Get Started
     - How to write and report assertions
@@ -737,8 +778,9 @@
   url: https://owasp.org/www-project-code-review-guide/
   source_type: PROJECT_DOCUMENTATION
   publisher: OWASP
-  published_or_updated: living-project
-  last_verified: "2026-07-15"
+  version_or_accessed: living-project
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Introduction and objectives
     - Threat modeling
@@ -755,8 +797,9 @@
   url: https://owasp.org/API-Security/
   source_type: PROJECT_DOCUMENTATION
   publisher: OWASP
-  published_or_updated: "2023"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2023"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - API1 Broken Object Level Authorization
     - API2 Broken Authentication
@@ -772,8 +815,9 @@
   url: https://semgrep.dev/explore
   source_type: PROJECT_DOCUMENTATION
   publisher: Semgrep
-  published_or_updated: living-registry
-  last_verified: "2026-07-15"
+  version_or_accessed: living-registry
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: "2026-07-17"
   assigned_sections:
     - Public Python and JavaScript security-rule examples selected by the lesson
   supports: [static-analysis-examples]
@@ -781,39 +825,45 @@
     - Example automation only; never the primary teacher or proof of exploitability.
   modules: [module-09]
 
-- id: amazon-security-engineer-interview-prep
-  title: Security Engineer Interview Prep
-  url: https://amazon.jobs/content/en/how-we-hire/security-engineer-interview-prep
-  source_type: OFFICIAL_DOCUMENTATION
-  publisher: Amazon Jobs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+- id: owasp-wstg-reporting-structure
+  title: OWASP Web Security Testing Guide - Reporting Structure
+  url: https://owasp.org/www-project-web-security-testing-guide/latest/5-Reporting/01-Reporting_Structure
+  source_type: PROJECT_DOCUMENTATION
+  publisher: OWASP
+  version_or_accessed: latest-development-page
+  last_content_reviewed: "2026-07-16"
+  last_link_checked: "2026-07-17"
   assigned_sections:
-    - Interview format
-    - Technical topics
-    - Behavioral preparation
-  supports: [security-engineer-interview-format, technical-communication]
+    - About This Section
+    - 1.4 Scope
+    - 1.5 Limitations
+    - 2 Executive Summary
+    - 3 Findings
+    - 3.2 Findings Details
+    - Reproducible Test Artifacts
+  supports: [security-report-structure, executive-summary, reproducible-findings]
   limitations:
-    - Employer-specific public guidance; course artifacts remain generic and public-safe.
+    - The latest WSTG reporting page is development guidance and may change; it is a suggested consultancy-oriented structure, not a mandatory universal format.
   modules: [module-10]
 
-- id: amazon-leadership-principles
-  title: Leadership Principles
-  url: https://www.amazon.jobs/content/en/our-workplace/leadership-principles
+- id: google-technical-writing-one
+  title: Technical Writing One
+  url: https://developers.google.com/tech-writing/one
   source_type: OFFICIAL_DOCUMENTATION
-  publisher: Amazon Jobs
-  published_or_updated: living-page
-  last_verified: "2026-07-15"
+  publisher: Google for Developers
+  version_or_accessed: living-course
+  last_content_reviewed: "2026-07-16"
+  last_link_checked: "2026-07-17"
   assigned_sections:
-    - Customer Obsession
-    - Ownership
-    - Dive Deep
-    - Earn Trust
-    - Have Backbone; Disagree and Commit
-    - Deliver Results
-  supports: [behavioral-interview-structure, role-narrative]
+    - Audience
+    - Active voice versus passive voice
+    - Clear sentences
+    - Short sentences
+    - Paragraphs
+    - Lists and tables
+  supports: [audience-analysis, concise-technical-writing, structured-explanation]
   limitations:
-    - Employer-specific public rubric; do not place confidential stories in the repository.
+    - General technical-writing instruction; it does not define security finding evidence, severity, or retest requirements.
   modules: [module-10]
 
 - id: aate-adversarial-control-loop
@@ -821,8 +871,9 @@
   url: methodology-provenance.md
   source_type: COURSE_SYNTHESIS
   publisher: AATE course
-  published_or_updated: "2026-07-15"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2026-07-15"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: not-applicable
   assigned_sections:
     - All fifteen steps and provenance table
   supports: [aate-method, controlled-experiments, protected-action-proof, retest]
@@ -835,8 +886,9 @@
   url: ../lab/README.md
   source_type: LAB_SPECIFIC
   publisher: AATE course
-  published_or_updated: "2026-07-15"
-  last_verified: "2026-07-15"
+  version_or_accessed: "2026-07-15"
+  last_content_reviewed: "2026-07-15"
+  last_link_checked: not-applicable
   assigned_sections:
     - Local target policy
     - Intentional challenge replay weakness

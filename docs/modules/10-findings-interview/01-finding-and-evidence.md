@@ -2,39 +2,30 @@
 
 <!-- source-ids: nist-sp-800-115, aate-adversarial-control-loop, aate-local-lab -->
 
-> **Progress**
->
-> Module: 10 - Findings, briefing, and interview practice
->
-> Lesson: 1 of 5
->
-> Depth: Foundation
->
-> Estimated time: 3 hours
->
-> Prerequisites: Python telemetry as evidence
->
-> Artifact: `artifacts/module-10/finding.md`
->
-> Next: Remediation and exact retest
+## Progress
+
+- Module: 10 - Findings, briefing, and interview practice
+- Lesson: 1 of 5
+- Depth: Foundation
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Python telemetry as evidence](../09-tooling-code-review/01-python-telemetry.md)
+  - One synthetic evidence artifact with raw observations and a stated limitation
+- Required artifact: `artifacts/module-10/finding.md`
+- Next lesson: Remediation and exact retest
 
 ## Role outcome
 
 Write a reproducible synthetic finding that connects a scoped precondition and
 attack action to a protected effect without overstating identity, prevalence, or production impact.
 
-## Prerequisites
-
-- [Python telemetry as evidence](../09-tooling-code-review/01-python-telemetry.md)
-- One synthetic evidence artifact with raw observations and a stated limitation
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §§8.1-8.3 reporting, mitigation, resolution | Grounds assessment communication |
-| Course synthesis (`COURSE_SYNTHESIS`) | [Adversarial-control loop](../../methodology/adversarial-control-loop.md) | evidence, impact, limitation, remediation, retest | Structures the local finding |
-| LAB_SPECIFIC | [Finding and briefing lab](../../labs/deep/finding-briefing.md) | challenge replay example and structure | Supplies a complete local model |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §§8.1-8.3 reporting, mitigation, resolution | Grounds assessment communication | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| COURSE_SYNTHESIS | [Adversarial-control loop](../../methodology/adversarial-control-loop.md) | Steps 11-15 | Structures protected-action evidence, impact, limitations, remediation, and retest | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
+| LAB_SPECIFIC | [Finding and briefing lab](../../labs/deep/finding-briefing.md) | challenge replay example and structure | Supplies a complete local model | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -60,13 +51,13 @@ scope + precondition + exact action + observed control response
 
 **Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)
 
-**Exact assignment:** read §§8.1 Developing the Final Report, 8.2 Mitigation Recommendations, and 8.3 Post-Testing Activities; use §8.1's audience and evidence considerations as a checklist
+**Exact section, chapter, or unit:** read §§8.1 Developing the Final Report, 8.2 Mitigation Recommendations, and 8.3 Post-Testing Activities; use §8.1's audience and evidence considerations as a checklist
 
 **Estimated time:** 55 minutes
 
-**Focus on:** audience, reproducibility, evidence handling, root cause versus symptom, practical recommendation, residual risk, and cleanup
+**What to focus on:** audience, reproducibility, evidence handling, root cause versus symptom, practical recommendation, residual risk, and cleanup
 
-**Skip:** tool chapters and assessment techniques already covered in earlier modules
+**What to skip:** tool chapters and assessment techniques already covered in earlier modules
 
 **Expected takeaway:** organize evidence so a technical reviewer can reproduce the claim and a decision-maker can understand its bounded consequence.
 
@@ -77,8 +68,9 @@ retest. These are Course synthesis choices derived from the offensive-control
 loop; NIST does not define this exact page template.
 
 !!! note "Course synthesis"
-    A changed score, fingerprint, challenge rate, or status code is supporting
-    evidence. The main impact claim names the action or service effect the adversary achieved.
+    **COURSE_SYNTHESIS:** A changed score, fingerprint, challenge rate, or
+    status code is supporting evidence. The main impact claim names the action
+    or service effect the adversary achieved.
 
 ## Worked example
 
@@ -100,7 +92,7 @@ Choose challenge replay, inventory authorization, rate-key rotation, browser
 control evasion, or bounded retry amplification. Open raw output and the bundled
 synthetic finding. Do not copy its wording for a different case.
 
-### Actions
+### Exact actions or commands
 
 1. State target, authorization, lab version, reset condition, and precondition.
 2. Record the blocked or unaffected baseline.

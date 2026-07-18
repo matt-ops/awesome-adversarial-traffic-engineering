@@ -2,39 +2,30 @@
 
 <!-- source-ids: python-standard-library, aws-builders-library-timeouts-retries-jitter, aate-local-lab -->
 
-> **Progress**
->
-> Module: 09 - Tooling and secure code review
->
-> Lesson: 3 of 4
->
-> Depth: Applied
->
-> Estimated time: 3 hours
->
-> Prerequisites: Async and bounded concurrency
->
-> Artifact: `artifacts/module-09/retry-budget.md`
->
-> Next: Secure code review
+## Progress
+
+- Module: 09 - Tooling and secure code review
+- Lesson: 3 of 4
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Async and bounded concurrency](02-async-and-bounded-concurrency.md)
+  - Local `/api/reports/unstable` fixture running
+- Required artifact: `artifacts/module-09/retry-budget.md`
+- Next lesson: Secure code review
 
 ## Role outcome
 
 Recognize and reproduce client-side retry amplification, then implement a bounded
 timeout, attempt budget, exponential backoff, and jitter for the local fixture.
 
-## Prerequisites
-
-- [Async and bounded concurrency](02-async-and-bounded-concurrency.md)
-- Local `/api/reports/unstable` fixture running
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PRACTITIONER_PERSPECTIVE | [Timeouts, retries, and backoff with jitter](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/) | timeouts, retries/backoff, jitter, conclusion | Grounds failure and amplification behavior |
-| OFFICIAL_DOCUMENTATION | [Python `asyncio.sleep`](https://docs.python.org/3/library/asyncio-task.html#asyncio.sleep) | cooperative delay | Grounds the lab scheduling primitive |
-| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | deterministic fail-once route | Supplies bounded observation |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PRACTITIONER_PERSPECTIVE | [Timeouts, retries, and backoff with jitter](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/) | timeouts, retries/backoff, jitter, conclusion | Grounds failure and amplification behavior | Practitioner guidance from one large provider; timeout values and retry policy require target-specific measurement. |
+| OFFICIAL_DOCUMENTATION | [Python `asyncio.sleep`](https://docs.python.org/3/library/asyncio-task.html#asyncio.sleep) | cooperative delay | Grounds the lab scheduling primitive | Lessons link to the exact subsection used; not all Python documentation is assigned. |
+| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | deterministic fail-once route | Supplies bounded observation | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -58,13 +49,13 @@ desynchronizes clients. None of those mechanisms replaces an attempt budget.
 
 **Direct link:** [Timeouts, retries, and backoff with jitter](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/)
 
-**Exact assignment:** read Timeouts; Retries and backoff; Jitter; and Conclusion, including the layered-retry example and token-bucket discussion
+**Exact section, chapter, or unit:** read Timeouts; Retries and backoff; Jitter; and Conclusion, including the layered-retry example and token-bucket discussion
 
 **Estimated time:** 65 minutes
 
-**Focus on:** timeout selection, side effects after timeout, overload amplification, retry location, capped exponential backoff, jitter purpose, and a finite retry budget
+**What to focus on:** timeout selection, side effects after timeout, overload amplification, retry location, capped exponential backoff, jitter purpose, and a finite retry budget
 
-**Skip:** provider SDK configuration and service-specific percentile values
+**What to skip:** provider SDK configuration and service-specific percentile values
 
 **Expected takeaway:** decide whether a failure is retryable, where retry belongs, and the maximum calls one logical operation can produce.
 
@@ -98,7 +89,7 @@ Capture a fail-once retry trace and calculate its work and time budgets.
 Start/reset the local API. Open `fetch_with_retry()` and the `unstable_report()`
 route side by side.
 
-### Actions
+### Exact actions or commands
 
 1. Choose a fresh `operation_id` by appending it to the target query string.
 2. Execute `python -m lab.tooling.client retry --target "http://localhost:8080/api/reports/unstable?operation_id=lesson-09" --attempts 3`.

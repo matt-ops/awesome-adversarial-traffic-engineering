@@ -2,34 +2,32 @@
 
 <!-- source-ids: fpscanner-version-note, rebrowser-bot-detector, fp-inconsistent, gummy-browsers, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 06 - Browser-control evasion  
-> Lesson: 5 of 5  
-> Depth: Deep  
-> Estimated time: 4 hours plus later repeat  
-> Prerequisites: Replay and temporal consistency  
-> Artifact: `artifacts/module-06/version-drift-study.md`  
-> Next: Protocol identity
+## Progress
+
+- Module: 06 - Browser-control evasion
+- Lesson: 5 of 5
+- Depth: Deep
+- Estimated time: 4 hours plus later repeat
+- Prerequisites:
+  - [Replay and temporal consistency](04-replay-and-temporal-consistency.md)
+  - At least one complete baseline/treatment artifact
+- Required artifact: `artifacts/module-06/version-drift-study.md`
+- Next lesson: Protocol identity
 
 ## Role outcome
 
 Repeat a versioned browser experiment, separate control drift from client drift,
 and preserve residual anomalies that limit the bypass claim.
 
-## Prerequisites
-
-- [Replay and temporal consistency](04-replay-and-temporal-consistency.md)
-- At least one complete baseline/treatment artifact
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| VERSION_SENSITIVE | [FPScanner record](https://github.com/antoinevastel/fpscanner) | commit/package/browser/options/output | Defines minimum version metadata |
-| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | current tests and limitations | Demonstrates framework/browser artifact drift |
-| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | §8.4 limitations and conclusion | Bounds inconsistency claims |
-| PREPRINT_RESEARCH | [Gummy Browsers](https://arxiv.org/abs/2110.10129) | §8 limitations and §9 | Shows version/threat-model limits of spoofing results |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | exact retest and alternatives | Structures drift attribution |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| VERSION_SENSITIVE | [FPScanner record](https://github.com/antoinevastel/fpscanner) | commit/package/browser/options/output | Defines minimum version metadata | Observations are valid only for the recorded code and browser versions. |
+| PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | current tests and limitations | Demonstrates framework/browser artifact drift | Version-sensitive artifact catalog with strong project claims; not a model of every commercial control. |
+| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | §8.4 limitations and conclusion | Bounds inconsistency claims | Preprint studying a specific dataset, honey-site design, bot population, and selected services; not universal proof. |
+| PREPRINT_RESEARCH | [Gummy Browsers](https://arxiv.org/abs/2110.10129) | §8 limitations and §9 | Shows version/threat-model limits of spoofing results | Research threat model and older browser/tool versions; network-layer identity was not spoofed in the study. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | exact retest and alternatives | Structures drift attribution | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -42,14 +40,32 @@ and preserve residual anomalies that limit the bypass claim.
 
 ## Required external instruction
 
-### Drift assignment
+### Rebrowser version-sensitive assignment
 
-**Direct link:** [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector), [FP-Inconsistent](https://arxiv.org/abs/2406.07647), and [Gummy Browsers](https://arxiv.org/abs/2110.10129)  
-**Exact assignment:** Rebrowser current limitations/test descriptions; FP-Inconsistent §8.4 and §9; Gummy §8 and §9  
-**Estimated time:** 65 minutes  
-**Focus on:** dated implementations, evaluated populations, browser/framework evolution, unobserved layers, and non-universality  
-**Skip:** external target testing and unsupported issue-thread claims  
-**Expected takeaway:** write a drift claim that names exactly which component changed and which cause remains unresolved.
+**Direct link:** [Rebrowser Bot Detector](https://github.com/rebrowser/rebrowser-bot-detector)  
+**Exact section, chapter, or unit:** current limitations and descriptions of the tests used by the course baseline  
+**Estimated time:** 20 minutes  
+**What to focus on:** the browser/framework versions and implementation artifacts on which each documented check depends  
+**What to skip:** unsupported issue-thread claims and bypass packages  
+**Expected takeaway:** name which client component/version must be recorded before a detection or evasion observation is reproducible.
+
+### FP-Inconsistent limitations assignment
+
+**Direct link:** [FP-Inconsistent](https://arxiv.org/abs/2406.07647)  
+**Exact section, chapter, or unit:** §8.4 Limitations and §9 Conclusion  
+**Estimated time:** 20 minutes  
+**What to focus on:** evaluated populations, collection method, time range, and conclusions that do not transfer automatically  
+**What to skip:** treating the measured prevalence as a universal current rate  
+**Expected takeaway:** constrain a drift claim to the paper's measured conditions and your newly recorded run.
+
+### Gummy Browsers limitations assignment
+
+**Direct link:** [Gummy Browsers](https://arxiv.org/abs/2110.10129)  
+**Exact section, chapter, or unit:** §8 Discussion and limitations; §9 Conclusion  
+**Estimated time:** 25 minutes  
+**What to focus on:** dated browser/tool versions, unmodified network identity, and the evaluation boundary  
+**What to skip:** reproducing attacks against external targets  
+**Expected takeaway:** write a drift claim that names the changed component, unchanged residual layers, and unresolved causal alternatives.
 
 ## Course bridge
 
@@ -82,7 +98,7 @@ Design and, when a second version is available, execute an exact drift compariso
 Copy the original artifact immutably. Use a later pinned browser/framework or a
 clearly labeled static fixture; never overwrite Run A.
 
-### Actions
+### Exact actions or commands
 
 1. Record complete environment/control/source versions for Run A.
 2. Declare one version variable for Run B.

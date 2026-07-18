@@ -2,32 +2,30 @@
 
 <!-- source-ids: microsoft-learn-playwright, playwright-browser-contexts, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 03 - Playwright foundations  
-> Lesson: 1 of 5  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Module 02  
-> Artifact: `artifacts/module-03/object-model.md`  
-> Next: First local browser
+## Progress
+
+- Module: 03 - Playwright foundations
+- Lesson: 1 of 5
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Module 02](../02-browser-javascript/index.md)
+  - Promises, `async`/`await`, DOM selectors, frames, and browser processes
+- Required artifact: `artifacts/module-03/object-model.md`
+- Next lesson: First local browser
 
 ## Role outcome
 
 Explain Browser, BrowserContext, Page, and Locator lifecycles and choose the
 correct object boundary for an isolated browser workflow.
 
-## Prerequisites
-
-- [Module 02](../02-browser-javascript/index.md)
-- Promises, `async`/`await`, DOM selectors, frames, and browser processes
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Microsoft Learn: Build with Playwright](https://learn.microsoft.com/en-us/training/modules/build-with-playwright/) | Units 1-4 now; all eight by next lesson | Provides the beginner learning sequence and test mental model |
-| OFFICIAL_DOCUMENTATION | [Playwright Isolation](https://playwright.dev/docs/browser-contexts) | What is test isolation?; How Playwright achieves isolation | Defines BrowserContext as an isolated session-like environment |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Fixed variables and trial state | Defines how contexts represent deliberately isolated populations |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Microsoft Learn: Build with Playwright](https://learn.microsoft.com/en-us/training/modules/build-with-playwright/) | Units 1-4 now; all eight by next lesson | Provides the beginner learning sequence and test mental model | Test-automation framing; the course bridge translates the objects into adversarial workflows. |
+| OFFICIAL_DOCUMENTATION | [Playwright Isolation](https://playwright.dev/docs/browser-contexts) | What is test isolation?; How Playwright achieves isolation | Defines BrowserContext as an isolated session-like environment | Examples follow the current Playwright test API and can change by version. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Fixed variables and trial state | Defines how contexts represent deliberately isolated populations | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -48,19 +46,19 @@ is a Playwright handle for finding/acting, not a DOM node captured forever.
 ### Microsoft Learn, first half
 
 **Direct link:** [Build your first end-to-end test with Playwright](https://learn.microsoft.com/en-us/training/modules/build-with-playwright/)  
-**Exact assignment:** Units 1-4: Introduction; What is Playwright?; How Playwright works; Set up your environment  
+**Exact section, chapter, or unit:** Units 1-4: Introduction; What is Playwright?; How Playwright works; Set up your environment  
 **Estimated time:** 50 minutes  
-**Focus on:** browser automation purpose, supported languages/browsers, test anatomy, and setup concepts  
-**Skip:** no linked modules beyond this eight-unit module; do not copy its target into AATE  
+**What to focus on:** browser automation purpose, supported languages/browsers, test anatomy, and setup concepts  
+**What to skip:** no linked modules beyond this eight-unit module; do not copy its target into AATE  
 **Expected takeaway:** describe the lifecycle from launch through context, page, locator/action, assertion, and cleanup.
 
 ### Isolation assignment
 
 **Direct link:** [Playwright Isolation](https://playwright.dev/docs/browser-contexts)  
-**Exact assignment:** What is test isolation?; How Playwright achieves test isolation  
+**Exact section, chapter, or unit:** What is test isolation?; How Playwright achieves test isolation  
 **Estimated time:** 20 minutes  
-**Focus on:** clean-slate state and why a new context is cheaper than a whole browser  
-**Skip:** multi-user examples until Lesson 3  
+**What to focus on:** clean-slate state and why a new context is cheaper than a whole browser  
+**What to skip:** multi-user examples until Lesson 3  
 **Expected takeaway:** explain which state a BrowserContext isolates and why separate adversarial populations need deliberate contexts.
 
 ## Course bridge
@@ -113,7 +111,7 @@ Design the object tree for two controlled populations before writing code.
 
 Use paper or `artifacts/module-03/object-model.md`. No service is needed.
 
-### Actions
+### Exact actions or commands
 
 1. Draw one Browser containing manual-equivalent and clean-state contexts.
 2. Put an initial and follow-up Page inside each context.

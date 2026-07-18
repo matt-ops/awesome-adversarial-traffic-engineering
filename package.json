@@ -4,6 +4,13 @@
   "private": true,
   "description": "Local-only offensive browser clients for the AATE educational lab",
   "scripts": {
+    "test": "tsx --test tests/javascript/quality.test.ts",
+    "lint": "eslint .",
+    "format": "prettier --write package.json tsconfig.json eslint.config.mjs .prettierrc.json lab/clients/playwright/*.ts lab/foundation-web/*.js lab/load/*.js lab/load/*.mjs tests/javascript/*.ts",
+    "format:check": "prettier --check package.json tsconfig.json eslint.config.mjs .prettierrc.json lab/clients/playwright/*.ts lab/foundation-web/*.js lab/load/*.js lab/load/*.mjs tests/javascript/*.ts",
+    "markdown:lint": "markdownlint-cli2 \"**/*.md\"",
+    "external-links": "python scripts/check_external_links.py",
+    "secret-scan": "python scripts/scan_public_tree.py",
     "playwright:first": "tsx lab/clients/playwright/first_workflow.ts",
     "playwright:foundation": "tsx lab/clients/playwright/first_workflow.ts",
     "playwright:workflow-authorization": "tsx lab/clients/playwright/workflow_authorization.ts",
@@ -11,10 +18,16 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@playwright/test": "1.61.1",
     "@types/node": "24.0.14",
+    "eslint": "10.7.0",
+    "globals": "17.7.0",
+    "markdownlint-cli2": "0.23.1",
+    "prettier": "3.9.5",
     "tsx": "4.20.3",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.64.0"
   },
   "engines": {
     "node": ">=22"

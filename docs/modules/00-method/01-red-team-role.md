@@ -2,32 +2,30 @@
 
 <!-- source-ids: nist-sp-800-115, mitre-adversary-emulation-plans, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 00 — Method and authorization  
-> Lesson: 1 of 3  
-> Depth: Foundation  
-> Estimated time: 75 minutes  
-> Prerequisites: Start here  
-> Artifact: `artifacts/module-00/role-comparison.md`  
-> Next: Scope and Rules of Engagement
+## Progress
+
+- Module: 00 — Method and authorization
+- Lesson: 1 of 3
+- Depth: Foundation
+- Estimated time: 75 minutes
+- Prerequisites:
+  - [Start here](../../start-here.md)
+  - Ability to read a request/response example; no browser automation required
+- Required artifact: `artifacts/module-00/role-comparison.md`
+- Next lesson: Scope and Rules of Engagement
 
 ## Role outcome
 
 Define an adversary objective and protected action, then distinguish offensive
 proof from vulnerability discovery, control observation, and detection design.
 
-## Prerequisites
-
-- [Start here](../../start-here.md)
-- Ability to read a request/response example; no browser automation required
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §5.2 and §5.2.1 | Establishes planning, discovery, attack, and reporting phases |
-| STANDARD | [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/) | Complete page | Supports modeling behavior and chained actions rather than a tool list |
-| COURSE_SYNTHESIS | [AATE method provenance](../../methodology/provenance.md) | AATE specialization | Connects those sources to protected-action proof and exact retest |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §5.2 and §5.2.1 | Establishes planning, discovery, attack, and reporting phases | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| STANDARD | [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/) | Complete page | Supports modeling behavior and chained actions rather than a tool list | Examples focus on enterprise adversaries, not automated-abuse controls. |
+| COURSE_SYNTHESIS | [AATE method provenance](../../methodology/provenance.md) | AATE specialization | Connects those sources to protected-action proof and exact retest | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -40,14 +38,23 @@ proof from vulnerability discovery, control observation, and detection design.
 
 ## Required external instruction
 
-### NIST and MITRE assignment
+### NIST penetration-test phases
 
-**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) and [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/)  
-**Exact assignment:** NIST §5.2 and §5.2.1; the complete short MITRE page through Emulation Plan Documents  
-**Estimated time:** 35 minutes  
-**Focus on:** NIST's four penetration-test phases; MITRE's reasons for modeling chained behavior instead of one tool or indicator  
-**Skip:** NIST technique catalogs outside §5.2; linked APT field manuals  
-**Expected takeaway:** explain why attack execution and reporting are part of one engagement and why a representative behavior chain is more useful than replaying a named tool.
+**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)  
+**Exact section, chapter, or unit:** §5.2 Penetration Testing and §5.2.1 Penetration Testing Phases  
+**Estimated time:** 25 minutes  
+**What to focus on:** Planning, Discovery, Attack, Reporting, and the feedback between attack validation and additional discovery  
+**What to skip:** technique catalogs outside §5.2  
+**Expected takeaway:** explain why discovering a weakness, validating its effect, and reporting its evidence belong to one bounded engagement.
+
+### MITRE behavior-chain assignment
+
+**Direct link:** [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/)  
+**Exact section, chapter, or unit:** complete short page through Emulation Plan Documents  
+**Estimated time:** 15 minutes  
+**What to focus on:** the distinction between reproducing adversary behavior and copying one tool, command, or indicator  
+**What to skip:** linked emulation-plan documents and unrelated APT material  
+**Expected takeaway:** turn an objective into a short chain of representative actions whose result can be observed and evaluated.
 
 ## Course bridge
 
@@ -100,7 +107,7 @@ actions and observable proof.
 
 Create `artifacts/module-00/role-comparison.md`. No software or target is needed.
 
-### Actions
+### Exact actions or commands
 
 For each statement below, write four fields: adversary objective, protected
 action, proof, and an observation that would *not* be sufficient.

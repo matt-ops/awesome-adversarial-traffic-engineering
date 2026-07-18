@@ -2,33 +2,31 @@
 
 <!-- source-ids: playwright-network, mdn-http-overview, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 03 - Playwright foundations  
-> Lesson: 4 of 5  
-> Depth: Foundation  
-> Estimated time: 105 minutes  
-> Prerequisites: Browser contexts and storage state  
-> Artifact: `artifacts/module-03/network-evidence.md`  
-> Next: Frames, workers, and CDP
+## Progress
+
+- Module: 03 - Playwright foundations
+- Lesson: 4 of 5
+- Depth: Foundation
+- Estimated time: 105 minutes
+- Prerequisites:
+  - [Browser contexts and storage state](03-contexts-and-state.md)
+  - HTTP message anatomy from Module 01
+- Required artifact: `artifacts/module-03/network-evidence.md`
+- Next lesson: Frames, workers, and CDP
 
 ## Role outcome
 
 Capture Playwright request/response events, correlate them by URL and action,
 and distinguish browser observations from protected-action proof.
 
-## Prerequisites
-
-- [Browser contexts and storage state](03-contexts-and-state.md)
-- HTTP message anatomy from Module 01
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Playwright Network](https://playwright.dev/docs/network) | Network events; HTTP authentication; missing events/service workers | Defines observable events and important blind spots |
-| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | HTTP flow and messages | Keeps event objects tied to protocol meaning |
-| LAB_SPECIFIC | [First Playwright workflow](../../labs/foundation/first-playwright.md) | Request/response listeners and artifact | Supplies the tested capture implementation |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence, residual anomalies, and proof | Adds trial correlation fields without overstating browser events |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Playwright Network](https://playwright.dev/docs/network) | Network events; HTTP authentication; missing events/service workers | Defines observable events and important blind spots | API behavior is version-sensitive; examples pin the repository version. |
+| OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | HTTP flow and messages | Keeps event objects tied to protocol meaning | Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide. |
+| LAB_SPECIFIC | [First Playwright workflow](../../labs/foundation/first-playwright.md) | Request/response listeners and artifact | Supplies the tested capture implementation | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence, residual anomalies, and proof | Adds trial correlation fields without overstating browser events | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -49,10 +47,10 @@ premature cleanup. It must not be silently counted as a block.
 ### Playwright network assignment
 
 **Direct link:** [Playwright Network](https://playwright.dev/docs/network)  
-**Exact assignment:** Network events; HTTP Authentication; Missing Network Events and Service Workers  
+**Exact section, chapter, or unit:** Network events; HTTP Authentication; Missing Network Events and Service Workers  
 **Estimated time:** 35 minutes  
-**Focus on:** listener timing, request/response distinction, page versus context scope, and documented service-worker caveat  
-**Skip:** request modification, mocking, WebSockets, and HAR replay until later experiments  
+**What to focus on:** listener timing, request/response distinction, page versus context scope, and documented service-worker caveat  
+**What to skip:** request modification, mocking, WebSockets, and HAR replay until later experiments  
 **Expected takeaway:** build an event record without claiming that it is a packet capture or complete server audit log.
 
 ## Course bridge
@@ -97,7 +95,7 @@ Reconcile captured requests and responses and identify unsupported conclusions.
 Start the static server and execute the first workflow. Open the resulting JSON
 without editing it.
 
-### Actions
+### Exact actions or commands
 
 1. Group events by URL while preserving original order.
 2. Pair each request with the corresponding response where possible.

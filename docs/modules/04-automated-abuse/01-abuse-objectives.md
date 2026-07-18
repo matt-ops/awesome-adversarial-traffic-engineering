@@ -2,31 +2,29 @@
 
 <!-- source-ids: owasp-automated-threats, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 04 - Automated abuse and workflow attacks  
-> Lesson: 1 of 5  
-> Depth: Foundation  
-> Estimated time: 3 hours  
-> Prerequisites: Modules 00-03  
-> Artifact: `artifacts/module-04/abuse-threat-map.md`  
-> Next: Workflow and API mapping
+## Progress
+
+- Module: 04 - Automated abuse and workflow attacks
+- Lesson: 1 of 5
+- Depth: Foundation
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Module 03](../03-playwright/index.md) and all earlier artifacts
+  - Ability to distinguish a request, session, workflow, and objective
+- Required artifact: `artifacts/module-04/abuse-threat-map.md`
+- Next lesson: Workflow and API mapping
 
 ## Role outcome
 
 Classify an automated business-abuse objective and define its protected action,
 preconditions, state transition, proof, and legitimate near-neighbor.
 
-## Prerequisites
-
-- [Module 03](../03-playwright/index.md) and all earlier artifacts
-- Ability to distinguish a request, session, workflow, and objective
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Project introduction plus seven exact OAT entries below | Supplies a business-abuse taxonomy, not an attack procedure |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Objective, protected action, mapping, baseline, proof | Converts taxonomy categories into falsifiable emulation objectives |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Project introduction plus seven exact OAT entries below | Supplies a business-abuse taxonomy, not an attack procedure | The project is a taxonomy and handbook, not an execution methodology. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Objective, protected action, mapping, baseline, proof | Converts taxonomy categories into falsifiable emulation objectives | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,12 +42,14 @@ preconditions, state transition, proof, and legitimate near-neighbor.
 
 ### OWASP automated-threat assignment
 
-**Direct link:** [Project introduction](https://owasp.org/www-project-automated-threats-to-web-applications/), [OAT-008 Credential Stuffing](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-008_Credential_Stuffing), [OAT-019 Account Creation](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-019_Account_Creation), [OAT-011 Scraping](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-011_Scraping), [OAT-005 Scalping](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-005_Scalping), [OAT-021 Denial of Inventory](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-021_Denial_of_Inventory), [OAT-009 CAPTCHA Defeat](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-009_CAPTCHA_Defeat), and [OAT-015 Denial of Service](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-015_Denial_of_Service)  
-**Exact assignment:** project introduction; for each named entry read only Summary Defining Characteristics, Description, and Other Names and Examples  
+**Direct link:** [OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/)  
+**Exact section, chapter, or unit:** project introduction; for each named entry read only Summary Defining Characteristics, Description, and Other Names and Examples  
 **Estimated time:** 75 minutes  
-**Focus on:** the object or capability abused, whether the attacker acquires value, what state/effect proves success, and adjacent categories that must not be conflated  
-**Skip:** diagrams, cross-reference catalogs, symptoms, countermeasure catalogs, and every OAT not named here  
+**What to focus on:** the object or capability abused, whether the attacker acquires value, what state/effect proves success, and adjacent categories that must not be conflated  
+**What to skip:** diagrams, cross-reference catalogs, symptoms, countermeasure catalogs, and every OAT not named here  
 **Expected takeaway:** classify seven scenarios and defend the classification from workflow outcome rather than tool, traffic volume, or detector label.
+
+Assigned entry links: [OAT-008 Credential Stuffing](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-008_Credential_Stuffing), [OAT-019 Account Creation](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-019_Account_Creation), [OAT-011 Scraping](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-011_Scraping), [OAT-005 Scalping](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-005_Scalping), [OAT-021 Denial of Inventory](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-021_Denial_of_Inventory), [OAT-009 CAPTCHA Defeat](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-009_CAPTCHA_Defeat), and [OAT-015 Denial of Service](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-015_Denial_of_Service).
 
 ## Course bridge
 
@@ -94,7 +94,7 @@ Produce a seven-row abuse threat map with testable outcomes.
 Create the artifact from the required template. No target or credential list is
 needed; use fictional scenarios and synthetic identities.
 
-### Actions
+### Exact actions or commands
 
 1. Add one scenario for each assigned OAT entry.
 2. State adversary objective, prerequisites, action chain, protected action,
@@ -165,4 +165,3 @@ near-neighbor, authorization source, and limitation.
 
 [Workflow and API mapping](02-workflow-mapping.md) converts one selected abuse
 objective into entry points, state transitions, and bounded hypotheses.
-

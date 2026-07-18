@@ -2,33 +2,31 @@
 
 <!-- source-ids: gummy-browsers, fp-inconsistent, fpscanner-project, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 06 - Browser-control evasion  
-> Lesson: 3 of 5  
-> Depth: Integrated  
-> Estimated time: 4 hours  
-> Prerequisites: One-variable experiment  
-> Artifact: `artifacts/module-06/coherent-profile.md`  
-> Next: Replay and temporal consistency
+## Progress
+
+- Module: 06 - Browser-control evasion
+- Lesson: 3 of 5
+- Depth: Integrated
+- Estimated time: 4 hours
+- Prerequisites:
+  - [One-variable experiment](02-one-variable-experiments.md)
+  - Context matrix and signal-family artifact
+- Required artifact: `artifacts/module-06/coherent-profile.md`
+- Next lesson: Replay and temporal consistency
 
 ## Role outcome
 
 Design and evaluate a declared browser-environment profile across related
 attributes and contexts while preserving residual contradictions.
 
-## Prerequisites
-
-- [One-variable experiment](02-one-variable-experiments.md)
-- Context matrix and signal-family artifact
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PREPRINT_RESEARCH | [Gummy Browsers](https://arxiv.org/abs/2110.10129) | §§3-6; §8 limitations; §9 | Provides spoofing approaches and evaluated results |
-| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | §§5-8.4 | Supports cross-attribute/temporal residual analysis |
-| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Cross-Context Validation; non-goals | Provides an inspectable target concept |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Coherent-set experiment and residuals | Defines bounded claims |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PREPRINT_RESEARCH | [Gummy Browsers](https://arxiv.org/abs/2110.10129) | §§3-6; §8 limitations; §9 | Provides spoofing approaches and evaluated results | Research threat model and older browser/tool versions; network-layer identity was not spoofed in the study. |
+| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | §§5-8.4 | Supports cross-attribute/temporal residual analysis | Preprint studying a specific dataset, honey-site design, bot population, and selected services; not universal proof. |
+| PROJECT_DOCUMENTATION | [FPScanner](https://github.com/antoinevastel/fpscanner) | Cross-Context Validation; non-goals | Provides an inspectable target concept | Observations are valid only for the recorded code and browser versions. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Coherent-set experiment and residuals | Defines bounded claims | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -45,14 +43,23 @@ Declared environment claim
 
 ## Required external instruction
 
-### Coherence research assignment
+### Gummy Browsers assignment
 
-**Direct link:** [Gummy Browsers](https://arxiv.org/abs/2110.10129) and [FP-Inconsistent](https://arxiv.org/abs/2406.07647)  
-**Exact assignment:** Gummy §§3 Attack Model, 4 Implementation, 5 Evaluation Methodology, 6 Results, 8 limitations, 9; FP-Inconsistent §§5 Analysis, 6 Inconsistency Analysis, 7, 8.4 Limitations  
-**Estimated time:** 2 hours  
-**Focus on:** which attributes/layers were acquired or spoofed, consistency measures, evaluated versions/populations, and unmodified network identity  
-**Skip:** reproducing research attacks against external sites  
-**Expected takeaway:** design a local profile and enumerate what remains outside its claim.
+**Direct link:** [Gummy Browsers](https://arxiv.org/abs/2110.10129)  
+**Exact section, chapter, or unit:** §3 Attack Model and Spoofing Methods; §4 Attack Implementation; §5 Dataset and Evaluation Methodology; §6 Results; §8 limitations; §9  
+**Estimated time:** 60 minutes  
+**What to focus on:** which browser attributes were acquired or spoofed, the evaluated versions/populations, comparison method, and unmodified network identity  
+**What to skip:** reproducing the research attacks against external sites  
+**Expected takeaway:** define the browser-layer boundary of one coherent local profile and enumerate layers the study did not change.
+
+### FP-Inconsistent assignment
+
+**Direct link:** [FP-Inconsistent](https://arxiv.org/abs/2406.07647)  
+**Exact section, chapter, or unit:** §5 Analysis; §6 Inconsistency Analysis; §7 FP-Inconsistent; §8.4 Limitations  
+**Estimated time:** 60 minutes  
+**What to focus on:** cross-attribute, cross-context, and temporal consistency measures plus dataset, collection, and population limits  
+**What to skip:** treating a preprint result as a universal control or production population estimate  
+**Expected takeaway:** design a consistency matrix whose residuals and legitimate exceptions remain visible after a coherent-set change.
 
 ## Course bridge
 
@@ -84,7 +91,7 @@ Design—not deploy externally—a coherent local profile and evaluation matrix.
 
 Use the local context schema and research assignments. No new package is needed.
 
-### Actions
+### Exact actions or commands
 
 1. Declare one environment claim and every included attribute.
 2. Map authoritative source/constraint and page/frame/worker availability.
@@ -149,4 +156,3 @@ contexts, legitimate exceptions, residuals, implementation bound, and retest.
 
 [Replay and temporal consistency](04-replay-and-temporal-consistency.md) tests
 whether a convincing snapshot survives freshness, binding, and time.
-

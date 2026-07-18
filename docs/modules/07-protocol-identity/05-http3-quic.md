@@ -2,32 +2,32 @@
 
 <!-- source-ids: rfc-9114, rfc-9000, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 07 - Protocol identity  
-> Lesson: 5 of 5  
-> Depth: Deep  
-> Estimated time: 3 hours  
-> Prerequisites: Proxies and connection reuse  
-> Artifact: `artifacts/module-07/http3-quic.md`  
-> Next: DDoS resource model
+## Progress
+
+- Module: 07 - Protocol identity
+- Lesson: 5 of 5
+- Depth: Deep
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Proxies and connection reuse](04-proxies-and-connection-reuse.md)
+  - HTTP/2 stream model
+- Required artifact: `artifacts/module-07/http3-quic.md`
+- Next lesson: DDoS resource model
 
 ## Role outcome
 
 Explain HTTP/3 mapping to QUIC streams and why connection identifiers, migration,
 and encrypted transport change—but do not eliminate—identity questions.
 
-## Prerequisites
-
-- [Proxies and connection reuse](04-proxies-and-connection-reuse.md)
-- HTTP/2 stream model
+> A network fingerprint is an analytical pivot, not proof of a specific user or browser.
 
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [RFC 9114](https://www.rfc-editor.org/rfc/rfc9114) | §2 and §3 | Defines HTTP/3 mapping and connection setup |
-| STANDARD | [RFC 9000](https://www.rfc-editor.org/rfc/rfc9000) | §2 and §5 | Defines QUIC streams and connection IDs |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | cross-layer implications and limits | Connects standards to offensive hypotheses |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [RFC 9114](https://www.rfc-editor.org/rfc/rfc9114) | §2 and §3 | Defines HTTP/3 mapping and connection setup | Deep assignment only; does not teach QUIC transport in full. |
+| STANDARD | [RFC 9000](https://www.rfc-editor.org/rfc/rfc9000) | §2 and §5 | Defines QUIC streams and connection IDs | Deep assignment only; packet-level experimentation remains isolated and bounded. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | cross-layer implications and limits | Connects standards to offensive hypotheses | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -40,14 +40,23 @@ and encrypted transport change—but do not eliminate—identity questions.
 
 ## Required external instruction
 
-### HTTP/3 and QUIC assignment
+### HTTP/3 assignment
 
-**Direct link:** [RFC 9114](https://www.rfc-editor.org/rfc/rfc9114) and [RFC 9000](https://www.rfc-editor.org/rfc/rfc9000)  
-**Exact assignment:** RFC 9114 §§2-3; RFC 9000 §§2 and 5  
-**Estimated time:** 90 minutes  
-**Focus on:** HTTP/3 streams, QUIC connection setup, stream types, connection IDs, migration/routing purpose, and scope  
-**Skip:** packet protection, congestion control, QPACK internals, recovery, and full RFC reading  
-**Expected takeaway:** diagram request/session/connection/address units without equating a CID or address to a user.
+**Direct link:** [RFC 9114](https://www.rfc-editor.org/rfc/rfc9114)  
+**Exact section, chapter, or unit:** Sections 2 and 3  
+**Estimated time:** 45 minutes  
+**What to focus on:** HTTP semantics over QUIC, request streams, control streams, and connection setup  
+**What to skip:** QPACK internals, error-code catalogs, and the remainder of the RFC  
+**Expected takeaway:** map one HTTP request and response to their HTTP/3 stream without treating that stream as a user identity.
+
+### QUIC identity assignment
+
+**Direct link:** [RFC 9000](https://www.rfc-editor.org/rfc/rfc9000)  
+**Exact section, chapter, or unit:** Sections 2 and 5  
+**Estimated time:** 45 minutes  
+**What to focus on:** stream types, connection IDs, and the routing and migration purpose of connection IDs  
+**What to skip:** packet protection, congestion control, recovery, and the remainder of the RFC  
+**Expected takeaway:** diagram request, stream, connection, connection-ID, and address units without equating any of them to a person.
 
 ## Course bridge
 
@@ -78,7 +87,7 @@ Build a protocol-layer comparison and a provider-lab plan without sending QUIC t
 
 Use the RFC assignments and your HTTP/2 map. The local lab does not claim HTTP/3 support.
 
-### Actions
+### Exact actions or commands
 
 1. Map HTTP/2 connection/streams against HTTP/3/QUIC.
 2. Add address tuple, connection ID, TLS, application session, and workflow.
@@ -88,13 +97,17 @@ Use the RFC assignments and your HTTP/2 map. The local lab does not claim HTTP/3
 
 ### Expected output
 
-A standards-grounded diagram and future authorized experiment plan, clearly
-labeled as unexecuted rather than fabricated evidence.
+A standards-grounded diagram distinguishes QUIC connections/streams from HTTP/3
+control and request streams, then names handshake, ALPN, connection-ID, stream,
+header, and intermediary observations for a future local experiment. Every
+result field is marked `planned`; no packet or fingerprint evidence is invented.
 
 ### Interpretation
 
-Deep protocol understanding shapes better hypotheses; unsupported local tooling
-is replaced by exact RFC instruction and an evidence plan.
+The plan identifies which layer could create a browser/protocol contradiction
+and what an observation point can actually see. Because the repository does not
+ship a validated HTTP/3 target, exact RFC instruction and an executable evidence
+contract are more honest than claiming a local result that was never measured.
 
 ### Common failure modes
 

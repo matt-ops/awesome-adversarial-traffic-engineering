@@ -2,10 +2,16 @@
 
 ## Who this is for
 
-You already work comfortably with networks, security telemetry, incident
-analysis, and basic Python. You may be new to browser processes, DOM/Web APIs,
-JavaScript asynchronous behavior, Playwright, fingerprint collection,
-cross-context consistency, and DDoS red-team engagement design.
+This path assumes no prior browser automation, bot-control, fingerprinting,
+protocol-identity, or DDoS red-team experience. It teaches the web request path,
+browser processes, DOM/Web APIs, JavaScript, and Playwright before asking you to
+use the integrated lab. Basic computer use and willingness to run documented
+local commands are the only entry requirements; when Python or TypeScript first
+appears, the lesson explains the code used or assigns the exact prerequisite.
+
+This is "from zero" for adversarial traffic engineering, not a promise that one
+short checkpoint replaces years of engineering practice. Follow the path in
+order and take longer than the estimated time whenever a prerequisite is new.
 
 ## The role
 

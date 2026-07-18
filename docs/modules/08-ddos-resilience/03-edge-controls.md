@@ -2,33 +2,31 @@
 
 <!-- source-ids: aws-waf-app-layer-ddos, aws-waf-rate-based-rules, aws-builders-library-load-shedding, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 08 - DDoS and resilience  
-> Lesson: 3 of 5  
-> Depth: Applied  
-> Estimated time: 3 hours  
-> Prerequisites: Resilience metrics  
-> Artifact: `artifacts/module-08/control-map.md`  
-> Next: Bounded load testing
+## Progress
+
+- Module: 08 - DDoS and resilience
+- Lesson: 3 of 5
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Metrics](02-metrics.md)
+  - Module 04 rate-key experiment
+- Required artifact: `artifacts/module-08/control-map.md`
+- Next lesson: Bounded load testing
 
 ## Role outcome
 
 Map rate aggregation, window, scope, custom keys, endpoint cost, caching, and
 load shedding into specific authorized bypass/pressure hypotheses.
 
-## Prerequisites
-
-- [Metrics](02-metrics.md)
-- Module 04 rate-key experiment
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [AWS WAF app-layer guidance](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-app-layer-rbr.html) | Complete short page | Shows endpoint-specific application-layer rate protection |
-| OFFICIAL_DOCUMENTATION | [AWS WAF rate rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html) | aggregation; windows; scope-down; custom keys | Defines product-specific control semantics |
-| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | Complete article | Adds admission and graceful overload |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | control hypothesis/action/retest | Structures offensive testing |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [AWS WAF app-layer guidance](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-app-layer-rbr.html) | Complete short page | Shows endpoint-specific application-layer rate protection | AWS-specific implementation guidance, not a universal control model. |
+| OFFICIAL_DOCUMENTATION | [AWS WAF rate rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html) | aggregation; windows; scope-down; custom keys | Defines product-specific control semantics | Product-specific semantics; local labs model the assumptions rather than AWS itself. |
+| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | Complete article | Adds admission and graceful overload | Practitioner guidance from one large provider; adapt mechanisms to the target architecture. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | control hypothesis/action/retest | Structures offensive testing | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -42,14 +40,23 @@ load shedding into specific authorized bypass/pressure hypotheses.
 
 ## Required external instruction
 
-### AWS control assignment
+### Application-layer protection assignment
 
-**Direct link:** [Application-layer guidance](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-app-layer-rbr.html) and [Rate-based rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html)  
-**Exact assignment:** complete short app-layer page; rate-rule Aggregation instances, Evaluation windows, Scope-down statements, Custom keys  
-**Estimated time:** 75 minutes  
-**Focus on:** aggregation identity, endpoint scope, window semantics, custom-key trust, and product-specific limits  
-**Skip:** console deployment and managed-product comparison  
-**Expected takeaway:** predict one bypass and one collateral-risk scenario for each control dimension.
+**Direct link:** [Application-layer guidance](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-app-layer-rbr.html)  
+**Exact section, chapter, or unit:** Complete short page  
+**Estimated time:** 25 minutes  
+**What to focus on:** endpoint-specific protection, application-layer request cost, and the relationship between rules and protected paths  
+**What to skip:** console deployment and managed-product comparison  
+**Expected takeaway:** map a protected endpoint to its expensive resource and state what a broad request count would miss.
+
+### Rate-control semantics assignment
+
+**Direct link:** [Rate-based rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html)  
+**Exact section, chapter, or unit:** Aggregation instances, Evaluation windows, Scope-down statements, and Custom keys  
+**Estimated time:** 50 minutes  
+**What to focus on:** aggregation identity, endpoint scope, window semantics, custom-key trust, and product-specific limits  
+**What to skip:** console deployment and rule creation walkthroughs  
+**Expected takeaway:** predict one bypass and one collateral-risk scenario for each aggregation, scope, window, and key choice.
 
 ## Course bridge
 
@@ -80,7 +87,7 @@ Design the seven local scenario hypotheses before execution.
 
 Use the resource/metric plans and load guide.
 
-### Actions
+### Exact actions or commands
 
 1. For each scenario name resource, fixed count/rate, changed variable, control,
    success, abort, near-neighbor, and recovery.
@@ -91,17 +98,20 @@ Use the resource/metric plans and load guide.
 
 ### Expected output
 
-Seven pre-registered local experiments: cheap/expensive at equal rate, cache
-hit/bypass, fixed/rotated synthetic identity, `endpoint-cost-observation`,
-`workflow-sequence-observation`, bounded retry amplification, and immediate
-recovery. Each row names the actual control (or explicitly `none`), expected
-statuses, deterministic assertion, runtime observation, collateral population,
-abort, and retest; no public target or L3/L4 method appears.
+The artifact contains seven pre-registered local experiments: cheap/expensive at
+equal rate, cache hit/bypass, fixed/rotated synthetic identity,
+`endpoint-cost-observation`, `workflow-sequence-observation`, bounded retry
+amplification, and immediate recovery. Each row names the actual control (or
+explicitly `none`), expected statuses, deterministic assertion, runtime
+observation, collateral population, abort, and retest; no public target or L3/L4
+method appears.
 
 ### Interpretation
 
-The map connects controls to resource assumptions instead of treating rate limit
-avoidance as availability impact.
+The map distinguishes defeating an aggregation key from causing a protected
+service effect. A rotated key can show that a limiter trusts attacker-controlled
+input, while the resource may remain healthy. The finding needs both the control
+result and the measured resource/legitimate-neighbor consequence.
 
 ### Common failure modes
 
@@ -147,4 +157,3 @@ workflows. Control scope and admission behavior are the attack surface.
 
 [Bounded load testing](04-bounded-load-testing.md) executes the pre-registered
 local scenarios under hard tool and application ceilings.
-

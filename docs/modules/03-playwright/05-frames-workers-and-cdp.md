@@ -2,33 +2,31 @@
 
 <!-- source-ids: playwright-cdpsession, chrome-browser-process-model, aate-local-lab -->
 
-> **Progress**  
-> Module: 03 - Playwright foundations  
-> Lesson: 5 of 5  
-> Depth: Applied  
-> Estimated time: 2 hours  
-> Prerequisites: Network events and browser process model  
-> Artifact: `artifacts/module-03/context-observations.json`  
-> Next: Automated-abuse objectives
+## Progress
+
+- Module: 03 - Playwright foundations
+- Lesson: 5 of 5
+- Depth: Applied
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Network events and evidence](04-network-events.md)
+  - [Browser process model](../02-browser-javascript/01-browser-process-model.md)
+  - Successful first local Playwright workflow
+- Required artifact: `artifacts/module-03/context-observations.json`
+- Next lesson: Automated-abuse objectives
 
 ## Role outcome
 
 Collect comparable top-page, iframe, and worker observations and explain when a
 Chromium-only CDP session is appropriate and version-sensitive.
 
-## Prerequisites
-
-- [Network events and evidence](04-network-events.md)
-- [Browser process model](../02-browser-javascript/01-browser-process-model.md)
-- Successful first local Playwright workflow
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Playwright CDPSession](https://playwright.dev/docs/api/class-cdpsession) | Overview; attach/detach; send; event subscription | Defines the raw Chromium DevTools Protocol connection |
-| OFFICIAL_DOCUMENTATION | [Chrome browser process model](https://developer.chrome.com/blog/inside-browser-part1/) | Browser architecture; process responsibilities | Explains why contexts and processes are distinct |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Top page, same-origin iframe, dedicated worker | Supplies controlled context outputs |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Playwright CDPSession](https://playwright.dev/docs/api/class-cdpsession) | Overview; attach/detach; send; event subscription | Defines the raw Chromium DevTools Protocol connection | Chromium-only and explicitly not a Foundation assignment. |
+| OFFICIAL_DOCUMENTATION | [Chrome browser process model](https://developer.chrome.com/blog/inside-browser-part1/) | Browser architecture; process responsibilities | Explains why contexts and processes are distinct | Historical Chrome architecture article; implementation details evolve. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Top page, same-origin iframe, dedicated worker | Supplies controlled context outputs | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ Chromium-only CDP session is appropriate and version-sensitive.
 ### CDPSession assignment
 
 **Direct link:** [Playwright CDPSession](https://playwright.dev/docs/api/class-cdpsession)  
-**Exact assignment:** class overview; `detach`; `send`; event subscription examples  
+**Exact section, chapter, or unit:** class overview; `detach`; `send`; event subscription examples  
 **Estimated time:** 25 minutes  
-**Focus on:** raw protocol escape hatch, command/event pattern, and Chromium-only limitation  
-**Skip:** domain-specific CDP command catalogs and runtime modification  
+**What to focus on:** raw protocol escape hatch, command/event pattern, and Chromium-only limitation  
+**What to skip:** domain-specific CDP command catalogs and runtime modification  
 **Expected takeaway:** justify CDP only when the cross-browser Playwright API lacks the required observation.
 
 ## Course bridge
@@ -89,7 +87,7 @@ Start the static server. Create a fixed-target learner script based on the first
 workflow. Register the worker listener before navigation so creation is not
 missed.
 
-### Actions
+### Exact actions or commands
 
 1. Record `navigator.language` and `navigator.platform` from top page and frame.
 2. Record language and `hardwareConcurrency` from the dedicated worker.

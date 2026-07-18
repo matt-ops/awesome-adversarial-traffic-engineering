@@ -8,6 +8,8 @@ target or an isolated environment you own.
 
 **Begin after:** Module 04 Applied, when you can map request, workflow, state, and protected action.
 
+**Relevant checkpoint:** Applied or later.
+
 **Why elective:** the core teaches immediate control-specific recon. Broad DNS,
 subdomain, archive, and technology discovery supports a wider assessment but
 would interrupt the bot/control attack chain.
@@ -19,6 +21,8 @@ would interrupt the bot/control attack chain.
 
 **Begin after:** Modules 01, 04, 05, and 07 Integrated.
 
+**Relevant checkpoint:** Integrated or later.
+
 **Why elective:** realistic WAF bypass needs a deliberately vulnerable parser
 chain and rule telemetry; the bundled edge does not reproduce production parser diversity.
 
@@ -29,6 +33,8 @@ chain and rule telemetry; the bundled edge does not reproduce production parser 
 
 **Begin after:** Module 04 authentication and rate controls.
 
+**Relevant checkpoint:** Applied or later.
+
 **Why elective:** the repository uses fixed synthetic credentials and cannot
 legitimately reproduce leaked-account data or external login pressure.
 
@@ -38,6 +44,8 @@ legitimately reproduce leaked-account data or external login pressure.
 ## Browser anti-fingerprinting research target
 
 **Begin after:** Modules 05-06 Deep.
+
+**Relevant checkpoint:** Deep.
 
 **Why elective:** the bundled control is transparent and intentionally small. A
 second implementation tests whether the method transfers without implying that
@@ -50,6 +58,8 @@ either target represents all commercial controls.
 
 **Begin after:** Modules 03-06 Integrated.
 
+**Relevant checkpoint:** Integrated or later.
+
 **Why elective:** the core builds a deterministic browser attacker first. A model
 adds planning variability and tool-use risk; it should not hide weak browser foundations.
 
@@ -60,6 +70,8 @@ adds planning variability and tool-use risk; it should not hide weak browser fou
 
 **Begin after:** Module 06 Deep and only when the authorized role explicitly requires visual-challenge research.
 
+**Relevant checkpoint:** Deep.
+
 **Why elective:** challenge-token binding and replay belong in the core. Training
 or operating a visual solver adds ML/data/tooling prerequisites and is not needed
 to learn the control-evasion method.
@@ -69,6 +81,8 @@ to learn the control-evasion method.
 ## L3/L4 pressure, spoofing, and TCP-state attacks
 
 **Begin after:** Module 08 Deep plus isolated-network administration experience.
+
+**Relevant checkpoint:** Deep, after the core application-layer resilience work.
 
 **Why elective:** the normal repository intentionally contains no raw flood,
 spoofing, reflection, or attack-infrastructure tooling. Those mechanisms require
@@ -81,6 +95,8 @@ a purpose-built topology that cannot reach another network.
 
 **Begin after:** the complete Integrated checkpoint.
 
+**Relevant checkpoint:** Integrated or later.
+
 **Why elective:** tunneling, pivoting, and multi-system exploitation are general
 red-team skills but not prerequisites for browser-control and bounded traffic testing.
 
@@ -90,6 +106,8 @@ red-team skills but not prerequisites for browser-control and bounded traffic te
 ## Advanced web exploit development
 
 **Begin after:** the Deep checkpoint.
+
+**Relevant checkpoint:** Deep, as post-core specialization.
 
 **Why elective:** broad exploit chains are valuable red-team practice but exceed
 the specialized traffic-control path.

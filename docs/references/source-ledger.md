@@ -4,14 +4,15 @@ The machine-readable source of truth is `sources/sources.yaml` in the repository
 It currently contains 48 unique entries with:
 
 - source type and publisher;
-- publication/update and verification dates;
+- version/access information, human content-review date, and automated
+  link-check date;
 - exact assigned sections;
 - supported claims;
 - limitations; and
 - module mapping.
 
 Every lesson exposes the relevant subset in its **Source basis** table. Source
-types and verification policy are described in the repository's
+types and review policy are described in the repository's
 `sources/README.md`.
 
 ## Required spine

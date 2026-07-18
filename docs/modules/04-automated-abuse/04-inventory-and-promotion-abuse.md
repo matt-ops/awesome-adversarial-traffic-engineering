@@ -2,34 +2,32 @@
 
 <!-- source-ids: portswigger-business-logic, owasp-automated-threats, playwright-network, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 04 - Automated abuse and workflow attacks  
-> Lesson: 4 of 5  
-> Depth: Applied  
-> Estimated time: 3 hours  
-> Prerequisites: Authentication and rate controls  
-> Artifact: `lab/telemetry/workflow-authorization.json`  
-> Next: Race and resource limits
+## Progress
+
+- Module: 04 - Automated abuse and workflow attacks
+- Lesson: 4 of 5
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Authentication and rate controls](03-auth-and-rate-controls.md)
+  - Successful local API map and Playwright Foundation workflow
+- Required artifact: `lab/telemetry/workflow-authorization.json`
+- Next lesson: Race and resource limits
 
 ## Role outcome
 
 Prove a missing workflow-authorization binding through inventory state and
 explain why changing browser transport characteristics cannot repair it.
 
-## Prerequisites
-
-- [Authentication and rate controls](03-auth-and-rate-controls.md)
-- Successful local API map and Playwright Foundation workflow
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [PortSwigger business logic](https://portswigger.net/web-security/logic-flaws) | What/why/impact/examples; flawed assumptions about user behavior | Teaches intended-functionality and state-machine flaws |
-| PROJECT_DOCUMENTATION | [OWASP OAT-005 and OAT-021](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-021_Denial_of_Inventory) | Assigned definition sections | Distinguishes acquisition from holding inventory |
-| OFFICIAL_DOCUMENTATION | [Playwright Network](https://playwright.dev/docs/network) | Network events | Supports browser-side request evidence |
-| LAB_SPECIFIC | [Workflow-authorization lab](../../labs/applied/workflow-authorization.md) | Entire local exercise | Defines intentional missing binding and state proof |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Baseline through exact retest | Structures the finding |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [PortSwigger business logic](https://portswigger.net/web-security/logic-flaws) | What/why/impact/examples; flawed assumptions about user behavior | Teaches intended-functionality and state-machine flaws | Complete only labs explicitly assigned by a lesson. |
+| PROJECT_DOCUMENTATION | [OWASP OAT-005 and OAT-021](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-021_Denial_of_Inventory) | Assigned definition sections | Distinguishes acquisition from holding inventory | The project is a taxonomy and handbook, not an execution methodology. |
+| OFFICIAL_DOCUMENTATION | [Playwright Network](https://playwright.dev/docs/network) | Network events | Supports browser-side request evidence | API behavior is version-sensitive; examples pin the repository version. |
+| LAB_SPECIFIC | [Workflow-authorization lab](../../labs/applied/workflow-authorization.md) | Entire local exercise | Defines intentional missing binding and state proof | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Baseline through exact retest | Structures the finding | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -46,10 +44,10 @@ server-side authenticated-session-to-identity binding.
 ### PortSwigger business-logic assignment
 
 **Direct link:** [Business logic vulnerabilities](https://portswigger.net/web-security/logic-flaws)  
-**Exact assignment:** What are business logic vulnerabilities?; How do business logic vulnerabilities arise?; Impact; Examples; Making flawed assumptions about user behavior  
+**Exact section, chapter, or unit:** What are business logic vulnerabilities?; How do business logic vulnerabilities arise?; Impact; Examples; Making flawed assumptions about user behavior  
 **Estimated time:** 50 minutes  
-**Focus on:** intended functionality, invalid state transitions, user-controlled values, and server enforcement  
-**Skip:** complete no labs from this broad topic unless another course lesson names one  
+**What to focus on:** intended functionality, invalid state transitions, user-controlled values, and server enforcement  
+**What to skip:** complete no labs from this broad topic unless another course lesson names one  
 **Expected takeaway:** explain why a syntactically valid request can violate a business invariant and how the server must fix it.
 
 ## Course bridge
@@ -96,7 +94,7 @@ Read `lab/clients/playwright/workflow_authorization.ts`. It is fixed to
 `localhost:8080`, reserves one unit, and uses a `finally` block for cleanup. Keep
 the local API running and resettable.
 
-### Actions
+### Exact actions or commands
 
 1. Predict the initial/final inventory and browser-visible event set.
 2. Execute `npm.cmd run playwright:workflow-authorization`.

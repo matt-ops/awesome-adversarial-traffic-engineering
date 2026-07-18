@@ -2,32 +2,32 @@
 
 <!-- source-ids: ja4-project, rfc-8446, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 07 - Protocol identity  
-> Lesson: 2 of 5  
-> Depth: Applied  
-> Estimated time: 3 hours  
-> Prerequisites: TLS ClientHello  
-> Artifact: `artifacts/module-07/ja4-interpretation.md`  
-> Next: HTTP/2
+## Progress
+
+- Module: 07 - Protocol identity
+- Lesson: 2 of 5
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [TLS ClientHello](01-tls-clienthello.md)
+  - Signal-family and residual-anomaly artifacts
+- Required artifact: `artifacts/module-07/ja4-interpretation.md`
+- Next lesson: HTTP/2
 
 ## Role outcome
 
 Interpret JA4/JA4H components as implementation/behavior pivots and write a
 cross-layer hypothesis without treating a fingerprint as identity proof.
 
-## Prerequisites
-
-- [TLS ClientHello](01-tls-clienthello.md)
-- Signal-family and residual-anomaly artifacts
+> A network fingerprint is an analytical pivot, not proof of a specific user or browser.
 
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [JA4+ project](https://github.com/FoxIO-LLC/ja4) | overview; JA4; JA4H; technical details; version considerations | Primary method documentation |
-| STANDARD | [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) | §4.1.2 | Grounds the TLS fields behind JA4 |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | candidate signal, alternatives, action proof | Prevents identity overclaim |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [JA4+ project](https://github.com/FoxIO-LLC/ja4) | overview; JA4; JA4H; technical details; version considerations | Primary method documentation | Fingerprints change with implementations; licensing differs across JA4+ methods; fingerprints are not identity proof. |
+| STANDARD | [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) | §4.1.2 | Grounds the TLS fields behind JA4 | Assigned only at Integrated depth; it does not define JA4. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | candidate signal, alternatives, action proof | Prevents identity overclaim | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -42,10 +42,10 @@ cross-layer hypothesis without treating a fingerprint as identity proof.
 ### JA4 project assignment
 
 **Direct link:** [JA4+ network fingerprinting methods](https://github.com/FoxIO-LLC/ja4)  
-**Exact assignment:** project overview; JA4 TLS fingerprint; JA4H HTTP fingerprint; relevant ClientHello/HTTP technical details; version/change considerations  
+**Exact section, chapter, or unit:** project overview; JA4 TLS fingerprint; JA4H HTTP fingerprint; relevant ClientHello/HTTP technical details; version/change considerations  
 **Estimated time:** 90 minutes  
-**Focus on:** selected/normalized components, observation point, implementation drift, intermediaries, and project-stated use  
-**Skip:** other JA4+ methods, commercial tooling, installation, and rule feeds  
+**What to focus on:** selected/normalized components, observation point, implementation drift, intermediaries, and project-stated use  
+**What to skip:** other JA4+ methods, commercial tooling, installation, and rule feeds  
 **Expected takeaway:** decode what a JA4/JA4H value summarizes and name at least five alternative explanations for a cluster.
 
 ## Course bridge
@@ -76,7 +76,7 @@ Write a correct interpretation from a fictional cross-layer record.
 
 Use a synthetic record; do not query public reputation services.
 
-### Actions
+### Exact actions or commands
 
 1. List raw components summarized by JA4 and JA4H per project documentation.
 2. Separate observed value, local baseline association, and inference.
@@ -86,13 +86,17 @@ Use a synthetic record; do not query public reputation services.
 
 ### Expected output
 
-The result uses "consistent with/inconsistent with recorded baseline," not
-identity language, and names intermediary/version limitations.
+The worksheet records the input fields, method/version, observation point,
+resulting fingerprint or comparison key, and a sentence using "consistent with"
+or "inconsistent with" the recorded baseline. It separately lists fields an
+intermediary can transform and versions that constrain the observation.
 
 ### Interpretation
 
-The fingerprint raises a testable coherence question; it does not complete the
-offensive objective.
+The fingerprint narrows a population and raises a falsifiable cross-layer
+question: does this transport/HTTP behavior agree with the browser claim under
+the same route and intermediary? It does not identify a person, prove a specific
+browser binary, or replace repeating the protected action.
 
 ### Common failure modes
 
@@ -139,4 +143,3 @@ fact/inference split, alternatives, corroboration, action, and limits.
 
 [HTTP/2](03-http2.md) adds streams, connection state, and multiplexing behavior
 that request-header summaries alone miss.
-

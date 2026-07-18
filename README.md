@@ -4,6 +4,11 @@ A source-first red-team course for automated adversaries, browser-control
 evasion, traffic-control testing, bounded application-layer pressure, findings,
 remediation, and exact retest.
 
+The path starts at the specialty foundation. Prior browser automation,
+fingerprinting, bot-control, DDoS-testing, or Playwright experience is not
+assumed. When a mature source teaches a prerequisite better, the lesson assigns
+the exact section and then bridges it into a bounded offensive exercise.
+
 ## Start
 
 1. Open **[Start the path](docs/start-here.md)**.

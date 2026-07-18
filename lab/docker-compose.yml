@@ -21,10 +21,11 @@ services:
       - "127.0.0.1:8080:8080"
     volumes:
       - ./edge/nginx.conf:/etc/nginx/nginx.conf:ro
-    networks: [aate-local]
+    networks: [aate-local, aate-loopback-publish]
 
 networks:
   aate-local:
     name: aate-local
     internal: true
-
+  aate-loopback-publish:
+    name: aate-loopback-publish

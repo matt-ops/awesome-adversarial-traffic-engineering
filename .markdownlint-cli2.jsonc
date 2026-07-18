@@ -1,0 +1,35 @@
+{
+  "config": {
+    "default": true,
+    // Exact source assignments, long link targets, and artifact rows are kept
+    // intact; MkDocs and editors wrap them without changing their semantics.
+    "MD013": false,
+    "MD024": {
+      "siblings_only": true
+    },
+    "MD033": {
+      "allowed_elements": ["details", "summary"]
+    },
+    // Compact table delimiters are valid CommonMark/MkDocs and keep the large
+    // source-basis and checkpoint tables maintainable in plain text.
+    "MD060": false
+  },
+  "ignores": [
+    ".docs-build/**",
+    ".venv/**",
+    "AATE-CODEX-TARGETED-REPAIR-PLAYBOOK/**",
+    "archive/**",
+    "artifacts/**",
+    "audit-evidence/**",
+    "fix-evidence/**",
+    "node_modules/**",
+    "site/**",
+    "AATE-CODEX-*.md",
+    "01-AATE-CODEX-*.md",
+    "awesome-red-team-bots-ddos-interview-prep.md",
+    "REMEDIATION_*.md",
+    "REWRITE_*.md",
+    "FIX_STATUS.md",
+    "codex-*.md"
+  ]
+}

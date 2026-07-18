@@ -2,32 +2,30 @@
 
 <!-- source-ids: playwright-browser-contexts, playwright-auth, aate-local-lab -->
 
-> **Progress**  
-> Module: 03 - Playwright foundations  
-> Lesson: 3 of 5  
-> Depth: Foundation  
-> Estimated time: 110 minutes  
-> Prerequisites: First local Playwright workflow  
-> Artifact: `artifacts/module-03/context-state.md`  
-> Next: Network events
+## Progress
+
+- Module: 03 - Playwright foundations
+- Lesson: 3 of 5
+- Depth: Foundation
+- Estimated time: 110 minutes
+- Prerequisites:
+  - [First local Playwright workflow](02-first-browser.md)
+  - Browser/BrowserContext/Page lifecycle
+- Required artifact: `artifacts/module-03/context-state.md`
+- Next lesson: Network events
 
 ## Role outcome
 
 Create clean and state-restored browser populations and state precisely which
 cookies, origins, and storage values were carried between trials.
 
-## Prerequisites
-
-- [First local Playwright workflow](02-first-browser.md)
-- Browser/BrowserContext/Page lifecycle
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Playwright Isolation](https://playwright.dev/docs/browser-contexts) | Isolation; two ways of test isolation; multiple contexts | Defines clean context behavior and multi-user patterns |
-| OFFICIAL_DOCUMENTATION | [Playwright Authentication](https://playwright.dev/docs/auth) | Core concepts; storage state; session storage limitation | Defines persistent authentication/state reuse and its limits |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | `aate-last-query` local storage | Provides harmless state to measure |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Playwright Isolation](https://playwright.dev/docs/browser-contexts) | Isolation; two ways of test isolation; multiple contexts | Defines clean context behavior and multi-user patterns | Examples follow the current Playwright test API and can change by version. |
+| OFFICIAL_DOCUMENTATION | [Playwright Authentication](https://playwright.dev/docs/auth) | Core concepts; storage state; session storage limitation | Defines persistent authentication/state reuse and its limits | Test-suite examples require offensive reinterpretation and careful secret handling. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | `aate-last-query` local storage | Provides harmless state to measure | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -46,19 +44,19 @@ setup.
 ### Context isolation assignment
 
 **Direct link:** [Playwright Isolation](https://playwright.dev/docs/browser-contexts)  
-**Exact assignment:** What is test isolation?; Two ways of test isolation; How Playwright achieves isolation; Multiple contexts in a single test  
+**Exact section, chapter, or unit:** What is test isolation?; Two ways of test isolation; How Playwright achieves isolation; Multiple contexts in a single test  
 **Estimated time:** 30 minutes  
-**Focus on:** clean-slate reproducibility and deliberate multi-context workflows  
-**Skip:** framework-specific fixture customization beyond the examples  
+**What to focus on:** clean-slate reproducibility and deliberate multi-context workflows  
+**What to skip:** framework-specific fixture customization beyond the examples  
 **Expected takeaway:** design trials that either share or isolate state intentionally.
 
 ### Storage-state assignment
 
 **Direct link:** [Playwright Authentication](https://playwright.dev/docs/auth)  
-**Exact assignment:** Core concepts; storage state reuse; session storage limitation  
+**Exact section, chapter, or unit:** Core concepts; storage state reuse; session storage limitation  
 **Estimated time:** 30 minutes  
-**Focus on:** what the state file can contain, secret handling, and what it omits  
-**Skip:** provider-specific login recipes and parallel account pools  
+**What to focus on:** what the state file can contain, secret handling, and what it omits  
+**What to skip:** provider-specific login recipes and parallel account pools  
 **Expected takeaway:** describe exactly what was restored and protect real authentication state from source control.
 
 ## Course bridge
@@ -100,7 +98,7 @@ Demonstrate shared, isolated, and restored local storage with three contexts.
 Copy the fixed-target first workflow to an ignored learner workspace or a new
 artifact script. Keep the target `127.0.0.1:4173`. Start the static server.
 
-### Actions
+### Exact actions or commands
 
 1. In context A complete the `widget` search and save storage state.
 2. Open a second Page in A and record the initial input value.

@@ -2,33 +2,31 @@
 
 <!-- source-ids: k6-thresholds, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 08 - DDoS and resilience  
-> Lesson: 4 of 5  
-> Depth: Applied  
-> Estimated time: 4 hours  
-> Prerequisites: Edge and admission controls  
-> Artifact: `artifacts/module-08/bounded-results.md`  
-> Next: Recovery and retest
+## Progress
+
+- Module: 08 - DDoS and resilience
+- Lesson: 4 of 5
+- Depth: Applied
+- Estimated time: 4 hours
+- Prerequisites:
+  - [Edge controls](03-edge-controls.md)
+  - k6 installed from official Grafana distribution
+  - Healthy local API and approved metric/control map
+- Required artifact: `artifacts/module-08/bounded-results.md`
+- Next lesson: Recovery and retest
 
 ## Role outcome
 
 Execute seven fixed-loopback scenarios with hard duration/VU/rate/total ceilings,
 abort thresholds, dry-run evidence, and scenario-specific interpretation.
 
-## Prerequisites
-
-- [Edge controls](03-edge-controls.md)
-- k6 installed from official Grafana distribution
-- Healthy local API and approved metric/control map
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/) | syntax; failure; abort | Grounds executable safety behavior |
-| LAB_SPECIFIC | [Bounded load lab](../../labs/deep/bounded-load.md) | all seven scenarios and ceilings | Supplies tested local script |
-| Course synthesis (`COURSE_SYNTHESIS`) | [AATE loop](../../methodology/adversarial-control-loop.md) | controlled experiments and proof | Structures comparison |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/) | syntax; failure; abort | Grounds executable safety behavior | Tool documentation; AATE adds stricter local target and load ceilings. |
+| LAB_SPECIFIC | [Bounded load lab](../../labs/deep/bounded-load.md) | all seven scenarios and ceilings | Supplies tested local script | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Steps 4-15 | Structures the bounded comparison, protected service effect, remediation criteria, and identical retest | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -46,10 +44,10 @@ abort thresholds, dry-run evidence, and scenario-specific interpretation.
 ### k6 execution assignment
 
 **Direct link:** [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/)  
-**Exact assignment:** reread syntax, exit/failure, abort-on-fail, latency/error examples immediately before execution  
+**Exact section, chapter, or unit:** reread syntax, exit/failure, abort-on-fail, latency/error examples immediately before execution  
 **Estimated time:** 25 minutes  
-**Focus on:** interpreting threshold output and nonzero exit  
-**Skip:** cloud execution and distributed generators  
+**What to focus on:** interpreting threshold output and nonzero exit  
+**What to skip:** cloud execution and distributed generators  
 **Expected takeaway:** stop/diagnose on threshold failure rather than increasing limits.
 
 ## Course bridge
@@ -58,8 +56,13 @@ The script validates configuration during initialization, before a traffic
 executor exists. Dry run performs one zero-request iteration. Each live iteration
 uses at most two requests. Reset/recovery and scenario-specific cache or identity
 seeding add at most four lifecycle requests, and the 100-request formula includes
-that worst case. A pair is called a control comparison only when the local
-application implements the control.
+that worst case.
+
+!!! note "Course synthesis"
+    **COURSE_SYNTHESIS:** The seven scenario contracts use the AATE sequence of
+    fixed baselines, one declared pair, protected service evidence, limitations,
+    remediation criteria, and the same bounded retest. A pair is called a
+    control comparison only when the local application implements the control.
 
 !!! warning "Safety boundary"
     Never edit out a guard, use an external target, or raise a ceiling. These are
@@ -83,7 +86,7 @@ Execute dry run, then each assigned scenario once at conservative settings.
 
 Start/reset the local API. Follow the load guide; preserve console output.
 
-### Actions
+### Exact actions or commands
 
 1. Execute dry run and prove zero network traffic.
 2. Set duration `1`, rate `1`, VUs `1` for initial validation.

@@ -36,95 +36,95 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
 nav:
-  - Start the path: index.md
-  - Start here: start-here.md
-  - Path: path.md
-  - Progress: progress.md
-  - Cumulative checkpoints:
+  - Start Here:
+      - Course home: index.md
+      - Begin the course: start-here.md
+  - Path and Checkpoints:
+      - Linear path: path.md
+      - Progress record: progress.md
       - 24 focused hours - Foundation: checkpoints/24-hours.md
       - 7 days - Applied: checkpoints/7-days.md
       - 21 days - Integrated: checkpoints/21-days.md
       - 6 weeks - Deep: checkpoints/6-weeks.md
-  - Method:
+  - Method and Provenance:
       - Provenance: methodology/provenance.md
       - Authorization and safety: methodology/authorization-and-safety.md
       - Adversarial-control loop: methodology/adversarial-control-loop.md
       - Experiment design: methodology/experiment-design.md
-  - Modules:
-      - "00 - Method and authorization":
-          - Overview: modules/00-method/index.md
-          - The red-team role: modules/00-method/01-red-team-role.md
-          - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
-          - Experimental method: modules/00-method/03-experimental-method.md
-      - "01 - HTTP and the edge":
-          - Overview: modules/01-http-edge/index.md
-          - Request and response: modules/01-http-edge/01-http-request-response.md
-          - Sessions and workflows: modules/01-http-edge/02-sessions-and-workflows.md
-          - DevTools Network: modules/01-http-edge/03-devtools-network.md
-          - Edge request path: modules/01-http-edge/04-edge-request-path.md
-      - "02 - Browser and JavaScript":
-          - Overview: modules/02-browser-javascript/index.md
-          - Browser process model: modules/02-browser-javascript/01-browser-process-model.md
-          - DOM and Web APIs: modules/02-browser-javascript/02-dom-and-web-apis.md
-          - JavaScript core: modules/02-browser-javascript/03-javascript-core.md
-          - Async, fetch, and errors: modules/02-browser-javascript/04-async-fetch-and-errors.md
-      - "03 - Playwright":
-          - Overview: modules/03-playwright/index.md
-          - Object model: modules/03-playwright/01-object-model.md
-          - First local browser: modules/03-playwright/02-first-browser.md
-          - Contexts and state: modules/03-playwright/03-contexts-and-state.md
-          - Network events: modules/03-playwright/04-network-events.md
-          - Frames, workers, and CDP: modules/03-playwright/05-frames-workers-and-cdp.md
-      - "04 - Automated abuse":
-          - Overview: modules/04-automated-abuse/index.md
-          - Abuse objectives: modules/04-automated-abuse/01-abuse-objectives.md
-          - Workflow and API mapping: modules/04-automated-abuse/02-workflow-mapping.md
-          - Authentication and rate controls: modules/04-automated-abuse/03-auth-and-rate-controls.md
-          - Inventory and promotion abuse: modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
-          - Race and resource limits: modules/04-automated-abuse/05-race-and-resource-limits.md
-      - "05 - Control reconnaissance":
-          - Overview: modules/05-control-recon/index.md
-          - Signal families: modules/05-control-recon/01-signal-families.md
-          - Browser environment: modules/05-control-recon/02-browser-environment.md
-          - Cross-context consistency: modules/05-control-recon/03-cross-context-consistency.md
-          - Session, behavior, workflow: modules/05-control-recon/04-session-behavior-workflow.md
-          - Blocked baseline: modules/05-control-recon/05-blocked-baseline.md
-      - "06 - Browser evasion":
-          - Overview: modules/06-browser-evasion/index.md
-          - Evasion hypotheses: modules/06-browser-evasion/01-evasion-hypotheses.md
-          - One-variable experiment: modules/06-browser-evasion/02-one-variable-experiments.md
-          - Identity coherence: modules/06-browser-evasion/03-identity-coherence.md
-          - Replay and temporal consistency: modules/06-browser-evasion/04-replay-and-temporal-consistency.md
-          - Version drift: modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
-      - "07 - Protocol identity foundations":
-          - Overview: modules/07-protocol-identity/index.md
-          - TLS ClientHello: modules/07-protocol-identity/01-tls-clienthello.md
-          - JA4 and JA4H: modules/07-protocol-identity/02-ja4-and-ja4h.md
-          - HTTP/2: modules/07-protocol-identity/03-http2.md
-          - Proxies and connection reuse: modules/07-protocol-identity/04-proxies-and-connection-reuse.md
-          - HTTP/3 and QUIC: modules/07-protocol-identity/05-http3-quic.md
-      - "08 - DDoS and resilience":
-          - Overview: modules/08-ddos-resilience/index.md
-          - Resource-exhaustion model: modules/08-ddos-resilience/01-resource-exhaustion-model.md
-          - Metrics: modules/08-ddos-resilience/02-metrics.md
-          - Edge controls: modules/08-ddos-resilience/03-edge-controls.md
-          - Bounded load testing: modules/08-ddos-resilience/04-bounded-load-testing.md
-          - Recovery and retest: modules/08-ddos-resilience/05-recovery-and-retest.md
-      - "09 - Tooling and code review":
-          - Overview: modules/09-tooling-code-review/index.md
-          - Python telemetry: modules/09-tooling-code-review/01-python-telemetry.md
-          - Async and bounded concurrency: modules/09-tooling-code-review/02-async-and-bounded-concurrency.md
-          - Retries, timeouts, and jitter: modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md
-          - Secure code review: modules/09-tooling-code-review/04-secure-code-review.md
-      - "10 - Findings and interview practice":
-          - Overview: modules/10-findings-interview/index.md
-          - Finding and evidence: modules/10-findings-interview/01-finding-and-evidence.md
-          - Remediation and exact retest: modules/10-findings-interview/02-remediation-and-retest.md
-          - Technical briefing: modules/10-findings-interview/03-technical-briefing.md
-          - Public-safe role narrative: modules/10-findings-interview/04-role-narrative.md
-          - Full mock loop: modules/10-findings-interview/05-mock-loop.md
+      - Method module overview: modules/00-method/index.md
+      - The red-team role: modules/00-method/01-red-team-role.md
+      - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
+      - Experimental method: modules/00-method/03-experimental-method.md
+  - HTTP and Edge:
+      - Overview: modules/01-http-edge/index.md
+      - Request and response: modules/01-http-edge/01-http-request-response.md
+      - Sessions and workflows: modules/01-http-edge/02-sessions-and-workflows.md
+      - DevTools Network: modules/01-http-edge/03-devtools-network.md
+      - Edge request path: modules/01-http-edge/04-edge-request-path.md
+  - Browser and JavaScript:
+      - Overview: modules/02-browser-javascript/index.md
+      - Browser process model: modules/02-browser-javascript/01-browser-process-model.md
+      - DOM and Web APIs: modules/02-browser-javascript/02-dom-and-web-apis.md
+      - JavaScript core: modules/02-browser-javascript/03-javascript-core.md
+      - Async, fetch, and errors: modules/02-browser-javascript/04-async-fetch-and-errors.md
+  - Playwright:
+      - Overview: modules/03-playwright/index.md
+      - Object model: modules/03-playwright/01-object-model.md
+      - First local browser: modules/03-playwright/02-first-browser.md
+      - Contexts and state: modules/03-playwright/03-contexts-and-state.md
+      - Network events: modules/03-playwright/04-network-events.md
+      - Frames, workers, and CDP: modules/03-playwright/05-frames-workers-and-cdp.md
+  - Automated Abuse:
+      - Overview: modules/04-automated-abuse/index.md
+      - Abuse objectives: modules/04-automated-abuse/01-abuse-objectives.md
+      - Workflow and API mapping: modules/04-automated-abuse/02-workflow-mapping.md
+      - Authentication and rate controls: modules/04-automated-abuse/03-auth-and-rate-controls.md
+      - Inventory and promotion abuse: modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
+      - Race and resource limits: modules/04-automated-abuse/05-race-and-resource-limits.md
+  - Control Reconnaissance:
+      - Overview: modules/05-control-recon/index.md
+      - Signal families: modules/05-control-recon/01-signal-families.md
+      - Browser environment: modules/05-control-recon/02-browser-environment.md
+      - Cross-context consistency: modules/05-control-recon/03-cross-context-consistency.md
+      - Session, behavior, workflow: modules/05-control-recon/04-session-behavior-workflow.md
+      - Blocked baseline: modules/05-control-recon/05-blocked-baseline.md
+  - Browser Evasion:
+      - Overview: modules/06-browser-evasion/index.md
+      - Evasion hypotheses: modules/06-browser-evasion/01-evasion-hypotheses.md
+      - One-variable experiment: modules/06-browser-evasion/02-one-variable-experiments.md
+      - Identity coherence: modules/06-browser-evasion/03-identity-coherence.md
+      - Replay and temporal consistency: modules/06-browser-evasion/04-replay-and-temporal-consistency.md
+      - Version drift: modules/06-browser-evasion/05-version-drift-and-residual-anomalies.md
+  - Protocol Identity Foundations:
+      - Overview: modules/07-protocol-identity/index.md
+      - TLS ClientHello: modules/07-protocol-identity/01-tls-clienthello.md
+      - JA4 and JA4H: modules/07-protocol-identity/02-ja4-and-ja4h.md
+      - HTTP/2: modules/07-protocol-identity/03-http2.md
+      - Proxies and connection reuse: modules/07-protocol-identity/04-proxies-and-connection-reuse.md
+      - HTTP/3 and QUIC: modules/07-protocol-identity/05-http3-quic.md
+  - DDoS and Resilience:
+      - Overview: modules/08-ddos-resilience/index.md
+      - Resource-exhaustion model: modules/08-ddos-resilience/01-resource-exhaustion-model.md
+      - Metrics: modules/08-ddos-resilience/02-metrics.md
+      - Edge controls: modules/08-ddos-resilience/03-edge-controls.md
+      - Bounded load testing: modules/08-ddos-resilience/04-bounded-load-testing.md
+      - Recovery and retest: modules/08-ddos-resilience/05-recovery-and-retest.md
+  - Tooling and Code Review:
+      - Overview: modules/09-tooling-code-review/index.md
+      - Python telemetry: modules/09-tooling-code-review/01-python-telemetry.md
+      - Async and bounded concurrency: modules/09-tooling-code-review/02-async-and-bounded-concurrency.md
+      - Retries, timeouts, and jitter: modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md
+      - Secure code review: modules/09-tooling-code-review/04-secure-code-review.md
+  - Findings and Interview:
+      - Overview: modules/10-findings-interview/index.md
+      - Finding and evidence: modules/10-findings-interview/01-finding-and-evidence.md
+      - Remediation and exact retest: modules/10-findings-interview/02-remediation-and-retest.md
+      - Technical briefing: modules/10-findings-interview/03-technical-briefing.md
+      - Public-safe role narrative: modules/10-findings-interview/04-role-narrative.md
+      - Full mock loop: modules/10-findings-interview/05-mock-loop.md
   - Labs:
       - Overview: labs/index.md
+      - Complete lab-to-course map: labs/course-map.md
       - Foundation static site: labs/foundation/static-site.md
       - First Playwright workflow: labs/foundation/first-playwright.md
       - Integrated local API: labs/applied/local-api.md

@@ -2,40 +2,30 @@
 
 <!-- source-ids: python-standard-library, pytest-documentation, aate-local-lab -->
 
-> **Progress**
->
-> Module: 09 - Tooling and secure code review
->
-> Lesson: 1 of 4
->
-> Depth: Foundation
->
-> Estimated time: 3 hours
->
-> Prerequisites: Modules 00-08
->
-> Artifact: `artifacts/module-09/telemetry-summary.json`
->
-> Next: Async and bounded concurrency
+## Progress
+
+- Module: 09 - Tooling and secure code review
+- Lesson: 1 of 4
+- Depth: Foundation
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Experimental method](../00-method/03-experimental-method.md)
+  - Ability to identify a request, response, session, and population label
+- Required artifact: `artifacts/module-09/telemetry-summary.json`
+- Next lesson: Async and bounded concurrency
 
 ## Role outcome
 
 Turn line-oriented request evidence into typed, reproducible counts while keeping
 observation, label, inference, and limitation separate.
 
-## Prerequisites
-
-- [Experimental method](../00-method/03-experimental-method.md)
-- Ability to identify a request, response, session, and population label
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Python tutorial: data structures](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) | dictionaries and looping techniques | Grounds record access and aggregation |
-| OFFICIAL_DOCUMENTATION | [Python `json`](https://docs.python.org/3/library/json.html) and [`Counter`](https://docs.python.org/3/library/collections.html#collections.Counter) | decoding and counts | Grounds the fixture pipeline |
-| OFFICIAL_DOCUMENTATION | [pytest assertions](https://docs.pytest.org/en/stable/how-to/assert.html) | assertion introspection | Grounds regression evidence |
-| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | telemetry command and expected shape | Supplies the tested local exercise |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Python documentation](https://docs.python.org/3/) | Tutorial: Dictionaries and Looping Techniques; `json.loads`; `collections.Counter` objects and `most_common` | Grounds record access, JSON decoding, and deterministic aggregation | Lessons link to the exact subsection used; not all Python documentation is assigned. |
+| OFFICIAL_DOCUMENTATION | [pytest assertions](https://docs.pytest.org/en/stable/how-to/assert.html) | How to write and report assertions | Grounds regression evidence for the fixture summary | Only the features used by the code-review exercises are assigned. |
+| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | telemetry command and expected shape | Supplies the tested local exercise | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -55,19 +45,32 @@ untrusted runtime data.
 
 ## Required external instruction
 
-### Required Python assignment
+### Dictionary assignment
 
-**Direct link:** [Python dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), [`json`](https://docs.python.org/3/library/json.html), and [`Counter`](https://docs.python.org/3/library/collections.html#collections.Counter)
+**Direct link:** [Python dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)  
+**Exact section, chapter, or unit:** Dictionaries and Looping Techniques  
+**Estimated time:** 20 minutes  
+**What to focus on:** missing keys, membership checks, item iteration, and iteration order versus evidentiary order  
+**What to skip:** unrelated container types and advanced comprehensions  
+**Expected takeaway:** explain how one decoded record is accessed and where a missing or mistyped field must be rejected.
 
-**Exact assignment:** read Dictionaries; Looping Techniques; `json.loads`; `json.dumps`; `JSONDecodeError`; `Counter` object, `elements`, and `most_common`
+### JSON assignment
 
-**Estimated time:** 65 minutes
+**Direct link:** [Python `json`](https://docs.python.org/3/library/json.html)  
+**Exact section, chapter, or unit:** `json.loads`, `json.dumps`, and `JSONDecodeError`  
+**Estimated time:** 25 minutes  
+**What to focus on:** decode errors, Python-to-JSON type conversion, and deterministic serialization options  
+**What to skip:** encoder subclassing and command-line pretty printing  
+**Expected takeaway:** trace a JSONL line through decoding, validation, and serialized artifact output.
 
-**Focus on:** missing keys, iteration order versus evidentiary order, decode errors, deterministic serialization, and count semantics
+### Counter assignment
 
-**Skip:** encoder subclassing, command-line pretty printing, arithmetic on counters, and unrelated container types
-
-**Expected takeaway:** explain every transformation from a JSONL line to a count and identify where validation must occur.
+**Direct link:** [Python `Counter`](https://docs.python.org/3/library/collections.html#collections.Counter)  
+**Exact section, chapter, or unit:** Counter objects, `elements`, and `most_common`  
+**Estimated time:** 20 minutes  
+**What to focus on:** missing-count behavior, update semantics, and deterministic presentation of counts  
+**What to skip:** counter arithmetic and unrelated collection types  
+**Expected takeaway:** explain how validated labels become counts without confusing a count with identity or causation.
 
 ## Course bridge
 
@@ -107,7 +110,7 @@ Trace, run, test, and extend one transparent telemetry transformation.
 Open `lab/tooling/client.py`, `lab/analysis/analyze.py`, and
 `lab/fixtures/requests.jsonl`. No service or Docker container is required.
 
-### Actions
+### Exact actions or commands
 
 1. For the first fixture line, identify raw keys, teaching labels, and absent fields.
 2. Trace `load_jsonl()` from text line through `json.loads()` and shape validation.

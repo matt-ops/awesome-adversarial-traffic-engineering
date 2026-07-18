@@ -2,32 +2,30 @@
 
 <!-- source-ids: k6-thresholds, aws-builders-library-load-shedding, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 08 - DDoS and resilience  
-> Lesson: 2 of 5  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Resource-exhaustion model  
-> Artifact: `artifacts/module-08/metric-plan.md`  
-> Next: Edge controls
+## Progress
+
+- Module: 08 - DDoS and resilience
+- Lesson: 2 of 5
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Resource model](01-resource-exhaustion-model.md)
+  - Basic percentiles and error-rate interpretation
+- Required artifact: `artifacts/module-08/metric-plan.md`
+- Next lesson: Edge controls
 
 ## Role outcome
 
 Define baseline, health objective, threshold, abort, recovery, and limitations
 before generating bounded traffic.
 
-## Prerequisites
-
-- [Resource model](01-resource-exhaustion-model.md)
-- Basic percentiles and error-rate interpretation
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/) | syntax; failure; abort-on-fail; examples | Defines executable pass/fail criteria |
-| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | metrics/admission/recovery discussion | Frames rejection versus protected health |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | predictions, evidence, retest | Prevents post-hoc success criteria |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/) | syntax; failure; abort-on-fail; examples | Defines executable pass/fail criteria | Tool documentation; AATE adds stricter local target and load ceilings. |
+| PRACTITIONER_PERSPECTIVE | [AWS Load shedding](https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/) | metrics/admission/recovery discussion | Frames rejection versus protected health | Practitioner guidance from one large provider; adapt mechanisms to the target architecture. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | predictions, evidence, retest | Prevents post-hoc success criteria | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -43,10 +41,10 @@ before generating bounded traffic.
 ### k6 threshold assignment
 
 **Direct link:** [k6 Thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/)  
-**Exact assignment:** threshold syntax; failure behavior; abort-on-fail behavior; latency/error examples  
+**Exact section, chapter, or unit:** threshold syntax; failure behavior; abort-on-fail behavior; latency/error examples  
 **Estimated time:** 40 minutes  
-**Focus on:** metric expression, exit status, abort delay, and predeclared thresholds  
-**Skip:** cloud outputs and custom metric development  
+**What to focus on:** metric expression, exit status, abort delay, and predeclared thresholds  
+**What to skip:** cloud outputs and custom metric development  
 **Expected takeaway:** explain each local threshold and how it fails safely.
 
 ## Course bridge
@@ -77,7 +75,7 @@ Write a metric/threshold plan and inspect dry-run behavior.
 
 Read the load guide and script safety block before executing k6.
 
-### Actions
+### Exact actions or commands
 
 1. Define legitimate and adversarial health metrics and sample limits.
 2. Define safety thresholds/abort and objective thresholds separately.
@@ -92,8 +90,11 @@ errors, timeouts, resource telemetry, and recovery.
 
 ### Interpretation
 
-A threshold is meaningful only with metric scope, sample size, and expected
-response classification.
+A threshold is meaningful only when the metric scope, expected statuses, sample
+size, observation window, and abort behavior are declared. A p95 from a tiny
+sample is unstable; an intentional 429 or 503 can be a correct control outcome
+rather than generic failure; and client latency cannot substitute for the
+resource and recovery telemetry named by the hypothesis.
 
 ### Common failure modes
 
@@ -140,4 +141,3 @@ resource metrics, sample limits, abort, and recovery.
 
 [Edge controls](03-edge-controls.md) maps aggregation windows, custom keys,
 endpoint scope, and admission behavior to bypass hypotheses.
-

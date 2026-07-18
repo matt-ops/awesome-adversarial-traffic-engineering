@@ -2,35 +2,33 @@
 
 <!-- source-ids: mdn-promises, mdn-async-function, mdn-try-catch, mdn-using-fetch, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 02 - Browser and JavaScript foundations  
-> Lesson: 4 of 4  
-> Depth: Foundation  
-> Estimated time: 2 hours  
-> Prerequisites: Minimum JavaScript  
-> Artifact: `artifacts/module-02/fetch-observation.js`  
-> Next: Playwright object model
+## Progress
+
+- Module: 02 - Browser and JavaScript foundations
+- Lesson: 4 of 4
+- Depth: Foundation
+- Estimated time: 2 hours
+- Prerequisites:
+  - [Minimum JavaScript](03-javascript-core.md)
+  - Functions, objects, arrays, and conditions
+- Required artifact: `artifacts/module-02/fetch-observation.js`
+- Next lesson: Playwright object model
 
 ## Role outcome
 
 Explain and implement asynchronous request handling that distinguishes network
 failure, HTTP failure, parsing failure, and assertion failure.
 
-## Prerequisites
-
-- [Minimum JavaScript](03-javascript-core.md)
-- Functions, objects, arrays, and conditions
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [MDN Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) | Description; chaining; rejection | Defines eventual completion and failure |
-| OFFICIAL_DOCUMENTATION | [MDN async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) | Description; examples | Explains `async` return values and `await` |
-| OFFICIAL_DOCUMENTATION | [MDN try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) | Syntax; description; examples | Provides structured error handling |
-| OFFICIAL_DOCUMENTATION | [MDN Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) | Making a request; checking status; reading JSON | Separates fulfilled fetch from successful HTTP status |
-| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Form handler and inventory fetch | Supplies the local implementation |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Control result and protected-action proof | Separates asynchronous failure categories from enforcement conclusions |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [MDN Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) | Description; chaining; rejection | Defines eventual completion and failure | Reference page; the course uses only the subset needed for browser automation. |
+| OFFICIAL_DOCUMENTATION | [MDN async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) | Description; examples | Explains `async` return values and `await` | Reference page; advanced concurrency patterns are out of scope here. |
+| OFFICIAL_DOCUMENTATION | [MDN try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) | Syntax; description; examples | Provides structured error handling | Language reference; the course supplies browser-runner failure examples. |
+| OFFICIAL_DOCUMENTATION | [MDN Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) | Making a request; checking status; reading JSON | Separates fulfilled fetch from successful HTTP status | The course does not assign streaming or advanced request-body material at Foundation depth. |
+| LAB_SPECIFIC | [Foundation static site](../../labs/foundation/static-site.md) | Form handler and inventory fetch | Supplies the local implementation | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Control result and protected-action proof | Separates asynchronous failure categories from enforcement conclusions | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,14 +42,41 @@ application assertion -> pass OR explicit failure
 
 ## Required external instruction
 
-### MDN asynchronous bridge
+### Promise assignment
 
-**Direct link:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), [async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function), [try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch), and [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)  
-**Exact assignment:** Promise Description/chaining/rejection; async function Description/examples; try...catch Syntax/Description/examples; Fetch Making a request, checking response status, and reading JSON  
-**Estimated time:** 65 minutes  
-**Focus on:** what each Promise settles with, why `await` pauses one async function rather than the browser, and why HTTP errors need an explicit status check  
-**Skip:** Promise combinators, streaming bodies, upload progress, service workers, and advanced cancellation  
-**Expected takeaway:** predict each success/failure path in a fetch function and preserve a useful error category.
+**Direct link:** [MDN Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
+**Exact section, chapter, or unit:** Description and Chained Promises  
+**Estimated time:** 15 minutes  
+**What to focus on:** pending, fulfilled, rejected, handler return values, and how a chain receives the prior result  
+**What to skip:** static combinators and advanced subclass behavior  
+**Expected takeaway:** draw the fulfilled and rejected path for each Promise in the worked fetch function.
+
+### Async and await assignment
+
+**Direct link:** [MDN async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)  
+**Exact section, chapter, or unit:** Description and Examples  
+**Estimated time:** 15 minutes  
+**What to focus on:** the Promise returned by an async function and the fact that `await` pauses that async function's continuation  
+**What to skip:** top-level await and advanced concurrency patterns  
+**Expected takeaway:** explain what value each `await` receives and why the browser or Node process can continue other work.
+
+### Error-handling assignment
+
+**Direct link:** [MDN try...catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)  
+**Exact section, chapter, or unit:** Description and The `finally` block  
+**Estimated time:** 10 minutes  
+**What to focus on:** which thrown or rejected failures enter `catch` and why cleanup belongs in `finally`  
+**What to skip:** conditional catch patterns not used by the local script  
+**Expected takeaway:** preserve the original failure category while guaranteeing cleanup.
+
+### Fetch assignment
+
+**Direct link:** [MDN Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)  
+**Exact section, chapter, or unit:** Making a request; Setting the method; Setting a body; Checking response status; Reading the response body  
+**Estimated time:** 25 minutes  
+**What to focus on:** request construction, fulfilled `Response` objects for HTTP error statuses, explicit `response.ok` checks, and JSON parsing  
+**What to skip:** streaming bodies, upload progress, service workers, and advanced cancellation  
+**Expected takeaway:** distinguish request/network rejection, HTTP failure, body-decoding failure, and application assertion failure.
 
 ## Course bridge
 
@@ -101,7 +126,7 @@ Start the Foundation server. Create `artifacts/module-02/fetch-observation.js`
 and paste the worked function into DevTools Sources Snippets or adapt it in the
 Console.
 
-### Actions
+### Exact actions or commands
 
 1. Call `await loadInventory()` and record the returned array.
 2. Change the path temporarily to `/missing.json`; call it and record the error.

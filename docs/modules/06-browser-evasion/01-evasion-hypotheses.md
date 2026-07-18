@@ -2,32 +2,30 @@
 
 <!-- source-ids: gummy-browsers, fp-inconsistent, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 06 - Browser-control evasion  
-> Lesson: 1 of 5  
-> Depth: Integrated  
-> Estimated time: 3 hours  
-> Prerequisites: Module 05 blocked baseline  
-> Artifact: `artifacts/module-06/evasion-plan.md`  
-> Next: One-variable experiment
+## Progress
+
+- Module: 06 - Browser-control evasion
+- Lesson: 1 of 5
+- Depth: Integrated
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Blocked baseline](../05-control-recon/05-blocked-baseline.md)
+  - Complete signal, context, and state maps
+- Required artifact: `artifacts/module-06/evasion-plan.md`
+- Next lesson: One-variable experiment
 
 ## Role outcome
 
 Write a falsifiable, bounded evasion hypothesis that predicts control and
 protected-action outcomes while naming residual evidence and alternatives.
 
-## Prerequisites
-
-- [Blocked baseline](../05-control-recon/05-blocked-baseline.md)
-- Complete signal, context, and state maps
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PREPRINT_RESEARCH | [Gummy Browsers](https://arxiv.org/abs/2110.10129) | Abstract/Introduction; §3; evaluation framing | Provides an offensive fingerprint-spoofing threat model |
-| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | Threat model; inconsistency analysis; limitations | Supplies residual/coherence questions |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Hypothesis through alternative explanations | Defines the experiment contract |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PREPRINT_RESEARCH | [Gummy Browsers](https://arxiv.org/abs/2110.10129) | Abstract/Introduction; §3; evaluation framing | Provides an offensive fingerprint-spoofing threat model | Research threat model and older browser/tool versions; network-layer identity was not spoofed in the study. |
+| PREPRINT_RESEARCH | [FP-Inconsistent](https://arxiv.org/abs/2406.07647) | Threat model; inconsistency analysis; limitations | Supplies residual/coherence questions | Preprint studying a specific dataset, honey-site design, bot population, and selected services; not universal proof. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Hypothesis through alternative explanations | Defines the experiment contract | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -44,10 +42,10 @@ Refuted if decision or P does not change; limited by residuals R and alternative
 ### Gummy Browsers threat-model assignment
 
 **Direct link:** [Gummy Browsers](https://arxiv.org/abs/2110.10129)  
-**Exact assignment:** Abstract and Introduction; §3 Attack Model and Spoofing Methods; skim §5 Dataset and Evaluation Methodology for the comparison design  
+**Exact section, chapter, or unit:** Abstract and Introduction; §3 Attack Model and Spoofing Methods; skim §5 Dataset and Evaluation Methodology for the comparison design  
 **Estimated time:** 70 minutes  
-**Focus on:** attacker knowledge/capability, acquisition/spoofing approaches, target fingerprint, success metric, and assumptions  
-**Skip:** implementation details and results until Lesson 3  
+**What to focus on:** attacker knowledge/capability, acquisition/spoofing approaches, target fingerprint, success metric, and assumptions  
+**What to skip:** implementation details and results until Lesson 3  
 **Expected takeaway:** separate a research threat model from a universal bypass claim and write your local hypothesis with narrower assumptions.
 
 ## Course bridge
@@ -85,7 +83,7 @@ Freeze the one-variable trial before viewing its result.
 
 Use the blocked-baseline artifact and transparent local reason. No execution yet.
 
-### Actions
+### Exact actions or commands
 
 1. State observation separately from inference.
 2. Name exact changed property, value, context, and timing.
@@ -149,4 +147,3 @@ predictions, support/refute, abort, residuals, alternatives, and conclusion boun
 
 [One-variable experiment](02-one-variable-experiments.md) executes the deliberately
 limited local hypothesis and proves the action once.
-

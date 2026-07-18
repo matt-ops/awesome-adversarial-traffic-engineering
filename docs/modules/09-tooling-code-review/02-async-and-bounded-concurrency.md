@@ -2,40 +2,30 @@
 
 <!-- source-ids: python-standard-library, pytest-documentation, aate-local-lab -->
 
-> **Progress**
->
-> Module: 09 - Tooling and secure code review
->
-> Lesson: 2 of 4
->
-> Depth: Applied
->
-> Estimated time: 3 hours
->
-> Prerequisites: Python telemetry as evidence
->
-> Artifact: `artifacts/module-09/concurrency-trace.md`
->
-> Next: Retries, timeouts, and jitter
+## Progress
+
+- Module: 09 - Tooling and secure code review
+- Lesson: 2 of 4
+- Depth: Applied
+- Estimated time: 3 hours
+- Prerequisites:
+  - [Python telemetry as evidence](01-python-telemetry.md)
+  - Local synthetic API setup from [the lab page](../../labs/applied/local-api.md)
+- Required artifact: `artifacts/module-09/concurrency-trace.md`
+- Next lesson: Retries, timeouts, and jitter
 
 ## Role outcome
 
 Build a local request population with explicit total-work and in-flight ceilings,
 then explain where concurrency begins, waits, and ends.
 
-## Prerequisites
-
-- [Python telemetry as evidence](01-python-telemetry.md)
-- Local synthetic API setup from [the lab page](../../labs/applied/local-api.md)
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| OFFICIAL_DOCUMENTATION | [Python `asyncio`](https://docs.python.org/3/library/asyncio.html) | coroutines, tasks, synchronization, threads | Grounds the concurrency model |
-| OFFICIAL_DOCUMENTATION | [`Semaphore`](https://docs.python.org/3/library/asyncio-sync.html#asyncio.Semaphore), [`gather`](https://docs.python.org/3/library/asyncio-task.html#asyncio.gather), and [`to_thread`](https://docs.python.org/3/library/asyncio-task.html#asyncio.to_thread) | exact APIs used | Grounds the lab implementation |
-| OFFICIAL_DOCUMENTATION | [pytest parametrization](https://docs.pytest.org/en/stable/how-to/parametrize.html) | boundary cases | Grounds ceiling tests |
-| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | bounded concurrency command | Supplies observed output |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| OFFICIAL_DOCUMENTATION | [Python documentation](https://docs.python.org/3/) | `asyncio` coroutines and tasks; `Semaphore`; `gather`; `to_thread` | Grounds the concurrency model and the exact APIs used by the bounded client | Lessons link to the exact subsection used; not all Python documentation is assigned. |
+| OFFICIAL_DOCUMENTATION | [pytest parametrization](https://docs.pytest.org/en/stable/how-to/parametrize.html) | How to parametrize fixtures and test functions | Grounds ceiling boundary tests | Only the features used by the code-review exercises are assigned. |
+| LAB_SPECIFIC | [Python tooling lab](../../labs/applied/python-tooling.md) | bounded concurrency command | Supplies observed output | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -54,19 +44,23 @@ it produces repeated traffic.
 
 ## Required external instruction
 
-### Required asyncio assignment
+### Coroutine and task assignment
 
-**Direct link:** [`asyncio` coroutines and tasks](https://docs.python.org/3/library/asyncio-task.html) and [synchronization primitives](https://docs.python.org/3/library/asyncio-sync.html)
+**Direct link:** [`asyncio` coroutines and tasks](https://docs.python.org/3/library/asyncio-task.html)  
+**Exact section, chapter, or unit:** Coroutines, Creating Tasks, Running Tasks Concurrently (`gather` only), and Running in Threads  
+**Estimated time:** 45 minutes  
+**What to focus on:** coroutine versus execution, task scheduling, result ordering, exception propagation, and blocking I/O handoff  
+**What to skip:** subprocesses, queues, streams, low-level event loops, and cross-thread scheduling  
+**Expected takeaway:** trace one operation from coroutine creation through task scheduling, thread handoff, response, and gathered result.
 
-**Exact assignment:** read Coroutines; Creating Tasks; Running Tasks Concurrently (`gather` only); Running in Threads; Semaphore; and the warning that synchronization primitives are not thread-safe
+### Semaphore assignment
 
-**Estimated time:** 70 minutes
-
-**Focus on:** coroutine versus execution, result ordering, exception propagation, blocking I/O, permit acquisition/release, and separate work ceilings
-
-**Skip:** subprocesses, queues, streams, low-level event loops, and cross-thread scheduling
-
-**Expected takeaway:** trace one operation from task creation through semaphore admission, thread handoff, response, and permit release.
+**Direct link:** [Synchronization primitives](https://docs.python.org/3/library/asyncio-sync.html)  
+**Exact section, chapter, or unit:** Semaphore and the warning that asyncio synchronization primitives are not thread-safe  
+**Estimated time:** 25 minutes  
+**What to focus on:** permit acquisition, release on exceptional paths, and why an in-flight ceiling differs from a total-work ceiling  
+**What to skip:** Event, Condition, Barrier, and thread synchronization APIs  
+**Expected takeaway:** identify the precise code region protected by the semaphore and prove its maximum simultaneous occupancy.
 
 ## Course bridge
 
@@ -98,7 +92,7 @@ and output order.
 Start the local API as described in the lab page and confirm `/health` returns
 `200`. Open `bounded_fetch()` before executing it.
 
-### Actions
+### Exact actions or commands
 
 1. Mark the target validation, envelope validation, semaphore, thread handoff,
    and gather call in the source.

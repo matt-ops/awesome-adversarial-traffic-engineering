@@ -25,5 +25,34 @@ headless, and HTTP-client populations and a ranked control hypothesis.
 Add false-positive populations, repeated trials, version labels, drift risks,
 alternate explanations, and the evidence required to distinguish them.
 
+## Canonical offensive artifact
+
+Use this schema for every control hypothesis. A detector score may appear as an
+observation, but the artifact ends with the protected-action result and exact
+retest—not a classifier-building task.
+
+```text
+Observed signal:
+Collection location:
+What the defense appears to infer:
+Attacker control:
+Cost to imitate:
+Cross-context implications:
+Protocol implications:
+Session implications:
+Blocked baseline:
+Hypothesis:
+Changed variable or coherent signal set:
+Protected-action result:
+Residual anomalies:
+Alternative explanations:
+Remediation:
+Retest:
+```
+
+Precision, recall, false-positive rate, base-rate effects, ablation, and drift
+are supporting analysis only when they expose an overtrusted feature, quantify
+collateral impact, or make remediation and retest more meaningful.
+
 Start with [signal families](01-signal-families.md). This module observes and
 maps; signal changes wait until Module 06.

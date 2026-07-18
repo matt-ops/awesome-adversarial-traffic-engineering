@@ -2,31 +2,29 @@
 
 <!-- source-ids: portswigger-race-conditions-path, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 04 - Automated abuse and workflow attacks  
-> Lesson: 5 of 5  
-> Depth: Integrated  
-> Estimated time: 4 hours  
-> Prerequisites: Inventory and promotion abuse  
-> Artifact: `artifacts/module-04/limit-overrun-report.md`  
-> Next: Control reconnaissance
+## Progress
+
+- Module: 04 - Automated abuse and workflow attacks
+- Lesson: 5 of 5
+- Depth: Integrated
+- Estimated time: 4 hours
+- Prerequisites:
+  - [Inventory and promotion abuse](04-inventory-and-promotion-abuse.md)
+  - PortSwigger account and Burp Suite familiarity from the assigned path
+- Required artifact: `artifacts/module-04/limit-overrun-report.md`
+- Next lesson: Control reconnaissance
 
 ## Role outcome
 
 Detect and prove an authorized limit-overrun race by correlating concurrent
 requests with the invariant and resulting server state.
 
-## Prerequisites
-
-- [Inventory and promotion abuse](04-inventory-and-promotion-abuse.md)
-- PortSwigger account and Burp Suite familiarity from the assigned path
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [PortSwigger race conditions path](https://portswigger.net/web-security/learning-paths/race-conditions) | Limit overruns; Repeater method; named lab; methodology; rate/resource limits | Supplies detailed technique and a provider-authorized target |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Hypothesis, one coherent change, proof, remediation, retest | Structures concurrency evidence and conclusions |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [PortSwigger race conditions path](https://portswigger.net/web-security/learning-paths/race-conditions) | Limit overruns; Repeater method; named lab; methodology; rate/resource limits | Supplies detailed technique and a provider-authorized target | Use only provider-assigned targets. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Hypothesis, one coherent change, proof, remediation, retest | Structures concurrency evidence and conclusions | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -46,10 +44,10 @@ produce two benefits while the intended invariant permits one.
 ### PortSwigger race assignment
 
 **Direct link:** [Race conditions learning path](https://portswigger.net/web-security/learning-paths/race-conditions)  
-**Exact assignment:** Limit overrun race conditions; Detecting and exploiting limit overrun race conditions with Burp Repeater; Lab: Limit overrun race conditions; Methodology; Abusing rate or resource limits  
+**Exact section, chapter, or unit:** Limit overrun race conditions; Detecting and exploiting limit overrun race conditions with Burp Repeater; Lab: Limit overrun race conditions; Methodology; Abusing rate or resource limits  
 **Estimated time:** 2 hours  
-**Focus on:** identifying the invariant, synchronizing requests using the provider method, proving state/benefit, and ruling out sequential behavior  
-**Skip:** multi-endpoint and partial-construction attacks not included in the assigned sections  
+**What to focus on:** identifying the invariant, synchronizing requests using the provider method, proving state/benefit, and ruling out sequential behavior  
+**What to skip:** multi-endpoint and partial-construction attacks not included in the assigned sections  
 **Expected takeaway:** complete the named provider lab and explain check/use timing, concurrency evidence, state proof, and atomic remediation.
 
 ## Course bridge
@@ -91,7 +89,7 @@ Launch only the named Academy lab. Record its issued hostname and scenario in a
 private working note. Read the provider's Repeater synchronization instructions
 before sending the bounded request group.
 
-### Actions
+### Exact actions or commands
 
 1. Define the one-use or bounded-resource invariant in one sentence.
 2. Capture one legitimate action and the resulting account/state value.

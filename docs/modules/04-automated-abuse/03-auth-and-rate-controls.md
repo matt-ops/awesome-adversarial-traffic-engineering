@@ -2,34 +2,32 @@
 
 <!-- source-ids: portswigger-authentication-path, owasp-automated-threats, aate-local-lab, aate-adversarial-control-loop -->
 
-> **Progress**  
-> Module: 04 - Automated abuse and workflow attacks  
-> Lesson: 3 of 5  
-> Depth: Applied  
-> Estimated time: 4 hours  
-> Prerequisites: Workflow and API mapping  
-> Artifact: `artifacts/module-04/auth-rate-evidence.md`  
-> Next: Inventory and promotion abuse
+## Progress
+
+- Module: 04 - Automated abuse and workflow attacks
+- Lesson: 3 of 5
+- Depth: Applied
+- Estimated time: 4 hours
+- Prerequisites:
+  - [Workflow and API mapping](02-workflow-mapping.md)
+  - Active local lab for local exercises
+  - A free PortSwigger Web Security Academy account for the assigned provider lab
+- Required artifact: `artifacts/module-04/auth-rate-evidence.md`
+- Next lesson: Inventory and promotion abuse
 
 ## Role outcome
 
 Execute authorized authentication and rate-key experiments, distinguish their
 objectives, and prove whether the controlled action remains accepted.
 
-## Prerequisites
-
-- [Workflow and API mapping](02-workflow-mapping.md)
-- Active local lab for local exercises
-- A free PortSwigger Web Security Academy account for the assigned provider lab
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| PROJECT_DOCUMENTATION | [PortSwigger authentication path](https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities) | Authentication, password login, brute force, flawed protection, rate limiting, named lab | Provides an authorized realistic target and technique instruction |
-| PROJECT_DOCUMENTATION | [OWASP OAT-008](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-008_Credential_Stuffing) | Summary; Description; names/examples | Keeps known-pair testing distinct from guessing |
-| LAB_SPECIFIC | [Integrated local app](../../labs/applied/local-api.md) | Credential and rate-limit runners | Supplies bounded synthetic patterns |
-| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Baseline, changed variable, proof, residual evidence | Structures comparable trials |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| PROJECT_DOCUMENTATION | [PortSwigger authentication path](https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities) | Authentication, password login, brute force, flawed protection, rate limiting, named lab | Provides an authorized realistic target and technique instruction | Use only provider-assigned targets and synthetic provider data. |
+| PROJECT_DOCUMENTATION | [OWASP OAT-008](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-008_Credential_Stuffing) | Summary; Description; names/examples | Keeps known-pair testing distinct from guessing | The project is a taxonomy and handbook, not an execution methodology. |
+| LAB_SPECIFIC | [Integrated local app](../../labs/applied/local-api.md) | Credential and rate-limit runners | Supplies bounded synthetic patterns | Deliberately small and vulnerable; results do not generalize to production systems. |
+| COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Baseline, changed variable, proof, residual evidence | Structures comparable trials | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
 
@@ -45,10 +43,10 @@ objectives, and prove whether the controlled action remains accepted.
 ### PortSwigger authentication assignment
 
 **Direct link:** [Authentication vulnerabilities learning path](https://portswigger.net/web-security/learning-paths/authentication-vulnerabilities)  
-**Exact assignment:** What is authentication?; Authentication versus authorization; Vulnerabilities in password-based login; Brute-force attacks; Flawed brute-force protection; User rate limiting; Lab: Broken brute-force protection, IP block  
+**Exact section, chapter, or unit:** What is authentication?; Authentication versus authorization; Vulnerabilities in password-based login; Brute-force attacks; Flawed brute-force protection; User rate limiting; Lab: Broken brute-force protection, IP block  
 **Estimated time:** 2 hours  
-**Focus on:** credential outcome versus authorization, how the provider's control keys attempts, the blocked baseline, changed request property, and successful login  
-**Skip:** all later authentication labs/topics not named above  
+**What to focus on:** credential outcome versus authorization, how the provider's control keys attempts, the blocked baseline, changed request property, and successful login  
+**What to skip:** all later authentication labs/topics not named above  
 **Expected takeaway:** complete the assigned lab on its issued target and explain precisely which rate-control assumption was bypassed.
 
 ## Course bridge
@@ -98,7 +96,7 @@ provider-assigned control lab.
 Verify local health. Read the two runner functions so their five credential
 attempts and six rate requests are known before execution.
 
-### Actions
+### Exact actions or commands
 
 1. Execute `python -m lab.run credential` once and preserve all five outcomes
    plus `/api/auth/attempts` summary.

@@ -2,14 +2,18 @@
 
 <!-- source-ids: nist-sp-800-115, owasp-wstg-entry-points-v42, aate-adversarial-control-loop, aate-local-lab -->
 
-> **Progress**  
-> Module: 00 — Method and authorization  
-> Lesson: 3 of 3  
-> Depth: Foundation  
-> Estimated time: 100 minutes  
-> Prerequisites: Scope and Rules of Engagement  
-> Artifact: `artifacts/module-00/experiment-plan.md`  
-> Next: HTTP request and response
+## Progress
+
+- Module: 00 — Method and authorization
+- Lesson: 3 of 3
+- Depth: Foundation
+- Estimated time: 100 minutes
+- Prerequisites:
+  - [The authorized red-team role](01-red-team-role.md)
+  - [Scope and Rules of Engagement](02-scope-and-rules.md)
+  - Completed engagement plan
+- Required artifact: `artifacts/module-00/experiment-plan.md`
+- Next lesson: HTTP request and response
 
 ## Role outcome
 
@@ -17,20 +21,14 @@ Design a baseline, falsifiable hypothesis, controlled change, protected-action
 proof, limitation statement, remediation criterion, and identical retest before
 executing the attack.
 
-## Prerequisites
-
-- [The authorized red-team role](01-red-team-role.md)
-- [Scope and Rules of Engagement](02-scope-and-rules.md)
-- Completed engagement plan
-
 ## Source basis
 
-| Label | Source | Assigned area | Why it is used |
-|---|---|---|---|
-| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §5.2.1 and §§8.1–8.3 | Connects attack validation to analysis, reporting, and mitigation |
-| PROJECT_DOCUMENTATION | [OWASP Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points) | Summary, objectives, requests, responses | Grounds the map in observable application exchanges |
-| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Steps 3–15 | Defines the role-specific experiment sequence |
-| LAB_SPECIFIC | [AATE lab behavior](../../safety/index.md) | Synthetic challenge and traffic boundary | Supplies a safe worked scenario without executing it yet |
+| Type | Source | Exact assigned area | What it supports | Limitation |
+|---|---|---|---|---|
+| STANDARD | [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) | §5.2.1 and §§8.1–8.3 | Connects attack validation to analysis, reporting, and mitigation | General testing guide; it does not define bot-control or DDoS red-team procedure. |
+| PROJECT_DOCUMENTATION | [OWASP Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points) | Summary, objectives, requests, responses | Grounds the map in observable application exchanges | Version 4.2 is intentionally pinned; examples are general web testing guidance. |
+| COURSE_SYNTHESIS | [AATE loop](../../methodology/adversarial-control-loop.md) | Steps 3–15 | Defines the role-specific experiment sequence | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
+| LAB_SPECIFIC | [AATE lab behavior](../../safety/index.md) | Synthetic challenge and traffic boundary | Supplies a safe worked scenario without executing it yet | Deliberately small and vulnerable; results do not generalize to production systems. |
 
 ## Mental model
 
@@ -49,14 +47,23 @@ map -> legitimate baseline -> adversary baseline -> prediction
 
 ## Required external instruction
 
-### NIST analysis and OWASP request mapping
+### NIST attack, analysis, and reporting assignment
 
-**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final) and [OWASP WSTG-INFO-06 v4.2](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points)  
-**Exact assignment:** NIST §5.2.1 and §§8.1–8.3; OWASP Summary, Test Objectives, How to Test, Requests, and Responses  
-**Estimated time:** 45 minutes  
-**Focus on:** the relationship between discovery/attack/reporting and the exact request/response fields needed to map an entry point  
-**Skip:** unrelated testing techniques and OWASP sections after Responses  
-**Expected takeaway:** explain why an attack result must be analyzed against scope, baselines, request state, operational impact, and mitigation rather than reported as an isolated success code.
+**Direct link:** [NIST SP 800-115](https://csrc.nist.gov/pubs/sp/800/115/final)  
+**Exact section, chapter, or unit:** §5.2.1 Penetration Testing Phases and §§8.1-8.3  
+**Estimated time:** 30 minutes  
+**What to focus on:** how attack validation feeds discovery and how analysis, reporting, mitigation, and resolution constrain the final claim  
+**What to skip:** technique sections outside the assigned penetration-test and post-testing areas  
+**Expected takeaway:** connect one validated action to evidence, impact, mitigation criteria, and follow-up rather than stopping at a success status.
+
+### OWASP entry-point mapping assignment
+
+**Direct link:** [OWASP WSTG-INFO-06 v4.2](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points)  
+**Exact section, chapter, or unit:** Summary; Test Objectives; How to Test; Requests; Responses  
+**Estimated time:** 20 minutes  
+**What to focus on:** methods, targets, parameters, headers, cookies, redirects, response status, response content, and where state enters the workflow  
+**What to skip:** sections after Responses and any active technique outside the synthetic plan  
+**Expected takeaway:** produce the concrete request/response map needed to hold the workflow fixed during a controlled attack experiment.
 
 ## Course bridge
 
@@ -114,7 +121,7 @@ Copy the engagement boundary from your previous artifact into
 `artifacts/module-00/experiment-plan.md`. Use the synthetic challenge scenario
 above; Docker is not required yet.
 
-### Actions
+### Exact actions or commands
 
 Fill these fields in order:
 

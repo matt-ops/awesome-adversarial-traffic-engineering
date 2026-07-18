@@ -13,7 +13,7 @@ specification. Automated checks support review; they do not replace reading the 
 - [x] All eleven module indexes expose Foundation, Applied, Integrated, and Deep sections.
 - [x] Course synthesis, lab-specific behavior, vendor/research limits, and version-sensitive observations are labeled.
 - [x] The fifteen-step method has step-by-step provenance.
-- [x] The monolithic course page is removed from navigation and archived under `archive/v1-course/`.
+- [x] The monolithic course page is removed from navigation and from the public release tree.
 - [x] No core lesson asks the learner to locate their own resource.
 - [x] No code block longer than 20 lines appears without being split into a taught outcome.
 
@@ -60,12 +60,15 @@ specification. Automated checks support review; they do not replace reading the 
 - [x] External-link pass distinguishes permanent/malformed failures from transient warnings.
 - [x] Load-script safety validator passes.
 - [x] Python unit tests pass.
+- [x] Fast JavaScript/TypeScript unit tests pass without launching a browser.
+- [x] ESLint and Prettier checks pass.
+- [x] Markdown lint passes with explicit course-format exceptions.
 - [x] mypy and Ruff pass.
 - [x] TypeScript type check passes.
 - [x] Docker Compose configuration parses.
 - [x] All seven k6 scenarios and dry-run evidence remain recorded as passing.
 - [x] MkDocs strict build passes.
-- [x] `REWRITE_STATUS.md` contains final statistics, known limits, and review order.
+- [x] `PUBLISH_CHECKLIST.md` records release gates, known review boundaries, and the human-review order.
 
 ## Restriction-gap result
 
