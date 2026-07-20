@@ -28,13 +28,23 @@ has traced HTTP, browser, DOM, JavaScript, and Playwright behavior.
 
 ## Lifecycle
 
+### PowerShell
+
 ```powershell
 docker compose -f lab/docker-compose.yml up --build -d
 curl.exe http://localhost:8080/health
 ```
 
+### Bash or zsh
+
+```bash
+docker compose -f lab/docker-compose.yml up --build -d
+curl http://localhost:8080/health
+```
+
 Expected health body is `{"status":"ok","service":"aate-local-app"}`. Reset
-state with `curl.exe -X POST http://localhost:8080/api/reset`. Stop and remove
+state with `curl.exe -X POST http://localhost:8080/api/reset` in PowerShell or
+`curl -X POST http://localhost:8080/api/reset` in Bash or zsh. Stop and remove
 the course containers with `docker compose -f lab/docker-compose.yml down`.
 
 The application intentionally includes missing reservation authorization,

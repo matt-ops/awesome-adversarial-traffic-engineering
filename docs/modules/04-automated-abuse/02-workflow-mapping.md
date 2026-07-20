@@ -100,9 +100,18 @@ Docker Compose builds one FastAPI application behind a loopback-only Nginx edge.
 `-f` selects its course file; `up --build -d` builds images and starts them in the
 background. The health request verifies the route before any exercise.
 
+#### PowerShell
+
 ```powershell
 docker compose -f lab/docker-compose.yml up --build -d
 curl.exe http://localhost:8080/health
+```
+
+#### Bash or zsh
+
+```bash
+docker compose -f lab/docker-compose.yml up --build -d
+curl http://localhost:8080/health
 ```
 
 Expected health JSON is `{"status":"ok","service":"aate-local-app"}`.

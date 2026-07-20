@@ -119,7 +119,7 @@ prevents listening on other interfaces; `--directory` limits the document root.
 1. Keep the terminal open and visit `http://127.0.0.1:4173`.
 2. Search for `widget` and observe the result.
 3. In a second terminal request `http://127.0.0.1:4173/inventory.json` with the
-   browser or `curl.exe`.
+   browser, `curl.exe` in PowerShell, or `curl` in Bash or zsh.
 4. Record the method, target, request headers you can observe, status, response
    headers, media type, and body purpose.
 5. Mark every client-controlled claim and every server-generated fact.

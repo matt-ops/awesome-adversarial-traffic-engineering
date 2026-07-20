@@ -131,7 +131,8 @@ provider's authorization and has its own exact assumptions.
 
 ### Cleanup
 
-Reset the local lab with `curl.exe -X POST http://localhost:8080/api/reset`.
+Reset the local lab with `curl.exe -X POST http://localhost:8080/api/reset` in
+PowerShell or `curl -X POST http://localhost:8080/api/reset` in Bash or zsh.
 Close the Academy lab according to its interface and retain no provider session
 secrets in the repository.
 

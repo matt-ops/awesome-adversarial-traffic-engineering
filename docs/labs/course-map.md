@@ -130,6 +130,7 @@ command. A command is never a substitute for its canonical lesson.
 
 ### `curl.exe http://localhost:8080/health`
 
+- **Bash or zsh equivalent:** `curl http://localhost:8080/health`
 - **Canonical lesson:** `docs/modules/04-automated-abuse/02-workflow-mapping.md`
 - **Checkpoint:** Applied
 - **Prerequisite:** running local Compose stack
@@ -265,6 +266,7 @@ command. A command is never a substitute for its canonical lesson.
 
 ### `curl.exe -X POST http://localhost:8080/api/reset`
 
+- **Bash or zsh equivalent:** `curl -X POST http://localhost:8080/api/reset`
 - **Canonical lesson:** every stateful Applied-or-deeper lab page
 - **Checkpoint:** Applied and later
 - **Prerequisite:** running local stack
