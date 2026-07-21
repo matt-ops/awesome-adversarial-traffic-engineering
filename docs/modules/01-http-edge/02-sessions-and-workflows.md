@@ -92,14 +92,17 @@ authorization test.
 
 ### Setup
 
-Start the loopback static server as explained in the prior lesson and open the
-site. The browser stores the last query in `localStorage`.
+Start the loopback static server as explained in the prior lesson and open
+`http://127.0.0.1:4173/`. The browser stores the last query in `localStorage`.
 
 ### Exact actions or commands
 
-1. Load the page, enter `widget`, and submit the form.
-2. Reload and inspect the query field.
-3. Open a private/incognito window to the same URL and compare the field.
+1. In the **Product name** field, enter `widget`, click **Search**, and confirm
+   that `Found 1 matching product(s).` and `Synthetic Widget — 5 available`
+   appear below the form.
+2. Reload and inspect the **Product name** field.
+3. Use the browser menu item **New private window** or **New Incognito window**,
+   open `http://127.0.0.1:4173/`, and confirm that **Product name** is empty.
 4. Draw states for page loaded, query entered, inventory fetched, result shown,
    and query stored.
 5. For every transition record the request, browser-only state, and server state.

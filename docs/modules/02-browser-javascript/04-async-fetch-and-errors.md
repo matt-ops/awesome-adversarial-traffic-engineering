@@ -122,9 +122,9 @@ Classify successful, HTTP-error, and unavailable-target outcomes.
 
 ### Setup
 
-Start the Foundation server. Create `artifacts/module-02/fetch-observation.js`
-and paste the worked function into DevTools Sources Snippets or adapt it in the
-Console.
+Start the Foundation server and load `http://127.0.0.1:4173/`. Create
+`artifacts/module-02/fetch-observation.js` and paste the worked function into a
+DevTools **Sources > Snippets** entry or adapt it in the **Console** panel.
 
 ### Exact actions or commands
 
@@ -137,9 +137,10 @@ Console.
 
 ### Expected output
 
-The valid path returns two synthetic objects. The missing path reports
-`HTTP 404`. With the server stopped, fetch reports a network/request failure;
-there is no HTTP status because no response was received.
+The valid path returns three synthetic objects named `Synthetic Widget`,
+`Synthetic Kit`, and `Training Cable`. The missing path reports `HTTP 404`.
+With the server stopped, fetch reports a network/request failure; there is no
+HTTP status because no response was received.
 
 ### Interpretation
 

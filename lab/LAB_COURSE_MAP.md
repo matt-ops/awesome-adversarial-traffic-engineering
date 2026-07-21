@@ -329,18 +329,18 @@ command. A command is never a substitute for its canonical lesson.
 
 ### `npm run playwright:foundation`
 
-- **Canonical lesson:** `docs/modules/03-playwright/02-first-browser.md`
+- **Canonical lesson:** `docs/modules/01-http-edge/01-http-request-response.md`
 - **Checkpoint:** Foundation
-- **Prerequisite:** same as `playwright:first`
-- **Offensive objective:** compatibility alias for the first headed browser workflow
-- **Protected action or service effect:** same local search result as `playwright:first`
-- **Expected output:** same first-workflow artifact
-- **Interpretation:** no independent evidence; use the canonical command in learner records
+- **Prerequisite:** Python, Node dependencies, and the pinned Playwright Chromium browser
+- **Offensive objective:** deterministic local regression test of the Foundation inventory exercise
+- **Protected action or service effect:** exact local search result; no protected action
+- **Expected output:** HTTP, JSON fixture, accessible UI, result, URL, and cleanup checks pass
+- **Interpretation:** proves the bundled exercise works locally; it does not prove production behavior
 - **Source basis:** `microsoft-learn-playwright`, `aate-local-lab`
 - **Safety boundary:** fixed loopback target
-- **Artifact:** `playwright-first-workflow.json`
-- **Cleanup:** client and static-server cleanup from the canonical lesson
-- **Retest use:** CI/regression compatibility only
+- **Artifact:** terminal pass/fail output; no learner artifact
+- **Cleanup:** the test closes Chromium and the static server, including on failure
+- **Retest use:** run after Foundation web application or lesson changes
 
 ## Protocol, resilience, and Python tooling
 

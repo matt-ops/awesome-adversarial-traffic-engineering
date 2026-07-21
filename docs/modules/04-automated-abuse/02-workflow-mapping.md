@@ -96,9 +96,11 @@ hypotheses without exceeding the fixed probes.
 
 ### Setup
 
-Docker Compose builds one FastAPI application behind a loopback-only Nginx edge.
-`-f` selects its course file; `up --build -d` builds images and starts them in the
-background. The health request verifies the route before any exercise.
+From the repository root, Docker Compose builds one FastAPI application behind
+a loopback-only Nginx edge. The commands use the repository-relative
+`lab/docker-compose.yml` path. `-f` selects that course file; `up --build -d`
+builds images and starts them in the background. The health request verifies the
+route before any exercise.
 
 #### PowerShell
 

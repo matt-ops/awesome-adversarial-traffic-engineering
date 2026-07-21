@@ -87,17 +87,20 @@ Create a labeled manual baseline trace before introducing automation.
 
 ### Setup
 
-Start the loopback static server from Lesson 1. Open DevTools, select Network,
-enable Preserve log, and clear existing rows. Keep cache enabled for the first
-load.
+Start the loopback static server from Lesson 1 and open
+`http://127.0.0.1:4173/`. Open DevTools, select the **Network** panel, enable
+**Preserve log**, and click **Clear network log**. Keep **Disable cache**
+unchecked for the first load.
 
 ### Exact actions or commands
 
-1. Reload the page and search for `widget`.
+1. Reload the page, type `widget` into **Product name**, click **Search**, and
+   confirm that `Found 1 matching product(s).` appears below the form.
 2. Record the document, stylesheet, script, frame, worker, and JSON rows.
 3. For `inventory.json`, capture General, Request Headers, Response Headers,
    Response, Initiator, and Timing.
-4. Clear the log, disable cache while DevTools is open, and repeat exactly once.
+4. Click **Clear network log**, check **Disable cache** while DevTools is open,
+   and repeat exactly once.
 5. Compare request count and transfer/timing observations without claiming a
    performance cause the trace cannot establish.
 

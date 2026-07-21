@@ -76,7 +76,9 @@ Generate and annotate two local ClientHello fixtures.
 
 ### Setup
 
-Read `lab/protocol/compare.py`; it parses only outer record and handshake fields.
+From the repository root, read `lab/protocol/compare.py`; it parses only outer
+record and handshake fields. Run the command below from that same directory so
+Python can resolve the repository's `lab` package.
 
 ### Exact actions or commands
 

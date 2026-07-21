@@ -90,12 +90,14 @@ Observe process/context boundaries and map them to the resources from Module 01.
 
 ### Setup
 
-Start the Foundation static server. Open Chrome's built-in Task Manager (More
-Tools -> Task Manager) and DevTools Sources. Exact process rows vary by version.
+Start the Foundation static server and visit `http://127.0.0.1:4173/`. Open
+Chrome's built-in Task Manager from **More tools > Task manager**, then select
+the **Sources** panel in DevTools. Exact process rows vary by version.
 
 ### Exact actions or commands
 
-1. Load the page and note the browser, tab/renderer, GPU, and utility rows shown.
+1. With `http://127.0.0.1:4173/` loaded, note the browser, tab/renderer, GPU, and
+   utility rows shown in Task Manager.
 2. In DevTools Sources, locate the top page, `frame.html`, and `worker.js`.
 3. Select each available JavaScript context in the Console context picker.
 4. Evaluate `globalThis.constructor.name` in the page/frame and

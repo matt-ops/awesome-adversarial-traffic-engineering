@@ -12,7 +12,7 @@
     "external-links": "python scripts/check_external_links.py",
     "secret-scan": "python scripts/scan_public_tree.py",
     "playwright:first": "tsx lab/clients/playwright/first_workflow.ts",
-    "playwright:foundation": "tsx lab/clients/playwright/first_workflow.ts",
+    "playwright:foundation": "tsx lab/clients/playwright/foundation_smoke.ts",
     "playwright:workflow-authorization": "tsx lab/clients/playwright/workflow_authorization.ts",
     "playwright:control-recon": "tsx lab/clients/playwright/control_recon.ts",
     "typecheck": "tsc --noEmit"
