@@ -91,25 +91,29 @@ Inventory the document nodes and Web APIs that implement the search workflow.
 
 ### Setup
 
-Start the Foundation server, load the page, and open DevTools Elements and
-Console. Work only in this local document.
+Start the Foundation server, load `http://127.0.0.1:4173/`, and open the
+**Elements** and **Console** panels in DevTools. Work only in this local document.
 
 ### Exact actions or commands
 
-1. In Elements locate `form`, `input`, `button`, `#status`, `#results`, and the
-   `iframe`.
-2. In Console evaluate `document.querySelectorAll("form *").length`.
-3. Evaluate the worked-example code and observe that text changes but no result
-   appears yet.
+1. In **Elements**, locate `form`, `input`, `button`, `#status`, `#results`, and
+   the `iframe`.
+2. In **Console**, evaluate `document.querySelectorAll("form *").length`.
+3. Evaluate the worked-example code. Confirm that **Product name** displays
+   `widget`, the status remains `Enter a product name.`, and no result appears.
 4. Call `document.querySelector("#search-form").requestSubmit()`.
-5. Inspect the new `#results li` node and read `localStorage.getItem("aate-last-query")`.
+5. Confirm that the status is `Found 1 matching product(s).`, inspect the new
+   `#results li` node containing `Synthetic Widget — 5 available`, and evaluate
+   `localStorage.getItem("aate-last-query")`.
 6. Classify each used object as JavaScript language, DOM, or another Web API.
 
 ### Expected output
 
-The input becomes `widget`; submitting changes status to `Found 1 item`, creates
-one list item, and stores `widget`. The number of form descendants depends on the
-current markup and should be recorded rather than memorized.
+The input becomes `widget`; submitting changes the status to
+`Found 1 matching product(s).`, creates one list item containing
+`Synthetic Widget — 5 available`, and stores `widget`. The number of form
+descendants depends on the current markup and should be recorded rather than
+memorized.
 
 ### Interpretation
 

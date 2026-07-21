@@ -104,30 +104,161 @@ Start the zero-Docker site, cause one request, and annotate both messages.
 
 ### Setup
 
-The server exposes only files under `lab/foundation-web` on loopback. The command
-creates no account and contacts no external target.
+Open a terminal in the root of the cloned repository. The server command below
+uses a repository-relative path, so confirm the working directory before
+starting it.
+
+#### PowerShell preflight
 
 ```powershell
-python -m http.server 4173 --bind 127.0.0.1 --directory lab/foundation-web
+Test-Path .\lab\foundation-web\index.html
 ```
 
-The module starts a basic static-file server. Port `4173` is local; `--bind`
-prevents listening on other interfaces; `--directory` limits the document root.
+Expected output:
+
+```text
+True
+```
+
+`True` means the terminal is in the correct repository directory. `False` means
+you must change into the cloned repository directory before continuing. Do not
+start the server until this command returns `True`.
+
+#### Bash or zsh preflight
+
+```bash
+test -f ./lab/foundation-web/index.html && echo "Found" || echo "Not found"
+```
+
+Expected output:
+
+```text
+Found
+```
+
+`Found` means the terminal is in the correct repository directory. `Not found`
+means you must change into the cloned repository directory before continuing.
+Do not start the server until this command prints `Found`.
+
+The server exposes only files under `lab/foundation-web` on loopback. It creates
+no account and contacts no external target.
+
+#### PowerShell server command
+
+```powershell
+python -m http.server 4173 `
+  --bind 127.0.0.1 `
+  --directory ".\lab\foundation-web"
+```
+
+#### Bash or zsh server command
+
+```bash
+python3 -m http.server 4173 \
+  --bind 127.0.0.1 \
+  --directory "./lab/foundation-web"
+```
+
+- `4173` is the local listening port.
+- `--bind 127.0.0.1` restricts the server to the loopback interface.
+- `--directory` selects the bundled Foundation web application as the document
+  root.
+
+Expected terminal output should resemble:
+
+```text
+Serving HTTP on 127.0.0.1 port 4173 ...
+```
+
+Leave this terminal open while completing the exercise.
 
 ### Exact actions or commands
 
-1. Keep the terminal open and visit `http://127.0.0.1:4173`.
-2. Search for `widget` and observe the result.
-3. In a second terminal request `http://127.0.0.1:4173/inventory.json` with the
-   browser, `curl.exe` in PowerShell, or `curl` in Bash or zsh.
-4. Record the method, target, request headers you can observe, status, response
-   headers, media type, and body purpose.
-5. Mark every client-controlled claim and every server-generated fact.
+#### Use the search form
+
+1. Visit `http://127.0.0.1:4173/`.
+2. Confirm that the page displays the heading `Local inventory search`.
+3. Find the input field labeled **Product name** and type:
+
+   ```text
+   widget
+   ```
+
+4. Click the button labeled **Search**.
+5. Observe the search result displayed below the form:
+
+   ```text
+   Found 1 matching product(s).
+   Synthetic Widget — 5 available
+   ```
+
+!!! warning "Search term, not URL path"
+    Do not navigate to `http://127.0.0.1:4173/widget`.
+    `widget` is a search term entered into the **Product name** field. It is not
+    a URL path or file name. A request to `/widget` returns `404` because this
+    static lab contains no `/widget` route or file.
+
+#### What happens technically
+
+1. The browser initially requests `/` and loads the HTML application.
+2. The page loads its JavaScript and supporting files.
+3. When you click **Search**, the page's JavaScript requests:
+
+   ```text
+   /inventory.json
+   ```
+
+4. The browser receives the JSON inventory data.
+5. The JavaScript filters the inventory for entries matching `widget`.
+6. The JavaScript updates the DOM with the matching result.
+7. The browser does not request `/widget`.
+
+Based on the bundled application, the local-server log should include these
+requests. The exact order of the supporting-resource requests may vary:
+
+```text
+GET / HTTP/1.1
+GET /styles.css HTTP/1.1
+GET /app.js HTTP/1.1
+GET /frame.html HTTP/1.1
+GET /worker.js HTTP/1.1
+GET /inventory.json HTTP/1.1
+```
+
+#### Inspect the inventory response directly
+
+Open a second terminal in the repository root while the server remains running.
+
+PowerShell:
+
+```powershell
+curl.exe -i http://127.0.0.1:4173/inventory.json
+```
+
+Bash or zsh:
+
+```bash
+curl -i http://127.0.0.1:4173/inventory.json
+```
+
+This request retrieves the raw inventory JSON directly without using the search
+form. Record:
+
+- HTTP method
+- Request target
+- Observable request headers
+- Response status
+- Response headers
+- Media type
+- Purpose of the response body
+
+Then mark every client-controlled claim and every server-generated fact.
 
 ### Expected output
 
-The page shows `Found 1 item` and `Synthetic Widget - 5 available`. The direct
-inventory request returns a JSON array and an HTTP `200` response.
+The form shows `Found 1 matching product(s).` and
+`Synthetic Widget — 5 available`. The direct inventory request returns a valid
+JSON array with an HTTP `200` response and a JSON media type.
 
 ### Interpretation
 
@@ -137,14 +268,45 @@ does not prove identity, intent, authorization, or inventory mutation.
 
 ### Common failure modes
 
-- Opening the HTML file directly creates a `file:` origin; use the loopback URL.
-- A busy port means another process owns `4173`; stop it before retrying.
-- Treating every header as server-verified; many are caller claims.
-- Calling the search a protected action even though it only reads static data.
+- Starting the server before the repository-root preflight passes can select the
+  wrong document root and make `/` or `/inventory.json` return `404`.
+- Putting `widget` in the address bar requests the nonexistent `/widget` path;
+  enter it in the **Product name** field instead.
+
+!!! tip "Troubleshooting the Foundation server and search"
+    - **Homepage returns 404.** The server was likely started from the wrong
+      working directory, so the relative `lab/foundation-web` path resolved
+      somewhere outside the repository. Check with PowerShell:
+      `Test-Path .\lab\foundation-web\index.html`. For Bash or zsh, use
+      `test -f ./lab/foundation-web/index.html && echo "Found" || echo "Not found"`.
+      Do not continue until the first command returns `True` or the second
+      prints `Found`.
+    - **`/widget` returns 404.** This is expected. `widget` is a search term
+      entered into the **Product name** field; it is not a route. Return to
+      `http://127.0.0.1:4173/`, type `widget` into **Product name**, and click
+      **Search**.
+    - **`/inventory.json` returns 404.** Verify the fixture with PowerShell:
+      `Test-Path .\lab\foundation-web\inventory.json`. For Bash or zsh, use
+      `test -f ./lab/foundation-web/inventory.json && echo "Found" || echo "Not found"`.
+      Also confirm that the server was started with the correct `--directory`.
+    - **Port 4173 is already in use.** If the previous server terminal is open,
+      return to it and press `Ctrl+C`. To identify the owner in PowerShell, use
+      `Get-NetTCPConnection -LocalPort 4173 -State Listen | Select-Object -ExpandProperty OwningProcess`.
+      In Bash or zsh, use `lsof -nP -iTCP:4173 -sTCP:LISTEN`. Stop the previous
+      local server before retrying. Do not switch ports; later commands expect
+      `4173`.
+    - **Browser still displays an old error page.** Confirm that the current
+      server terminal shows successful requests, reload the page, use a hard
+      refresh if necessary, and verify that the URL is exactly
+      `http://127.0.0.1:4173/`.
+    - Opening the HTML file directly creates a `file:` origin; always use the
+      loopback URL. Also remember that many request headers are caller claims
+      and that this read-only search is not a protected action.
 
 ### Cleanup
 
-Press Ctrl+C in the server terminal. Confirm that refreshing the page now fails.
+Return to the terminal running the static server and press `Ctrl+C`. This stops
+the local HTTP server. Confirm that refreshing the page now fails.
 
 ## Why this matters offensively
 

@@ -100,7 +100,9 @@ artifact script. Keep the target `127.0.0.1:4173`. Start the static server.
 
 ### Exact actions or commands
 
-1. In context A complete the `widget` search and save storage state.
+1. In context A, fill the field labeled **Product name** with `widget`, click the
+   button labeled **Search**, verify `Found 1 matching product(s).`, and save
+   storage state.
 2. Open a second Page in A and record the initial input value.
 3. Create clean context B, open the page, and record the initial value.
 4. Create context C from A's saved state and record the initial value.

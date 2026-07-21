@@ -115,8 +115,9 @@ Open `lab/tooling/client.py`, `lab/analysis/analyze.py`, and
 1. For the first fixture line, identify raw keys, teaching labels, and absent fields.
 2. Trace `load_jsonl()` from text line through `json.loads()` and shape validation.
 3. Trace `summarize()` through both counters and the returned limitations.
-4. Execute `python -m lab.tooling.client telemetry` from the repository root.
-5. Execute `python -m unittest lab.tests.test_tooling -v`.
+4. From the repository root, execute `python -m lab.tooling.client telemetry`.
+5. From that same repository root, execute
+   `python -m unittest lab.tests.test_tooling -v`.
 6. Add one local-only count to your artifact, such as missing population labels;
    describe whether it is an observation or inference before editing course code.
 
