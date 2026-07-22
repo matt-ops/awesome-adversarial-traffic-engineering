@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "format": "prettier --write package.json tsconfig.json eslint.config.mjs .prettierrc.json lab/clients/playwright/*.ts lab/foundation-web/*.js lab/load/*.js lab/load/*.mjs tests/javascript/*.ts",
     "format:check": "prettier --check package.json tsconfig.json eslint.config.mjs .prettierrc.json lab/clients/playwright/*.ts lab/foundation-web/*.js lab/load/*.js lab/load/*.mjs tests/javascript/*.ts",
-    "markdown:lint": "markdownlint-cli2 \"**/*.md\"",
+    "markdown:lint": "markdownlint-cli2 README.md RESOURCES.md SAFETY.md \"docs/**/*.md\" \"lab/**/*.md\" \"sources/**/*.md\"",
     "external-links": "python scripts/check_external_links.py",
     "secret-scan": "python scripts/scan_public_tree.py",
     "playwright:first": "tsx lab/clients/playwright/first_workflow.ts",

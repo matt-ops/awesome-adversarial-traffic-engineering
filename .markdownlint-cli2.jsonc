@@ -16,20 +16,13 @@
   },
   "ignores": [
     ".docs-build/**",
+    ".local/**",
+    ".private/**",
+    ".scratch/**",
+    ".tmp/**",
     ".venv/**",
-    "AATE-CODEX-TARGETED-REPAIR-PLAYBOOK/**",
-    "archive/**",
     "artifacts/**",
-    "audit-evidence/**",
-    "fix-evidence/**",
     "node_modules/**",
-    "site/**",
-    "AATE-CODEX-*.md",
-    "01-AATE-CODEX-*.md",
-    "awesome-red-team-bots-ddos-interview-prep.md",
-    "REMEDIATION_*.md",
-    "REWRITE_*.md",
-    "FIX_STATUS.md",
-    "codex-*.md"
+    "site/**"
   ]
 }
