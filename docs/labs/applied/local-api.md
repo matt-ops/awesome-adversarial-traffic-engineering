@@ -50,3 +50,9 @@ the course containers with `docker compose -f lab/docker-compose.yml down`.
 The application intentionally includes missing reservation authorization,
 replayable challenge state, a caller-controlled rate key, and bounded expensive
 work. These are lab-specific behaviors, not production claims.
+
+The provider-neutral browser surface at `/challenge-lab` uses only
+`POST /api/challenge` and `GET /api/reports/protected`. It has a same-document
+synthetic form and local script, no commercial branding, no visual widget or
+iframe, and no external requests. Use the dedicated
+[challenge-systems lab](challenge-systems.md) for its fixed trace and retest.

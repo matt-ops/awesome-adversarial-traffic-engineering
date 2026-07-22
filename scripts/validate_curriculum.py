@@ -17,6 +17,7 @@ LESSON_ROOT = ROOT / "docs" / "modules"
 APPENDIX_ROOT = LESSON_ROOT / "00-method"
 SOURCE_LEDGER = ROOT / "sources" / "sources.yaml"
 CORE_START_ID = "m01-l01"
+REQUIRED_CORE_CHECKPOINT_MEMBERSHIP = {"m04-l06": "7-days"}
 REQUIRED_LESSON_FIELDS = {
     "id",
     "path",
@@ -215,6 +216,21 @@ def cumulative_checkpoint_errors(checkpoints: list[tuple[str, list[str]]]) -> li
             missing = sorted(previous_lesson_ids - current_ids)
             errors.append(f"{checkpoint_id}: cumulative checkpoint dropped lessons {missing}")
         previous_lesson_ids = current_ids
+    return errors
+
+
+def required_checkpoint_membership_errors(
+    checkpoints: list[tuple[str, list[str]]], requirements: dict[str, str]
+) -> list[str]:
+    """Require named core lessons at their declared earliest cumulative checkpoint."""
+
+    selections = {checkpoint_id: set(lesson_ids) for checkpoint_id, lesson_ids in checkpoints}
+    errors: list[str] = []
+    for lesson_id, checkpoint_id in requirements.items():
+        if checkpoint_id not in selections:
+            errors.append(f"required checkpoint {checkpoint_id!r} is absent for {lesson_id}")
+        elif lesson_id not in selections[checkpoint_id]:
+            errors.append(f"{checkpoint_id}: required core lesson {lesson_id} is not a direct selection")
     return errors
 
 
@@ -646,6 +662,11 @@ def main() -> int:
                 errors.append(f"{entry.get('path')}: links unlisted canonical lessons {extra_links}")
 
     errors.extend(cumulative_checkpoint_errors(checkpoint_selections))
+    errors.extend(
+        required_checkpoint_membership_errors(
+            checkpoint_selections, REQUIRED_CORE_CHECKPOINT_MEMBERSHIP
+        )
+    )
 
     depth_counts = Counter(str(entry.get("depth", "")) for entry in lessons)
     print("Core curriculum:")

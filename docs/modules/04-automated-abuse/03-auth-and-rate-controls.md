@@ -5,14 +5,14 @@
 ## Progress
 
 - Module: 04 - Automated abuse and workflow attacks
-- Lesson: 3 of 5
+- Lesson: 3 of 6
 - Depth: Applied
 - Estimated time: 4 hours
 - Prerequisites:
   - [Workflow and API mapping](02-workflow-mapping.md)
   - Active local lab for local exercises
   - A free PortSwigger Web Security Academy account for the assigned provider lab
-- Next lesson: Inventory and promotion abuse
+- Next lesson: Challenge systems and protected-action enforcement
 
 ## Role outcome
 
@@ -168,5 +168,5 @@ preserving the same action and evidence.
 
 ## Next lesson
 
-[Inventory and promotion abuse](04-inventory-and-promotion-abuse.md) moves the
-previous browser authorization exercise to its correct business-workflow home.
+[Challenge systems and protected-action enforcement](06-challenge-systems-and-protected-action-enforcement.md)
+traces challenge proof through the final server-side action and exact retest.

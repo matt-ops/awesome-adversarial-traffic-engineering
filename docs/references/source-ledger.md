@@ -1,7 +1,7 @@
 # Source ledger
 
 The machine-readable source of truth is `sources/sources.yaml` in the repository.
-It currently contains 48 unique entries with:
+It currently contains 52 unique entries with:
 
 - source type and publisher;
 - version/access information, human content-review date, and automated

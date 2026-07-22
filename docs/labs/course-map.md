@@ -222,6 +222,36 @@ command. A command is never a substitute for its canonical lesson.
 - **Cleanup:** call `/api/reset`
 - **Retest use:** repeat fixed and rotated populations after server-derived identity/workflow binding
 
+### `npm run playwright:challenge-flow`
+
+- **Canonical lesson:** `docs/modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md`
+- **Checkpoint:** Applied (required by 7 days)
+- **Prerequisite:** challenge lesson, pinned Playwright Chromium, and healthy local stack
+- **Offensive objective:** trace challenge trigger, proof production, transfer, verification, first use, and repeat use across two browser contexts
+- **Protected action or service effect:** Session B completes the bounded synthetic protected report twice with Session A's proof
+- **Expected output:** `challenge-flow.json` with document/script/network/storage/callback evidence, `403` baseline, and two protected `200` responses returning `session-b`
+- **Interpretation:** the local bearer proof lacks session, action, origin, nonce, expiry, and one-use properties; unsupported cross-action and expiry cases remain planned
+- **Source basis:** `owasp-automated-threats`, `rfc-9576`, `playwright-network`, `aate-local-lab`
+- **Safety boundary:** fixed loopback URL, two synthetic contexts, no visual widget/provider iframe, and no external requests
+- **Expected evidence or output:** generated optional trace plus terminal status summary; no learner submission is mandatory
+- **Cleanup:** client closes both contexts/browser; call `/api/reset`
+- **Retest use:** reject both Session B presentations while allowing Session A exactly once before expiry
+
+### `python -m lab.analysis.challenge_metrics`
+
+- **Canonical lesson:** `docs/modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md`
+- **Checkpoint:** Applied (required by 7 days)
+- **Prerequisite:** challenge metrics definitions; no running target required
+- **Offensive objective:** compare control efficacy, attacker cost, customer friction, and abuse displacement across four deterministic populations
+- **Protected action or service effect:** none; offline synthetic analysis of recorded aggregate counts
+- **Expected output:** challenge issuance, solve/bypass, completion, abandonment, latency, repeat, cost, false-positive, near-neighbor impact, and displacement metrics
+- **Interpretation:** stock automation is mostly stopped while adapted replay succeeds and displaces abuse; the legitimate composite bears synthetic collateral cost
+- **Source basis:** `usenix-modern-captchas`, `w3c-captcha-accessibility`, `aate-local-lab`
+- **Safety boundary:** offline fixed JSON only; no inference about real disabled people, privacy-tool users, or attacker markets
+- **Expected evidence or output:** deterministic printed JSON; no learner submission is mandatory
+- **Cleanup:** none
+- **Retest use:** repeat the same dataset/definitions after a declared control change before comparing rates
+
 ### `python -m lab.analysis.analyze`
 
 - **Canonical lesson:** `docs/modules/05-control-recon/01-signal-families.md`
@@ -254,18 +284,18 @@ command. A command is never a substitute for its canonical lesson.
 
 ### `python -m lab.run bypass`
 
-- **Canonical lesson:** `docs/modules/06-browser-evasion/04-replay-and-temporal-consistency.md`
-- **Checkpoint:** Integrated
-- **Prerequisite:** blocked challenge baseline and token-binding hypothesis
-- **Offensive objective:** test whether a synthetic challenge token can be replayed across sessions
-- **Protected action or service effect:** second session creates the protected report
-- **Expected output:** baseline 403, token issue, cross-session 200, and replay evidence
-- **Interpretation:** the lab token is insufficiently bound; it does not prove a weakness in another token format or service
-- **Source basis:** `fpscanner-project`, `aate-local-lab`, `aate-adversarial-control-loop`
+- **Canonical lesson:** `docs/modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md`
+- **Checkpoint:** Applied (reused by the Integrated replay lesson)
+- **Prerequisite:** blocked challenge baseline, exact Session A/Session B procedure, and token-binding hypothesis
+- **Offensive objective:** test whether a synthetic challenge proof transfers across sessions and remains accepted on identical second use
+- **Protected action or service effect:** Session B completes the protected report twice
+- **Expected output:** baseline 403, Session A proof response, Session B first-use 200, second-use 200, returned session, absent bindings, and retests
+- **Interpretation:** the local token is insufficiently bound; it does not prove a weakness in another format or service
+- **Source basis:** `owasp-automated-threats`, `rfc-9576`, `aate-local-lab`, `aate-adversarial-control-loop`
 - **Safety boundary:** fixed loopback endpoint and synthetic token/session identifiers
 - **Expected evidence or output:** the replay request, response, and returned server session evidence
 - **Cleanup:** call `/api/reset`
-- **Retest use:** repeat the same cross-session replay after session/action/nonce/expiry/single-use binding
+- **Retest use:** reject both Session B presentations after session/action/origin/nonce/expiry/one-use binding while allowing Session A once
 
 ### `curl.exe -X POST http://localhost:8080/api/reset`
 

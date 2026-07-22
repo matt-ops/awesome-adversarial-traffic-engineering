@@ -362,6 +362,93 @@
   supports: [automated-abuse-taxonomy, business-workflow-abuse]
   limitations:
     - The project is a taxonomy and handbook, not an execution methodology.
+  modules: [module-04, module-05, module-06]
+
+- id: rfc-9576
+  title: The Privacy Pass Architecture
+  url: https://www.rfc-editor.org/rfc/rfc9576.html
+  source_type: STANDARD
+  publisher: RFC Editor
+  version_or_accessed: "RFC 9576, 2024-06"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - "1 Introduction"
+    - "2 Terminology"
+    - "3 Architecture Overview"
+    - "6 Security Considerations"
+    - "7 Privacy Considerations"
+  supports:
+    - challenge and redemption lifecycle
+    - origin and redemption context
+    - privacy limitations of proof systems
+  limitations:
+    - Privacy Pass is one privacy-preserving token architecture, not a universal model for CAPTCHA or bot-defense products.
+  modules: [module-04, module-06]
+
+- id: w3c-captcha-accessibility
+  title: Inaccessibility of CAPTCHA - Alternatives to Visual Turing Tests on the Web
+  url: https://www.w3.org/TR/turingtest/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: W3C Accessible Platform Architectures Working Group
+  version_or_accessed: "Group Draft Note, 2021-12-16"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - "2 Captcha: The Current Landscape"
+    - "3 Accessibility Challenges"
+    - "4 CAPTCHA Alternatives and Thoughts"
+    - Status of This Document
+  supports:
+    - accessibility barriers
+    - non-visual and non-CAPTCHA challenge alternatives
+    - privacy and usability considerations
+  limitations:
+    - Draft Note guidance rather than a normative standard; it does not quantify this course fixture's impact.
+  modules: [module-04, module-05]
+
+- id: cloudflare-turnstile-validation
+  title: Validate the token
+  url: https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Cloudflare
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - Mandatory server-side validation
+    - Siteverify API overview
+    - Token characteristics
+    - Token validation response
+  supports:
+    - server-side verification requirement
+    - expiry and single-use properties
+    - hostname and action validation examples
+  limitations:
+    - Vendor-specific deployed semantics; the course does not contact, imitate, or test Turnstile.
+  modules: [module-04, module-06]
+
+- id: usenix-modern-captchas
+  title: An Empirical Study and Evaluation of Modern CAPTCHAs
+  url: https://www.usenix.org/conference/usenixsecurity23/presentation/searles
+  source_type: PEER_REVIEWED_RESEARCH
+  publisher: USENIX Security Symposium
+  version_or_accessed: "USENIX Security 2023, pages 3081-3097"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - Abstract
+    - "3 CAPTCHA Deployment Study"
+    - "4 User Study"
+    - "5 Results"
+    - "6 Task Abandonment"
+    - "8 Limitations"
+  supports:
+    - solve-time and perception measurement
+    - task-context effects
+    - CAPTCHA-induced abandonment analysis
+  limitations:
+    - Specific study designs, participant population, sites, and CAPTCHA types; results are not universal control economics.
   modules: [module-04]
 
 - id: portswigger-authentication-path

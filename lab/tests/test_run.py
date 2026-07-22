@@ -61,6 +61,30 @@ class ReconRunnerTests(unittest.TestCase):
             {"workflow authorization", "challenge token", "rate limit", "resource protection"},
         )
 
+    def test_bypass_records_cross_session_and_repeat_use_with_retest(self) -> None:
+        responses = [
+            (403, {"detail": "synthetic challenge required"}, 1.0),
+            (200, {"passed": True, "session_id": "session-a", "lab_token": "proof"}, 1.0),
+            (200, {"authorized": True, "session_id": "session-b"}, 1.0),
+            (200, {"authorized": True, "session_id": "session-b"}, 1.0),
+        ]
+        output = io.StringIO()
+        with patch("lab.run.reset"), patch("lab.run.request", side_effect=responses), redirect_stdout(output):
+            run.bypass_demo()
+
+        events = [json.loads(line) for line in output.getvalue().splitlines()]
+        self.assertEqual(
+            [event.get("phase") for event in events[:4]],
+            ["blocked-baseline", "solve-session-a", "cross-session-first-use", "same-request-second-use"],
+        )
+        self.assertEqual(events[2]["response"]["session_id"], "session-b")
+        self.assertEqual(events[3]["status"], 200)
+        self.assertEqual(
+            events[4]["absent_bindings"], ["session", "action", "origin", "nonce", "expiry", "one-use"]
+        )
+        self.assertIn("Session B receives 403", events[4]["negative_retest"])
+        self.assertIn("Session A completes", events[4]["legitimate_positive_retest"])
+
 
 if __name__ == "__main__":
     unittest.main()

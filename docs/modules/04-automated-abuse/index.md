@@ -1,8 +1,8 @@
 # Module 04 - Automated abuse and workflow attacks
 
 **Outcome:** translate a business-abuse objective into an entry-point and state
-map, establish a blocked baseline, and prove whether a controlled hostile
-workflow completes its protected action.
+map, establish a blocked baseline, trace challenge proof and enforcement, and
+prove whether a controlled hostile workflow completes its protected action.
 
 ## Foundation
 
@@ -11,9 +11,12 @@ mapping](02-workflow-mapping.md). Produce the objective and workflow maps.
 
 ## Applied
 
-Complete [authentication/rate controls](03-auth-and-rate-controls.md) and
-[inventory and promotion abuse](04-inventory-and-promotion-abuse.md). Prove the
-local authorization effect and complete the exact provider-assigned auth lab.
+Complete [authentication/rate controls](03-auth-and-rate-controls.md),
+[challenge systems and protected-action enforcement](06-challenge-systems-and-protected-action-enforcement.md),
+and [inventory and promotion abuse](04-inventory-and-promotion-abuse.md). Prove
+the local authorization effect, trace the challenge lifecycle through the final
+server result, calculate adversary/customer impact, and complete only the exact
+provider-assigned authentication lab.
 
 ## Integrated
 

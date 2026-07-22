@@ -29,6 +29,7 @@ Mark a lesson complete when you can explain its knowledge check and reproduce th
 - [ ] [Automated-abuse objectives](modules/04-automated-abuse/01-abuse-objectives.md)
 - [ ] [Workflow and API mapping](modules/04-automated-abuse/02-workflow-mapping.md)
 - [ ] [Authentication and rate controls](modules/04-automated-abuse/03-auth-and-rate-controls.md)
+- [ ] [Challenge Systems and Protected-Action Enforcement](modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md)
 - [ ] [Inventory and promotion abuse](modules/04-automated-abuse/04-inventory-and-promotion-abuse.md)
 - [ ] [Race conditions and resource limits](modules/04-automated-abuse/05-race-and-resource-limits.md)
 
@@ -88,9 +89,9 @@ Optional appendix study is not included in checkpoint time.
 | Checkpoint | Depth ceiling | Direct targets | Closure lessons | From-zero time | Complete |
 |---|---:|---:|---:|---:|---:|
 | [24 focused hours](checkpoints/24-hours.md) | Foundation | 2 | 11 | 20.83 hours | [ ] |
-| [7 days](checkpoints/7-days.md) | Applied | 4 | 15 | 32.83 hours | [ ] |
-| [21 days](checkpoints/21-days.md) | Integrated | 7 | 28 | 66.83 hours | [ ] |
-| [6 weeks](checkpoints/6-weeks.md) | Deep | 11 | 44 | 115.50 hours | [ ] |
+| [7 days](checkpoints/7-days.md) | Applied | 5 | 16 | 36.83 hours | [ ] |
+| [21 days](checkpoints/21-days.md) | Integrated | 8 | 29 | 70.83 hours | [ ] |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 12 | 45 | 119.50 hours | [ ] |
 
 Canonical direct membership, prerequisite closure, and both time calculations live in `curriculum/manifest.yaml` and are enforced by `scripts/validate_curriculum.py`.
 
