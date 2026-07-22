@@ -4,51 +4,51 @@ depth_order:
 - applied
 - integrated
 - deep
-lessons:
-- id: m00-l01
+appendix_lessons:
+- id: appendix-method-role
   path: docs/modules/00-method/01-red-team-role.md
-  module: 00-method
+  appendix: red-team-method
   title: The authorized red-team role
-  depth: foundation
   estimated_minutes: 75
-  prerequisites: []
   source_ids:
   - nist-sp-800-115
   - mitre-adversary-emulation-plans
   - aate-adversarial-control-loop
-- id: m00-l02
+- id: appendix-method-scope
   path: docs/modules/00-method/02-scope-and-rules.md
-  module: 00-method
+  appendix: red-team-method
   title: Scope and Rules of Engagement
-  depth: foundation
   estimated_minutes: 90
-  prerequisites:
-  - m00-l01
   source_ids:
   - nist-sp-800-115
   - aate-local-lab
   - aate-adversarial-control-loop
-- id: m00-l03
+- id: appendix-method-experiment
   path: docs/modules/00-method/03-experimental-method.md
-  module: 00-method
+  appendix: red-team-method
   title: Experimental method before attack execution
-  depth: foundation
   estimated_minutes: 100
-  prerequisites:
-  - m00-l02
   source_ids:
   - nist-sp-800-115
   - owasp-wstg-entry-points-v42
   - aate-adversarial-control-loop
   - aate-local-lab
+appendix_indexes:
+- id: appendix-red-team-method
+  path: docs/modules/00-method/index.md
+  title: Optional appendix - Red-team method and engagement practice
+  lesson_ids:
+  - appendix-method-role
+  - appendix-method-scope
+  - appendix-method-experiment
+lessons:
 - id: m01-l01
   path: docs/modules/01-http-edge/01-http-request-response.md
   module: 01-http-edge
   title: HTTP request and response
   depth: foundation
   estimated_minutes: 90
-  prerequisites:
-  - m00-l03
+  prerequisites: []
   source_ids:
   - mdn-http-overview
   - aate-local-lab
@@ -472,7 +472,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m01-l02
-  - m00-l02
   source_ids:
   - cloudflare-ddos-introduction
   - aws-builders-library-load-shedding
@@ -533,8 +532,7 @@ lessons:
   title: Python telemetry as evidence
   depth: foundation
   estimated_minutes: 180
-  prerequisites:
-  - m00-l03
+  prerequisites: []
   source_ids:
   - python-standard-library
   - pytest-documentation
@@ -644,14 +642,6 @@ lessons:
   - nist-sp-800-115
   - aate-adversarial-control-loop
 module_indexes:
-- id: module-00
-  path: docs/modules/00-method/index.md
-  module: 00-method
-  title: Module 00 - Method and authorization
-  lesson_ids:
-  - m00-l01
-  - m00-l02
-  - m00-l03
 - id: module-01
   path: docs/modules/01-http-edge/index.md
   module: 01-http-edge
@@ -759,6 +749,7 @@ checkpoints:
     maximum: 1440
   lesson_ids:
   - m03-l02
+  - m03-l04
   capability_claim: Foundation and informational readiness, not browser-evasion competence.
 - id: 7-days
   path: docs/checkpoints/7-days.md
@@ -769,6 +760,7 @@ checkpoints:
     maximum: 2400
   lesson_ids:
   - m03-l02
+  - m03-l04
   - m03-l05
   - m04-l03
   capability_claim: Functional hands-on readiness in local browser, workflow-mapping, and provider-authorized authentication and rate-control exercises.
@@ -781,6 +773,7 @@ checkpoints:
     maximum: 4800
   lesson_ids:
   - m03-l02
+  - m03-l04
   - m03-l05
   - m04-l03
   - m06-l02
@@ -796,6 +789,7 @@ checkpoints:
     maximum: 7200
   lesson_ids:
   - m03-l02
+  - m03-l04
   - m03-l05
   - m04-l03
   - m06-l02

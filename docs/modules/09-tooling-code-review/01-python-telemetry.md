@@ -9,8 +9,8 @@
 - Depth: Foundation
 - Estimated time: 3 hours
 - Prerequisites:
-  - [Experimental method](../00-method/03-experimental-method.md)
-  - Ability to identify a request, response, session, and population label
+  - No prior course lesson is required; the local JSONL fixture is introduced below
+  - Python 3.12 or newer and the ability to follow the assigned dictionary and JSON sections
 - Next lesson: Async and bounded concurrency
 
 ## Role outcome

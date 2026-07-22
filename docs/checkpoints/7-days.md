@@ -1,8 +1,8 @@
 # 7 days cumulative
 
 <!-- checkpoint-id: 7-days -->
-<!-- direct-selection-minutes: 540 -->
-<!-- prerequisite-closure-minutes: 2235 -->
+<!-- direct-selection-minutes: 645 -->
+<!-- prerequisite-closure-minutes: 1970 -->
 
 This cumulative Applied checkpoint extends the first browser workflow through
 context and CDP observation, workflow mapping, and provider-authorized
@@ -10,19 +10,21 @@ authentication and rate-control analysis.
 
 ## Time calculation
 
-- Direct capability-selection time: **540 minutes (9.00 hours)**
-- From-zero prerequisite-closure time: **2235 minutes (37.25 hours)**
+- Direct capability-selection time: **645 minutes (10.75 hours)**
+- From-zero prerequisite-closure time: **1970 minutes (32.83 hours)**
 - Declared cumulative range: **1800-2400 minutes (30-40 hours)**
 - Maximum lesson depth: **Applied**
 
-The direct selection identifies three capability targets. It is not the
+The direct selection identifies four capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 18 lessons below exactly once, including
-the complete 24-hour checkpoint selection.
+prerequisite graph and sums each of the 15 lessons below exactly once, including
+the complete 24-hour checkpoint selection. Optional appendix study is not
+included in checkpoint time.
 
 ## Direct capability selection
 
 - `m03-l02` - first local Playwright workflow
+- `m03-l04` - browser-context state and network evidence
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
 
@@ -30,9 +32,6 @@ the complete 24-hour checkpoint selection.
 
 | ID | Canonical lesson | Depth | Minutes |
 |---|---|---:|---:|
-| `m00-l01` | [The authorized red-team role](../modules/00-method/01-red-team-role.md) | Foundation | 75 |
-| `m00-l02` | [Scope and Rules of Engagement](../modules/00-method/02-scope-and-rules.md) | Foundation | 90 |
-| `m00-l03` | [Experimental method before attack execution](../modules/00-method/03-experimental-method.md) | Foundation | 100 |
 | `m01-l01` | [HTTP request and response](../modules/01-http-edge/01-http-request-response.md) | Foundation | 90 |
 | `m01-l02` | [Sessions and workflows](../modules/01-http-edge/02-sessions-and-workflows.md) | Foundation | 90 |
 | `m01-l03` | [Observe requests with DevTools Network](../modules/01-http-edge/03-devtools-network.md) | Foundation | 80 |

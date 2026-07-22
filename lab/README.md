@@ -1,7 +1,7 @@
 # Local lab
 
 Do not start by learning this directory. Start with the course's [first
-lesson](../docs/modules/00-method/01-red-team-role.md); each lesson introduces
+lesson](../docs/modules/01-http-edge/01-http-request-response.md); each lesson introduces
 one command only after its prerequisites and explains output, interpretation,
 failure modes, and cleanup.
 

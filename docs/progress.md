@@ -2,12 +2,6 @@
 
 Mark a lesson complete when you can explain its knowledge check and reproduce the guided exercise behavior. No evidence file or saved path is required. You may add a completion date or a short private note if that helps you remember where to resume.
 
-## Module 00 - Method and authorization
-
-- [ ] [The authorized red-team role](modules/00-method/01-red-team-role.md)
-- [ ] [Scope and Rules of Engagement](modules/00-method/02-scope-and-rules.md)
-- [ ] [Experimental method before attack execution](modules/00-method/03-experimental-method.md)
-
 ## Module 01 - HTTP and the edge
 
 - [ ] [HTTP request and response](modules/01-http-edge/01-http-request-response.md)
@@ -89,11 +83,22 @@ Mark a lesson complete when you can explain its knowledge check and reproduce th
 
 The checkpoints remain cumulative and validator-backed. Mark one complete when you can demonstrate its required lesson capabilities and exit behavior.
 
+Optional appendix study is not included in checkpoint time.
+
 | Checkpoint | Depth ceiling | Direct targets | Closure lessons | From-zero time | Complete |
 |---|---:|---:|---:|---:|---:|
-| [24 focused hours](checkpoints/24-hours.md) | Foundation | 1 | 12 | 21.67 hours | [ ] |
-| [7 days](checkpoints/7-days.md) | Applied | 3 | 18 | 37.25 hours | [ ] |
-| [21 days](checkpoints/21-days.md) | Integrated | 6 | 31 | 71.25 hours | [ ] |
-| [6 weeks](checkpoints/6-weeks.md) | Deep | 10 | 47 | 119.92 hours | [ ] |
+| [24 focused hours](checkpoints/24-hours.md) | Foundation | 2 | 11 | 20.83 hours | [ ] |
+| [7 days](checkpoints/7-days.md) | Applied | 4 | 15 | 32.83 hours | [ ] |
+| [21 days](checkpoints/21-days.md) | Integrated | 7 | 28 | 66.83 hours | [ ] |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 11 | 44 | 115.50 hours | [ ] |
 
 Canonical direct membership, prerequisite closure, and both time calculations live in `curriculum/manifest.yaml` and are enforced by `scripts/validate_curriculum.py`.
+
+## Optional appendix - Red-team method and engagement practice
+
+Use these optional checkboxes only if you choose the deeper methodology review.
+They do not affect core completion or checkpoint closure.
+
+- [ ] [The authorized red-team role](modules/00-method/01-red-team-role.md)
+- [ ] [Scope and Rules of Engagement](modules/00-method/02-scope-and-rules.md)
+- [ ] [Experimental method before attack execution](modules/00-method/03-experimental-method.md)

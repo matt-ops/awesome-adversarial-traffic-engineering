@@ -13,6 +13,12 @@ This is "from zero" for adversarial traffic engineering, not a promise that one
 short checkpoint replaces years of engineering practice. Follow the path in
 order and take longer than the estimated time whenever a prerequisite is new.
 
+!!! danger "Safety boundary"
+    Use only the bundled loopback lab, an isolated target you own, or an exact
+    provider-assigned target. Never test an unrelated public or production
+    service. Keep every destination check, traffic cap, timeout, abort
+    condition, cleanup step, and redirect restriction in place.
+
 ## The role
 
 The learner is the authorized adversary. You will map a protected workflow,
@@ -44,9 +50,9 @@ production detector is not the course objective.
 ## One path
 
 ```text
-method -> HTTP/edge -> browser/JavaScript -> Playwright -> automated abuse
-       -> control reconnaissance -> browser evasion -> protocol identity
-       -> DDoS/resilience -> tooling/code review -> findings/interview
+HTTP/edge -> browser/JavaScript -> Playwright -> automated abuse
+          -> control reconnaissance -> browser evasion -> protocol identity
+          -> DDoS/resilience -> tooling/code review -> findings/interview
 ```
 
 Complete lessons in navigation order. Every lesson names its prerequisites,
@@ -60,10 +66,10 @@ a new learner because it includes every recursive prerequisite exactly once.
 
 | Review point | Direct selection | From-zero closure | Claim |
 |---|---:|---:|---|
-| [24 focused hours](checkpoints/24-hours.md) | 3.00 hours | 21.67 hours | Foundation and informational readiness, not browser-evasion competence |
-| [7 days](checkpoints/7-days.md) | 9.00 hours | 37.25 hours | Local browser, workflow-mapping, and authorized authentication/rate-control readiness |
-| [21 days](checkpoints/21-days.md) | 16.00 hours | 71.25 hours | Integrated experiment, finding, briefing, and role-narrative readiness |
-| [6 weeks](checkpoints/6-weeks.md) | 30.00 hours | 119.92 hours | Practitioner-depth portfolio, not proof of production expertise |
+| [24 focused hours](checkpoints/24-hours.md) | 4.75 hours | 20.83 hours | HTTP, session, browser, JavaScript, Playwright state, and network-evidence readiness |
+| [7 days](checkpoints/7-days.md) | 10.75 hours | 32.83 hours | Local browser, workflow-mapping, and authorized authentication/rate-control readiness |
+| [21 days](checkpoints/21-days.md) | 17.75 hours | 66.83 hours | Integrated experiment, finding, briefing, and role-narrative readiness |
+| [6 weeks](checkpoints/6-weeks.md) | 31.75 hours | 115.50 hours | Practitioner-depth portfolio, not proof of production expertise |
 
 Checkpoint pages are views into this path. They never duplicate lessons.
 Use the plain [progress table](progress.md) if you want checkboxes; no account or
@@ -90,4 +96,14 @@ with a target, expected output, failure guidance, and cleanup procedure.
 
 ## First lesson
 
-[Begin with the authorized red-team role](modules/00-method/01-red-team-role.md).
+[Begin with HTTP request and response](modules/01-http-edge/01-http-request-response.md).
+
+## Optional red-team method appendix
+
+The technical path begins with HTTP.
+
+Review the optional [red-team method and engagement practice
+appendix](modules/00-method/index.md) when you want deeper instruction on
+authorization, Rules of Engagement, formal experiment planning, or interview
+methodology. It is recommended before testing outside the bundled local lab and
+before the final mock loop, but it is not a prerequisite for the technical path.

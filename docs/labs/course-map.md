@@ -9,8 +9,8 @@ command. A command is never a substitute for its canonical lesson.
 ### `python -m lab.clients.safe_client --dry-run`
 
 - **Canonical lesson:** `docs/modules/00-method/02-scope-and-rules.md`
-- **Checkpoint:** Foundation
-- **Prerequisite:** written synthetic engagement boundary
+- **Checkpoint:** Optional appendix; excluded from core checkpoint time
+- **Prerequisite:** Python 3.12+; no core lesson or appendix lesson is required
 - **Offensive objective:** preflight the exact target and work envelope before an adversary client can run
 - **Protected action or service effect:** none; this is a zero-traffic authorization/control check
 - **Expected output:** JSON with the allowlisted loopback target, `dry_run: true`, and bounded duration, rate, concurrency, and totals
@@ -20,12 +20,13 @@ command. A command is never a substitute for its canonical lesson.
 - **Expected evidence or output:** printed dry-run JSON showing the validated local target and envelope
 - **Cleanup:** none; zero requests are emitted
 - **Retest use:** rerun before every changed safe-client plan and compare the full envelope
+- **Optional review:** Red-team method and engagement practice appendix
 
 ### `python -m lab.clients.safe_client --target https://example.com --total 1`
 
 - **Canonical lesson:** `docs/modules/00-method/02-scope-and-rules.md`
-- **Checkpoint:** Foundation
-- **Prerequisite:** successful safe-client dry run
+- **Checkpoint:** Optional appendix; excluded from core checkpoint time
+- **Prerequisite:** Python 3.12+; no core lesson or appendix lesson is required
 - **Offensive objective:** prove an unapproved destination is rejected before contact
 - **Protected action or service effect:** none; rejection is the required effect
 - **Expected output:** JSON containing `rejected: true` and process exit status 2
@@ -35,12 +36,13 @@ command. A command is never a substitute for its canonical lesson.
 - **Expected evidence or output:** a rejected-target error before any network request
 - **Cleanup:** none; stop immediately if the target is accepted
 - **Retest use:** mandatory negative test after any target-validation change
+- **Optional review:** Red-team method and engagement practice appendix
 
 ### `python -m http.server 4173 --bind 127.0.0.1 --directory lab/foundation-web`
 
 - **Canonical lesson:** `docs/modules/01-http-edge/01-http-request-response.md`
 - **Checkpoint:** Foundation
-- **Prerequisite:** completed scope lesson and Python 3.12+
+- **Prerequisite:** Python 3.12+; no earlier course lesson is required
 - **Offensive objective:** expose a minimal local workflow for manual HTTP and browser tracing
 - **Protected action or service effect:** local search reads `inventory.json`; no protected mutation exists
 - **Expected output:** loopback server logs local `GET` requests and the page reports one matching widget
@@ -117,7 +119,7 @@ command. A command is never a substitute for its canonical lesson.
 
 - **Canonical lesson:** `docs/modules/04-automated-abuse/02-workflow-mapping.md`
 - **Checkpoint:** Applied
-- **Prerequisite:** Modules 00-03 and a successful non-Docker Playwright workflow
+- **Prerequisite:** Modules 01-03 and a successful non-Docker Playwright workflow
 - **Offensive objective:** start the isolated edge/API target used for workflow, control, and resilience attacks
 - **Protected action or service effect:** local services become healthy on loopback port 8080
 - **Expected output:** Compose builds and starts `edge` and synthetic application containers
@@ -127,6 +129,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Expected evidence or output:** the built image configuration, version, and startup timestamp
 - **Cleanup:** use the assigned Compose down command
 - **Retest use:** rebuild after application/control remediation before repeating the same attack
+- **Optional review:** Red-team method and engagement practice appendix before an organization-owned engagement
 
 ### `curl.exe http://localhost:8080/health`
 
@@ -378,7 +381,7 @@ command. A command is never a substitute for its canonical lesson.
 
 - **Canonical lesson:** `docs/modules/08-ddos-resilience/04-bounded-load-testing.md`
 - **Checkpoint:** Integrated
-- **Prerequisite:** Modules 00-08, dry-run evidence, healthy stack, selected `AATE_SCENARIO`
+- **Prerequisite:** Modules 01-08, dry-run evidence, healthy stack, selected `AATE_SCENARIO`
 - **Offensive objective:** execute one of seven application-layer scenario contracts, including two explicitly observation-only cases
 - **Protected action or service effect:** scenario-specific latency, fixture-state, retry, sequence, or immediate-health outcome
 - **Expected output:** named behavior assertions, checks and thresholds, bounded request metrics, and teardown health `200` within 1,000 ms
@@ -388,6 +391,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Expected evidence or output:** the scenario configuration and bounded k6 result
 - **Cleanup:** teardown health check, `/api/reset`, then Compose down when finished
 - **Retest use:** repeat the identical scenario, rate, duration, assertions, thresholds, and legitimate-neighbor check; a mitigation claim also requires a real changed control
+- **Optional review:** Red-team method and engagement practice appendix before an organization-owned engagement
 
 ### `Dry-run bounded load (platform commands below)`
 

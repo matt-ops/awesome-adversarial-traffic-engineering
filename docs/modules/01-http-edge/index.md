@@ -4,6 +4,8 @@
 intermediaries, application code, and dependencies before reasoning about where
 an adversary can observe or influence a control.
 
+This is the technical starting point. **No earlier course module is required.**
+
 ## Foundation
 
 Complete [request and response](01-http-request-response.md), [sessions and

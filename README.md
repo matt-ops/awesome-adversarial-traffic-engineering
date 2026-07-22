@@ -9,6 +9,11 @@ fingerprinting, bot-control, DDoS-testing, or Playwright experience is not
 assumed. When a mature source teaches a prerequisite better, the lesson assigns
 the exact section and then bridges it into a bounded offensive exercise.
 
+The core technical path starts with HTTP and the edge. The optional
+[red-team method and engagement practice appendix](docs/modules/00-method/index.md)
+covers formal authorization, Rules of Engagement, experiment planning, and
+interview methodology without gating the technical lessons.
+
 ## Start
 
 1. Open **[Start the path](docs/start-here.md)**.

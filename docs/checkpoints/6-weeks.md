@@ -1,8 +1,8 @@
 # 6 weeks cumulative
 
 <!-- checkpoint-id: 6-weeks -->
-<!-- direct-selection-minutes: 1800 -->
-<!-- prerequisite-closure-minutes: 7195 -->
+<!-- direct-selection-minutes: 1905 -->
+<!-- prerequisite-closure-minutes: 6930 -->
 
 This cumulative Deep checkpoint extends the Integrated path through version
 drift, protocol identity through connection reuse, bounded-load recovery,
@@ -10,19 +10,21 @@ secure code review, and the existing finding and briefing path.
 
 ## Time calculation
 
-- Direct capability-selection time: **1800 minutes (30.00 hours)**
-- From-zero prerequisite-closure time: **7195 minutes (119.92 hours)**
+- Direct capability-selection time: **1905 minutes (31.75 hours)**
+- From-zero prerequisite-closure time: **6930 minutes (115.50 hours)**
 - Declared cumulative range: **5400-7200 minutes (90-120 hours)**
 - Maximum lesson depth: **Deep**
 
-The direct selection identifies ten capability targets. It is not the
+The direct selection identifies eleven capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 47 lessons below exactly once, including
-the complete earlier checkpoint selections.
+prerequisite graph and sums each of the 44 lessons below exactly once, including
+the complete earlier checkpoint selections. Optional appendix study is not
+included in checkpoint time.
 
 ## Direct capability selection
 
 - `m03-l02` - first local Playwright workflow
+- `m03-l04` - browser-context state and network evidence
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
 - `m06-l02` - one-variable evasion experiment
@@ -37,9 +39,6 @@ the complete earlier checkpoint selections.
 
 | ID | Canonical lesson | Depth | Minutes |
 |---|---|---:|---:|
-| `m00-l01` | [The authorized red-team role](../modules/00-method/01-red-team-role.md) | Foundation | 75 |
-| `m00-l02` | [Scope and Rules of Engagement](../modules/00-method/02-scope-and-rules.md) | Foundation | 90 |
-| `m00-l03` | [Experimental method before attack execution](../modules/00-method/03-experimental-method.md) | Foundation | 100 |
 | `m01-l01` | [HTTP request and response](../modules/01-http-edge/01-http-request-response.md) | Foundation | 90 |
 | `m01-l02` | [Sessions and workflows](../modules/01-http-edge/02-sessions-and-workflows.md) | Foundation | 90 |
 | `m01-l03` | [Observe requests with DevTools Network](../modules/01-http-edge/03-devtools-network.md) | Foundation | 80 |

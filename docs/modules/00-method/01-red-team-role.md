@@ -2,16 +2,17 @@
 
 <!-- source-ids: nist-sp-800-115, mitre-adversary-emulation-plans, aate-adversarial-control-loop -->
 
-## Progress
+## Appendix guide
 
-- Module: 00 — Method and authorization
-- Lesson: 1 of 3
-- Depth: Foundation
+- Appendix: Red-team method and engagement practice
+- Status: Optional
+- Best time to review: before an informational or interview; before a
+  provider-hosted assessment; before an organization-owned engagement; or
+  before the integrated capstone
+- Prior technical lessons required: None
+- Return to the core path: [HTTP request and response](../01-http-edge/01-http-request-response.md)
+- Appendix lesson: 1 of 3
 - Estimated time: 75 minutes
-- Prerequisites:
-  - [Start here](../../start-here.md)
-  - Ability to read a request/response example; no browser automation required
-- Next lesson: Scope and Rules of Engagement
 
 ## Role outcome
 
@@ -95,7 +96,7 @@ The operator captures a token from session A and presents it from session B.
 The finding is not “the token looked reusable.” It is “a token issued in one
 session authorized the protected action in another session.”
 
-## Guided exercise
+## Optional exercise
 
 ### Objective
 
@@ -186,7 +187,9 @@ prevent.
 
 </details>
 
-## Next lesson
+## Continue
 
-[Define scope and Rules of Engagement](02-scope-and-rules.md) so the objective is
-bounded by executable authorization rather than intent alone.
+- Continue through the appendix with [Scope and Rules of Engagement](02-scope-and-rules.md)
+  when you want more methodology depth.
+- Return to [HTTP request and response](../01-http-edge/01-http-request-response.md)
+  to begin the core technical path.

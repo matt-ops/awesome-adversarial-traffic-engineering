@@ -14,7 +14,9 @@ import yaml  # type: ignore[import-untyped]
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "curriculum" / "manifest.yaml"
 LESSON_ROOT = ROOT / "docs" / "modules"
+APPENDIX_ROOT = LESSON_ROOT / "00-method"
 SOURCE_LEDGER = ROOT / "sources" / "sources.yaml"
+CORE_START_ID = "m01-l01"
 REQUIRED_LESSON_FIELDS = {
     "id",
     "path",
@@ -26,6 +28,15 @@ REQUIRED_LESSON_FIELDS = {
     "source_ids",
 }
 REQUIRED_INDEX_FIELDS = {"id", "path", "module", "title", "lesson_ids"}
+REQUIRED_APPENDIX_LESSON_FIELDS = {
+    "id",
+    "path",
+    "appendix",
+    "title",
+    "estimated_minutes",
+    "source_ids",
+}
+REQUIRED_APPENDIX_INDEX_FIELDS = {"id", "path", "title", "lesson_ids"}
 REQUIRED_CHECKPOINT_FIELDS = {
     "id",
     "path",
@@ -81,11 +92,19 @@ def load_yaml(path: Path, errors: list[str]) -> object:
 
 
 def canonical_lesson_files() -> list[Path]:
-    return sorted(path for path in LESSON_ROOT.glob("*/*.md") if path.name != "index.md")
+    return sorted(
+        path
+        for path in LESSON_ROOT.glob("*/*.md")
+        if path.name != "index.md" and path.parent != APPENDIX_ROOT
+    )
 
 
 def canonical_module_indexes() -> list[Path]:
-    return sorted(LESSON_ROOT.glob("*/index.md"))
+    return sorted(path for path in LESSON_ROOT.glob("*/index.md") if path.parent != APPENDIX_ROOT)
+
+
+def appendix_lesson_files() -> list[Path]:
+    return sorted(path for path in APPENDIX_ROOT.glob("*.md") if path.name != "index.md")
 
 
 def visible_field(text: str, labels: tuple[str, ...]) -> str | None:
@@ -254,6 +273,79 @@ def main() -> int:
         str(entry.get("id")) for raw_entry in source_data if (entry := as_mapping(raw_entry, "source", errors))
     }
 
+    appendix_entries_raw = as_list(manifest.get("appendix_lessons"), "appendix_lessons", errors)
+    appendix_lessons: list[dict[str, Any]] = []
+    appendix_ids: list[str] = []
+    appendix_paths: list[str] = []
+    for number, raw_entry in enumerate(appendix_entries_raw, start=1):
+        entry = as_mapping(raw_entry, f"appendix_lessons[{number}]", errors)
+        missing = REQUIRED_APPENDIX_LESSON_FIELDS - set(entry)
+        if missing:
+            errors.append(f"appendix_lessons[{number}]: missing metadata fields {sorted(missing)}")
+        current_id = str(entry.get("id", ""))
+        current_path = str(entry.get("path", ""))
+        appendix_ids.append(current_id)
+        appendix_paths.append(current_path)
+        appendix_lessons.append(entry)
+
+        estimate = entry.get("estimated_minutes")
+        if not isinstance(estimate, int) or isinstance(estimate, bool) or estimate <= 0:
+            errors.append(f"{current_id}: estimated_minutes must be a positive integer")
+        source_ids = [
+            str(value)
+            for value in as_list(entry.get("source_ids"), f"{current_id}.source_ids", errors)
+        ]
+        for source_id in source_ids:
+            if source_id not in known_source_ids:
+                errors.append(f"{current_id}: missing source ID {source_id}")
+
+        appendix_path = ROOT / current_path
+        if not appendix_path.is_file():
+            errors.append(f"missing appendix lesson: {current_path}")
+            continue
+        text = appendix_path.read_text(encoding="utf-8")
+        title = text.splitlines()[0].removeprefix("# ") if text.splitlines() else ""
+        if title != str(entry.get("title", "")):
+            errors.append(f"{current_path}: visible title disagrees with appendix metadata")
+        page_minutes = visible_minutes(visible_field(text, ("Estimated time",)))
+        if page_minutes != estimate:
+            errors.append(
+                f"{current_path}: visible estimate {page_minutes!r} disagrees with appendix {estimate!r}"
+            )
+        if source_ids_from_lesson(text) != source_ids:
+            errors.append(f"{current_path}: visible source IDs disagree with appendix metadata")
+        if visible_field(text, ("Appendix",)) != "Red-team method and engagement practice":
+            errors.append(f"{current_path}: optional appendix label is missing or incorrect")
+        core_start_path = (LESSON_ROOT / "01-http-edge" / "01-http-request-response.md").resolve()
+        resolved_links = {
+            resolved
+            for target in markdown_links(text)
+            if (resolved := resolve_markdown_link(appendix_path, target)) is not None
+        }
+        if core_start_path not in resolved_links:
+            errors.append(f"{current_path}: appendix lesson does not link back to the core start")
+        if re.search(r"checkpoint\s+(?:requirement|required|prerequisite)", text, re.IGNORECASE):
+            errors.append(f"{current_path}: appendix is labeled as a checkpoint requirement")
+
+    duplicate_appendix_ids = sorted(
+        value for value, count in Counter(appendix_ids).items() if count > 1
+    )
+    duplicate_appendix_paths = sorted(
+        value for value, count in Counter(appendix_paths).items() if count > 1
+    )
+    if duplicate_appendix_ids:
+        errors.append(f"duplicate appendix lesson IDs: {duplicate_appendix_ids}")
+    if duplicate_appendix_paths:
+        errors.append(f"duplicate appendix lesson paths: {duplicate_appendix_paths}")
+    actual_appendix_paths = {
+        path.relative_to(ROOT).as_posix() for path in appendix_lesson_files()
+    }
+    if set(appendix_paths) != actual_appendix_paths:
+        for missing_path in sorted(actual_appendix_paths - set(appendix_paths)):
+            errors.append(f"missing appendix lesson metadata: {missing_path}")
+        for extra_path in sorted(set(appendix_paths) - actual_appendix_paths):
+            errors.append(f"appendix metadata references non-appendix lesson: {extra_path}")
+
     lesson_entries = as_list(manifest.get("lessons"), "lessons", errors)
     lessons: list[dict[str, Any]] = []
     lesson_ids: list[str] = []
@@ -277,6 +369,20 @@ def main() -> int:
         errors.append(f"duplicate lesson paths: {duplicate_paths}")
     lessons_by_id = {str(entry.get("id")): entry for entry in lessons if entry.get("id")}
     lessons_by_path = {str(entry.get("path")): entry for entry in lessons if entry.get("path")}
+    appendix_id_set = set(appendix_ids)
+    if appendix_id_set & set(lessons_by_id):
+        errors.append(f"core and appendix lesson IDs overlap: {sorted(appendix_id_set & set(lessons_by_id))}")
+    if set(appendix_paths) & set(lessons_by_path):
+        errors.append(
+            f"core and appendix lesson paths overlap: {sorted(set(appendix_paths) & set(lessons_by_path))}"
+        )
+    if not lesson_ids or lesson_ids[0] != CORE_START_ID:
+        errors.append(f"core lesson order must begin with {CORE_START_ID}")
+    core_start_entry = lessons_by_id.get(CORE_START_ID)
+    if core_start_entry is None:
+        errors.append(f"missing root core lesson {CORE_START_ID}")
+    elif as_list(core_start_entry.get("prerequisites"), f"{CORE_START_ID}.prerequisites", errors):
+        errors.append(f"{CORE_START_ID}: root core lesson must not have prerequisites")
 
     actual_lesson_paths = {path.relative_to(ROOT).as_posix() for path in canonical_lesson_files()}
     manifest_lesson_paths = set(lesson_paths)
@@ -301,6 +407,9 @@ def main() -> int:
                 errors.append(f"{current_id}: missing source ID {source_id}")
         for raw_prerequisite in prerequisites:
             prerequisite = str(raw_prerequisite)
+            if prerequisite in appendix_id_set:
+                errors.append(f"{current_id}: core prerequisite references appendix lesson {prerequisite}")
+                continue
             if prerequisite not in lessons_by_id:
                 errors.append(f"{current_id}: missing prerequisite ID {prerequisite}")
                 continue
@@ -336,6 +445,50 @@ def main() -> int:
 
     for cycle in cycle_errors(lessons_by_id):
         errors.append(f"circular prerequisite graph: {cycle}")
+
+    appendix_by_id = {
+        str(entry.get("id")): entry for entry in appendix_lessons if entry.get("id")
+    }
+    appendix_index_entries = as_list(manifest.get("appendix_indexes"), "appendix_indexes", errors)
+    appendix_index_paths: list[str] = []
+    for number, raw_entry in enumerate(appendix_index_entries, start=1):
+        entry = as_mapping(raw_entry, f"appendix_indexes[{number}]", errors)
+        missing = REQUIRED_APPENDIX_INDEX_FIELDS - set(entry)
+        if missing:
+            errors.append(f"appendix_indexes[{number}]: missing metadata fields {sorted(missing)}")
+        current_path = str(entry.get("path", ""))
+        appendix_index_paths.append(current_path)
+        index_path = ROOT / current_path
+        if not index_path.is_file():
+            errors.append(f"missing appendix index: {current_path}")
+            continue
+        text = index_path.read_text(encoding="utf-8")
+        title = text.splitlines()[0].removeprefix("# ") if text.splitlines() else ""
+        if title != str(entry.get("title", "")):
+            errors.append(f"{current_path}: visible title disagrees with appendix-index metadata")
+        indexed_ids = {
+            str(value)
+            for value in as_list(entry.get("lesson_ids"), f"{current_path}.lesson_ids", errors)
+        }
+        if indexed_ids != set(appendix_by_id):
+            errors.append(f"{current_path}: appendix-index lesson IDs do not match appendix lessons")
+        linked_paths: set[str] = set()
+        for target in markdown_links(text):
+            resolved = resolve_markdown_link(index_path, target)
+            if resolved is None:
+                continue
+            relative = resolved.relative_to(ROOT).as_posix()
+            if relative in set(appendix_paths):
+                linked_paths.add(relative)
+        expected_paths = {str(entry.get("path")) for entry in appendix_lessons}
+        if linked_paths != expected_paths:
+            errors.append(f"{current_path}: appendix index must link to every appendix lesson")
+
+    expected_appendix_index = (APPENDIX_ROOT / "index.md").relative_to(ROOT).as_posix()
+    if appendix_index_paths != [expected_appendix_index]:
+        errors.append(
+            "appendix_indexes must contain exactly the red-team method appendix index"
+        )
 
     index_entries = as_list(manifest.get("module_indexes"), "module_indexes", errors)
     index_paths: list[str] = []
@@ -405,6 +558,9 @@ def main() -> int:
             errors.append(f"{checkpoint_id}: duplicate lesson IDs")
         checkpoint_selections.append((checkpoint_id, ids))
         for current_id in ids:
+            if current_id in appendix_id_set:
+                errors.append(f"{checkpoint_id}: checkpoint contains appendix lesson {current_id}")
+                continue
             lesson = lessons_by_id.get(current_id)
             if lesson is None:
                 errors.append(f"{checkpoint_id}: missing lesson ID {current_id}")
@@ -492,27 +648,42 @@ def main() -> int:
     errors.extend(cumulative_checkpoint_errors(checkpoint_selections))
 
     depth_counts = Counter(str(entry.get("depth", "")) for entry in lessons)
-    print("Lesson count by depth")
+    print("Core curriculum:")
+    print(f"- lesson count: {len(lessons)}")
+    print(f"- module count: {len(index_entries)}")
+    print("- lesson count by depth:")
     for depth in depth_order:
-        print(f"- {depth}: {depth_counts[depth]}")
-    print("Checkpoint calculations")
+        print(f"  - {depth}: {depth_counts[depth]}")
+    print("- checkpoint closure times:")
     for checkpoint_id, stats in checkpoint_stats:
         print(
-            f"- {checkpoint_id}: direct selection {stats.direct_lesson_count} lessons, "
+            f"  - {checkpoint_id}: direct selection {stats.direct_lesson_count} lessons, "
             f"{stats.direct_selection_minutes} minutes ({format_hours(stats.direct_selection_minutes)} hours); "
             f"prerequisite closure {len(stats.closure_lesson_ids)} lessons, "
             f"{stats.prerequisite_closure_minutes} minutes "
             f"({format_hours(stats.prerequisite_closure_minutes)} hours)"
         )
+    appendix_minutes = sum(
+        int(entry["estimated_minutes"])
+        for entry in appendix_lessons
+        if isinstance(entry.get("estimated_minutes"), int)
+        and not isinstance(entry.get("estimated_minutes"), bool)
+    )
+    print("Optional appendices:")
+    print(f"- appendix lesson count: {len(appendix_lessons)}")
+    print(f"- appendix estimated time: {appendix_minutes} minutes ({format_hours(appendix_minutes)} hours)")
+    print("- excluded from core checkpoints: yes")
     if errors:
         print("Curriculum validation: FAIL")
         for error in errors:
             print(f"- {error}")
         return 1
     print("Curriculum validation: PASS")
-    print(f"- {len(lessons)} canonical lessons and {len(index_entries)} module indexes have metadata")
+    print(f"- {len(lessons)} core lessons and {len(index_entries)} core module indexes have metadata")
+    print(f"- {len(appendix_lessons)} optional appendix lessons have separate metadata")
+    print(f"- core path begins with {CORE_START_ID}, which has no prerequisite")
     print("- prerequisite graph is complete, acyclic, and depth-safe")
-    print("- checkpoint depth, prerequisite closure, time, link, and cumulative-selection gates pass")
+    print("- checkpoints exclude appendices and pass depth, closure, time, link, and cumulative gates")
     return 0
 
 

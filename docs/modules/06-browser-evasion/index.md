@@ -24,6 +24,17 @@ An allow decision is not enough. Every stage that changes a condition repeats
 the same protected action, preserves residual anomalies and alternative
 explanations, and states the exact remediation retest.
 
+## Experiment frame used in this module
+
+| Field | What this module requires |
+|---|---|
+| Baseline | Capture the same protected action for manual, stock headed, stock headless, and HTTP-client populations. |
+| Changed variable | Change one property or one predeclared coherent set. |
+| Fixed variables | Keep target, action, session procedure, state, browser version, run window, and evidence schema fixed. |
+| Success condition | The protected server-side action succeeds under the treatment; an allow label is intermediate evidence. |
+| Alternative explanation | Test whether reset state, timing, token behavior, version drift, or another signal explains the result. |
+| Retest | Repeat the identical baseline and treatment after the control invariant changes. |
+
 ## Foundation
 
 No browser-evasion lesson is a Foundation requirement. Foundation ends with

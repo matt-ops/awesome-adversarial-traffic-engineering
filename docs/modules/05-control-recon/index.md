@@ -54,5 +54,16 @@ Precision, recall, false-positive rate, base-rate effects, ablation, and drift
 are supporting analysis only when they expose an overtrusted feature, quantify
 collateral impact, or make remediation and retest more meaningful.
 
+## Experiment frame used in this module
+
+| Field | What this module requires |
+|---|---|
+| Baseline | Record legitimate and blocked populations before changing a signal. |
+| Changed variable | Name the one observable property or declared coherent signal set under test. |
+| Fixed variables | Hold target, workflow, state reset, browser version, timing window, and evidence fields constant. |
+| Success condition | Repeat the same protected action; a score change alone is not success. |
+| Alternative explanation | Name another cause, such as reset failure, version drift, or a second changed signal. |
+| Retest | Repeat the exact protected action after remediation with the same populations and evidence fields. |
+
 Start with [signal families](01-signal-families.md). This module observes and
 maps; signal changes wait until Module 06.
