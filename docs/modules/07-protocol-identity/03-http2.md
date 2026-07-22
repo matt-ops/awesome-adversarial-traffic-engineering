@@ -11,7 +11,6 @@
 - Prerequisites:
   - [JA4 and JA4H](02-ja4-and-ja4h.md)
   - HTTP request/session distinction from Module 01
-- Required artifact: `artifacts/module-07/http2-map.md`
 - Next lesson: Proxies and connection reuse
 
 ## Role outcome
@@ -114,28 +113,28 @@ No target contacted.
 Browser and alternate-client stacks differ beyond header strings. Connection and
 stream behavior can expose incoherence or weak aggregation assumptions.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-07/http2-map.md` with scopes, proxy boundaries, hypotheses,
-required evidence, and limitations.
-
-## Pass gate
-
-1. Can multiple streams share one connection?
-2. Is a BrowserContext an HTTP/2 connection?
-3. What can a terminating proxy change?
-4. Why scope a rate feature explicitly?
-5. Does this local lab capture HTTP/2?
+1. A single HTTP/2 connection carries several request and response streams at once. Which protocol feature allows those streams to share the connection?
+2. A Playwright BrowserContext lives longer than one transport connection. Why should the context not be treated as an HTTP/2 connection?
+3. An edge proxy terminates HTTP/2 and opens a new downstream connection. Which stream and connection observations can change at that boundary?
+4. A rate rule counts HTTP/2 connections, while the protected workflow spans several streams and sessions. Why must the aggregation unit be named explicitly?
+5. The local helper reports an observed HTTP version from a fixed Python request. Does that exercise capture or claim an HTTP/2 browser trace?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Yes; multiplexing is central to HTTP/2.
-2. No; browser state and transport connections have different lifecycles.
-3. TLS and HTTP/2 connection/stream behavior observed downstream.
-4. Request, stream, connection, session, and workflow aggregation have different bypass behavior.
-5. No; it honestly reports its observed HTTP version.
+- **1. Multiplexing allows independent HTTP/2 streams to share one connection without waiting for each other to finish.** Stream identifiers and connection state must still be interpreted at the correct observation point.
+
+- **2. BrowserContext is an application storage and isolation boundary, while transport connections have separate pooling, reuse, and lifetime rules.** One context can use multiple connections, and one connection can carry multiple requests.
+
+- **3. The proxy can replace TLS, connection settings, stream ordering, header compression state, and downstream request behavior.** Services behind termination observe the intermediary's connection rather than the original client connection.
+
+- **4. Request, stream, connection, session, and workflow keys have different lifecycles and rotation costs.** An unstated unit makes bypass and collateral-impact claims impossible to evaluate precisely.
+
+- **5. No.** The helper honestly reports the protocol observed for its local Python client. It does not create or preserve an HTTP/2 browser capture, so the lesson keeps that limitation explicit.
 
 </details>
 

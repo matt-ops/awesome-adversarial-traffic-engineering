@@ -12,7 +12,6 @@
   - [Network events and evidence](../03-playwright/04-network-events.md)
   - [Five signal families](../05-control-recon/01-signal-families.md)
   - Basic TLS purpose; no packet-crafting experience required
-- Required artifact: `artifacts/module-07/clienthello.md`
 - Next lesson: JA4 and JA4H
 
 ## Role outcome
@@ -90,7 +89,7 @@ Python can resolve the repository's `lab` package.
 
 ### Expected output
 
-The artifact contains two valid TLS ClientHello records generated without a
+The output contains two valid TLS ClientHello records generated without a
 socket, the declared ALPN configuration for the changed fixture, selected outer
 record/handshake fields, byte counts, SHA-256 digests, and a `bytes_differ`
 result. It does not claim to parse the ALPN extension or identify which offsets
@@ -121,28 +120,28 @@ No socket opened and no service persists.
 A browser environment claim can conflict with the TLS stack seen at the edge.
 Understanding the handshake reveals which layer a proxy or alternate client changes.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-07/clienthello.md` with field diagram, two outputs, controlled
-and uncontrolled changes, observation point, and limits.
-
-## Pass gate
-
-1. Who offers and who selects TLS parameters?
-2. What is ALPN used to negotiate?
-3. Why can two raw hellos differ without a stable implementation change?
-4. Where does TLS termination replace observation?
-5. Is the helper digest JA4?
+1. During a TLS handshake, which peer offers cipher suites and extensions in ClientHello, and which peer selects compatible parameters?
+2. A ClientHello advertises `h2` and `http/1.1` through ALPN. What is ALPN negotiating?
+3. Two captures from the same fixed client have different raw bytes because random and session fields changed. Why does that difference not prove a stable implementation change?
+4. An edge proxy terminates the client TLS connection and opens a new TLS connection to the application. Which peer produces the downstream ClientHello?
+5. The helper prints a digest prefix over a raw fixture. Why must the learner avoid calling that digest JA4?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Client offers in ClientHello; server selects compatible values.
-2. The application protocol, such as HTTP/2 versus HTTP/1.1.
-3. Random/session and other ephemeral fields vary.
-4. At the terminating intermediary; downstream TLS is a new handshake.
-5. No; it is an explicit raw-fixture digest prefix.
+- **1. The client offers supported parameters in ClientHello, and the server selects a compatible set.** The observed offer can describe implementation and configuration behavior but does not identify one person.
+
+- **2. ALPN negotiates the application protocol carried over TLS, such as HTTP/2 or HTTP/1.1.** The advertised list and server selection are part of the versioned handshake evidence.
+
+- **3. Ephemeral values such as random and session fields can change on every handshake.** A stable comparison must normalize or interpret those fields before attributing the raw-byte difference to client implementation.
+
+- **4. The terminating edge proxy acts as the TLS client for the downstream connection and produces the new ClientHello.** The application no longer observes the original client's handshake directly.
+
+- **5. The helper computes an explicitly defined raw-fixture digest prefix, not the JA4 normalization and component format.** Using the JA4 name would overstate what the local calculation implements.
 
 </details>
 

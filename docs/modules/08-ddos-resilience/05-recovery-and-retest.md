@@ -10,8 +10,7 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Bounded load testing](04-bounded-load-testing.md)
-  - Complete resource, metric, and scenario artifacts
-- Required artifact: `artifacts/module-08/recovery-retest.md`
+  - Complete the resource model, metric plan, and bounded scenarios
 - Next lesson: Python telemetry
 
 ## Role outcome
@@ -115,28 +114,28 @@ Stop the local stack and preserve outputs/version/config.
 A resilience finding is actionable when it identifies the exhausted resource,
 protects legitimate work, and provides the same attack as a regression test.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-08/recovery-retest.md` with timeline, health/resources,
-remediation mapping, legitimate criteria, exact retest, and limits.
-
-## Pass gate
-
-1. What proves recovery?
-2. Can increased rejection indicate better resilience?
-3. Why map remediation to resource evidence?
-4. What makes retest exact?
-5. What does local teardown health not prove?
+1. After bounded pressure stops, which measurements show that the legitimate health route and affected resource returned to their objectives?
+2. A remediation sheds more expensive requests but keeps critical work healthy. Can the higher controlled rejection rate represent better resilience?
+3. Why should a remediation recommendation name the CPU, queue, cache, dependency, or other resource implicated by the experiment?
+4. Which objective, path, scenario, envelope, fixed inputs, evidence fields, and aborts must remain the same for an exact resilience retest?
+5. The loopback service becomes healthy after Docker teardown and restart. Which production recovery properties does that local observation not prove?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Measured return of legitimate health/resource metrics to objectives after pressure stops.
-2. Yes, if controlled shedding protects critical work within criteria.
-3. Otherwise the fix may move or miss the bottleneck.
-4. Same objective, path, scenario, envelope, fixed inputs, evidence, and aborts.
-5. Production queues, dependencies, scale, or sustained recovery.
+- **1. A recovery timeline should show legitimate latency, errors, availability, queue or resource measurements returning within the predefined health objectives.** Merely stopping the load generator does not prove recovery.
+
+- **2. Yes.** Deliberate load shedding can improve resilience when early rejection preserves critical useful capacity and keeps the protected workflow within agreed criteria. The conclusion must include both rejection and health evidence.
+
+- **3. Resource-specific evidence connects the observed bottleneck to the proposed control.** A generic fix can move pressure elsewhere or leave the actual limiting resource unchanged.
+
+- **4. Repeat the same adversary objective, route, scenario configuration, hard envelope, initial state, request inputs, evidence schema, thresholds, and abort conditions.** Only the remediation should differ.
+
+- **5. The local restart does not prove production queue draining, dependency recovery, distributed coordination, autoscaling, sustained stability, or internet-scale behavior.** Those remain explicit limitations outside the synthetic lab.
 
 </details>
 

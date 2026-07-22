@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Inventory and promotion abuse](04-inventory-and-promotion-abuse.md)
   - PortSwigger account and Burp Suite familiarity from the assigned path
-- Required artifact: `artifacts/module-04/limit-overrun-report.md`
 - Next lesson: Control reconnaissance
 
 ## Role outcome
@@ -131,31 +130,28 @@ Automated adversaries compress time and coordinate actions that humans cannot.
 Race testing attacks a state invariant rather than a fingerprint, and it often
 requires accurate workflow, timing, and authoritative evidence.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-04/limit-overrun-report.md` with authorization, invariant,
-legitimate/sequential/concurrent trials, synchronization method, state proof,
-alternative explanations, impact, atomic remediation, regression test, and
-exact retest.
-
-## Pass gate
-
-1. What distinguishes a race from an ordinary repeated action?
-2. Why is a sequential second request a useful control?
-3. Why are two `200` responses insufficient proof?
-4. What server property must remediation provide?
-5. What should the exact retest preserve?
+1. A one-use promotion rejects a sequential second request but grants two benefits when requests overlap. What makes the concurrent outcome a race instead of ordinary repeated use?
+2. Why does the rejected sequential second request provide an important control for the synchronized promotion test?
+3. The concurrent trial produces two `200` responses. Which authoritative state must also be checked before claiming that the one-use limit was exceeded?
+4. Which server property should remediation add so validation and the protected promotion update cannot interleave across requests?
+5. After remediation, which inputs and synchronization details must the exact retest preserve?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. The invalid outcome depends on overlapping/interleaved operations against shared state.
-2. It shows the intended limit works when operations do not overlap.
-3. They may not represent two benefits or final invariant violation; authoritative state is required.
-4. Validation and state transition must be atomic for the protected invariant.
-5. Same account/state, action, inputs, synchronization method, request group, and evidence schema after the fix.
+- **1. The invalid outcome depends on overlapping operations that read and update shared state in an unsafe order.** Ordinary repetition would exceed the limit even when requests run one after another.
+
+- **2. The sequential result shows the intended one-use check works when operations do not overlap.** That comparison isolates concurrency as the condition associated with the limit overrun.
+
+- **3. Check the final promotion, account, or benefit record to confirm that two benefits were committed where only one was allowed.** Response statuses alone may not represent the final protected effect.
+
+- **4. Validation and the state transition must be atomic for the one-use rule, for example through a transaction or conditional update.** No second request should pass between checking and consuming the shared state.
+
+- **5. Use the same account and starting state, promotion action, inputs, synchronized request group, timing method, and evidence schema.** The fixed implementation should allow one benefit and reject the overlapping extra action.
 
 </details>
 

@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Browser process model](01-browser-process-model.md)
   - Ability to open Elements and Console in DevTools
-- Required artifact: `artifacts/module-02/dom-inventory.md`
 - Next lesson: JavaScript core
 
 ## Role outcome
@@ -140,30 +139,28 @@ observe Web API values, execution contexts, and resulting requests. Knowing the
 object boundary lets an operator tell a UI artifact from an enforcement result
 and recognize when a page-only modification misses another context.
 
-## Required artifact
+## Check your understanding
 
-Create `artifacts/module-02/dom-inventory.md` with the DOM path for each workflow
-element, its selector, event, producing code, related request, and layer
-classification.
-
-## Pass gate
-
-1. How does the live DOM differ from HTML source?
-2. Is `fetch` part of the JavaScript language itself?
-3. What does `querySelector` return?
-4. Why did changing `.value` not submit the form?
-5. What additional evidence is needed beyond a rendered success message?
+1. The static page loads from HTML and then JavaScript changes the status element after a search. Why can the live DOM differ from the original HTML source?
+2. The browser provides `fetch` and `document.querySelector` to page code. Are those functions part of the JavaScript language itself, or browser Web APIs?
+3. `document.querySelector('#product-name')` finds no matching element. What value does the call return?
+4. A script sets the Product name element's `.value` to `widget`, but no search request occurs. Which separate form action is still required?
+5. The page displays a success-shaped message after an attempted protected action. What evidence is needed before claiming that server-side state changed?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. The DOM is the parsed, live tree and can be changed after the source is loaded.
-2. No; it is a Web API supplied by the browser host environment.
-3. The first matching Element, or `null` when no match exists.
-4. Property mutation does not inherently dispatch the form's submit action.
-5. Capture the resulting HTTP exchange and, for a protected action, authoritative server-side state or service effect.
+- **1. The browser parses HTML into a live DOM tree, and scripts can add, remove, or change nodes and properties afterward.** View Source shows the original text, while DevTools Elements shows the current tree.
+
+- **2. They are Web APIs supplied by the browser host environment, not built-in JavaScript language features.** JavaScript code calls those APIs to interact with the document and the network.
+
+- **3. `querySelector` returns `null` when no element matches the selector.** Code should handle that possibility before reading properties or calling methods on the returned value.
+
+- **4. The script must dispatch the form's submit behavior, such as clicking the Search button or calling an appropriate submission method.** Changing an input property alone does not run the submit handler.
+
+- **5. Capture the resulting HTTP exchange and verify the authoritative server-side record or service effect.** A rendered message is controlled by browser code and may not reflect whether the protected action completed.
 
 </details>
 

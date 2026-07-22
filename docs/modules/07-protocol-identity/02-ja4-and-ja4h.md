@@ -10,8 +10,7 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [TLS ClientHello](01-tls-clienthello.md)
-  - Signal-family and residual-anomaly artifacts
-- Required artifact: `artifacts/module-07/ja4-interpretation.md`
+  - Be able to explain signal families and residual anomalies
 - Next lesson: HTTP/2
 
 ## Role outcome
@@ -114,28 +113,28 @@ No traffic generated. Keep fictional values.
 Alternate clients and proxies may betray a browser claim at the edge. Red teams
 must understand which component they changed and which server evidence remains.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-07/ja4-interpretation.md` with method fields, observation point,
-fact/inference split, alternatives, corroboration, action, and limits.
-
-## Pass gate
-
-1. What does normalization enable?
-2. Why is JA4 not a person identifier?
-3. What can a TLS proxy replace?
-4. Why retain raw fields?
-5. What wording is appropriate for a local association?
+1. JA4 normalizes selected ClientHello properties before grouping observations. What comparison benefit does that normalization provide?
+2. Many clients share a browser implementation and intermediaries can replace handshakes. Why is a JA4 value not a unique person identifier?
+3. A TLS proxy terminates the client connection and creates a new downstream handshake. Which observed fingerprint can the proxy replace?
+4. Why should an analysis retain raw TLS or HTTP fields alongside a computed JA4 or JA4H label?
+5. A local fingerprint matches the recorded browser baseline. What cautious wording describes that association without claiming identity proof?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Comparable grouping despite selected unstable/order properties.
-2. Many clients share implementations/configurations and intermediaries/drift alter observations.
-3. The observed client handshake downstream/upstream of termination.
-4. To audit the fingerprint, explain changes, and avoid opaque labels.
-5. "Consistent with the recorded versioned baseline," with alternatives.
+- **1. Normalization makes observations comparable by reducing selected unstable or ordering differences.** The resulting group can be an analytical pivot while still requiring raw evidence, version context, and alternative explanations.
+
+- **2. Many users and automated clients share implementations and configurations, while proxies and version drift alter observations.** The value groups behavior; it does not uniquely bind traffic to one human or device.
+
+- **3. The terminating proxy can replace the handshake observed by the downstream service because the proxy becomes the downstream TLS client.** Observation ownership must therefore name the collection side of the proxy.
+
+- **4. Raw fields let reviewers audit the calculation, explain why a label changed, and detect information lost during normalization.** Keeping only a fingerprint would turn a complex observation into an opaque identifier.
+
+- **5. Say the observation is “consistent with the recorded versioned baseline” and name alternatives such as shared implementations or intermediaries.** That wording reports association without upgrading similarity into identity.
 
 </details>
 

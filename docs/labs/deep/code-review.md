@@ -28,5 +28,5 @@ decision and protected effect, then locate or design the named test.
 | Retry budget | failed operation repeats local work | `fetch_with_retry()` and tooling tests | non-retryable error stops; fourth attempt rejected; transient case succeeds within budget |
 
 Do not report deliberate fixture behavior as an external vulnerability. The
-artifact is a review method: entry, transformation, decision, effect, proof,
+exercise result is a review method: entry, transformation, decision, effect, proof,
 limitation, remediation invariant, and exact retest.

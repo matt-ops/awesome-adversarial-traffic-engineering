@@ -10,8 +10,7 @@
 - Estimated time: 90 minutes
 - Prerequisites:
   - [HTTP request and response](01-http-request-response.md)
-  - Your request-anatomy artifact
-- Required artifact: `artifacts/module-01/workflow-map.md`
+  - Be able to identify an HTTP method, target, headers, status, and body
 - Next lesson: DevTools Network
 
 ## Role outcome
@@ -138,30 +137,28 @@ Real abuse is usually a chain. Mapping the chain reveals controls attached to
 the wrong transition, proofs that can be replayed, and limits scoped to a weak
 identity. It also identifies the exact state evidence needed for a finding.
 
-## Required artifact
+## Check your understanding
 
-Create `artifacts/module-01/workflow-map.md` containing a state diagram and a
-table with: transition, request, input, client state, server state, control,
-failure response, and protected-action evidence.
-
-## Pass gate
-
-1. Why can two requests in one connection belong to different conceptual units?
-2. What makes local storage different from a server-side session record?
-3. What is a workflow transition?
-4. How do you prove a replay hypothesis against a protected action?
-5. Why must failure responses appear in an entry-point map?
+1. The normal browser window remembers `widget` after a reload, while a new private window starts with an empty Product name field. What browser state caused the difference, and does the difference prove either window is logged in?
+2. The static page fetches `inventory.json` and displays `Synthetic Widget`. Did the server create a reservation, and what did the server actually provide?
+3. A hypothetical `POST /reserve` request contains `identity: "alice"` in its JSON body, but there is no authenticated session. Why is that client-supplied identity not enough to authorize the reservation?
+4. Session B is normally blocked from reserving an item. You reuse Session A's approval token in Session B and repeat the same reserve request. What server-side result would prove that the replay succeeded?
+5. If `GET /inventory.json` fails, why should the workflow map include that failure path?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. A connection transports messages; session and workflow meanings come from application state, not transport adjacency.
-2. The browser owns and can modify local storage; a server-side record is authoritative only when the server validates its identifier and fields.
-3. It is an action that moves the application from one meaningful state to another.
-4. Preserve B's blocked baseline, reuse the candidate proof under the changed binding, repeat the same action, and verify the server-side outcome.
-5. They expose validation and control boundaries and prevent a map that records only the happy path.
+- **1. `localStorage` caused the difference, and the stored value does not prove a login.** Each browser context has separate local storage that browser JavaScript can change, while a login requires a server-validated session record.
+
+- **2. No reservation was created.** The server returned a public JSON file, and JavaScript in the browser filtered those inventory records and displayed the matching product without changing server-side inventory.
+
+- **3. The JSON value is only a claim made by the client.** The server must identify the caller from a validated authenticated session and then check whether that caller may reserve the requested product and quantity.
+
+- **4. A server-side reservation attributed to Session B would prove the replay succeeded.** A changed status message, browser storage value, or detector score is insufficient unless the protected reservation action actually occurs.
+
+- **5. The failure path shows where the search workflow can stop and records the error response the learner should expect.** Including failures prevents the workflow map from describing only the successful path.
 
 </details>
 

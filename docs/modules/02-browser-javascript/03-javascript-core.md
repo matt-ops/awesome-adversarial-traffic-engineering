@@ -11,7 +11,6 @@
 - Prerequisites:
   - [DOM and Web APIs](02-dom-and-web-apis.md)
   - No prior JavaScript is assumed
-- Required artifact: `artifacts/module-02/javascript-exercise.js`
 - Next lesson: Async, fetch, and errors
 
 ## Role outcome
@@ -89,8 +88,8 @@ Turn a small event population into a method/status summary without network work.
 
 ### Setup
 
-Create `artifacts/module-02/javascript-exercise.js`. Use a browser console or
-Node after the file is written. The input is synthetic.
+Create `javascript-exercise.js` in a working directory of your choice. Use a
+browser console or Node after the file is written. The input is synthetic.
 
 ### Exact actions or commands
 
@@ -127,8 +126,12 @@ protected-action evidence.
 
 ### Cleanup
 
-Keep the script as the required artifact. It creates no service or persistent
-state.
+The script creates no service or persistent state. Delete it after the exercise
+or keep it for later practice.
+
+!!! tip "Optional: keep this for later"
+    Save the script if you want a small JavaScript example for later Playwright
+    work. Saving it is not required to continue.
 
 ## Why this matters offensively
 
@@ -137,30 +140,25 @@ not magic recorder output. Reading control flow is necessary to know which
 requests were caused, which assertion passed, and whether evidence was silently
 filtered or mutated.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-02/javascript-exercise.js` containing the input, commented
-`summarize` function, expected output, and two assertions you would add in a
-test framework.
-
-## Pass gate
-
-1. Why can an object bound with `const` still have a property changed?
-2. What does `Array.filter` return?
-3. What value must the filter callback produce conceptually?
-4. How is an object useful for the summary?
-5. Why preserve the raw event array?
+1. The exercise declares `const summary = { total: 0 }` and later changes `summary.total`. Why is that property update allowed?
+2. The exercise runs `events.filter(...)` on the raw event array. What kind of value does `filter` return, and what must the callback decide for each event?
+3. Why does the exercise store method and status counts in an object with named keys rather than only printing an unlabeled list of numbers?
+4. After producing the summary, why should the raw event array remain available for review?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. `const` prevents rebinding the variable; it does not recursively freeze the referenced object.
-2. A new array containing members whose callback result is truthy.
-3. A truthy/falsy decision for whether the current member belongs in the output.
-4. Named keys map each method/status category to its count.
-5. Derived logic can be checked or recomputed without losing original evidence.
+- **1. `const` prevents the variable from being rebound to a different object; it does not freeze the referenced object's properties.** The code may update `summary.total` while keeping `summary` bound to the same object.
+
+- **2. `filter` returns a new array containing events whose callback result is truthy.** For each event, the callback makes a yes-or-no inclusion decision without changing the original array.
+
+- **3. Named keys connect each count to a method or status category, making the summary readable and auditable.** A reviewer can understand what a value represents without relying on its position.
+
+- **4. The raw events preserve the original observations so derived counts can be recomputed and mistakes can be found.** Keeping only the summary would discard evidence needed to audit the transformation.
 
 </details>
 

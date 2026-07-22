@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Experimental method](../00-method/03-experimental-method.md)
   - Ability to identify a request, response, session, and population label
-- Required artifact: `artifacts/module-09/telemetry-summary.json`
 - Next lesson: Async and bounded concurrency
 
 ## Role outcome
@@ -31,7 +30,7 @@ observation, label, inference, and limitation separate.
 
 ```text
 JSONL bytes -> decode one object -> validate shape -> derive transparent fields
-            -> aggregate counts -> serialize artifact -> assert invariants
+            -> aggregate counts -> serialize output -> assert invariants
 
 observation: population="headed"     label: is_abuse=true
 calculation: headed_count=4            inference: why that happened
@@ -61,7 +60,7 @@ untrusted runtime data.
 **Estimated time:** 25 minutes  
 **What to focus on:** decode errors, Python-to-JSON type conversion, and deterministic serialization options  
 **What to skip:** encoder subclassing and command-line pretty printing  
-**Expected takeaway:** trace a JSONL line through decoding, validation, and serialized artifact output.
+**Expected takeaway:** trace a JSONL line through decoding, validation, and serialized output.
 
 ### Counter assignment
 
@@ -118,7 +117,7 @@ Open `lab/tooling/client.py`, `lab/analysis/analyze.py`, and
 4. From the repository root, execute `python -m lab.tooling.client telemetry`.
 5. From that same repository root, execute
    `python -m unittest lab.tests.test_tooling -v`.
-6. Add one local-only count to your artifact, such as missing population labels;
+6. Add one local-only count to the output, such as missing population labels;
    describe whether it is an observation or inference before editing course code.
 
 ### Expected output
@@ -128,7 +127,7 @@ The command prints a JSON object with `records`, `populations`, `labels`, and
 
 ### Interpretation
 
-A correct artifact lets another reviewer recompute each number and states what
+A correct result lets another reviewer recompute each number and states what
 the fixture cannot establish. A polished chart without a traceable denominator
 is weaker evidence than a small reproducible table.
 
@@ -141,7 +140,7 @@ is weaker evidence than a small reproducible table.
 
 ### Cleanup
 
-Keep the generated artifact; no process or service needs cleanup.
+No process or service needs cleanup. Keep or delete the generated output.
 
 ## Why this matters offensively
 
@@ -149,30 +148,28 @@ Control-evasion work depends on comparing populations, actions, failures, and
 residual anomalies. Transparent analysis lets the operator defend an impact
 claim and lets the control owner reproduce or reject it.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-09/telemetry-summary.json` plus a short data dictionary naming
-each raw field, derived field, label, denominator, and limitation.
-
-## Pass gate
-
-1. Why is JSONL useful for request evidence?
-2. What is the difference between an observation and a label?
-3. What does a Python type hint guarantee at runtime?
-4. When is event count the wrong denominator?
-5. What makes a derived metric reproducible?
-6. Why must limitations travel with the summary?
+1. The exercise stores one JSON object per line in JSONL. How does that format help a reviewer locate and handle a malformed request record?
+2. A telemetry row contains an observed HTTP status and a synthetic label named `blocked`. What is the difference between the observation and the label?
+3. A Python function annotates an input as `RequestEvent`. What does that type hint guarantee when untrusted JSON reaches the program at runtime?
+4. A summary claims a percentage of blocked sessions but divides by event count. Why is the denominator wrong for that claim?
+5. Which preserved inputs, transformation details, denominator, code version, and tests make the derived summary reproducible?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Each record is independently decodable and a malformed line can be located.
-2. An observation came from evidence; a label is an assigned category that may be wrong or synthetic.
-3. Nothing by itself; runtime validation or tests must check external values.
-4. When the claim concerns sessions, identities, workflows, users, or another unit.
-5. Preserved inputs, explicit transformation, stable denominator, versioned code, and tests.
-6. Otherwise readers may generalize a small synthetic count beyond its evidence.
+- **1. Each line is independently decodable, so a parser can identify the exact bad record and continue or fail with a precise location.** One malformed line does not make record boundaries ambiguous.
+
+- **2. The HTTP status came directly from captured evidence, while `blocked` is an assigned interpretation that may be synthetic or mistaken.** The data model should preserve which fields were observed and which were inferred.
+
+- **3. The type hint provides static guidance but performs no runtime validation by itself.** Code must still parse and validate external fields before treating the object as a trustworthy RequestEvent.
+
+- **4. The claim concerns sessions, so the calculation must group or count sessions rather than individual events.** Multiple events from one session would otherwise give that session extra weight.
+
+- **5. Preserve the input records, define the exact transformation and stable denominator, record the code version, and test known cases.** Limitations should travel with the summary so reviewers do not generalize beyond the sample.
 
 </details>
 

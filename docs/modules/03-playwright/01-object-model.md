@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Module 02](../02-browser-javascript/index.md)
   - Promises, `async`/`await`, DOM selectors, frames, and browser processes
-- Required artifact: `artifacts/module-03/object-model.md`
 - Next lesson: First local browser
 
 ## Role outcome
@@ -109,7 +108,7 @@ Design the object tree for two controlled populations before writing code.
 
 ### Setup
 
-Use paper or `artifacts/module-03/object-model.md`. No service is needed.
+Use paper or a temporary note. No service is needed.
 
 ### Exact actions or commands
 
@@ -140,7 +139,7 @@ control bypass or different identity. Later lessons test the state directly.
 
 ### Cleanup
 
-No process was launched. Keep the design as the artifact.
+No process was launched. Delete the design or keep it for later practice.
 
 ## Why this matters offensively
 
@@ -148,29 +147,25 @@ State isolation is experimental control. It decides whether a challenge token,
 session cookie, local value, or cached resource was carried into the next trial.
 An unexplained context lifecycle invalidates replay and evasion conclusions.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-03/object-model.md` with the object tree, lifecycle table,
-shared/isolated state, and one invalid design with an explanation of its bias.
-
-## Pass gate
-
-1. What is the Browser object's responsibility?
-2. Which object is the primary isolation boundary for cookies and storage?
-3. Does a new Page in an existing context create a clean session?
-4. Why is a Locator not a frozen DOM node?
-5. Which asynchronous resources require explicit cleanup?
+1. A script launches one Browser and creates contexts A and B. Which object controls the browser process, and which objects isolate cookies and origin storage?
+2. The script opens a second Page inside context A. Does the new Page start a clean application session, and why?
+3. A Locator is created before the search result exists, then used after the DOM updates. Why can the Locator still find the new result?
+4. The guided design reaches its final assertion. Which Playwright objects still require explicit lifecycle cleanup?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. It represents and controls the launched browser instance from which contexts are created.
-2. BrowserContext.
-3. No; pages in a context share that context's state.
-4. It describes how Playwright resolves an element at action/assertion time.
-5. At minimum the contexts and Browser; pages may also be closed explicitly when their lifecycle ends earlier.
+- **1. The Browser object controls the launched browser instance, and each BrowserContext is an isolation boundary for cookies and origin storage.** Pages created inside one context share that context's state.
+
+- **2. No.** A new Page in context A shares A's cookies and origin-scoped storage, so page creation alone does not create a clean application session.
+
+- **3. A Locator stores a rule for resolving an element at action or assertion time rather than freezing one DOM node.** The later lookup can therefore match the result added after the Locator was declared.
+
+- **4. The script must close the BrowserContexts and the Browser, preferably through reliable cleanup such as `finally`.** Pages may also be closed explicitly when their lifecycle ends before the containing context.
 
 </details>
 

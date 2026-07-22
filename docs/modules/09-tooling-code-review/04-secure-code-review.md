@@ -12,7 +12,6 @@
   - [Retries, timeouts, and jitter](03-retries-timeouts-and-jitter.md)
   - [Workflow and API mapping](../04-automated-abuse/02-workflow-mapping.md)
   - Read basic Python conditionals, collections, functions, and tests
-- Required artifact: `artifacts/module-09/code-review.md`
 - Next lesson: Finding and evidence
 
 ## Role outcome
@@ -140,30 +139,28 @@ Red-team engineers often build tooling and review controls. Code review reveals
 where identity, authorization, resource, and retry assumptions can be challenged;
 runtime proof shows whether the assumption reaches an attacker-relevant effect.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-09/code-review.md` containing four complete review tables, one
-data-flow diagram, exact test designs, a scanner-limit note, and scope limitations.
-
-## Pass gate
-
-1. What is the difference between a risk category and a finding?
-2. What three elements define an authorization decision?
-3. Why is a protected effect stronger than a status change?
-4. What must a remediation test include?
-5. What can a static-analysis match establish?
-6. Why review alternate paths?
+1. A static rule flags code that reads `identity` from a request body. What additional target-specific evidence is required before the risk category becomes a finding?
+2. For the reservation path, which subject, object, action, and policy facts should the code review trace through the authorization decision?
+3. Why does a verified inventory change provide stronger evidence than a changed status or detector label during the reviewed attack path?
+4. Which negative former-attack case and positive legitimate case should the remediation regression test include?
+5. Why should the reviewer inspect alternate routes to the same inventory effect after finding one weak reservation path?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. A category guides inspection; a finding has target-specific evidence, impact, scope, and reproduction.
-2. Subject, object, and action, plus the policy/context used to decide.
-3. It proves the adversary achieved the action or service effect the control should prevent.
-4. The former attack as a negative test and legitimate near-neighbor behavior as a positive test.
-5. That code resembles the rule's pattern; not reachability, exploitability, or impact.
-6. The same effect may be reachable without the reviewed decision or may be controlled elsewhere.
+- **1. A finding needs reachable code, a reproducible scoped input, the resulting protected effect, impact, and limitations.** A pattern match only shows that code resembles a risk category.
+
+- **2. Trace the authenticated caller as subject, the product or inventory record as object, reservation as action, and the server's permission and workflow state as policy context.** Client claims must not replace those facts.
+
+- **3. Inventory change proves the adversary reached the protected business effect the control should prevent.** A status or label can change without committing state and may come from another layer.
+
+- **4. The former unauthenticated or cross-identity reservation must fail without inventory change, while an authenticated authorized reservation must still succeed.** Both cases turn the security rule into a measurable acceptance test.
+
+- **5. Another route may reach the same protected effect without the reviewed check or may enforce the rule elsewhere.** Alternate-path review prevents a narrow patch from leaving an equivalent bypass.
 
 </details>
 

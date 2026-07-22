@@ -12,8 +12,6 @@ lessons:
   depth: foundation
   estimated_minutes: 75
   prerequisites: []
-  required_artifacts:
-  - artifacts/module-00/role-comparison.md
   source_ids:
   - nist-sp-800-115
   - mitre-adversary-emulation-plans
@@ -26,8 +24,6 @@ lessons:
   estimated_minutes: 90
   prerequisites:
   - m00-l01
-  required_artifacts:
-  - artifacts/module-00/engagement-plan.md
   source_ids:
   - nist-sp-800-115
   - aate-local-lab
@@ -40,8 +36,6 @@ lessons:
   estimated_minutes: 100
   prerequisites:
   - m00-l02
-  required_artifacts:
-  - artifacts/module-00/experiment-plan.md
   source_ids:
   - nist-sp-800-115
   - owasp-wstg-entry-points-v42
@@ -55,8 +49,6 @@ lessons:
   estimated_minutes: 90
   prerequisites:
   - m00-l03
-  required_artifacts:
-  - artifacts/module-01/request-anatomy.md
   source_ids:
   - mdn-http-overview
   - aate-local-lab
@@ -69,8 +61,6 @@ lessons:
   estimated_minutes: 90
   prerequisites:
   - m01-l01
-  required_artifacts:
-  - artifacts/module-01/workflow-map.md
   source_ids:
   - mdn-http-overview
   - owasp-wstg-entry-points-v42
@@ -83,8 +73,6 @@ lessons:
   estimated_minutes: 80
   prerequisites:
   - m01-l02
-  required_artifacts:
-  - artifacts/module-01/manual-trace.md
   source_ids:
   - chrome-devtools-network
   - aate-local-lab
@@ -96,8 +84,6 @@ lessons:
   estimated_minutes: 100
   prerequisites:
   - m01-l03
-  required_artifacts:
-  - artifacts/module-01/request-path.svg
   source_ids:
   - owasp-wstg-map-architecture-v42
   - mdn-http-overview
@@ -110,8 +96,6 @@ lessons:
   estimated_minutes: 80
   prerequisites:
   - m01-l03
-  required_artifacts:
-  - artifacts/module-02/browser-process-map.md
   source_ids:
   - chrome-browser-process-model
   - aate-local-lab
@@ -124,8 +108,6 @@ lessons:
   estimated_minutes: 95
   prerequisites:
   - m02-l01
-  required_artifacts:
-  - artifacts/module-02/dom-inventory.md
   source_ids:
   - mdn-dom
   - aate-local-lab
@@ -138,8 +120,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m02-l02
-  required_artifacts:
-  - artifacts/module-02/javascript-exercise.js
   source_ids:
   - tau-javascript-introduction
   - aate-local-lab
@@ -152,8 +132,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m02-l03
-  required_artifacts:
-  - artifacts/module-02/fetch-observation.js
   source_ids:
   - mdn-promises
   - mdn-async-function
@@ -169,8 +147,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m02-l04
-  required_artifacts:
-  - artifacts/module-03/object-model.md
   source_ids:
   - microsoft-learn-playwright
   - playwright-browser-contexts
@@ -183,8 +159,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m03-l01
-  required_artifacts:
-  - lab/telemetry/playwright-first-workflow.json
   source_ids:
   - microsoft-learn-playwright
   - aate-local-lab
@@ -196,8 +170,6 @@ lessons:
   estimated_minutes: 110
   prerequisites:
   - m03-l02
-  required_artifacts:
-  - artifacts/module-03/context-state.md
   source_ids:
   - playwright-browser-contexts
   - playwright-auth
@@ -211,8 +183,6 @@ lessons:
   prerequisites:
   - m03-l03
   - m01-l01
-  required_artifacts:
-  - artifacts/module-03/network-evidence.md
   source_ids:
   - playwright-network
   - mdn-http-overview
@@ -227,8 +197,6 @@ lessons:
   prerequisites:
   - m03-l04
   - m02-l01
-  required_artifacts:
-  - artifacts/module-03/context-observations.json
   source_ids:
   - playwright-cdpsession
   - chrome-browser-process-model
@@ -242,8 +210,6 @@ lessons:
   prerequisites:
   - m03-l04
   - m01-l02
-  required_artifacts:
-  - artifacts/module-04/abuse-threat-map.md
   source_ids:
   - owasp-automated-threats
   - aate-adversarial-control-loop
@@ -256,8 +222,6 @@ lessons:
   prerequisites:
   - m04-l01
   - m01-l03
-  required_artifacts:
-  - artifacts/module-04/local-api-map.md
   source_ids:
   - portswigger-api-testing-path
   - owasp-wstg-entry-points-v42
@@ -271,8 +235,6 @@ lessons:
   estimated_minutes: 240
   prerequisites:
   - m04-l02
-  required_artifacts:
-  - artifacts/module-04/auth-rate-evidence.md
   source_ids:
   - portswigger-authentication-path
   - owasp-automated-threats
@@ -287,8 +249,6 @@ lessons:
   prerequisites:
   - m04-l03
   - m03-l02
-  required_artifacts:
-  - lab/telemetry/workflow-authorization.json
   source_ids:
   - portswigger-business-logic
   - owasp-automated-threats
@@ -303,8 +263,6 @@ lessons:
   estimated_minutes: 240
   prerequisites:
   - m04-l04
-  required_artifacts:
-  - artifacts/module-04/limit-overrun-report.md
   source_ids:
   - portswigger-race-conditions-path
   - aate-adversarial-control-loop
@@ -316,8 +274,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m04-l02
-  required_artifacts:
-  - artifacts/module-05/signal-matrix.md
   source_ids:
   - fpscanner-project
   - rebrowser-bot-detector
@@ -331,8 +287,6 @@ lessons:
   prerequisites:
   - m05-l01
   - m02-l02
-  required_artifacts:
-  - artifacts/module-05/manual-browser-baseline.json
   source_ids:
   - fpscanner-project
   - rebrowser-bot-detector
@@ -346,8 +300,6 @@ lessons:
   prerequisites:
   - m05-l02
   - m03-l05
-  required_artifacts:
-  - artifacts/module-05/context-matrix.md
   source_ids:
   - fpscanner-project
   - fp-inconsistent
@@ -363,8 +315,6 @@ lessons:
   prerequisites:
   - m05-l03
   - m04-l03
-  required_artifacts:
-  - artifacts/module-05/state-behavior-map.md
   source_ids:
   - fpscanner-project
   - aate-adversarial-control-loop
@@ -378,8 +328,6 @@ lessons:
   prerequisites:
   - m05-l04
   - m04-l04
-  required_artifacts:
-  - artifacts/module-05/blocked-baseline.md
   source_ids:
   - rebrowser-bot-detector
   - fpscanner-version-note
@@ -393,8 +341,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m05-l05
-  required_artifacts:
-  - artifacts/module-06/evasion-plan.md
   source_ids:
   - gummy-browsers
   - fp-inconsistent
@@ -407,8 +353,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m06-l01
-  required_artifacts:
-  - lab/telemetry/control-recon.json
   source_ids:
   - rebrowser-bot-detector
   - aate-local-lab
@@ -422,8 +366,6 @@ lessons:
   prerequisites:
   - m06-l02
   - m05-l03
-  required_artifacts:
-  - artifacts/module-06/coherent-profile.md
   source_ids:
   - gummy-browsers
   - fp-inconsistent
@@ -437,8 +379,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m06-l03
-  required_artifacts:
-  - artifacts/module-06/replay-temporal.md
   source_ids:
   - fpscanner-project
   - fp-inconsistent
@@ -452,8 +392,6 @@ lessons:
   estimated_minutes: 240
   prerequisites:
   - m06-l04
-  required_artifacts:
-  - artifacts/module-06/version-drift-study.md
   source_ids:
   - fpscanner-version-note
   - rebrowser-bot-detector
@@ -469,8 +407,6 @@ lessons:
   prerequisites:
   - m03-l04
   - m05-l01
-  required_artifacts:
-  - artifacts/module-07/clienthello.md
   source_ids:
   - rfc-8446
   - ja4-project
@@ -484,8 +420,6 @@ lessons:
   prerequisites:
   - m07-l01
   - m05-l01
-  required_artifacts:
-  - artifacts/module-07/ja4-interpretation.md
   source_ids:
   - ja4-project
   - rfc-8446
@@ -499,8 +433,6 @@ lessons:
   prerequisites:
   - m07-l02
   - m01-l02
-  required_artifacts:
-  - artifacts/module-07/http2-map.md
   source_ids:
   - rfc-9113
   - ja4-project
@@ -514,8 +446,6 @@ lessons:
   prerequisites:
   - m07-l03
   - m01-l04
-  required_artifacts:
-  - artifacts/module-07/observation-points.md
   source_ids:
   - owasp-wstg-map-architecture-v42
   - mdn-http-overview
@@ -530,8 +460,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m07-l04
-  required_artifacts:
-  - artifacts/module-07/http3-quic.md
   source_ids:
   - rfc-9114
   - rfc-9000
@@ -545,8 +473,6 @@ lessons:
   prerequisites:
   - m01-l02
   - m00-l02
-  required_artifacts:
-  - artifacts/module-08/resource-model.md
   source_ids:
   - cloudflare-ddos-introduction
   - aws-builders-library-load-shedding
@@ -559,8 +485,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m08-l01
-  required_artifacts:
-  - artifacts/module-08/metric-plan.md
   source_ids:
   - k6-thresholds
   - aws-builders-library-load-shedding
@@ -574,8 +498,6 @@ lessons:
   prerequisites:
   - m08-l02
   - m04-l03
-  required_artifacts:
-  - artifacts/module-08/control-map.md
   source_ids:
   - aws-waf-app-layer-ddos
   - aws-waf-rate-based-rules
@@ -589,8 +511,6 @@ lessons:
   estimated_minutes: 240
   prerequisites:
   - m08-l03
-  required_artifacts:
-  - artifacts/module-08/bounded-results.md
   source_ids:
   - k6-thresholds
   - aate-local-lab
@@ -603,8 +523,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m08-l04
-  required_artifacts:
-  - artifacts/module-08/recovery-retest.md
   source_ids:
   - aws-builders-library-load-shedding
   - k6-thresholds
@@ -617,8 +535,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m00-l03
-  required_artifacts:
-  - artifacts/module-09/telemetry-summary.json
   source_ids:
   - python-standard-library
   - pytest-documentation
@@ -632,8 +548,6 @@ lessons:
   prerequisites:
   - m09-l01
   - m04-l02
-  required_artifacts:
-  - artifacts/module-09/concurrency-trace.md
   source_ids:
   - python-standard-library
   - pytest-documentation
@@ -646,8 +560,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m09-l02
-  required_artifacts:
-  - artifacts/module-09/retry-budget.md
   source_ids:
   - python-standard-library
   - aws-builders-library-timeouts-retries-jitter
@@ -661,8 +573,6 @@ lessons:
   prerequisites:
   - m09-l03
   - m04-l02
-  required_artifacts:
-  - artifacts/module-09/code-review.md
   source_ids:
   - owasp-code-review-guide
   - owasp-api-security-top-10
@@ -677,8 +587,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m09-l01
-  required_artifacts:
-  - artifacts/module-10/finding.md
   source_ids:
   - nist-sp-800-115
   - aate-adversarial-control-loop
@@ -691,8 +599,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m10-l01
-  required_artifacts:
-  - artifacts/module-10/retest-plan.md
   source_ids:
   - nist-sp-800-115
   - owasp-code-review-guide
@@ -706,8 +612,6 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m10-l02
-  required_artifacts:
-  - artifacts/module-10/briefing.md
   source_ids:
   - nist-sp-800-115
   - google-technical-writing-one
@@ -720,8 +624,6 @@ lessons:
   estimated_minutes: 120
   prerequisites:
   - m10-l01
-  required_artifacts:
-  - artifacts/module-10/role-narrative.md
   source_ids:
   - google-technical-writing-one
   - nist-sp-800-115
@@ -737,8 +639,6 @@ lessons:
   - m07-l04
   - m08-l04
   - m09-l04
-  required_artifacts:
-  - artifacts/module-10/mock-loop.md
   source_ids:
   - owasp-wstg-reporting-structure
   - nist-sp-800-115
@@ -859,19 +759,6 @@ checkpoints:
     maximum: 1440
   lesson_ids:
   - m03-l02
-  required_artifacts:
-  - artifacts/module-00/role-comparison.md
-  - artifacts/module-00/engagement-plan.md
-  - artifacts/module-00/experiment-plan.md
-  - artifacts/module-01/request-anatomy.md
-  - artifacts/module-01/workflow-map.md
-  - artifacts/module-01/manual-trace.md
-  - artifacts/module-02/browser-process-map.md
-  - artifacts/module-02/dom-inventory.md
-  - artifacts/module-02/javascript-exercise.js
-  - artifacts/module-02/fetch-observation.js
-  - artifacts/module-03/object-model.md
-  - lab/telemetry/playwright-first-workflow.json
   capability_claim: Foundation and informational readiness, not browser-evasion competence.
 - id: 7-days
   path: docs/checkpoints/7-days.md
@@ -884,25 +771,6 @@ checkpoints:
   - m03-l02
   - m03-l05
   - m04-l03
-  required_artifacts:
-  - artifacts/module-00/role-comparison.md
-  - artifacts/module-00/engagement-plan.md
-  - artifacts/module-00/experiment-plan.md
-  - artifacts/module-01/request-anatomy.md
-  - artifacts/module-01/workflow-map.md
-  - artifacts/module-01/manual-trace.md
-  - artifacts/module-02/browser-process-map.md
-  - artifacts/module-02/dom-inventory.md
-  - artifacts/module-02/javascript-exercise.js
-  - artifacts/module-02/fetch-observation.js
-  - artifacts/module-03/object-model.md
-  - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-03/context-state.md
-  - artifacts/module-03/network-evidence.md
-  - artifacts/module-03/context-observations.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-04/local-api-map.md
-  - artifacts/module-04/auth-rate-evidence.md
   capability_claim: Functional hands-on readiness in local browser, workflow-mapping, and provider-authorized authentication and rate-control exercises.
 - id: 21-days
   path: docs/checkpoints/21-days.md
@@ -918,38 +786,6 @@ checkpoints:
   - m06-l02
   - m10-l03
   - m10-l04
-  required_artifacts:
-  - artifacts/module-00/role-comparison.md
-  - artifacts/module-00/engagement-plan.md
-  - artifacts/module-00/experiment-plan.md
-  - artifacts/module-01/request-anatomy.md
-  - artifacts/module-01/workflow-map.md
-  - artifacts/module-01/manual-trace.md
-  - artifacts/module-02/browser-process-map.md
-  - artifacts/module-02/dom-inventory.md
-  - artifacts/module-02/javascript-exercise.js
-  - artifacts/module-02/fetch-observation.js
-  - artifacts/module-03/object-model.md
-  - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-03/context-state.md
-  - artifacts/module-03/network-evidence.md
-  - artifacts/module-03/context-observations.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-04/local-api-map.md
-  - artifacts/module-04/auth-rate-evidence.md
-  - lab/telemetry/workflow-authorization.json
-  - artifacts/module-05/signal-matrix.md
-  - artifacts/module-05/manual-browser-baseline.json
-  - artifacts/module-05/context-matrix.md
-  - artifacts/module-05/state-behavior-map.md
-  - artifacts/module-05/blocked-baseline.md
-  - artifacts/module-06/evasion-plan.md
-  - lab/telemetry/control-recon.json
-  - artifacts/module-09/telemetry-summary.json
-  - artifacts/module-10/finding.md
-  - artifacts/module-10/retest-plan.md
-  - artifacts/module-10/briefing.md
-  - artifacts/module-10/role-narrative.md
   capability_claim: Integrated experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
 - id: 6-weeks
   path: docs/checkpoints/6-weeks.md
@@ -969,52 +805,4 @@ checkpoints:
   - m07-l04
   - m08-l05
   - m09-l04
-  required_artifacts:
-  - artifacts/module-00/role-comparison.md
-  - artifacts/module-00/engagement-plan.md
-  - artifacts/module-00/experiment-plan.md
-  - artifacts/module-01/request-anatomy.md
-  - artifacts/module-01/workflow-map.md
-  - artifacts/module-01/manual-trace.md
-  - artifacts/module-01/request-path.svg
-  - artifacts/module-02/browser-process-map.md
-  - artifacts/module-02/dom-inventory.md
-  - artifacts/module-02/javascript-exercise.js
-  - artifacts/module-02/fetch-observation.js
-  - artifacts/module-03/object-model.md
-  - lab/telemetry/playwright-first-workflow.json
-  - artifacts/module-03/context-state.md
-  - artifacts/module-03/network-evidence.md
-  - artifacts/module-03/context-observations.json
-  - artifacts/module-04/abuse-threat-map.md
-  - artifacts/module-04/local-api-map.md
-  - artifacts/module-04/auth-rate-evidence.md
-  - lab/telemetry/workflow-authorization.json
-  - artifacts/module-05/signal-matrix.md
-  - artifacts/module-05/manual-browser-baseline.json
-  - artifacts/module-05/context-matrix.md
-  - artifacts/module-05/state-behavior-map.md
-  - artifacts/module-05/blocked-baseline.md
-  - artifacts/module-06/evasion-plan.md
-  - lab/telemetry/control-recon.json
-  - artifacts/module-06/coherent-profile.md
-  - artifacts/module-06/replay-temporal.md
-  - artifacts/module-06/version-drift-study.md
-  - artifacts/module-07/clienthello.md
-  - artifacts/module-07/ja4-interpretation.md
-  - artifacts/module-07/http2-map.md
-  - artifacts/module-07/observation-points.md
-  - artifacts/module-08/resource-model.md
-  - artifacts/module-08/metric-plan.md
-  - artifacts/module-08/control-map.md
-  - artifacts/module-08/bounded-results.md
-  - artifacts/module-08/recovery-retest.md
-  - artifacts/module-09/telemetry-summary.json
-  - artifacts/module-09/concurrency-trace.md
-  - artifacts/module-09/retry-budget.md
-  - artifacts/module-09/code-review.md
-  - artifacts/module-10/finding.md
-  - artifacts/module-10/retest-plan.md
-  - artifacts/module-10/briefing.md
-  - artifacts/module-10/role-narrative.md
   capability_claim: Practitioner-depth portfolio, not proof of production expertise.

@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Module 00](../00-method/index.md), especially protected-action proof
   - A browser and the Python runtime already present on the course workstation
-- Required artifact: `artifacts/module-01/request-anatomy.md`
 - Next lesson: Sessions and workflows
 
 ## Role outcome
@@ -314,30 +313,28 @@ Bot, WAF, rate, and workflow controls consume features derived from messages,
 connections, and state. An operator must know which layer produced a feature
 before changing it and must repeat the actual protected action afterward.
 
-## Required artifact
+## Check your understanding
 
-Create `artifacts/module-01/request-anatomy.md` with the raw exchange, an
-annotation for every line, and a three-column table: client-controlled claim,
-server observation, conclusion that is *not* justified.
-
-## Pass gate
-
-1. What is the difference between a request target and a `Host` header?
-2. Why does HTTP statelessness not prevent login sessions?
-3. What does a `200` response prove in the worked example?
-4. Which part of the exchange expresses representation preference?
-5. Why is a request header not automatically an identity fact?
+1. In `GET /inventory.json HTTP/1.1` with `Host: 127.0.0.1:4173`, what does `/inventory.json` select, and what does the `Host` header select?
+2. The worked response is `200 OK` with a JSON inventory body. What does `200` prove about that exchange, and why does the status not prove a reservation occurred?
+3. The request includes `Accept: */*`. What preference does that header communicate to the server?
+4. A client sends a request header claiming `identity: alice`. Why must the server corroborate that value before treating Alice as the authenticated caller?
+5. HTTP handles each exchange independently, yet an application keeps a user logged in across requests. What additional state can the application use to connect those exchanges?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. The target selects the path or resource within the authority; `Host` selects the authority serving it.
-2. Applications layer state over exchanges with cookies, tokens, URLs, and server-side records.
-3. It proves the server completed that HTTP exchange successfully and returned a representation, not that a protected business action occurred.
-4. `Accept` expresses what response media types the client prefers.
-5. The client constructs most request headers, so the server must corroborate a claim with other state or observations.
+- **1. The request target `/inventory.json` selects the resource or path within an authority.** The `Host` header selects the authority serving the request, which matters when one server or edge handles multiple hostnames.
+
+- **2. The `200` proves that the server successfully completed this HTTP exchange and returned a representation.** The body only reports inventory; no reserve request or server-side reservation state change appears in the example.
+
+- **3. `Accept: */*` says the client can accept any response media type.** It is a client preference rather than a guarantee, so the response's `Content-Type` still identifies what the server actually returned.
+
+- **4. Most request headers and body fields are constructed or influenced by the client, so the value is only a claim.** The server needs validated session or credential state and an authorization check before trusting the identity.
+
+- **5. Applications layer state over HTTP with cookies, bearer tokens, URL values, and server-side session records.** The server validates those identifiers on each exchange to reconnect requests to an application session.
 
 </details>
 

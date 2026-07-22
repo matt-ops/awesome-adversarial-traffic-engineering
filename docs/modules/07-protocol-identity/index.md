@@ -12,7 +12,7 @@ changes. Those topics remain standards/project instruction and evidence plans.
 ## Foundation
 
 Complete [TLS ClientHello](01-tls-clienthello.md). Explain offered versus selected
-values and preserve a generated, socket-free comparison artifact.
+values and inspect the generated, socket-free comparison output.
 
 ## Applied
 

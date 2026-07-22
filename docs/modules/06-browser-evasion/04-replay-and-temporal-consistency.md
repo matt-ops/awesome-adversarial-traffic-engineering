@@ -10,8 +10,7 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Identity coherence](03-identity-coherence.md)
-  - Local challenge and control artifacts
-- Required artifact: `artifacts/module-06/replay-temporal.md`
+  - Complete the local challenge and control exercises
 - Next lesson: Version drift
 
 ## Role outcome
@@ -88,7 +87,7 @@ runner is fixed and bounded.
 
 ### Exact actions or commands
 
-1. Verify control artifact's first action `200` and second `403`.
+1. Verify the control output's first action `200` and second `403`.
 2. Execute `python -m lab.run bypass` and preserve `403` baseline, token issuance,
    cross-session `200`, and returned session.
 3. Map nonce/token binding dimensions for both endpoints.
@@ -121,28 +120,28 @@ Reset the API. Store only synthetic tokens; they have no external value.
 Real adversaries reuse acquired capability. Red-team replay tests expose where
 fresh collection is present but authorization or workflow binding remains weak.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-06/replay-temporal.md` with object lifecycles, binding matrix,
-two outcomes, temporal plan, alternatives, remediation, and exact retest.
-
-## Pass gate
-
-1. What does nonce replay `409` establish?
-2. Why is action-token replay a separate test?
-3. What binding is missing in the challenge lab?
-4. Can temporal change be legitimate?
-5. What must retest repeat?
+1. The local evaluation endpoint accepts a nonce once and returns `409` when the same nonce is evaluated again. What does the `409` establish about that nonce?
+2. Why does the lesson test replay of the downstream action token separately from replay of the evaluation nonce?
+3. In the challenge lab, Session B reuses Session A's token and completes the protected request. Which token bindings are intentionally missing?
+4. A browser's timezone or network address changes between two observations. Can that temporal change have a legitimate explanation?
+5. After challenge-token remediation, what must the retest repeat to show that cross-session replay is rejected while intended use still works?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. That exact nonce was already consumed in the local evaluation model.
-2. Evaluation acceptance and downstream action authorization are different transitions.
-3. Session, action, expiry, and one-use binding are absent intentionally.
-4. Yes; updates, mobility, privacy settings, and hardware/environment changes occur.
-5. Same cross-session token procedure and protected action after binding remediation.
+- **1. The `409` establishes that the exact nonce was already consumed by an accepted evaluation in the local model.** It does not by itself describe the later action token's rules.
+
+- **2. Evaluation acceptance and protected-action authorization are separate transitions with separate objects.** A nonce can be single-use while a resulting token has weak binding, or the reverse, so both require evidence.
+
+- **3. Session, action, expiry, and one-use bindings are intentionally absent from the synthetic challenge token.** That design lets another session present the value as bearer proof and reach the protected action.
+
+- **4. Yes.** Updates, travel, mobile networks, privacy settings, accessibility tools, and hardware changes can alter observations over time. Temporal differences require context before being treated as adversarial inconsistency.
+
+- **5. Repeat Session B's blocked baseline, Session A's token issuance, the same cross-session presentation, the protected request, and server-side session evidence.** Also verify that Session A's intended action remains accepted after binding.
 
 </details>
 

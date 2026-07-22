@@ -10,8 +10,7 @@
 - Estimated time: 5 hours
 - Prerequisites:
   - All Modules 00-10
-  - Finding, retest, briefing, role narrative, and runnable lab artifacts
-- Required artifact: `artifacts/module-10/mock-loop.md`
+  - Be able to explain a finding, retest, briefing, role narrative, and runnable lab behavior
 - Next lesson: Checkpoint and portfolio review
 
 ## Role outcome
@@ -38,7 +37,7 @@ score each answer: correct foundation + explicit assumptions + attack path
 ```
 
 The mock is diagnostic. A blank or incorrect answer becomes a lesson link and a
-new artifact task. Fluent but unsupported answers score lower than slower,
+new exercise task. Fluent but unsupported answers score lower than slower,
 bounded reasoning with the right experiment.
 
 ## Required external instruction
@@ -53,7 +52,7 @@ bounded reasoning with the right experiment.
 
 **What to focus on:** whether another person can reproduce the attack, distinguish evidence from inference, understand impact, act on remediation, and run the retest
 
-**What to skip:** consultancy boilerplate and report sections that do not improve the local mock artifact
+**What to skip:** consultancy boilerplate and report sections that do not improve the local mock response
 
 **Expected takeaway:** construct review questions from missing or weak report evidence instead of rehearsing generic prompts.
 
@@ -67,7 +66,7 @@ bounded reasoning with the right experiment.
 
 **What to focus on:** planning, discovery, attack validation, analysis, reporting, mitigation, and follow-up as one review loop
 
-**What to skip:** technique details not represented in the portfolio artifact under review
+**What to skip:** technique details not represented in the portfolio example under review
 
 **Expected takeaway:** sample both foundational mechanism questions and applied evidence questions across the complete assessment lifecycle.
 
@@ -109,7 +108,7 @@ partner to choose prompts or shuffle them yourself. Keep recordings private.
 2. Run the 60-minute sequence without notes for the first answer to each prompt.
 3. For every answer, record assumptions, evidence, effect, limitation, and missing prerequisite.
 4. Challenge two claims with an alternate explanation or collateral-effect question.
-5. Map each gap to an exact lesson, source assignment, lab action, and artifact repair.
+5. Map each gap to an exact lesson, source assignment, lab action, and practice repair.
 6. Repeat only failed sections after completing repairs; do not memorize the answer key.
 
 ### Expected output
@@ -139,30 +138,28 @@ Delete private recordings/transcripts; keep a public-safe gap and repair log.
 Real engagements and technical interviews are open-ended. The operator must join
 foundations, attack lifecycle, tooling, evidence, and communication while constraints change.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-10/mock-loop.md` with prompt set, scorecard, evidence links,
-gaps, exact repairs, repeated-section results, and current limitations.
-
-## Pass gate
-
-1. What is the mock designed to diagnose?
-2. What must every attack answer eventually prove?
-3. Why include alternate explanations?
-4. How should a failed answer be repaired?
-5. Why is fluent unsupported certainty a poor result?
-6. What does passing the mock not prove?
+1. The timed mock includes foundation questions, attack planning, code, system reasoning, reporting, and rebuttal. Which learning gaps is the scorecard intended to diagnose?
+2. A mock answer describes changing a browser signal and receiving allow. Which attacker-relevant result must the answer eventually prove?
+3. Why should the candidate offer alternate explanations for a successful replay or resilience result during rebuttal?
+4. A candidate misses an HTTP foundation question. What exact lesson review, exercise action, and fresh follow-up should repair the gap?
+5. Why is a fluent answer with unsupported certainty a weaker result than a bounded answer that names missing evidence?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Missing foundations, weak attack/evidence reasoning, and communication gaps.
-2. An attacker-relevant protected action or service effect within scope.
-3. They test causal reasoning and prevent premature conclusions.
-4. Exact lesson/source, lab action, artifact, then a fresh applied follow-up.
-5. It cannot withstand evidence questions and conceals risk.
-6. Production experience, universal bypass ability, or complete domain expertise.
+- **1. The scorecard identifies missing foundations, weak attack and evidence reasoning, coding or system gaps, and communication problems.** The purpose is targeted repair, not a credential or permanent pass label.
+
+- **2. The answer must prove the protected server-side action or service-health effect within the authorized boundary.** An allow decision or changed signal remains intermediate control evidence.
+
+- **3. Alternate explanations test causal reasoning and prevent the candidate from treating correlation as proof.** A strong answer names which additional observation would distinguish the competing causes.
+
+- **4. Return to the exact relevant lesson and source section, repeat the guided exercise behavior, explain the expected output, and answer a new applied scenario without relying on memorized wording.**
+
+- **5. Unsupported certainty hides risk and fails when evidence is challenged.** A bounded answer separates demonstrated facts from inference, states limitations, and proposes the next test needed to reduce uncertainty.
 
 </details>
 

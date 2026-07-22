@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Metrics](02-metrics.md)
   - Module 04 rate-key experiment
-- Required artifact: `artifacts/module-08/control-map.md`
 - Next lesson: Bounded load testing
 
 ## Role outcome
@@ -98,7 +97,7 @@ Use the resource/metric plans and load guide.
 
 ### Expected output
 
-The artifact contains seven pre-registered local experiments: cheap/expensive at
+The exercise result contains seven pre-registered local experiments: cheap/expensive at
 equal rate, cache hit/bypass, fixed/rotated synthetic identity,
 `endpoint-cost-observation`, `workflow-sequence-observation`, bounded retry
 amplification, and immediate recovery. Each row names the actual control (or
@@ -129,27 +128,28 @@ No traffic yet.
 Modern application-layer attacks distribute identities and select high-cost
 workflows. Control scope and admission behavior are the attack surface.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-08/control-map.md` with seven scenario rows and source/limit labels.
-
-## Pass gate
-
-1. What defines an aggregation instance?
-2. Why scope by endpoint?
-3. How can custom keys be weak?
-4. What does load shedding change?
-5. What must accompany a rate bypass?
+1. A rate limit counts requests by `session_id` within a fixed window. Which configured fields define one aggregation instance?
+2. Why should the control map distinguish cheap and expensive endpoints instead of applying one unexplained request limit everywhere?
+3. A custom rate key comes directly from a caller-controlled header. How can cheap rotation of that value split one hostile workflow across counters?
+4. The edge starts load shedding for expensive work. What service behavior should improve if the load-shedding policy is effective?
+5. A rotated-key trial avoids `429`. Which resource, service, or protected-work evidence must accompany the status change before claiming an impactful bypass?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. The configured key/value combination counted in a window.
-2. Application areas have different cost and legitimate traffic.
-3. Caller-controlled/cheaply rotated values split one workflow.
-4. It rejects excess work to protect critical capacity/recovery.
-5. Resource/service or protected-work evidence under fixed safe traffic.
+- **1. The configured key, its observed value, the counting window, and the applicable route or scope define one aggregation instance.** Each distinct cheap value may otherwise receive a separate counter.
+
+- **2. Endpoints consume different resources and have different legitimate traffic patterns.** Per-endpoint analysis can protect expensive work without imposing unnecessary collateral limits on cheap or critical routes.
+
+- **3. If the server accepts the untrusted header as the key, the caller can choose a new value for each request.** One workflow then appears as many identities and avoids a per-value counter.
+
+- **4. Critical legitimate work should remain within its latency and error objectives, and recovery should improve because excess expensive work is rejected earlier.** Rejection count alone is not the resilience goal.
+
+- **5. Show accepted expensive work, resource consumption, or a measured service-health effect under the fixed safe envelope.** Avoiding `429` without downstream impact proves only a control response change.
 
 </details>
 

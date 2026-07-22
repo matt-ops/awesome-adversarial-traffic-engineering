@@ -10,8 +10,7 @@
 - Estimated time: 4 hours
 - Prerequisites:
   - [One-variable experiment](02-one-variable-experiments.md)
-  - Context matrix and signal-family artifact
-- Required artifact: `artifacts/module-06/coherent-profile.md`
+  - Be able to explain the context matrix and five signal families
 - Next lesson: Replay and temporal consistency
 
 ## Role outcome
@@ -119,7 +118,8 @@ and can create new mismatches. Residuals remain first-class evidence.
 
 ### Cleanup
 
-This is a design artifact; remove real device/customer values.
+This is a design exercise; remove real device or customer values from any copy
+you choose to keep.
 
 ## Why this matters offensively
 
@@ -127,28 +127,28 @@ Sophisticated controls compare related evidence. A red teamer must test the
 assumption coherently, show what still disagrees, and recommend controls that do
 not overtrust brittle correlations.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-06/coherent-profile.md` with claim, constraints, values,
-contexts, legitimate exceptions, residuals, implementation bound, and retest.
-
-## Pass gate
-
-1. What makes a changed set coherent?
-2. Why predeclare the set?
-3. Does internal consistency prove authenticity?
-4. Which layer did Gummy Browsers not fully spoof?
-5. Why include legitimate exceptions?
+1. A declared Windows, `en-US`, Chicago profile changes user-agent, platform, language, timezone, viewport, and screen values together. What makes that set a coherent treatment rather than unrelated changes?
+2. Why must the learner declare the complete profile and constraints before comparing the treatment with manual and stock observations?
+3. The page, frame, and worker values are internally consistent with the declared profile. Does that consistency prove the browser belongs to a genuine person or device?
+4. The Gummy Browsers discussion describes browser-layer spoofing. Which evidence layer remains outside a browser-only identity claim?
+5. Why should the profile table include legitimate configurations that break simple correlations such as language-to-timezone?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Its values jointly express one necessary environment claim and constraints.
-2. It prevents result-driven expansion and preserves causal interpretation.
-3. No; fabricated or unusual legitimate environments can be consistent.
-4. Its limitations include network-layer identity outside the browser spoofing claim.
-5. They expose collateral risk and simplistic correlations.
+- **1. The values jointly express one predeclared environment claim and follow stated constraints across available contexts.** The treatment is coherent only within those declared attributes, not automatically across graphics, protocol, session, or behavior.
+
+- **2. Predeclaration prevents the learner from adding properties after seeing the result and preserves a meaningful comparison.** The target, workflow, version, state, and evidence plan can then remain fixed.
+
+- **3. No.** Fabricated profiles can be internally consistent, and legitimate unusual environments can look inconsistent. Consistency is one observation, not proof of authenticity, identity, or human intent.
+
+- **4. Network and transport identity remain outside the browser-only spoofing claim.** TLS, HTTP behavior, intermediaries, session history, and action timing may still contradict the declared browser environment.
+
+- **5. Legitimate exceptions reveal collateral and false-positive risk in simplistic rules.** Real users can travel, customize settings, use remote desktops, or choose language preferences that do not match timezone assumptions.
 
 </details>
 

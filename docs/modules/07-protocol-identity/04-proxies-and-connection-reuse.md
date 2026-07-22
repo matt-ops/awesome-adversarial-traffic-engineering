@@ -11,7 +11,6 @@
 - Prerequisites:
   - [HTTP/2](03-http2.md)
   - Module 01 edge map
-- Required artifact: `artifacts/module-07/observation-points.md`
 - Next lesson: HTTP/3 and QUIC
 
 ## Role outcome
@@ -119,28 +118,28 @@ Helper closes connection; stop API if pausing.
 Proxy rotation and connection behavior affect controls only at specific hops.
 Mapping ownership reveals which identity dimensions actually change and which remain.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-07/observation-points.md` with hop table, local output, ownership,
-reuse scopes, hypotheses, proof, and limitations.
-
-## Pass gate
-
-1. Who produces downstream TLS after termination?
-2. Why can one connection carry multiple identities?
-3. When is a forwarded header reliable?
-4. What does the local helper prove?
-5. Why label hypothetical hops?
+1. A reverse proxy terminates the public TLS connection and starts TLS to the application. Which component produces the ClientHello seen by the application?
+2. A pooled HTTP/2 connection carries requests from several application sessions. Why can one connection represent more than one user or workflow identity?
+3. A request includes `X-Forwarded-For`. Under which trust boundary can the application treat that header as reliable?
+4. The local compatibility helper records a fixed Python client's request and response. What can those observations prove about the broader proxy path?
+5. A request-path diagram includes an unverified downstream cache. Why should the cache node remain dashed and labeled hypothetical?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. The terminating intermediary acting as the downstream TLS client.
-2. Pools/multiplexing and application sessions are separate lifecycles.
-3. When a trusted intermediary sanitizes and sets it under a known boundary.
-4. Only the fixed Python client's local HTTP request/response observations.
-5. To prevent architecture hypotheses from becoming unsupported facts.
+- **1. The terminating reverse proxy produces the downstream ClientHello because the proxy acts as the TLS client toward the application.** The application does not see the public client's original handshake.
+
+- **2. Connection pooling and HTTP/2 multiplexing operate independently of cookies, accounts, and workflow state.** Several application identities can therefore share transport, and one identity can move across several connections.
+
+- **3. The header is reliable only when a known trusted intermediary removes untrusted incoming copies and sets the value itself.** Without that sanitizing boundary, the client may supply a false address claim.
+
+- **4. The helper proves only the fixed client's local request and response observations under the recorded environment.** It does not establish unobserved proxy hops, browser behavior, production routing, or identity.
+
+- **5. A dashed label keeps an architecture hypothesis separate from direct observation.** Without evidence, drawing the cache as confirmed would turn a possible component into an unsupported fact.
 
 </details>
 

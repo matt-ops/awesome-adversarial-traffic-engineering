@@ -11,7 +11,6 @@
 - Prerequisites:
   - [The authorized red-team role](01-red-team-role.md)
   - A terminal capable of running Python 3.12 or newer
-- Required artifact: `artifacts/module-00/engagement-plan.md`
 - Next lesson: Experimental method
 
 ## Role outcome
@@ -142,7 +141,7 @@ proves an attack outcome.
 ### Cleanup
 
 No traffic is sent by the dry run or rejected-target test. Preserve the two
-outputs in the artifact and remove any accidental secrets or real target names.
+outputs in your exercise notes and remove any accidental secrets or real target names.
 
 ## Why this matters offensively
 
@@ -152,48 +151,28 @@ time. Preflight output, hard destination validation, attempt budgets, timeouts,
 abort thresholds, and explicit cleanup turn written boundaries into observable
 controls.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-00/engagement-plan.md` containing:
-
-```text
-owner and authorization reference
-exact targets and exclusions
-allowed passive and active discovery
-allowed adversary objectives and protected actions
-synthetic data and evidence handling
-rate/concurrency/duration/attempt ceilings
-health and abort conditions
-contacts and incident handling
-cleanup and state reset
-report and exact-retest owner
-dry-run output
-rejected-target output
-```
-
-## Pass gate
-
-1. Why is an allowlist not the same as authorization?
-2. Does discovering a related hostname place it in scope?
-3. Which fields make “test staging” executable?
-4. What must happen when a local request redirects to an unlisted host?
-5. What do the dry-run and rejection outputs prove—and not prove?
+1. The safe client accepts `http://localhost:8080` because the address is allowlisted. Why does that technical check not replace written authorization from the service owner?
+2. During reconnaissance, a response names a related hostname that is absent from the engagement plan. May the operator actively test the new hostname?
+3. The phrase “test staging” is too vague to execute safely. Which fields in the worked scope row turn that phrase into an executable plan?
+4. A request to the approved loopback target returns a redirect to an unlisted host. What should the client and operator do before any request follows the redirect?
+5. The guided exercise prints a valid local dry-run and rejects `example.com` before network activity. What do those two results prove, and what remains unproved?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. An allowlist is a technical restriction; authorization is the owner's grant.
-   A client can be technically capable of reaching a target that no owner approved.
-2. No. Discovery supplies a candidate. The owner must explicitly add it before
-   active contact or attack.
-3. Exact target, allowed/excluded actions, timing, data, traffic limits, stop
-   conditions, contacts, evidence, cleanup, reporting, and retest ownership.
-4. Stop before following it, preserve the response, revalidate the destination,
-   and obtain an amended scope if the owner wants it tested.
-5. They prove the local plan passes guardrails and one public hostname is
-   rejected. They do not prove legal permission, target behavior, or attack success.
+- **1. An allowlist only restricts where the client can send traffic.** Authorization is the owner's explicit permission for a named target, action, time, and limit, so a reachable or allowlisted address can still be outside the approved engagement.
+
+- **2. No active testing is allowed until the owner explicitly adds the hostname to scope.** Discovery creates a candidate for review; the response does not grant permission to contact or attack the related system.
+
+- **3. The plan needs the exact target, allowed and excluded actions, timing, data, traffic limits, abort conditions, contacts, evidence, cleanup, reporting, and retest owner.** Those fields let both tools and people check the boundary before execution.
+
+- **4. The client must stop before following the redirect, preserve the response, and revalidate the destination.** The operator should obtain an amended scope only if the owner wants the newly identified host tested.
+
+- **5. The outputs prove that the configured local plan passes repository guardrails and that one public hostname is rejected before traffic.** They do not prove legal permission, application behavior, control effectiveness, or attack success.
 
 </details>
 

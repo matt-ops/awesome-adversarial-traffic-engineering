@@ -10,8 +10,7 @@
 - Estimated time: 2 hours
 - Prerequisites:
   - [Finding and evidence](01-finding-and-evidence.md)
-  - One course artifact you can discuss without confidential information
-- Required artifact: `artifacts/module-10/role-narrative.md`
+  - One course exercise you can discuss without confidential information
 - Next lesson: Full mock loop
 
 ## Role outcome
@@ -66,7 +65,7 @@ example adds situation, responsibility, actions you personally took, result, and
 
 **What to focus on:** how planning, discovery, attack validation, reporting, mitigation, and follow-up form one evidence-backed story
 
-**What to skip:** technique catalogs that are not part of the narrative artifact
+**What to skip:** technique catalogs that are not part of the role narrative
 
 **Expected takeaway:** narrate one exercise as scope, obstacle, decision, evidence, limitation, remediation, and retest rather than as a tool demonstration.
 
@@ -99,7 +98,7 @@ Produce a truthful 90-second role explanation and one three-minute evidence stor
 
 ### Setup
 
-Choose one public-safe artifact. Write facts in one column and interpretations in another.
+Choose one public-safe course exercise. Write facts in one column and interpretations in another.
 
 ### Exact actions or commands
 
@@ -109,7 +108,7 @@ Choose one public-safe artifact. Write facts in one column and interpretations i
    measurable result, collaboration/recommendation, limitation, and reflection.
 4. Map each claimed behavior to a sentence that proves it.
 5. Record privately, then check first-person ownership and truthful scope.
-6. Replace vague claims such as “improved security” with the exact artifact/result.
+6. Replace vague claims such as “improved security” with the exact observed result.
 
 ### Expected output
 
@@ -138,30 +137,28 @@ Delete rough notes containing private context; retain only public-safe course fa
 The role requires attack thinking and communication. A strong narrative shows
 you can emulate an adversary, reason from evidence, and help a control owner close the tested path.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-10/role-narrative.md` with 90-second script, three-minute story,
-fact/inference table, behavior evidence, truthful limitations, and likely follow-ups.
-
-## Pass gate
-
-1. What makes the role offensive rather than detection-only?
-2. Why include remediation and retest?
-3. What course experience can you claim accurately?
-4. How do you prove personal ownership?
-5. What must remain outside a public artifact?
-6. Why state the lab limitation voluntarily?
+1. A role narrative describes mapping a control and measuring precision but never attempts the protected action. Which missing activity keeps the story from demonstrating offensive work?
+2. Why should the narrative include remediation criteria and an exact retest after describing the authorized attack?
+3. Which course experience may the learner claim accurately when every exercise occurred in the synthetic local lab?
+4. How can the learner use first-person decisions, actions, evidence choices, and tradeoffs to show personal ownership without exposing confidential details?
+5. Why should the learner voluntarily state that the synthetic result does not prove production experience or universal bypass ability?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. The operator emulates an adversary and proves a protected action/service effect.
-2. They turn the attack into a measurable defensive improvement and regression check.
-3. Exercises actually designed, executed, interpreted, and documented in the synthetic lab.
-4. Name your decisions, actions, evidence, tradeoffs, and result in first person.
-5. Confidential systems, data, incidents, names, and non-public employer context.
-6. It prevents false transfer claims and shows evidence discipline.
+- **1. The story must include authorized adversary emulation that attempts and proves an attacker-relevant protected action or service effect.** Detection analysis alone does not demonstrate offensive completion.
+
+- **2. Remediation and retest turn attack evidence into a measurable defensive improvement and regression check.** They show that the learner can help close the weakness, not merely demonstrate it once.
+
+- **3. The learner may claim exercises personally designed, executed, interpreted, and documented in the synthetic environment.** Production scale, employer incidents, and universal control knowledge remain outside the supported claim.
+
+- **4. Describe the choices made, commands or analyses performed, evidence preserved, alternatives considered, and outcome in first person.** Keep system names, customer data, incidents, credentials, and non-public employer context out of the narrative.
+
+- **5. The limitation prevents false transfer claims and demonstrates evidence discipline.** A candid boundary makes the supported skills more credible and shows where additional supervised production experience would be needed.
 
 </details>
 

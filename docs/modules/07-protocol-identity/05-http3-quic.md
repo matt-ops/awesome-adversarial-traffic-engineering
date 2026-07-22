@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Proxies and connection reuse](04-proxies-and-connection-reuse.md)
   - HTTP/2 stream model
-- Required artifact: `artifacts/module-07/http3-quic.md`
 - Next lesson: DDoS resource model
 
 ## Role outcome
@@ -125,28 +124,28 @@ No traffic or service changes.
 Modern browser traffic may use transport continuity and multiplexing that naive
 IP/request controls misunderstand. A red teamer must separate those units before testing.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-07/http3-quic.md` with layer comparison, migration scenarios,
-control hypotheses, evidence plan, false positives, and limits.
-
-## Pass gate
-
-1. What carries HTTP/3 requests?
-2. Why do QUIC connection IDs exist?
-3. Are CIDs person identifiers?
-4. What state remains above QUIC?
-5. What is the local HTTP/3 evidence status?
+1. HTTP/3 maps requests and responses onto which QUIC transport objects?
+2. A QUIC connection continues after a client's network address changes. Why do QUIC connection IDs help that association survive migration?
+3. Why must a control avoid treating a QUIC connection ID as a permanent person or account identifier?
+4. Which application identity and authorization state still exists above QUIC even when transport connection behavior changes?
+5. The lesson creates a future authorized capture plan but runs no local HTTP/3 capture. What evidence status should the learner report?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. QUIC streams, with separate control-related streams.
-2. To associate/rout packets for a connection, including address changes.
-3. No; they are transport identifiers with defined lifecycle/privacy behavior.
-4. Application sessions, accounts, authorization, and workflows.
-5. None executed; the lesson supplies standards instruction and a future authorized plan.
+- **1. HTTP/3 carries request and response data on QUIC streams, with separate control-related streams for protocol state.** QUIC replaces the TCP transport used by earlier HTTP versions.
+
+- **2. Connection IDs let endpoints and network devices associate packets with the same QUIC connection even when address and port information changes.** Their lifecycle also includes privacy and rotation considerations.
+
+- **3. A connection ID identifies transport state for a limited lifecycle, not a human or application account.** Rotation, migration, multiple connections, and shared systems prevent a permanent one-to-one identity claim.
+
+- **4. Application sessions, accounts, permissions, workflow prerequisites, and protected-action decisions remain above QUIC.** Transport observations can inform analysis but cannot replace server-side authentication and authorization.
+
+- **5. Report that no HTTP/3 execution evidence was collected.** The lesson provides standards-based instruction and a bounded future plan, not a completed local capture or production claim.
 
 </details>
 

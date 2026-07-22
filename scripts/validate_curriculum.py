@@ -23,7 +23,6 @@ REQUIRED_LESSON_FIELDS = {
     "depth",
     "estimated_minutes",
     "prerequisites",
-    "required_artifacts",
     "source_ids",
 }
 REQUIRED_INDEX_FIELDS = {"id", "path", "module", "title", "lesson_ids"}
@@ -34,13 +33,12 @@ REQUIRED_CHECKPOINT_FIELDS = {
     "depth_ceiling",
     "target_minutes",
     "lesson_ids",
-    "required_artifacts",
     "capability_claim",
 }
 CHECKPOINT_HEADINGS = (
     "## Direct capability selection",
     "## Required lessons",
-    "## Required artifacts",
+    "## What you should be able to demonstrate",
     "## Capability claim",
     "## What this does not claim",
     "## Exit gate",
@@ -201,22 +199,6 @@ def cumulative_checkpoint_errors(checkpoints: list[tuple[str, list[str]]]) -> li
     return errors
 
 
-def required_closure_artifacts(
-    closure_lesson_ids: set[str] | frozenset[str], lessons_by_id: dict[str, dict[str, Any]]
-) -> set[str]:
-    """Return every artifact assigned along a checkpoint's prerequisite closure."""
-
-    artifacts: set[str] = set()
-    for lesson_id in closure_lesson_ids:
-        lesson = lessons_by_id.get(lesson_id)
-        if lesson is None:
-            continue
-        raw_artifacts = lesson.get("required_artifacts", [])
-        if isinstance(raw_artifacts, list):
-            artifacts.update(str(value) for value in raw_artifacts)
-    return artifacts
-
-
 def visible_checkpoint_minutes(text: str, label: str) -> int | None:
     """Read an explicitly displayed checkpoint minute total."""
 
@@ -303,7 +285,6 @@ def main() -> int:
     for extra_path in sorted(manifest_lesson_paths - actual_lesson_paths):
         errors.append(f"manifest references non-canonical lesson: {extra_path}")
 
-    artifact_owners: dict[str, set[str]] = {}
     for entry in lessons:
         current_id = str(entry.get("id", ""))
         current_path = str(entry.get("path", ""))
@@ -314,15 +295,7 @@ def main() -> int:
         if not isinstance(estimate, int) or isinstance(estimate, bool) or estimate <= 0:
             errors.append(f"{current_id}: estimated_minutes must be a positive integer")
         prerequisites = as_list(entry.get("prerequisites"), f"{current_id}.prerequisites", errors)
-        artifacts = as_list(entry.get("required_artifacts"), f"{current_id}.required_artifacts", errors)
         source_ids = [str(value) for value in as_list(entry.get("source_ids"), f"{current_id}.source_ids", errors)]
-        if not artifacts:
-            errors.append(f"{current_id}: at least one required artifact must be defined")
-        for raw_artifact in artifacts:
-            artifact = str(raw_artifact)
-            if not artifact:
-                errors.append(f"{current_id}: required artifact is blank")
-            artifact_owners.setdefault(artifact, set()).add(current_id)
         for source_id in source_ids:
             if source_id not in known_source_ids:
                 errors.append(f"{current_id}: missing source ID {source_id}")
@@ -358,9 +331,6 @@ def main() -> int:
             errors.append(
                 f"{current_path}: visible estimate {page_minutes!r} disagrees with canonical {estimate!r}"
             )
-        visible_artifact = visible_field(text, ("Required artifact", "Artifact"))
-        if len(artifacts) != 1 or visible_artifact != str(artifacts[0]):
-            errors.append(f"{current_path}: visible required artifact disagrees with canonical metadata")
         if source_ids_from_lesson(text) != source_ids:
             errors.append(f"{current_path}: visible source IDs disagree with canonical metadata")
 
@@ -519,26 +489,6 @@ def main() -> int:
             if extra_links:
                 errors.append(f"{entry.get('path')}: links unlisted canonical lessons {extra_links}")
 
-        checkpoint_artifacts = [
-            str(value)
-            for value in as_list(entry.get("required_artifacts"), f"{checkpoint_id}.required_artifacts", errors)
-        ]
-        expected_artifacts = required_closure_artifacts(stats.closure_lesson_ids, lessons_by_id)
-        missing_artifacts = sorted(expected_artifacts - set(checkpoint_artifacts))
-        extra_artifacts = sorted(set(checkpoint_artifacts) - expected_artifacts)
-        if missing_artifacts:
-            errors.append(f"{checkpoint_id}: missing prerequisite closure artifacts {missing_artifacts}")
-        if extra_artifacts:
-            errors.append(f"{checkpoint_id}: artifacts are outside prerequisite closure {extra_artifacts}")
-        for artifact in checkpoint_artifacts:
-            owners = artifact_owners.get(artifact)
-            if not owners:
-                errors.append(f"{checkpoint_id}: required artifact is not defined: {artifact}")
-            elif not owners.intersection(stats.closure_lesson_ids):
-                errors.append(f"{checkpoint_id}: required artifact owner is not in checkpoint closure: {artifact}")
-            if artifact not in page_text:
-                errors.append(f"{entry.get('path')}: required artifact is not linked or named: {artifact}")
-
     errors.extend(cumulative_checkpoint_errors(checkpoint_selections))
 
     depth_counts = Counter(str(entry.get("depth", "")) for entry in lessons)
@@ -562,7 +512,7 @@ def main() -> int:
     print("Curriculum validation: PASS")
     print(f"- {len(lessons)} canonical lessons and {len(index_entries)} module indexes have metadata")
     print("- prerequisite graph is complete, acyclic, and depth-safe")
-    print("- checkpoint depth, closure time, link, cumulative-selection, and closure-artifact gates pass")
+    print("- checkpoint depth, prerequisite closure, time, link, and cumulative-selection gates pass")
     return 0
 
 

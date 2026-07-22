@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Python telemetry as evidence](01-python-telemetry.md)
   - Local synthetic API setup from [the lab page](../../labs/applied/local-api.md)
-- Required artifact: `artifacts/module-09/concurrency-trace.md`
 - Next lesson: Retries, timeouts, and jitter
 
 ## Role outcome
@@ -131,30 +130,28 @@ Browser agents and abuse clients coordinate parallel workflows. An operator who
 cannot bound work may create an accidental availability test, contaminate the
 experiment, or mistake client queueing for a target control.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-09/concurrency-trace.md` with the code-path diagram, both valid
-runs, the rejected run, four distinct ceilings, and limitations.
-
-## Pass gate
-
-1. What starts a coroutine's execution?
-2. What does the semaphore bound here?
-3. Why use `to_thread()`?
-4. Does `gather()` output show completion order?
-5. Why are concurrency and rate different?
-6. What must happen before task creation?
+1. The exercise creates a coroutine object for one local fetch. What must happen before the coroutine begins executing inside the event loop?
+2. A semaphore has a limit of three around the fetch operation. Which simultaneous work does that semaphore bound?
+3. Why does the async client call `asyncio.to_thread()` around the blocking `urllib` request?
+4. Tasks finish in a different order from the input list, but `asyncio.gather()` returns an ordered result list. Which order does `gather()` preserve?
+5. Before creating any concurrent tasks, which authorization, destination, and hard-envelope checks must pass?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Awaiting it directly or scheduling it as a task within a running event loop.
-2. Fetch operations that have entered the protected region at one time.
-3. `urllib` is blocking; the handoff prevents it from blocking the event loop.
-4. No. It preserves the input awaitable order.
-5. Concurrency is simultaneous in-flight work; rate is starts or completions per time unit.
-6. Authorization, local-target validation, and hard envelope validation.
+- **1. The coroutine must be awaited directly or scheduled as a task while an event loop is running.** Creating the coroutine object alone does not execute the fetch body.
+
+- **2. The semaphore bounds fetch operations that have entered its protected region at the same time.** It limits in-flight concurrency, not necessarily requests started per second.
+
+- **3. `urllib` blocks the calling thread while waiting for I/O.** Moving that call to a worker thread prevents the blocking operation from freezing the event loop and unrelated coroutines.
+
+- **4. `gather()` returns results in the order of the input awaitables, not completion order.** Separate timing evidence is needed when the learner wants to analyze which request finished first.
+
+- **5. Written authorization, fixed loopback target validation, redirect safety, total-work bounds, concurrency bounds, timeouts, and abort conditions must be validated before task creation can produce network activity.**
 
 </details>
 

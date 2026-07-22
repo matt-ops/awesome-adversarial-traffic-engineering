@@ -12,7 +12,6 @@
   - [Playwright object model](01-object-model.md)
   - Complete JavaScript/async prerequisites from Module 02
   - Node 22 or later and npm; use `node --version` and `npm --version` to verify
-- Required artifact: `lab/telemetry/playwright-first-workflow.json`
 - Next lesson: Contexts and state
 
 ## Role outcome
@@ -34,7 +33,7 @@ application without Docker.
 | Arrange | launch, context, page, listeners | browser opens; listeners active before navigation |
 | Act | navigate, fill, click | requests occur and DOM changes |
 | Assert | wait for `Found 1`, read result/storage | exact expected values captured |
-| Preserve | serialize network artifact | JSON contains target, result, state, events |
+| Preserve | serialize network output | JSON contains target, result, state, events |
 | Cleanup | close context and Browser | no browser process intentionally left running |
 
 ## Required external instruction
@@ -67,7 +66,7 @@ import { mkdir, writeFile } from "node:fs/promises";
   TypeScript-only type imports: the compiler checks how the event objects are
   used, then erases those imports from emitted JavaScript.
 - `node:fs/promises` is a Node standard-library module, not another package to
-  download. `mkdir` creates the artifact directory; `writeFile` serializes the
+  download. `mkdir` creates the output directory; `writeFile` serializes the
   evidence. The `/promises` form makes both operations awaitable.
 
 ### Browser, BrowserContext, Page, and Locator
@@ -106,7 +105,7 @@ network or renderer threads. Each use has a specific completion meaning:
    and returns the origin's `localStorage` value to Node.
 10. `await mkdir(...)` ensures the evidence directory exists.
 11. `await writeFile(...)` waits until the JSON bytes are written; without it,
-    the process could exit before the artifact is complete.
+    the process could exit before the output is complete.
 12. `await context.close()` releases pages and context-owned state.
 13. `await browser.close()` terminates the controlled Browser.
 
@@ -140,7 +139,7 @@ the exercise evidence.
 
 Use this manual and automated comparison after the run:
 
-| Question | Manual DevTools trace | Playwright artifact |
+| Question | Manual DevTools trace | Playwright output |
 |---|---|---|
 | Which action was performed? | You record the typed query and click | Script source plus `result` record the fixed action and outcome |
 | Which resources were requested? | Network panel rows and request details | Ordered local request/response event objects |
@@ -206,7 +205,7 @@ distinction is intentional: first learn the browser client correctly.
 ### Cleanup
 
 The script closes its Browser. Press Ctrl+C in the static-server terminal. Keep
-the JSON as the required artifact.
+the JSON as the exercise's generated output.
 
 ## Why this matters offensively
 
@@ -214,30 +213,28 @@ An automated adversary begins as a faithful, explainable workflow. Only after
 the normal action, state, trace, and cleanup are reliable can an operator vary a
 signal or state binding and attribute a changed outcome to that experiment.
 
-## Required artifact
+## Check your understanding
 
-Keep `lab/telemetry/playwright-first-workflow.json` and create
-`artifacts/module-03/first-workflow-review.md` with object/line explanations,
-manual comparison, observed versions, conclusion, and limitations.
-
-## Pass gate
-
-1. Why are listeners attached before `goto`?
-2. What completion condition does the status Locator establish?
-3. Why is the script headed by default?
-4. What does the JSON artifact prove and not prove?
-5. Why can typecheck pass while the workflow fails?
+1. The first workflow attaches request and response listeners before `page.goto`. Which evidence would be missing if the listeners were attached after navigation?
+2. After filling `widget` and clicking Search, the script waits for status text containing `Found 1`. What completed workflow state does that Locator assertion establish?
+3. Why does the first browser workflow request headed mode for the learner's normal run?
+4. The generated JSON records the target, search result, local storage value, and browser network events. What does that output prove, and what protected action does the lesson explicitly say did not occur?
+5. The TypeScript typecheck passes, but the workflow fails because the loopback server is stopped. Why can both results be correct?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Navigation begins resource requests immediately, so later listeners would miss early evidence.
-2. The page rendered status text containing `Found 1` after the search action.
-3. A beginner can observe and correlate actions; headless is introduced as a deliberate later population.
-4. It proves one local workflow result, storage value, and observed browser events; it does not prove control evasion or server-side mutation.
-5. Types validate program structure, not server availability, browser behavior, selectors, or runtime assertions.
+- **1. Navigation begins the document and asset requests immediately, so late listeners would miss early request and response events.** Attaching listeners first preserves the complete workflow trace from the initial navigation.
+
+- **2. The assertion establishes that the page rendered one matching product after the learner's search action.** It verifies the browser-visible completion condition for the static search workflow.
+
+- **3. Headed mode lets a beginner watch the page actions and connect them to terminal and network evidence.** Headless execution is introduced later as a deliberate comparison population rather than hidden in the first exercise.
+
+- **4. The JSON proves one local static-search result, a browser storage value, and the observed browser events under recorded conditions.** No reservation or other protected server-side business action occurred because the page only read inventory data.
+
+- **5. Typechecking validates code structure and declared types without running the browser workflow.** Runtime success also depends on a live server, installed browser, valid selectors, page behavior, and passing assertions.
 
 </details>
 

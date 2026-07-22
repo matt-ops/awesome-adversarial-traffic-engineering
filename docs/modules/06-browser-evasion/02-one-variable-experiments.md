@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Form an evasion hypothesis](01-evasion-hypotheses.md)
   - Genuine stock-headless blocked baseline with matching environment
-- Required artifact: `lab/telemetry/control-recon.json`
 - Next lesson: Identity coherence
 
 ## Role outcome
@@ -65,9 +64,9 @@ imitate human behavior. The local control intentionally overrelies on the value.
 
 ## Worked example
 
-The expected artifact row is `webdriver=false`, `decision=allow`, protected
-status `200`, replay `403`. A changed detector score without the `200` would not
-meet the pass gate.
+The expected result row is `webdriver=false`, `decision=allow`, protected
+status `200`, replay `403`. A changed detector score without the protected
+`200` would not demonstrate a bypass.
 
 ## Guided exercise
 
@@ -115,28 +114,28 @@ Runner closes browsers; reset the local API and keep the JSON evidence.
 This is the smallest causal bypass experiment: blocked client, one change,
 decision shift, same action, authoritative response, and residuals.
 
-## Required artifact
+## Check your understanding
 
-Keep `lab/telemetry/control-recon.json` and add
-`artifacts/module-06/one-variable-conclusion.md` with comparison and limitations.
-
-## Pass gate
-
-1. What exactly changed?
-2. What proves the protected action?
-3. What does replay `403` show?
-4. Why is this identity incoherent?
-5. What is the maximum allowed conclusion?
+1. Between stock headless and the one-variable trial, which exact browser property, context, and value change?
+2. The treatment receives allow and `/api/control/protected` returns a synthetic report with `200`. Which part of that evidence proves the protected action?
+3. The same action token returns `403` on a second use. What does that replay result show about the local token model?
+4. Why does changing only top-page `navigator.webdriver` leave the treatment browser identity incoherent across other evidence layers?
+5. What is the narrowest supported conclusion when the one-variable trial succeeds under the recorded local versions?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. The loaded top-page `navigator.webdriver` value only.
-2. Token-issued trial's `/api/control/protected` returned accepted report `200`.
-3. The token is single-use in the local model.
-4. Other runtime, framework, protocol, session, and behavioral evidence was not changed to a consistent profile.
-5. This property bypassed this transparent local rule under the recorded version/conditions.
+- **1. Only the loaded top-page `navigator.webdriver` value changes from true to false.** Browser version, headless mode, workflow, frame and worker collection, and the other declared conditions stay fixed.
+
+- **2. The accepted response body from `/api/control/protected` shows that the synthetic report action completed for the token-issued trial.** The allow decision alone would not prove the protected action.
+
+- **3. The `403` shows that the action token is consumed after one accepted use in this local model.** First-use acceptance therefore does not imply unlimited replay.
+
+- **4. Framework, worker, frame, protocol, session, and behavioral observations were not transformed into one consistent environment claim.** The single changed property can therefore coexist with many residual automation signals.
+
+- **5. The recorded property change bypassed this transparent local rule and completed its protected action under the tested versions and conditions.** The result says nothing universal about external or production controls.
 
 </details>
 

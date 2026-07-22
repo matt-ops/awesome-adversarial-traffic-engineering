@@ -12,7 +12,7 @@ the exact section and then bridges it into a bounded offensive exercise.
 ## Start
 
 1. Open **[Start the path](docs/start-here.md)**.
-2. Complete the required source sections, guided exercise, artifact, and pass gate.
+2. Complete the required source sections, guided exercise, and knowledge check.
 3. Use **Next lesson**. Repeat.
 
 There is one ordered path. You do not need to choose a course, search for your

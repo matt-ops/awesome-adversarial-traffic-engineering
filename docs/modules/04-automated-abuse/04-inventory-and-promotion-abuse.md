@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Authentication and rate controls](03-auth-and-rate-controls.md)
   - Successful local API map and Playwright Foundation workflow
-- Required artifact: `lab/telemetry/workflow-authorization.json`
 - Next lesson: Race and resource limits
 
 ## Role outcome
@@ -110,7 +109,7 @@ the local API running and resettable.
 ### Expected output
 
 The terminal confirms inventory changed from 5 to 4 without authentication and
-names the JSON artifact. The artifact includes objective, action, false
+names the generated JSON output. The output includes objective, action, false
 authentication flag, before/reservation/after bodies, browser events, and limit.
 
 ### Interpretation
@@ -139,31 +138,28 @@ Red-team work attacks the full objective. Bypassing a traffic control is only
 useful if the application action then succeeds; conversely, missing workflow
 authorization remains exploitable regardless of browser sophistication.
 
-## Required artifact
+## Check your understanding
 
-Keep `lab/telemetry/workflow-authorization.json` and write
-`artifacts/module-04/workflow-finding-outline.md` with invariant, precondition,
-attack path, state proof, impact, client independence, remediation, regression
-test, and exact retest.
-
-## Pass gate
-
-1. What server invariant is missing?
-2. Why is the final inventory query stronger than the `200` alone?
-3. Why do Page listeners omit `page.request` traffic?
-4. Would headed mode fix the authorization flaw?
-5. What regression test directly validates remediation?
+1. The reserve request names `identity` in its JSON body and no login occurs. Which server-side authorization rule is missing from the worked example?
+2. The reservation response is `200`, and a later product query shows inventory changed from 5 to 4. Why is the final inventory query stronger proof than the status alone?
+3. The Playwright Page listeners show the in-page reserve fetch but omit the baseline and final `page.request` calls. Why are those APIRequestContext calls absent?
+4. Would changing the workflow from headless to headed browser mode repair the missing authenticated-session-to-identity binding?
+5. What negative and positive cases should a regression test use to verify the reservation authorization fix?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. The reservation identity must derive from and be authorized by an authenticated server-side session.
-2. It independently proves the protected state changed rather than only receiving a success-shaped response.
-3. APIRequestContext traffic is not initiated by the Page's browser network stack/listeners.
-4. No; rendering mode does not add a missing server-side authorization binding.
-5. An unauthenticated request and a request naming another identity must fail without changing inventory.
+- **1. The server must derive the caller's identity from a validated authenticated session and authorize that caller for the product and action.** Trusting the JSON identity lets an unauthenticated client choose who appears to reserve stock.
+
+- **2. The final query independently verifies that authoritative inventory changed, which is the protected business effect.** A `200` response by itself could be misleading or disconnected from a committed reservation.
+
+- **3. `page.request` uses APIRequestContext rather than the Page's browser network stack.** Page request and response listeners therefore do not observe those baseline and final API calls.
+
+- **4. No.** Rendering mode changes browser presentation, not the server's authorization decision. The server must add the missing session-to-identity binding regardless of whether the client runs headed or headless.
+
+- **5. Unauthenticated requests and requests naming another identity must fail without changing inventory, while a properly authenticated and authorized caller must still reserve the intended product.** Both cases test security and legitimate behavior.
 
 </details>
 

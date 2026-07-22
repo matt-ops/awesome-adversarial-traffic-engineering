@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Sessions and workflows](02-sessions-and-workflows.md)
   - Chrome or Chromium with DevTools
-- Required artifact: `artifacts/module-01/manual-trace.md`
 - Next lesson: Edge request path
 
 ## Role outcome
@@ -134,30 +133,25 @@ A manual trace is the reference population for later control reconnaissance.
 Without it, an automation difference can be mistaken for target drift, caching,
 different inputs, or a different workflow.
 
-## Required artifact
+## Check your understanding
 
-Create `artifacts/module-01/manual-trace.md` with environment, action, ordered
-resource table, annotated inventory exchange, cache comparison, and three limits
-on what browser-side timing can prove.
-
-## Pass gate
-
-1. What does the Initiator column add beyond the URL?
-2. Why preserve a manual trace before automation?
-3. What variable changes when Disable cache is selected?
-4. Why is browser total time not a server root-cause measurement?
-5. Which request corresponds to the search data action?
+1. In the static search trace, `app.js` fetches `inventory.json` after the learner clicks Search. What does the Network panel's Initiator field add to the inventory URL?
+2. Why should the learner preserve a manual `widget` search trace before capturing the same workflow with Playwright?
+3. The learner repeats the search with Disable cache selected in DevTools. Which request-handling variable changed between the two traces?
+4. The Timing panel reports a total browser-observed duration for `inventory.json`. Why can that duration not identify a server root cause by itself?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. It identifies the browser action, parser, script, frame, or worker that caused the request.
-2. It supplies a legitimate reference with the same target and workflow for controlled comparison.
-3. Whether eligible resources may be satisfied from the browser cache while DevTools is open.
-4. It combines multiple browser and network phases and lacks dependency/server telemetry.
-5. `GET /inventory.json`, initiated by the form submit handler, supplies the data.
+- **1. The Initiator field connects `inventory.json` to the form submit handler in `app.js`.** The URL names the resource, while the initiator explains which browser action or script caused the request.
+
+- **2. The manual trace supplies a legitimate reference using the same target, input, and workflow.** Later automation can be compared against that baseline without guessing which requests and page changes belong to a normal run.
+
+- **3. The changed variable is whether eligible resources may be satisfied from the browser cache while DevTools remains open.** The workflow, input, and target should stay the same for the comparison.
+
+- **4. Browser total time combines queueing, connection, request, response, and client processing observations.** Without correlated server and dependency telemetry, those phases cannot identify which server-side component caused a delay.
 
 </details>
 

@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Five signal families](01-signal-families.md)
   - Chrome DevTools Console and Module 02 context model
-- Required artifact: `artifacts/module-05/manual-browser-baseline.json`
 - Next lesson: Cross-context consistency
 
 ## Role outcome
@@ -132,28 +131,28 @@ An operator cannot claim automation differs from normal without a normal
 baseline. Precise provenance also exposes when a later result is browser drift,
 configuration, or collection error instead of a control response.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-05/manual-browser-baseline.json` with environment, top, frame,
-HTTP, missing observations, and allowed/prohibited conclusions.
-
-## Pass gate
-
-1. Which API reports timezone behavior?
-2. Why separate request headers from Navigator values?
-3. Does `webdriver: false` prove a human?
-4. Why record privacy/accessibility configuration?
-5. What makes this a baseline rather than a bypass?
+1. The worked Console object records a timezone. Which browser API expression supplies the reported timezone value?
+2. Why does the exercise store HTTP request headers separately from values read through `navigator`, `screen`, and `Intl`?
+3. The manual browser reports `navigator.webdriver` as false. Why does that single value not prove a human is using the browser?
+4. Why should the baseline record privacy, extension, accessibility, and DevTools conditions along with browser version?
+5. The learner collects top-page, frame, and request observations without changing a signal or attempting a protected action. Why is the record a baseline rather than a bypass?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. `Intl.DateTimeFormat().resolvedOptions().timeZone`.
-2. They arise at different layers/collection points and may contradict.
-3. No; it is one caller-observable property.
-4. Legitimate tools can alter or reduce values and affect collateral analysis.
-5. No signal or control was changed and no protected action was attempted.
+- **1. `Intl.DateTimeFormat().resolvedOptions().timeZone` supplies the timezone value.** The record should include the collection context because browser configuration can affect what the API reports.
+
+- **2. Headers and JavaScript values arise at different layers and collection points, so they may vary or contradict each other.** Keeping provenance separate prevents the matrix from treating unlike observations as one fact.
+
+- **3. The value is one browser-exposed property that software can influence.** A human, automation framework, or modified environment may report the same value, so identity and intent remain unproved.
+
+- **4. Those legitimate conditions can change, reduce, or expose observable values.** Recording them makes the baseline reproducible and helps distinguish control drift from normal user variation and accessibility needs.
+
+- **5. No treatment or control response is being compared, and no protected server action is attempted.** The observations define the normal reference population for later controlled experiments.
 
 </details>
 

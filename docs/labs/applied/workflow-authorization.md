@@ -21,6 +21,6 @@ With the local API healthy, execute:
 npm run playwright:workflow-authorization
 ```
 
-The terminal names the protected state change and artifact. The script is
+The terminal names the protected state change and generated JSON output. The script is
 headless because browser operation was already learned in Module 03; this lesson
 tests application authorization, not browser evasion.

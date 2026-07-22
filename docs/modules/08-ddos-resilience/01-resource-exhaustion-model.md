@@ -10,8 +10,7 @@
 - Estimated time: 2 hours
 - Prerequisites:
   - Request/control/resource path from Module 01
-  - Authorization and load-envelope safety artifacts
-- Required artifact: `artifacts/module-08/resource-model.md`
+  - Understand the authorization boundary and hard load-envelope controls
 - Next lesson: Metrics
 
 ## Role outcome
@@ -130,28 +129,28 @@ No traffic generated.
 Red teams attack capacity assumptions. Resource mapping identifies the lowest-cost
 workflow and the evidence needed to recommend targeted controls.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-08/resource-model.md` with all dimensions, resources, health,
-controls, near-neighbors, safe tests, aborts, and recovery.
-
-## Pass gate
-
-1. Why can equal RPS have different impact?
-2. What does load shedding protect?
-3. Which metrics describe tail latency?
-4. Why include a near-neighbor?
-5. What local traffic class is excluded?
+1. The cheap route and expensive route receive the same requests per second, but only the expensive route breaches its latency objective. Why can equal request rates create different impact?
+2. An edge begins rejecting excess expensive work before the application collapses. Which useful capacity is load shedding intended to protect?
+3. Which percentile metrics in the lesson describe tail latency, and why is p50 still useful as baseline context?
+4. Why should the resource model include a legitimate near-neighbor workflow alongside the pressure scenario?
+5. Which network-level traffic classes are explicitly excluded from the local application-layer exercises?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Routes cause different work/cache/dependency use.
-2. Critical useful capacity by refusing excess work before collapse.
-3. p95/p99 (and p50 for baseline context).
-4. To measure collateral impact on legitimate similar clients/workflows.
-5. L3/L4 floods, spoofing, reflection, and amplification.
+- **1. Routes can consume different CPU, memory, cache, queue, and dependency work for every request.** Request rate alone therefore does not describe the resource cost or resulting service-health effect.
+
+- **2. Load shedding protects critical useful service capacity by refusing excess work before shared resources collapse.** More deliberate rejection can improve resilience when healthy priority work stays within its objective.
+
+- **3. p95 and p99 describe the slower tail of measured requests, while p50 shows the typical middle observation.** Together they distinguish broad slowdown from a smaller group of severely delayed requests.
+
+- **4. The near-neighbor measures whether controls also harm intended clients or workflows that resemble the pressure traffic.** Resilience improvements should preserve legitimate behavior, not merely reduce attacker success.
+
+- **5. The course excludes Layer 3 and Layer 4 floods, source spoofing, reflection, and amplification.** The executable work stays loopback-only, bounded, and focused on synthetic application-layer resource behavior.
 
 </details>
 
