@@ -1,8 +1,8 @@
 # Module 06 - Browser-control evasion experiments
 
-**Outcome:** form a falsifiable bypass hypothesis, vary one property or a
-declared coherent set, repeat the protected action, and report residual anomalies
-without claiming universal stealth.
+**Outcome:** carry a blocked baseline and classifier operating-point evidence
+into a falsifiable bypass hypothesis, vary one property or a declared coherent
+set, repeat the protected action, and report residual anomalies without claiming universal stealth.
 
 ## Seven-stage progression
 
@@ -12,12 +12,12 @@ a browser-only exercise cannot teach.
 
 | Stage | Canonical instruction | Required evidence before continuing |
 |---:|---|---|
-| 1. Baselines | [Blocked baseline](../05-control-recon/05-blocked-baseline.md) | Manual Chrome, stock headed Playwright, stock headless Playwright, and Python HTTP client; exact browser/Playwright versions, request/response behavior, sensor output, protected-action result, and control decision |
+| 1. Baselines | [Blocked baseline](../05-control-recon/05-blocked-baseline.md) and [classifier evaluation](../05-control-recon/06-classifier-evaluation-and-adversarial-drift.md) | Manual Chrome, stock headed Playwright, stock headless Playwright, and Python HTTP client; exact versions, protected-action result, threshold metrics, near-neighbor cost, and drift result |
 | 2. One observable property | [One-variable experiment](02-one-variable-experiments.md) | Predeclared property, fixed variables, changed toy decision, protected-action proof, and explicit statement that one change is not a coherent identity |
 | 3. Cross-context consistency | [Cross-context lesson](../05-control-recon/03-cross-context-consistency.md) plus the fourth trial in the [control-recon lab](../../labs/integrated/control-recon.md) | Top page, same-origin iframe, and worker matrix; challenged frame-only contradiction after the successful one-variable condition |
 | 4. Coherent environment profile | [Identity coherence](03-identity-coherence.md) | Browser claim, platform, Client Hints, locale, timezone, screen, viewport, graphics summary, storage/session state, context coverage, and remaining anomalies |
 | 5. Replay and temporal consistency | [Replay and temporal consistency](04-replay-and-temporal-consistency.md) | Challenge trigger, proof, session/action/origin/nonce/expiry/use binding, protected enforcement, first/second/cross-session results, exact retest, and future labels for unsupported cross-action and expired cases |
-| 6. Browser and protocol coherence | [TLS ClientHello](../07-protocol-identity/01-tls-clienthello.md), [JA4/JA4H](../07-protocol-identity/02-ja4-and-ja4h.md), [HTTP/2](../07-protocol-identity/03-http2.md), and [intermediary effects](../07-protocol-identity/04-proxies-and-connection-reuse.md) | Source-led browser/protocol coherence model and future evidence plan; the executable local lab generates Python/OpenSSL fixtures and plain-HTTP metadata, not browser TLS/HTTP2 captures |
+| 6. Browser and protocol coherence | [TLS ClientHello](../07-protocol-identity/01-tls-clienthello.md), [JA4/JA4H](../07-protocol-identity/02-ja4-and-ja4h.md), [HTTP/2](../07-protocol-identity/03-http2.md), [intermediary effects](../07-protocol-identity/04-proxies-and-connection-reuse.md), and [local multi-client comparison](../07-protocol-identity/06-local-multi-client-protocol-comparison.md) | Source-led coherence model plus real available-client loopback ClientHello and HTTP/2 observations with unsupported capabilities stated explicitly |
 | 7. Version drift | [Version drift and residual anomalies](05-version-drift-and-residual-anomalies.md) | Repeated prior experiment with a changed browser/framework version or deterministic drift fixture, including changed and unchanged evidence |
 
 An allow decision is not enough. Every stage that changes a condition repeats

@@ -5,7 +5,7 @@
 ## Progress
 
 - Module: 05 - Control reconnaissance
-- Lesson: 1 of 5
+- Lesson: 1 of 6
 - Depth: Foundation
 - Estimated time: 2 hours
 - Prerequisites:

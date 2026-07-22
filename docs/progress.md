@@ -40,6 +40,7 @@ Mark a lesson complete when you can explain its knowledge check and reproduce th
 - [ ] [Cross-context consistency](modules/05-control-recon/03-cross-context-consistency.md)
 - [ ] [Session, behavior, and workflow signals](modules/05-control-recon/04-session-behavior-workflow.md)
 - [ ] [Establish the blocked baseline](modules/05-control-recon/05-blocked-baseline.md)
+- [ ] [Classifier Evaluation and Adversarial Drift](modules/05-control-recon/06-classifier-evaluation-and-adversarial-drift.md)
 
 ## Module 06 - Browser-control evasion experiments
 
@@ -55,6 +56,7 @@ Mark a lesson complete when you can explain its knowledge check and reproduce th
 - [ ] [JA4 and JA4H as pivots](modules/07-protocol-identity/02-ja4-and-ja4h.md)
 - [ ] [HTTP/2 connections and streams](modules/07-protocol-identity/03-http2.md)
 - [ ] [Proxies and connection reuse](modules/07-protocol-identity/04-proxies-and-connection-reuse.md)
+- [ ] [Local Multi-client Protocol Comparison](modules/07-protocol-identity/06-local-multi-client-protocol-comparison.md)
 - [ ] [HTTP/3 and QUIC](modules/07-protocol-identity/05-http3-quic.md)
 
 ## Module 08 - DDoS and resilience
@@ -90,8 +92,8 @@ Optional appendix study is not included in checkpoint time.
 |---|---:|---:|---:|---:|---:|
 | [24 focused hours](checkpoints/24-hours.md) | Foundation | 2 | 11 | 20.83 hours | [ ] |
 | [7 days](checkpoints/7-days.md) | Applied | 5 | 16 | 36.83 hours | [ ] |
-| [21 days](checkpoints/21-days.md) | Integrated | 8 | 29 | 70.83 hours | [ ] |
-| [6 weeks](checkpoints/6-weeks.md) | Deep | 12 | 45 | 119.50 hours | [ ] |
+| [21 days](checkpoints/21-days.md) | Integrated | 9 | 30 | 73.83 hours | [ ] |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 13 | 47 | 127.50 hours | [ ] |
 
 Canonical direct membership, prerequisite closure, and both time calculations live in `curriculum/manifest.yaml` and are enforced by `scripts/validate_curriculum.py`.
 
@@ -103,3 +105,11 @@ They do not affect core completion or checkpoint closure.
 - [ ] [The authorized red-team role](modules/00-method/01-red-team-role.md)
 - [ ] [Scope and Rules of Engagement](modules/00-method/02-scope-and-rules.md)
 - [ ] [Experimental method before attack execution](modules/00-method/03-experimental-method.md)
+
+## Optional appendix - Traffic and Bot Threat Intelligence
+
+These optional lessons do not affect core completion or checkpoint closure.
+
+- [ ] [Collection and confidence](appendices/traffic-bot-threat-intelligence/01-collection-and-confidence.md)
+- [ ] [Behavioral clustering and indicator lifecycle](appendices/traffic-bot-threat-intelligence/02-behavioral-clustering-and-indicator-lifecycle.md)
+- [ ] [Intelligence to emulation and regression](appendices/traffic-bot-threat-intelligence/03-intelligence-to-emulation-and-regression.md)

@@ -1,23 +1,24 @@
 # 21 days cumulative
 
 <!-- checkpoint-id: 21-days -->
-<!-- direct-selection-minutes: 1305 -->
-<!-- prerequisite-closure-minutes: 4250 -->
+<!-- direct-selection-minutes: 1485 -->
+<!-- prerequisite-closure-minutes: 4430 -->
 
 This cumulative Integrated checkpoint extends the Applied path through a
-blocked baseline, challenge-proof replay, one-variable evasion experiment,
+blocked baseline, classifier-threshold and adversarial-drift analysis,
+challenge-proof replay, one-variable evasion experiment,
 synthetic finding, exact retest plan, technical briefing, and public-safe role narrative.
 
 ## Time calculation
 
-- Direct capability-selection time: **1305 minutes (21.75 hours)**
-- From-zero prerequisite-closure time: **4250 minutes (70.83 hours)**
+- Direct capability-selection time: **1485 minutes (24.75 hours)**
+- From-zero prerequisite-closure time: **4430 minutes (73.83 hours)**
 - Declared cumulative range: **3600-4800 minutes (60-80 hours)**
 - Maximum lesson depth: **Integrated**
 
-The direct selection identifies eight capability targets. It is not the
+The direct selection identifies nine capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 29 lessons below exactly once, including
+prerequisite graph and sums each of the 30 lessons below exactly once, including
 the complete earlier checkpoint selections. Optional appendix study is not
 included in checkpoint time.
 
@@ -28,6 +29,7 @@ included in checkpoint time.
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
 - `m04-l06` - challenge lifecycle, proof binding, protected enforcement, and customer impact
+- `m05-l06` - classifier thresholds, base-rate cost, and adapted-abuse drift
 - `m06-l02` - one-variable evasion experiment
 - `m10-l03` - technical briefing
 - `m10-l04` - public-safe role narrative
@@ -58,6 +60,7 @@ included in checkpoint time.
 | `m05-l03` | [Cross-context consistency](../modules/05-control-recon/03-cross-context-consistency.md) | Applied | 180 |
 | `m05-l04` | [Session, behavior, and workflow signals](../modules/05-control-recon/04-session-behavior-workflow.md) | Applied | 120 |
 | `m05-l05` | [Establish the blocked baseline](../modules/05-control-recon/05-blocked-baseline.md) | Integrated | 180 |
+| `m05-l06` | [Classifier Evaluation and Adversarial Drift](../modules/05-control-recon/06-classifier-evaluation-and-adversarial-drift.md) | Integrated | 180 |
 | `m06-l01` | [Form an evasion hypothesis](../modules/06-browser-evasion/01-evasion-hypotheses.md) | Integrated | 180 |
 | `m06-l02` | [One-variable evasion experiment](../modules/06-browser-evasion/02-one-variable-experiments.md) | Integrated | 120 |
 | `m09-l01` | [Python telemetry as evidence](../modules/09-tooling-code-review/01-python-telemetry.md) | Foundation | 180 |
@@ -70,17 +73,18 @@ included in checkpoint time.
 
 - Demonstrate every capability from the 7 days checkpoint.
 - Establish a blocked browser baseline, run the one-variable local treatment, and bound the conclusion.
+- Compare two classifier thresholds before and after drift, including base-rate, near-neighbor, operational-cost, and protected-action effects.
 - Connect challenge trigger, proof binding, protected enforcement, first/second/cross-session replay, and exact negative/legitimate-positive retests.
 - Write a reproducible synthetic finding with remediation and an exact retest.
 - Deliver a short technical briefing and a public-safe role narrative grounded in course evidence.
 
 ## Capability claim
 
-Integrated challenge/replay experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
+Integrated classifier-drift and challenge/replay experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
 
 ## What this does not claim
 
-You are not claiming version-drift coverage, protocol-identity competence,
+You are not claiming a deployable classifier, version-drift coverage, protocol-identity competence,
 bounded-load or recovery competence, a completed full mock loop, production
 scale, or universal bypass ability.
 

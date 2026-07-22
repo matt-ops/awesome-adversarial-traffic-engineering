@@ -10,5 +10,5 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["lab/clients/playwright/**/*.ts"]
+  "include": ["lab/clients/playwright/**/*.ts", "lab/protocol/**/*.ts"]
 }

@@ -68,8 +68,8 @@ a new learner because it includes every recursive prerequisite exactly once.
 |---|---:|---:|---|
 | [24 focused hours](checkpoints/24-hours.md) | 4.75 hours | 20.83 hours | HTTP, session, browser, JavaScript, Playwright state, and network-evidence readiness |
 | [7 days](checkpoints/7-days.md) | 14.75 hours | 36.83 hours | Local browser, workflow, authentication/rate, and challenge-proof enforcement readiness |
-| [21 days](checkpoints/21-days.md) | 21.75 hours | 70.83 hours | Integrated challenge/replay experiment, finding, briefing, and role-narrative readiness |
-| [6 weeks](checkpoints/6-weeks.md) | 35.75 hours | 119.50 hours | Practitioner-depth portfolio, not proof of production expertise |
+| [21 days](checkpoints/21-days.md) | 24.75 hours | 73.83 hours | Integrated classifier-drift and challenge/replay experiment, finding, briefing, and role-narrative readiness |
+| [6 weeks](checkpoints/6-weeks.md) | 41.75 hours | 127.50 hours | Practitioner-depth portfolio, not proof of production expertise |
 
 Checkpoint pages are views into this path. They never duplicate lessons.
 Use the plain [progress table](progress.md) if you want checkboxes; no account or
@@ -98,6 +98,10 @@ with a target, expected output, failure guidance, and cleanup procedure.
 
 [Begin with HTTP request and response](modules/01-http-edge/01-http-request-response.md).
 
+Experienced practitioners may begin with the [Experienced Practitioner Fast
+Track](experienced-practitioner-fast-track.md), which routes evidence gaps back
+to canonical lessons without changing prerequisites or checkpoint membership.
+
 ## Optional red-team method appendix
 
 The technical path begins with HTTP.
@@ -107,3 +111,8 @@ appendix](modules/00-method/index.md) when you want deeper instruction on
 authorization, Rules of Engagement, formal experiment planning, or interview
 methodology. It is recommended before testing outside the bundled local lab and
 before the final mock loop, but it is not a prerequisite for the technical path.
+
+The optional [Traffic and Bot Threat Intelligence
+appendix](appendices/traffic-bot-threat-intelligence/index.md) adds source
+evaluation, behavior clustering, indicator lifecycle, and intelligence-informed
+emulation/regression planning. It also remains outside the core path.

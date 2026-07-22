@@ -44,6 +44,7 @@ nav:
   - Start Here:
       - Course home: index.md
       - Begin the course: start-here.md
+      - Experienced Practitioner Fast Track: experienced-practitioner-fast-track.md
   - Path and Checkpoints:
       - Linear path: path.md
       - Progress record: progress.md
@@ -85,6 +86,7 @@ nav:
       - Cross-context consistency: modules/05-control-recon/03-cross-context-consistency.md
       - Session, behavior, workflow: modules/05-control-recon/04-session-behavior-workflow.md
       - Blocked baseline: modules/05-control-recon/05-blocked-baseline.md
+      - Classifier evaluation and adversarial drift: modules/05-control-recon/06-classifier-evaluation-and-adversarial-drift.md
   - Browser Evasion:
       - Overview: modules/06-browser-evasion/index.md
       - Evasion hypotheses: modules/06-browser-evasion/01-evasion-hypotheses.md
@@ -98,6 +100,7 @@ nav:
       - JA4 and JA4H: modules/07-protocol-identity/02-ja4-and-ja4h.md
       - HTTP/2: modules/07-protocol-identity/03-http2.md
       - Proxies and connection reuse: modules/07-protocol-identity/04-proxies-and-connection-reuse.md
+      - Local multi-client protocol comparison: modules/07-protocol-identity/06-local-multi-client-protocol-comparison.md
       - HTTP/3 and QUIC: modules/07-protocol-identity/05-http3-quic.md
   - DDoS and Resilience:
       - Overview: modules/08-ddos-resilience/index.md
@@ -129,7 +132,9 @@ nav:
       - Workflow authorization: labs/applied/workflow-authorization.md
       - Python tooling: labs/applied/python-tooling.md
       - Control reconnaissance: labs/integrated/control-recon.md
+      - Classifier evaluation and adversarial drift: labs/integrated/classifier-evaluation.md
       - Protocol identity foundations: labs/integrated/protocol-identity.md
+      - Local multi-client protocol comparison: labs/integrated/multi-client-protocol-comparison.md
       - Bounded load and recovery: labs/deep/bounded-load.md
       - Synthetic code review: labs/deep/code-review.md
       - Finding, briefing, and mock: labs/deep/finding-briefing.md
@@ -144,6 +149,10 @@ nav:
       - The authorized red-team role: modules/00-method/01-red-team-role.md
       - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
       - Experimental method: modules/00-method/03-experimental-method.md
+      - Traffic and Bot Threat Intelligence: appendices/traffic-bot-threat-intelligence/index.md
+      - Collection and confidence: appendices/traffic-bot-threat-intelligence/01-collection-and-confidence.md
+      - Behavioral clustering and indicator lifecycle: appendices/traffic-bot-threat-intelligence/02-behavioral-clustering-and-indicator-lifecycle.md
+      - Intelligence to emulation and regression: appendices/traffic-bot-threat-intelligence/03-intelligence-to-emulation-and-regression.md
       - Methodology provenance: methodology/provenance.md
       - Authorization and safety background: methodology/authorization-and-safety.md
       - Adversarial-control loop: methodology/adversarial-control-loop.md

@@ -5,9 +5,11 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import yaml  # type: ignore[import-untyped]
+
 ROOT = Path(__file__).resolve().parents[1]
 LESSON_ROOT = ROOT / "docs" / "modules"
-APPENDIX_ROOT = LESSON_ROOT / "00-method"
+MANIFEST = ROOT / "curriculum" / "manifest.yaml"
 
 REQUIRED_HEADINGS = (
     "## Progress",
@@ -119,20 +121,28 @@ CHALLENGE_LESSON_MARKERS = (
 )
 
 
-def lesson_files() -> list[Path]:
+def manifest_paths(section_name: str) -> list[Path]:
+    """Return paths declared in one manifest list, independent of directory layout."""
+
+    manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    entries = manifest.get(section_name, []) if isinstance(manifest, dict) else []
     return sorted(
-        path
-        for path in LESSON_ROOT.glob("*/*.md")
-        if path.name != "index.md" and path.parent != APPENDIX_ROOT
+        ROOT / str(entry["path"])
+        for entry in entries
+        if isinstance(entry, dict) and isinstance(entry.get("path"), str)
     )
 
 
+def lesson_files() -> list[Path]:
+    return manifest_paths("lessons")
+
+
 def module_indexes() -> list[Path]:
-    return sorted(path for path in LESSON_ROOT.glob("*/index.md") if path.parent != APPENDIX_ROOT)
+    return manifest_paths("module_indexes")
 
 
 def appendix_files() -> list[Path]:
-    return sorted(path for path in APPENDIX_ROOT.glob("*.md") if path.name != "index.md")
+    return manifest_paths("appendix_lessons")
 
 
 def section(text: str, heading: str, next_heading: str | None) -> str:
@@ -333,7 +343,7 @@ def main() -> int:
             errors.append(f"{relative}: appendix status must be Optional")
         if "- Prior technical lessons required: None" not in guide:
             errors.append(f"{relative}: appendix must not require a core technical lesson")
-        if "../01-http-edge/01-http-request-response.md" not in guide:
+        if "01-http-edge/01-http-request-response.md" not in guide:
             errors.append(f"{relative}: Appendix guide must link to the core start")
 
         source_block = section(text, "## Source basis", "## Mental model")
@@ -379,7 +389,7 @@ def main() -> int:
         errors.extend(validate_answer_key(relative, answer_key, question_numbers))
 
         continue_block = section(text, "## Continue", None)
-        if "../01-http-edge/01-http-request-response.md" not in continue_block:
+        if "01-http-edge/01-http-request-response.md" not in continue_block:
             errors.append(f"{relative}: Continue must link back to HTTP request and response")
         for pattern, label in REJECTED_PATTERNS.items():
             if re.search(pattern, text, re.IGNORECASE):

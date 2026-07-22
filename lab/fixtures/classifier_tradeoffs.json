@@ -1,0 +1,62 @@
+{
+  "analysis_date": "2026-07-22",
+  "thresholds": [0.5, 0.75],
+  "costs": {
+    "review_usd_per_flag": 2.5,
+    "challenge_operation_usd_per_flag": 0.08,
+    "legitimate_near_neighbor_cost_usd_per_challenge": 1.2
+  },
+  "populations": [
+    {
+      "population": "legitimate-manual-traffic",
+      "count": 9300,
+      "label": "legitimate",
+      "baseline_score": 0.1,
+      "post_adaptation_score": 0.12,
+      "protected_actions_if_flagged": 7900,
+      "protected_actions_if_allowed": 9000
+    },
+    {
+      "population": "legitimate-automation-or-accessibility-like-near-neighbor",
+      "count": 700,
+      "label": "legitimate",
+      "baseline_score": 0.6,
+      "post_adaptation_score": 0.66,
+      "protected_actions_if_flagged": 420,
+      "protected_actions_if_allowed": 665
+    },
+    {
+      "population": "stock-abusive-client",
+      "count": 70,
+      "label": "abuse",
+      "baseline_score": 0.9,
+      "post_adaptation_score": 0.84,
+      "protected_actions_if_flagged": 7,
+      "protected_actions_if_allowed": 67
+    },
+    {
+      "population": "adapted-abusive-client",
+      "count": 30,
+      "label": "abuse",
+      "baseline_score": 0.8,
+      "post_adaptation_score": 0.58,
+      "protected_actions_if_flagged": 3,
+      "protected_actions_if_allowed": 28
+    },
+    {
+      "population": "unknown-or-delayed-label",
+      "count": 100,
+      "label": null,
+      "baseline_score": 0.55,
+      "post_adaptation_score": 0.56,
+      "protected_actions_if_flagged": 70,
+      "protected_actions_if_allowed": 92
+    }
+  ],
+  "base_rate_example": {
+    "legitimate_events": 1000000,
+    "abusive_events": 1000,
+    "false_positive_rate": 0.001,
+    "recall": 0.9
+  }
+}

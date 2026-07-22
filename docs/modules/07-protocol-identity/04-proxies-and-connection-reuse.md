@@ -5,13 +5,13 @@
 ## Progress
 
 - Module: 07 - Protocol identity
-- Lesson: 4 of 5
+- Lesson: 4 of 6
 - Depth: Integrated
 - Estimated time: 2 hours
 - Prerequisites:
   - [HTTP/2](03-http2.md)
   - Module 01 edge map
-- Next lesson: HTTP/3 and QUIC
+- Next lesson: Local Multi-client Protocol Comparison
 
 ## Role outcome
 
@@ -70,9 +70,9 @@ Forwarded source headers are claims unless a trusted intermediary sets/sanitizes
 
 ## Worked example
 
-The local Python helper sends no `Accept-Language`, uses a fixed UA, and observes
-HTTP/1.1. That describes the helper-to-local edge path. It does not describe a
-browser, an upstream TLS fingerprint, or what a production CDN would forward.
+The local observer can record a ClientHello or HTTP/2 session only at its own
+loopback termination point. That describes the client-to-observer hop. It does
+not reveal what an unobserved proxy, CDN, or downstream application would see.
 
 ## Guided exercise
 
@@ -86,16 +86,16 @@ Start local API and use the fixed HTTP helper once.
 
 ### Exact actions or commands
 
-1. Execute `python -m lab.protocol.compare http`.
-2. Record client response version and server-visible version/headers.
+1. Execute `python -m lab.protocol.compare automated`.
+2. Record each actual observer, negotiated protocol, connection, and unsupported row.
 3. Add browser, forward proxy, reverse proxy, app hops to an overlay.
 4. Mark termination, pooling, normalization, and trusted header source.
 5. Write two weak aggregation hypotheses and required proof.
 
 ### Expected output
 
-Local HTTP `200` with observed version/fields, plus a generic overlay clearly
-separating observed local facts from hypothetical intermediaries.
+Real loopback ClientHello and HTTP/2 observations, plus a generic overlay clearly
+separating observed local facts from hypothetical intermediaries and unavailable clients.
 
 ### Interpretation
 
@@ -145,5 +145,5 @@ Mapping ownership reveals which identity dimensions actually change and which re
 
 ## Next lesson
 
-[HTTP/3 and QUIC](05-http3-quic.md) adds encrypted QUIC transport, streams, and
-connection identifiers to the deep path.
+[Local Multi-client Protocol Comparison](06-local-multi-client-protocol-comparison.md)
+captures available clients on loopback before the HTTP/3 planning lesson.

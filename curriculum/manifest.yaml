@@ -33,6 +33,35 @@ appendix_lessons:
   - owasp-wstg-entry-points-v42
   - aate-adversarial-control-loop
   - aate-local-lab
+- id: appendix-traffic-intel-collection
+  path: docs/appendices/traffic-bot-threat-intelligence/01-collection-and-confidence.md
+  appendix: traffic-bot-threat-intelligence
+  title: Collection and confidence
+  estimated_minutes: 90
+  source_ids:
+  - first-cti-source-evaluation
+  - oasis-stix-21
+  - aate-local-lab
+- id: appendix-traffic-intel-clustering
+  path: docs/appendices/traffic-bot-threat-intelligence/02-behavioral-clustering-and-indicator-lifecycle.md
+  appendix: traffic-bot-threat-intelligence
+  title: Behavioral clustering and indicator lifecycle
+  estimated_minutes: 120
+  source_ids:
+  - oasis-stix-21
+  - owasp-automated-threats
+  - misp-warning-lists
+  - aate-local-lab
+- id: appendix-traffic-intel-emulation
+  path: docs/appendices/traffic-bot-threat-intelligence/03-intelligence-to-emulation-and-regression.md
+  appendix: traffic-bot-threat-intelligence
+  title: Intelligence to emulation and regression
+  estimated_minutes: 120
+  source_ids:
+  - mitre-adversary-emulation-plans
+  - owasp-automated-threats
+  - aate-local-lab
+  - aate-adversarial-control-loop
 appendix_indexes:
 - id: appendix-red-team-method
   path: docs/modules/00-method/index.md
@@ -41,6 +70,13 @@ appendix_indexes:
   - appendix-method-role
   - appendix-method-scope
   - appendix-method-experiment
+- id: appendix-traffic-bot-intelligence
+  path: docs/appendices/traffic-bot-threat-intelligence/index.md
+  title: Optional appendix - Traffic and Bot Threat Intelligence
+  lesson_ids:
+  - appendix-traffic-intel-collection
+  - appendix-traffic-intel-clustering
+  - appendix-traffic-intel-emulation
 lessons:
 - id: m01-l01
   path: docs/modules/01-http-edge/01-http-request-response.md
@@ -355,6 +391,20 @@ lessons:
   - w3c-captcha-accessibility
   - aate-local-lab
   - aate-adversarial-control-loop
+- id: m05-l06
+  path: docs/modules/05-control-recon/06-classifier-evaluation-and-adversarial-drift.md
+  module: 05-control-recon
+  title: Classifier Evaluation and Adversarial Drift
+  depth: integrated
+  estimated_minutes: 180
+  prerequisites:
+  - m05-l05
+  source_ids:
+  - scikit-learn-classification-metrics
+  - axelsson-base-rate
+  - google-ml-monitoring
+  - aate-local-lab
+  - aate-adversarial-control-loop
 - id: m06-l01
   path: docs/modules/06-browser-evasion/01-evasion-hypotheses.md
   module: 06-browser-evasion
@@ -362,7 +412,7 @@ lessons:
   depth: integrated
   estimated_minutes: 180
   prerequisites:
-  - m05-l05
+  - m05-l06
   source_ids:
   - gummy-browsers
   - fp-inconsistent
@@ -478,6 +528,23 @@ lessons:
   - ja4-project
   - aate-local-lab
   - aate-adversarial-control-loop
+- id: m07-l06
+  path: docs/modules/07-protocol-identity/06-local-multi-client-protocol-comparison.md
+  module: 07-protocol-identity
+  title: Local Multi-client Protocol Comparison
+  depth: deep
+  estimated_minutes: 240
+  prerequisites:
+  - m07-l04
+  source_ids:
+  - rfc-8446
+  - rfc-9113
+  - playwright-network
+  - curl-http2-capabilities
+  - node-http2
+  - ja4-project
+  - aate-local-lab
+  - aate-adversarial-control-loop
 - id: m07-l05
   path: docs/modules/07-protocol-identity/05-http3-quic.md
   module: 07-protocol-identity
@@ -485,7 +552,7 @@ lessons:
   depth: deep
   estimated_minutes: 180
   prerequisites:
-  - m07-l04
+  - m07-l06
   source_ids:
   - rfc-9114
   - rfc-9000
@@ -545,10 +612,11 @@ lessons:
   module: 08-ddos-resilience
   title: Recovery, remediation, and retest
   depth: deep
-  estimated_minutes: 180
+  estimated_minutes: 240
   prerequisites:
   - m08-l04
   source_ids:
+  - nist-sp-800-115
   - aws-builders-library-load-shedding
   - k6-thresholds
   - aate-adversarial-control-loop
@@ -717,6 +785,7 @@ module_indexes:
   - m05-l03
   - m05-l04
   - m05-l05
+  - m05-l06
 - id: module-06
   path: docs/modules/06-browser-evasion/index.md
   module: 06-browser-evasion
@@ -736,6 +805,7 @@ module_indexes:
   - m07-l02
   - m07-l03
   - m07-l04
+  - m07-l06
   - m07-l05
 - id: module-08
   path: docs/modules/08-ddos-resilience/index.md
@@ -805,28 +875,30 @@ checkpoints:
   - m03-l05
   - m04-l03
   - m04-l06
+  - m05-l06
   - m06-l02
   - m10-l03
   - m10-l04
-  capability_claim: Integrated challenge/replay experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
+  capability_claim: Integrated classifier-drift and challenge/replay experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
 - id: 6-weeks
   path: docs/checkpoints/6-weeks.md
   title: 6 weeks cumulative
   depth_ceiling: deep
   target_minutes:
     minimum: 5400
-    maximum: 7200
+    maximum: 7800
   lesson_ids:
   - m03-l02
   - m03-l04
   - m03-l05
   - m04-l03
   - m04-l06
+  - m05-l06
   - m06-l02
   - m10-l03
   - m10-l04
   - m06-l05
-  - m07-l04
+  - m07-l06
   - m08-l05
   - m09-l04
   capability_claim: Practitioner-depth portfolio, not proof of production expertise.

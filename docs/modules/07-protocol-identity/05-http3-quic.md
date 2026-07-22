@@ -5,11 +5,11 @@
 ## Progress
 
 - Module: 07 - Protocol identity
-- Lesson: 5 of 5
+- Lesson: 6 of 6
 - Depth: Deep
 - Estimated time: 3 hours
 - Prerequisites:
-  - [Proxies and connection reuse](04-proxies-and-connection-reuse.md)
+  - [Local Multi-client Protocol Comparison](06-local-multi-client-protocol-comparison.md)
   - HTTP/2 stream model
 - Next lesson: DDoS resource model
 

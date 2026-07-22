@@ -12,7 +12,7 @@ import yaml  # type: ignore[import-untyped]
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER = ROOT / "sources" / "sources.yaml"
-LESSON_ROOT = ROOT / "docs" / "modules"
+MANIFEST = ROOT / "curriculum" / "manifest.yaml"
 PROVENANCE_FILES = (
     ROOT / "docs" / "methodology" / "provenance.md",
     ROOT / "sources" / "methodology-provenance.md",
@@ -85,6 +85,14 @@ REQUIRED_SOURCE_IDS = {
     "k6-thresholds",
     "aate-adversarial-control-loop",
     "aate-local-lab",
+    "first-cti-source-evaluation",
+    "oasis-stix-21",
+    "misp-warning-lists",
+    "scikit-learn-classification-metrics",
+    "axelsson-base-rate",
+    "google-ml-monitoring",
+    "curl-http2-capabilities",
+    "node-http2",
 }
 SOURCE_COMMENT = re.compile(r"<!--\s*source-ids:\s*([^>]+?)\s*-->", re.IGNORECASE)
 SOURCE_HEADER = "| Type | Source | Exact assigned area | What it supports | Limitation |"
@@ -100,7 +108,15 @@ def load_ledger() -> list[dict[str, Any]]:
 
 
 def lesson_files() -> list[Path]:
-    return sorted(path for path in LESSON_ROOT.glob("*/*.md") if path.name != "index.md")
+    manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        return []
+    entries = list(manifest.get("lessons", [])) + list(manifest.get("appendix_lessons", []))
+    return sorted(
+        ROOT / str(entry["path"])
+        for entry in entries
+        if isinstance(entry, dict) and isinstance(entry.get("path"), str)
+    )
 
 
 def cited_ids(text: str) -> list[str]:

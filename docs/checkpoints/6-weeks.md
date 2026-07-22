@@ -1,23 +1,23 @@
 # 6 weeks cumulative
 
 <!-- checkpoint-id: 6-weeks -->
-<!-- direct-selection-minutes: 2145 -->
-<!-- prerequisite-closure-minutes: 7170 -->
+<!-- direct-selection-minutes: 2505 -->
+<!-- prerequisite-closure-minutes: 7650 -->
 
 This cumulative Deep checkpoint extends the Integrated path through version
-drift, protocol identity through connection reuse, bounded-load recovery,
-secure code review, and the existing finding and briefing path.
+drift, real local multi-client protocol comparison, authorized pre-production
+resilience planning, secure code review, and the existing finding and briefing path.
 
 ## Time calculation
 
-- Direct capability-selection time: **2145 minutes (35.75 hours)**
-- From-zero prerequisite-closure time: **7170 minutes (119.50 hours)**
-- Declared cumulative range: **5400-7200 minutes (90-120 hours)**
+- Direct capability-selection time: **2505 minutes (41.75 hours)**
+- From-zero prerequisite-closure time: **7650 minutes (127.50 hours)**
+- Declared cumulative range: **5400-7800 minutes (90-130 hours)**
 - Maximum lesson depth: **Deep**
 
-The direct selection identifies twelve capability targets. It is not the
+The direct selection identifies thirteen capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 45 lessons below exactly once, including
+prerequisite graph and sums each of the 47 lessons below exactly once, including
 the complete earlier checkpoint selections. Optional appendix study is not
 included in checkpoint time.
 
@@ -28,12 +28,13 @@ included in checkpoint time.
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
 - `m04-l06` - challenge lifecycle, proof binding, protected enforcement, and customer impact
+- `m05-l06` - classifier thresholds, base-rate cost, and adapted-abuse drift
 - `m06-l02` - one-variable evasion experiment
 - `m10-l03` - technical briefing
 - `m10-l04` - public-safe role narrative
 - `m06-l05` - version-drift and residual-anomaly study
-- `m07-l04` - protocol and connection-reuse observation points
-- `m08-l05` - recovery, remediation, and exact retest
+- `m07-l06` - real local multi-client ClientHello and HTTP/2 comparison
+- `m08-l05` - recovery, authorized pre-production planning, remediation, and exact retest
 - `m09-l04` - secure code review through the adversary's path
 
 ## Required lessons
@@ -63,6 +64,7 @@ included in checkpoint time.
 | `m05-l03` | [Cross-context consistency](../modules/05-control-recon/03-cross-context-consistency.md) | Applied | 180 |
 | `m05-l04` | [Session, behavior, and workflow signals](../modules/05-control-recon/04-session-behavior-workflow.md) | Applied | 120 |
 | `m05-l05` | [Establish the blocked baseline](../modules/05-control-recon/05-blocked-baseline.md) | Integrated | 180 |
+| `m05-l06` | [Classifier Evaluation and Adversarial Drift](../modules/05-control-recon/06-classifier-evaluation-and-adversarial-drift.md) | Integrated | 180 |
 | `m06-l01` | [Form an evasion hypothesis](../modules/06-browser-evasion/01-evasion-hypotheses.md) | Integrated | 180 |
 | `m06-l02` | [One-variable evasion experiment](../modules/06-browser-evasion/02-one-variable-experiments.md) | Integrated | 120 |
 | `m06-l03` | [Identity coherence](../modules/06-browser-evasion/03-identity-coherence.md) | Integrated | 240 |
@@ -72,11 +74,12 @@ included in checkpoint time.
 | `m07-l02` | [JA4 and JA4H as pivots](../modules/07-protocol-identity/02-ja4-and-ja4h.md) | Applied | 180 |
 | `m07-l03` | [HTTP/2 connections and streams](../modules/07-protocol-identity/03-http2.md) | Integrated | 180 |
 | `m07-l04` | [Proxies and connection reuse](../modules/07-protocol-identity/04-proxies-and-connection-reuse.md) | Integrated | 120 |
+| `m07-l06` | [Local Multi-client Protocol Comparison](../modules/07-protocol-identity/06-local-multi-client-protocol-comparison.md) | Deep | 240 |
 | `m08-l01` | [Resource-exhaustion model](../modules/08-ddos-resilience/01-resource-exhaustion-model.md) | Foundation | 120 |
 | `m08-l02` | [Resilience metrics and thresholds](../modules/08-ddos-resilience/02-metrics.md) | Foundation | 120 |
 | `m08-l03` | [Edge and admission controls](../modules/08-ddos-resilience/03-edge-controls.md) | Applied | 180 |
 | `m08-l04` | [Bounded application-layer load testing](../modules/08-ddos-resilience/04-bounded-load-testing.md) | Applied | 240 |
-| `m08-l05` | [Recovery, remediation, and retest](../modules/08-ddos-resilience/05-recovery-and-retest.md) | Deep | 180 |
+| `m08-l05` | [Recovery, remediation, and retest](../modules/08-ddos-resilience/05-recovery-and-retest.md) | Deep | 240 |
 | `m09-l01` | [Python telemetry as evidence](../modules/09-tooling-code-review/01-python-telemetry.md) | Foundation | 180 |
 | `m09-l02` | [Async and bounded concurrency](../modules/09-tooling-code-review/02-async-and-bounded-concurrency.md) | Applied | 180 |
 | `m09-l03` | [Retries, timeouts, and jitter](../modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md) | Applied | 180 |
@@ -90,8 +93,8 @@ included in checkpoint time.
 
 - Demonstrate every capability from the 21 days checkpoint.
 - Analyze browser-version drift and residual anomalies without claiming a universal identity signal.
-- Explain TLS, HTTP/2, proxies, connection reuse, and the limits of protocol fingerprints.
-- Run bounded loopback resilience scenarios, measure recovery, and define an exact retest.
+- Capture actual available local clients over TLS and HTTP/2, then explain observer and fingerprint limits.
+- Run bounded loopback resilience scenarios, measure recovery, translate evidence into an authorized pre-production plan, and define an exact retest.
 - Review the local request path, implement bounded tooling, and connect code evidence to a protected effect.
 
 ## Capability claim

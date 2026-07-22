@@ -12,6 +12,8 @@ LAB_MAP = ROOT / "lab" / "LAB_COURSE_MAP.md"
 PUBLIC_LAB_MAP = ROOT / "docs" / "labs" / "course-map.md"
 COMPOSE_FILE = ROOT / "lab" / "docker-compose.yml"
 CHALLENGE_LAB_PAGE = LAB_ROOT / "applied" / "challenge-systems.md"
+CLASSIFIER_LAB_PAGE = LAB_ROOT / "integrated" / "classifier-evaluation.md"
+PROTOCOL_LAB_PAGE = LAB_ROOT / "integrated" / "multi-client-protocol-comparison.md"
 CHALLENGE_LAB_MARKERS = (
     "POST /api/challenge",
     "GET /api/reports/protected",
@@ -66,8 +68,9 @@ REQUIRED_COMMAND_MARKERS = (
     "python -m lab.analysis.analyze",
     "playwright:control-recon",
     "python -m lab.run bypass",
-    "python -m lab.protocol.compare clienthello",
-    "python -m lab.protocol.compare http",
+    "python -m lab.analysis.traffic_intelligence",
+    "python -m lab.analysis.classifier_tradeoffs",
+    "python -m lab.protocol.compare automated",
     "k6 run lab/load/bounded.js",
     "lab.tooling.client telemetry",
     "lab.tooling.client concurrent",
@@ -106,6 +109,38 @@ def main() -> int:
         for marker in CHALLENGE_LAB_MARKERS:
             if marker not in challenge_lab:
                 errors.append(f"{CHALLENGE_LAB_PAGE.relative_to(ROOT)}: challenge marker missing: {marker}")
+
+    for page, markers in (
+        (
+            CLASSIFIER_LAB_PAGE,
+            (
+                "python -m lab.analysis.classifier_tradeoffs",
+                "0.50",
+                "0.75",
+                "near-neighbor",
+                "adapted",
+                "protected-action",
+            ),
+        ),
+        (
+            PROTOCOL_LAB_PAGE,
+            (
+                "python -m lab.protocol.compare automated",
+                "127.0.0.1",
+                "four connections",
+                "eight HTTP/2 streams",
+                "not JA4; not identity proof",
+                "unsupported",
+            ),
+        ),
+    ):
+        if not page.is_file():
+            errors.append(f"{page.relative_to(ROOT)}: required practical lab page is missing")
+            continue
+        page_text = page.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in page_text:
+                errors.append(f"{page.relative_to(ROOT)}: practical marker missing: {marker}")
 
     if not SAMPLE_REPORT.is_file():
         errors.append("lab/reports/synthetic-finding.md: sample report is missing")
