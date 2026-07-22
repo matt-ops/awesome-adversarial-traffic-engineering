@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Module 04](../04-automated-abuse/index.md)
   - One mapped protected workflow and authoritative proof source
-- Required artifact: `artifacts/module-05/signal-matrix.md`
 - Next lesson: Browser environment
 
 ## Role outcome
@@ -116,7 +115,7 @@ the local control actually relies on.
 
 ### Cleanup
 
-No target was contacted. Keep the public artifact free of proprietary rules.
+No target was contacted. Keep any saved copy free of proprietary rules.
 
 ## Why this matters offensively
 
@@ -124,28 +123,28 @@ Control reconnaissance narrows experimentation. It prevents random stealth
 changes and identifies overtrusted, inconsistent, or low-cost assumptions whose
 failure can be proved through the original adversary objective.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-05/signal-matrix.md` with the fields used above, source label,
-candidate trusted signal, protected action, and prohibited conclusion.
-
-## Pass gate
-
-1. Which family contains a TLS fingerprint?
-2. Why is a UA string a claim rather than implementation proof?
-3. Where does a challenge nonce belong?
-4. Why record legitimate variability?
-5. What turns a signal change into an offensive bypass result?
+1. The matrix includes a TLS fingerprint captured at the connection layer. Which of the five signal families contains that observation?
+2. A request sends a User-Agent string claiming a browser version. Why is that string a client claim rather than proof of the underlying browser implementation?
+3. The local challenge issues a nonce and later checks whether that nonce was consumed. Which signal family best describes the nonce lifecycle?
+4. Why should the matrix record legitimate variability for browser, network, session, behavior, and workflow signals?
+5. A treatment changes `navigator.webdriver` and the local decision changes from challenge to allow. Which additional result is required before calling the treatment an offensive bypass?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Network/transport.
-2. The client constructs or influences it and other layers may contradict it.
-3. Session/state, with possible workflow implications.
-4. It exposes collateral/false-positive risk and limits the inference.
-5. The control decision changes and the same protected action succeeds with authoritative proof.
+- **1. A TLS fingerprint belongs to the network and transport family because it is derived from connection handshake behavior.** The collection point and any terminating intermediary must be recorded with the observation.
+
+- **2. The client constructs or influences the User-Agent header, and other browser or protocol observations can contradict the claim.** The string alone therefore cannot establish a genuine implementation or person.
+
+- **3. The nonce belongs primarily to session and state signals, with workflow implications because issuance, presentation, verification, and consumption gate later actions.** Its value is not a browser identity by itself.
+
+- **4. Legitimate software, settings, networks, mobility, accessibility tools, and workflows create real variation.** Recording that range helps identify collateral risk and limits conclusions drawn from one unusual value.
+
+- **5. The learner must repeat the same protected action and verify the authoritative server-side result.** A favorable intermediate decision is only control evidence until the action the control protects actually succeeds.
 
 </details>
 

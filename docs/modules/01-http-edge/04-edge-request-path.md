@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Observe requests with DevTools](03-devtools-network.md)
   - Your manual trace and workflow map
-- Required artifact: `artifacts/module-01/request-path.svg`
 - Next lesson: Browser process model
 
 ## Role outcome
@@ -128,7 +127,7 @@ later Docker lab rather than a claim about it.
 ### Cleanup
 
 No service is required. Remove real hostnames or proprietary architecture from
-the artifact before committing a public-safe version.
+the diagram before committing a public-safe version.
 
 ## Why this matters offensively
 
@@ -137,30 +136,28 @@ point. A pressure test consumes a resource behind a path. A precise map tells
 the operator where to collect baselines, where a control can be evaded, and what
 server-side evidence can disprove an attractive but wrong hypothesis.
 
-## Required artifact
+## Check your understanding
 
-Export `artifacts/module-01/request-path.svg` and keep its editable source. Every
-node must state observed/hypothetical, input, decision/work, telemetry, resource,
-and evidence owner.
-
-## Pass gate
-
-1. Why can the browser-visible URL underdescribe the request path?
-2. What is the difference between a solid and dashed node in this exercise?
-3. Where can connection-derived evidence be replaced or terminated?
-4. Why should a dependency appear on an offensive path map?
-5. What evidence separates an edge block from an application rejection?
+1. A browser shows one URL for the Foundation search page. Why can that URL hide edge routing, caches, controls, application services, and dependencies behind the same authority?
+2. In the lesson's request-path diagram, what does a solid node mean, and what does a dashed node mean?
+3. A TLS connection terminates at an edge proxy before a new downstream connection begins. Which connection-derived observations can no longer be assumed to describe the original client downstream?
+4. Why should the inventory dependency appear on the request-path map even though the browser sends the request to one public authority?
+5. A request receives `403`. Which correlated evidence distinguishes an edge block from an application rejection?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Intermediaries, routing, caches, controls, application services, and dependencies can sit behind one authority.
-2. Solid means directly observed in the Foundation target; dashed is a later test hypothesis.
-3. At a connection-terminating proxy or edge before a new downstream connection is created.
-4. Its work and limits may determine the actual resource-exhaustion or protected-action impact.
-5. Correlated edge and application telemetry showing whether the request reached the application.
+- **1. One authority can route a request through several hidden components before the response returns.** The browser URL identifies the public destination, not every intermediary, cache, control, service, or dependency that processes the request.
+
+- **2. A solid node represents a component directly observed in the Foundation target.** A dashed node records a later test hypothesis, keeping inferred architecture visibly separate from verified architecture.
+
+- **3. The original client's TLS handshake and connection properties end at the terminating proxy.** Downstream services observe a new connection created by the intermediary, so they may see different TLS and transport characteristics.
+
+- **4. The dependency may perform the expensive work, own the server-side record used as the final truth, or impose a limit that determines the real impact.** Omitting the dependency would hide where protected actions and resource exhaustion are actually decided.
+
+- **5. Correlated edge and application telemetry should show whether the request reached the application and which component issued the `403`.** The status code alone does not identify the rejecting layer.
 
 </details>
 

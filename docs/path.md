@@ -1,10 +1,10 @@
 # The canonical path
 
-There is one sequence. A later lesson may assume every earlier lesson and
-artifact exists.
+There is one sequence. A later lesson may assume the knowledge and guided
+exercise behavior taught by every prerequisite lesson.
 
 `curriculum/manifest.yaml` is the authoritative machine-readable record for
-lesson IDs, depth, estimates, prerequisites, artifacts, source IDs, module
+lesson IDs, depth, estimates, prerequisites, source IDs, module
 indexes, and checkpoint membership. Visible lesson progress boxes and the
 checkpoint pages are validated against it.
 
@@ -26,9 +26,9 @@ checkpoint pages are validated against it.
 
 Each module index identifies four cumulative depths:
 
-- **Foundation:** terminology, source instruction, worked example, and first artifact
+- **Foundation:** terminology, source instruction, worked example, and first guided exercise
 - **Applied:** a guided tool or provider-assigned exercise
-- **Integrated:** a chained attack that uses earlier artifacts
+- **Integrated:** a chained attack that uses earlier knowledge and exercise behavior
 - **Deep:** version, scale, false-positive, research, or remediation extension
 
 You do not choose a separate course. Follow the Next link, and use checkpoint
@@ -45,4 +45,4 @@ pages only when you want to assess whether you can pause with an honest claim.
 
 The closure total, not the direct-selection total, is the checkpoint time for a
 learner starting at the course entry point. Each closure contains every
-recursive prerequisite lesson and required artifact exactly once.
+recursive prerequisite lesson exactly once.

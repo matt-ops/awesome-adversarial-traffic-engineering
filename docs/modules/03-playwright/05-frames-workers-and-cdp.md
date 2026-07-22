@@ -12,7 +12,6 @@
   - [Network events and evidence](04-network-events.md)
   - [Browser process model](../02-browser-javascript/01-browser-process-model.md)
   - Successful first local Playwright workflow
-- Required artifact: `artifacts/module-03/context-observations.json`
 - Next lesson: Automated-abuse objectives
 
 ## Role outcome
@@ -131,29 +130,28 @@ browser-exposed identity from Node/client and protocol behavior. CDP enables
 deeper approved observation, but its version sensitivity becomes part of the
 finding's limitations and retest plan.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-03/context-observations.json` with environment, top/frame/worker
-values, CDP version response, errors, conclusion, and prohibited inferences.
-
-## Pass gate
-
-1. Why might page and worker globals differ?
-2. What must happen before a short-lived worker starts?
-3. Is CDPSession cross-browser?
-4. What does matching language across contexts prove?
-5. Why record browser and protocol versions?
+1. The top page, iframe, and worker each expose a different global environment. Why can an API or instrumented value appear in the page but not the worker?
+2. The page creates a short-lived worker during navigation. When must the worker event listener be registered to avoid missing that worker?
+3. The exercise opens a CDPSession and sends `Browser.getVersion`. Why is that step limited to Chromium rather than portable across all Playwright browsers?
+4. Page, frame, and worker all report `en-US` in one trial. What does the matching value prove, and what identity claim remains unsupported?
+5. Why should the context matrix record both the browser version and the returned protocol version?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. They are different execution contexts with different global interfaces and instrumentation reach.
-2. The worker event listener/wait must be registered early enough to observe creation.
-3. No; Playwright documents CDPSession as Chromium-only.
-4. Only that this property was consistent across the observed contexts in this trial.
-5. CDP and observable browser behavior drift, so results and retests require the exact environment.
+- **1. Each execution context has a different global interface and may be reached by different instrumentation.** Workers have a worker global and no document, so page-only APIs or changes may be unavailable there.
+
+- **2. Register the listener or wait before navigation or any action that creates the worker.** A listener attached after the short-lived worker starts may never observe the creation event.
+
+- **3. CDPSession exposes the Chromium DevTools Protocol, which is an engine-specific interface rather than a browser-neutral Playwright API.** High-level page, frame, and worker APIs are the portable choice when sufficient.
+
+- **4. The match proves only that this property was consistent across the observed contexts in the recorded trial.** It does not prove a unique user, a genuine device, or control acceptance.
+
+- **5. Browser behavior and CDP fields can change across versions.** Recording both versions lets a reviewer reproduce the environment, interpret drift, and avoid attributing a protocol change to the wrong cause.
 
 </details>
 

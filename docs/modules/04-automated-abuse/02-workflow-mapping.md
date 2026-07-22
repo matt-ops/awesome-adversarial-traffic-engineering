@@ -10,9 +10,8 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Automated-abuse objectives](01-abuse-objectives.md)
-  - Module 01 request/workflow/path artifacts
+  - Be able to map HTTP requests, workflows, and the request path from Module 01
   - Docker Desktop or compatible Docker Engine for the integrated local lab
-- Required artifact: `artifacts/module-04/local-api-map.md`
 - Next lesson: Authentication and rate controls
 
 ## Role outcome
@@ -157,30 +156,28 @@ Real adversaries learn the reachable state machine before optimizing a bypass.
 Precise reconnaissance exposes missing bindings and weak keys while keeping the
 engagement reproducible, bounded, and tied to an outcome.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-04/local-api-map.md` with endpoint inventory, workflow graph,
-error/control boundaries, four hypotheses, required proof, and observed versus
-documented labels.
-
-## Pass gate
-
-1. Why is an OpenAPI security declaration not enforcement proof?
-2. What does the invalid-product `404` contribute to the map?
-3. Why does recon end in hypotheses rather than findings?
-4. Which observation suggests the reservation authorization test?
-5. What limits the local recon scope?
+1. The OpenAPI entry for `POST /api/cart/reserve` declares no security requirement. Why is that documentation observation a hypothesis clue rather than proof of missing enforcement?
+2. The bounded recon sends an invalid product and receives `404`. What workflow boundary does that response add to the API map?
+3. The recon output lists four possible weaknesses but has not executed their protected actions. Why must those entries remain hypotheses instead of findings?
+4. The reserve schema accepts `identity`, `product_id`, and `quantity` from the JSON body. Which observation suggests testing whether caller-supplied identity is bound to an authenticated session?
+5. Which target and probe limits keep the guided reconnaissance within its documented local scope?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Documentation expresses intended metadata; runtime code/state decides enforcement.
-2. It locates object validation and records a controlled error boundary.
-3. Observations have not yet been tested through the protected actions and authoritative state.
-4. The reserve schema accepts caller-supplied `identity` and declares no security requirement.
-5. Fixed loopback base URL, hard-coded relative paths, five bounded probes, and synthetic state.
+- **1. OpenAPI describes the interface and intended security metadata, but runtime code and application state decide enforcement.** The operator must attempt the protected reservation and verify the inventory record returned by the server before concluding that authorization is missing.
+
+- **2. The `404` records where the application rejects an unknown product and how that error appears.** The map now includes an object-validation failure path instead of only successful requests.
+
+- **3. A finding needs executed evidence that connects the suspected weakness to a protected server-side result.** Reconnaissance only identifies promising observations, so each hypothesis must name the next exact action and proof.
+
+- **4. The caller can provide an identity while the operation declares no security requirement.** That combination suggests testing whether the server trusts the body value without deriving the caller from authenticated server-side session state.
+
+- **5. The runner is fixed to the loopback base URL, hard-coded relative paths, five bounded probes, and synthetic application state.** Those controls prevent the exercise from expanding into public or unlisted targets.
 
 </details>
 

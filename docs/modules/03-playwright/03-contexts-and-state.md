@@ -11,7 +11,6 @@
 - Prerequisites:
   - [First local Playwright workflow](02-first-browser.md)
   - Browser/BrowserContext/Page lifecycle
-- Required artifact: `artifacts/module-03/context-state.md`
 - Next lesson: Network events
 
 ## Role outcome
@@ -70,7 +69,7 @@ must not be committed when it represents a real account.[^pw-auth]
 [^pw-auth]: Playwright, "Authentication," Introduction and Core concepts.
 
 !!! warning "Safety boundary"
-    Use only synthetic local state in course artifacts. Keep real storage-state
+    Use only synthetic local state in course exercises. Keep real storage-state
     files outside the repository and follow the provider's authorization rules.
 
 ## Worked example
@@ -78,9 +77,9 @@ must not be committed when it represents a real account.[^pw-auth]
 ```typescript
 const first = await browser.newContext();
 // ... set localStorage through the local workflow ...
-await first.storageState({ path: "artifacts/local-state.json" });
+await first.storageState({ path: "local-state.json" });
 const clean = await browser.newContext();
-const restored = await browser.newContext({ storageState: "artifacts/local-state.json" });
+const restored = await browser.newContext({ storageState: "local-state.json" });
 ```
 
 `clean` should not inherit `first`. `restored` deliberately begins from the
@@ -95,8 +94,8 @@ Demonstrate shared, isolated, and restored local storage with three contexts.
 
 ### Setup
 
-Copy the fixed-target first workflow to an ignored learner workspace or a new
-artifact script. Keep the target `127.0.0.1:4173`. Start the static server.
+Copy the fixed-target first workflow to a temporary script in a working
+directory of your choice. Keep the target `127.0.0.1:4173`. Start the static server.
 
 ### Exact actions or commands
 
@@ -141,29 +140,28 @@ Replay, challenge, authentication, and workflow experiments depend on state
 bindings. Context discipline tells whether success came from a changed signal,
 carried approval state, or an accidentally reused session.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-03/context-state.md` with the trial matrix, creation code,
-observed values, state-file schema, secret-handling rule, and conclusion.
-
-## Pass gate
-
-1. Which state boundary separates contexts A and B?
-2. Why does a second Page in A see A's local storage?
-3. What is the changed variable for restored context C?
-4. Why are real storage-state files sensitive?
-5. Does restored local storage prove a server-side authorization bypass?
+1. Contexts A and B are created from the same Browser, but only context A performs a `widget` search. Which Playwright boundary keeps B's cookies and local storage separate?
+2. A second Page opens inside context A and reads `widget` from local storage. Why does the second Page see A's stored value?
+3. Context C is created from A's serialized storage state. What is the declared changed condition when C is compared with a fresh context?
+4. Why must a storage-state file from a real account be treated as sensitive even though the course uses only synthetic local state?
+5. Context C restores the `widget` local-storage value. Why does that restored browser value not prove a server-side authorization bypass?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Each BrowserContext has isolated cookie and origin storage state.
-2. Pages in the same context share that context's origin-scoped state.
-3. C is initialized from A's serialized storage-state artifact.
-4. They may contain cookies/tokens that permit account impersonation.
-5. No; the protected server action and authoritative state must still be tested.
+- **1. BrowserContext is the isolation boundary.** Contexts A and B have separate cookies and origin storage even though the same Browser process owns both contexts.
+
+- **2. Pages inside one BrowserContext share that context's origin-scoped storage.** Opening another Page changes the document instance, not the containing cookie and storage boundary.
+
+- **3. Context C starts with A's serialized cookies and origin storage instead of empty state.** The target, browser version, and workflow should remain fixed so restored state is the meaningful difference.
+
+- **4. Real storage state may contain cookies or tokens that allow account impersonation.** Such files should not enter course outputs, logs, or version control even when the serialization format looks harmless.
+
+- **5. `localStorage` is browser-controlled state and can be restored without any server approval.** A bypass claim still requires repeating a protected server action and verifying authoritative server-side state.
 
 </details>
 

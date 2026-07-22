@@ -19,7 +19,7 @@ storage, writes JSON evidence, and closes its resources.
 - Evidence: `lab/telemetry/playwright-first-workflow.json`
 - Limitation: a normal workflow does not prove evasion or authorization impact
 - Remediation: not applicable; failures are corrected in the client/fixture
-- Retest: reset storage and repeat the identical query and artifact fields
+- Retest: reset storage and repeat the identical query and output fields
 
 ## Execute and expected output
 
@@ -38,4 +38,4 @@ slightly by browser version.
 
 The script closes the Browser; stop the static server with Ctrl+C. This proves a
 reproducible local browser workflow, not evasion or authorization failure. Retest
-by repeating the same query and comparing the same artifact fields.
+by repeating the same query and comparing the same output fields.

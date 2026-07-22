@@ -4,7 +4,7 @@ Use only synthetic/public-safe course evidence.
 
 ## Lab contract
 
-- Authorization boundary: existing synthetic/public-safe artifacts only
+- Authorization boundary: existing synthetic and public-safe course results only
 - Target: one completed local or provider-assigned course exercise
 - Adversary objective: communicate a demonstrated protected action or service effect
 - Protected action: copied exactly from the selected finding
@@ -13,7 +13,7 @@ Use only synthetic/public-safe course evidence.
 - Changed variable: copied from the experiment plan
 - Fixed variables: copied from the experiment plan
 - Success: reproducible finding, timed briefing, evidence-based answers, and exact repair links
-- Evidence: raw artifact references, claim/evidence map, retest matrix, and scorecard
+- Evidence: raw observation references, claim/evidence map, retest matrix, and scorecard
 - Limitations: practice does not prove production tenure, scale, or universal expertise
 - Cleanup: keep private recordings and confidential notes outside the repository
 - Remediation: state the failed invariant and measurable control outcome
@@ -60,4 +60,4 @@ Score each dimension 0 (absent), 1 (partial), or 2 (clear and evidence-based):
 - public-safe communication
 
 A low score is a repair assignment, not a cue to memorize a phrase. Name the
-exact lesson, source section, lab action, and artifact that closes the gap.
+exact lesson, source section, and lab action that closes the gap.

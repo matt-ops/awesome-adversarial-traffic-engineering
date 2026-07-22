@@ -10,8 +10,7 @@
 - Estimated time: 2 hours
 - Prerequisites:
   - [Cross-context consistency](03-cross-context-consistency.md)
-  - Module 04 workflow/rate artifacts
-- Required artifact: `artifacts/module-05/state-behavior-map.md`
+  - Complete the Module 04 workflow and rate-control exercises
 - Next lesson: Establish the blocked baseline
 
 ## Role outcome
@@ -106,7 +105,8 @@ records actual stock decisions before a bypass hypothesis is executed.
 
 ### Cleanup
 
-No service change occurred. Keep secrets and real session IDs out of artifacts.
+No service change occurred. Keep secrets and real session IDs out of any notes
+you choose to save.
 
 ## Why this matters offensively
 
@@ -114,28 +114,28 @@ Adversarial automation must maintain state and complete workflows. Controls that
 combine runtime and server evidence may expose a client that only patches the
 visible browser surface.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-05/state-behavior-map.md` with token lifecycles, binding table,
-behavior sequence, server proof, candidate hypotheses, and limits.
-
-## Pass gate
-
-1. What does a nonce prevent when enforced correctly?
-2. Does freshness authorize a business action?
-3. What makes a rate key weak?
-4. Why correlate sequence with server state?
-5. What does token consumption add?
+1. The local control returns `409` when the same nonce is evaluated twice. What kind of reuse does correctly enforced nonce consumption prevent?
+2. A fresh challenge token is accepted by the evaluation endpoint. Why does freshness alone not authorize the later protected report action?
+3. The report limiter counts a caller-supplied `session_id`. What makes that aggregation key weak when one workflow can cheaply rotate the value?
+4. Why should the workflow map correlate request sequence with reservation or report state instead of assuming ordered requests completed the objective?
+5. The local action token works once and then returns `403` on reuse. What security property does token consumption add in this model?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Reuse of the same accepted payload/transaction identifier.
-2. No; authorization is a separate server decision.
-3. The adversary can cheaply choose/rotate it without changing the underlying workflow identity.
-4. Requests can occur without completing intended transitions or the objective.
-5. It bounds one authorization result to one accepted use in this model.
+- **1. Nonce consumption prevents reuse of the same accepted evaluation payload or transaction identifier.** The `409` shows that the model remembers the nonce after its first accepted evaluation.
+
+- **2. Freshness and business authorization are separate server decisions.** The server still must verify the caller, requested action, token binding, and current workflow state before allowing the protected report.
+
+- **3. The adversary can partition one underlying workflow across many counters by choosing a new cheap value.** A stronger key must be bound to server-validated identity or state that is costly to rotate.
+
+- **4. Requests can arrive in an expected order without completing the intended transitions.** Server-side reservation or report evidence shows whether the workflow actually reached the protected outcome.
+
+- **5. Consumption makes the authorization result single-use for the modeled action.** A second presentation cannot repeat the protected action with the same token, although other binding dimensions still require separate checks.
 
 </details>
 

@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Finding and evidence](01-finding-and-evidence.md)
   - The original command, input, state reset, raw evidence, and result
-- Required artifact: `artifacts/module-10/retest-plan.md`
 - Next lesson: Technical briefing
 
 ## Role outcome
@@ -121,30 +120,28 @@ Reset local state after each row and preserve results with implementation versio
 An exact retest converts an offensive technique into a durable regression test
 and prevents remediation from silently redefining success.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-10/retest-plan.md` with invariant, original attack, mutation
-matrix, legitimate cases, effect evidence, objective rules, owner, cleanup, and residual risk.
-
-## Pass gate
-
-1. What is a remediation invariant?
-2. Why preserve the original attack?
-3. Why can a `403` be insufficient evidence?
-4. What do positive cases protect?
-5. Can one retest prove every bypass variant is fixed?
-6. What should remain after a passing retest?
+1. The proposed challenge fix says a token must be bound to the solving session, protected action, expiry, and one use. What does that remediation invariant express?
+2. Why should the regression suite preserve the exact former Session B replay instead of replacing the test with a new generic unauthorized request?
+3. The remediated endpoint returns `403`, but server inventory still decreases. Why is the status insufficient evidence that the invariant now holds?
+4. Which positive Session A case should accompany the negative Session B replay test?
+5. A passing retest covers one token, route, version, and boundary. Why can the result not prove that every possible replay variant is fixed?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. The security property that must hold regardless of implementation mechanism.
-2. It is the demonstrated failure and the comparable acceptance case.
-3. The protected state or backend work might still occur despite the response.
-4. Intended functionality and protection against excessive collateral blocking.
-5. No. It proves only the tested invariant, variants, version, and boundary.
-6. Evidence, version, residual-risk statement, and repeatable regression test.
+- **1. The invariant states the security property that must hold regardless of implementation details: only the correct session may use the token for the intended action within its lifetime and use limit.**
+
+- **2. The former replay is the demonstrated failure and provides the closest comparable acceptance case.** Replacing it could miss the exact weak binding that produced the original protected effect.
+
+- **3. A response can deny the client while backend work or state mutation still occurs.** The retest must verify inventory and session records stored by the server, which are the final source of truth, as well as the visible response.
+
+- **4. Session A should solve the challenge and complete the intended protected action once under valid state.** That positive case confirms the fix rejects cross-session use without breaking legitimate behavior.
+
+- **5. The evidence supports only the tested security rule, inputs, variants, environment, and version.** Other routes, token types, timing conditions, or implementations require their own bounded tests and residual-risk statement.
 
 </details>
 

@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Remediation and exact retest](02-remediation-and-retest.md)
   - A completed finding and retest matrix
-- Required artifact: `artifacts/module-10/briefing.md`
 - Next lesson: Role narrative
 
 ## Role outcome
@@ -54,7 +53,7 @@ remains uncertain, and what action/retest follows. Keep raw detail ready for que
 
 **What to focus on:** identifying the decision-maker, naming the actor and action, keeping one idea per sentence, and using a table only when comparison is clearer than prose
 
-**What to skip:** grammar units unrelated to the briefing artifact and the optional classroom exercises
+**What to skip:** grammar units unrelated to the technical briefing and the optional classroom exercises
 
 **Expected takeaway:** rewrite one finding as a 90-second briefing whose evidence, limitation, and decision remain clear to both an engineer and a non-specialist.
 
@@ -143,30 +142,28 @@ Keep private recordings outside the repository; commit only a public-safe outlin
 Red-team findings are contested. Clear evidence and honest uncertainty let an
 operator defend the attack path and collaborate on a measurable control improvement.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-10/briefing.md` with timed outline, claim/evidence map, four
-skeptical questions, bounded answers, and private-recording self-critique.
-
-## Pass gate
-
-1. Why not read the report aloud?
-2. Which three items must never be cut for time?
-3. How should you answer a question the evidence cannot resolve?
-4. Why lead with protected effect rather than tool detail?
-5. What belongs in backup notes?
-6. What makes a decision request useful?
+1. A five-minute briefing has a full written finding available. Why should the presenter select an evidence-led decision path instead of reading the report aloud?
+2. Time runs short during the briefing. Which boundary, protected effect, and material limitation must remain in the spoken explanation?
+3. A stakeholder asks whether the synthetic replay affects production, but the evidence covers only the local lab. How should the presenter answer?
+4. Why should the briefing lead with the protected inventory or report effect before describing Playwright, tokens, or implementation details?
+5. What owner action and measurable retest criterion make the final decision request useful?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. A briefing selects a decision path; the report preserves full reproducibility.
-2. Boundary, protected effect, and material limitation.
-3. State the bounded claim, missing evidence, and next discriminating test.
-4. It establishes relevance before implementation depth.
-5. Raw requests, hashes, code references, distributions, and alternate-explanation tests.
-6. A named owner/action and objective acceptance/retest criterion.
+- **1. A briefing guides a decision with the most relevant claim, evidence, impact, limitation, and request.** The written report remains the place for complete reproduction details and supporting material.
+
+- **2. Keep the authorized boundary, demonstrated protected effect, and most important limitation.** Removing any of those can make a result sound unauthorized, irrelevant, or broader than the evidence supports.
+
+- **3. Explain that the evidence supports only the synthetic local result, identify the production evidence that is missing, and propose the next authorized discriminating test.** Do not guess or imply transfer.
+
+- **4. The protected effect establishes why the audience should care and what the control failed to prevent.** Tool details are supporting mechanism and can follow after relevance is clear.
+
+- **5. Name the person or team responsible for the remediation and require the former attack to fail without changing the protected server record while legitimate behavior still passes.** The request should be assignable and objectively verifiable.
 
 </details>
 

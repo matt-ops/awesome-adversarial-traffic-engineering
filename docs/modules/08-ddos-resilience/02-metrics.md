@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Resource model](01-resource-exhaustion-model.md)
   - Basic percentiles and error-rate interpretation
-- Required artifact: `artifacts/module-08/metric-plan.md`
 - Next lesson: Edge controls
 
 ## Role outcome
@@ -112,28 +111,28 @@ Remove `AATE_DRY_RUN` only when the next lesson authorizes a real local scenario
 Predeclared service effects and aborts keep resilience testing safe and findings
 defensible.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-08/metric-plan.md` with baselines, objectives, safety thresholds,
-resource metrics, sample limits, abort, and recovery.
-
-## Pass gate
-
-1. What does p95 mean?
-2. Why tag expected `503`?
-3. What is threshold exit status for?
-4. Why separate safety and service thresholds?
-5. What proves dry-run safety?
+1. A result reports p95 latency of 240 milliseconds. What does that percentile statement mean for the measured sample?
+2. The local fixture deliberately returns some `503` responses during shedding. Why should the test tag those expected statuses separately from unexpected request failures?
+3. A k6 threshold fails and the process returns a nonzero exit status. How should automation and the operator use the nonzero result?
+4. Why does the test plan separate hard safety abort thresholds from service-level evaluation thresholds?
+5. The dry-run prints the target, scenario, VUs, rate, duration, and zero requests. Which parts of that output demonstrate preflight safety?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. 95% of measured values are at or below it.
-2. So deliberate fixture/shedding behavior is not counted as unexpected failure.
-3. Automation and operators can detect a failed criterion.
-4. One protects the experiment; one evaluates approved resilience objectives.
-5. Printed configuration plus zero network bytes/requests.
+- **1. p95 means that 95 percent of measured values are at or below 240 milliseconds, while the slowest 5 percent are above that value.** The percentile describes the observed sample, not every future request.
+
+- **2. Expected `503` responses represent deliberate fixture or shedding behavior and should not be counted as unexplained transport failures.** Separate tags keep the control outcome visible without hiding genuinely unexpected errors.
+
+- **3. Automation can detect that an acceptance criterion failed, and the operator should abort or diagnose according to the plan.** A failed threshold is evidence to preserve, not a reason to raise safe limits.
+
+- **4. Safety thresholds protect the experiment and environment from excessive load, while service thresholds evaluate the approved resilience objective.** A test must stop for safety even when a service criterion has not yet been measured.
+
+- **5. The printed fixed loopback target and hard envelope show what would run, while zero network bytes and requests show that the preflight sent no traffic.** Both configuration and inactivity matter.
 
 </details>
 

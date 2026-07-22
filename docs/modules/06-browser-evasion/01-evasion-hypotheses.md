@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Blocked baseline](../05-control-recon/05-blocked-baseline.md)
   - Complete signal, context, and state maps
-- Required artifact: `artifacts/module-06/evasion-plan.md`
 - Next lesson: One-variable experiment
 
 ## Role outcome
@@ -81,7 +80,8 @@ Freeze the one-variable trial before viewing its result.
 
 ### Setup
 
-Use the blocked-baseline artifact and transparent local reason. No execution yet.
+Use the blocked-baseline observations and transparent local reason. Do not run
+the treatment yet.
 
 ### Exact actions or commands
 
@@ -118,28 +118,28 @@ No trial executed. Preserve the pre-registered plan.
 Pre-registration turns evasion from trial-and-error into evidence about a trusted
 assumption. It makes a finding reproducible and remediation retestable.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-06/evasion-plan.md` with observation, hypothesis, fixed/change,
-predictions, support/refute, abort, residuals, alternatives, and conclusion bound.
-
-## Pass gate
-
-1. What two outcomes support an AATE bypass?
-2. Why name the context and timing of a change?
-3. What makes a hypothesis falsifiable?
-4. Why predict replay separately?
-5. What limits applying research results elsewhere?
+1. The stock-headless baseline is challenged when top-page `navigator.webdriver` is true. Which two predicted outcomes must occur before the treatment supports the lesson's bypass hypothesis?
+2. The treatment changes top-page `navigator.webdriver` before page code runs. Why must the plan name both the execution context and timing of that change?
+3. Which observed outcome would refute the prediction that the one-variable treatment receives an action token and completes the synthetic report?
+4. Why should the plan predict action-token replay separately from first-use acceptance?
+5. A published browser-evasion result used another version, signal set, and target. Which limits prevent importing the published result as proof for the local experiment?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Control decision changes as predicted and the same protected action succeeds.
-2. Other contexts/times may retain the original value and become residual evidence.
-3. A defined observation would refute it under fixed conditions.
-4. Initial acceptance and freshness/single-use are different controls.
-5. Threat model, versions, data, implementation, signal set, and evaluation target.
+- **1. The local decision must change as predicted and the same protected report must succeed in the server's report record.** A decision change without that server-side result would remain control observation rather than offensive completion.
+
+- **2. Other contexts or earlier collection times may retain the original value and expose a residual inconsistency.** Naming context and timing makes the treatment reproducible and keeps the hypothesis narrow.
+
+- **3. A challenge decision or a denied protected report would refute the prediction under otherwise fixed conditions.** The hypothesis must define failure before the learner sees the treatment result.
+
+- **4. Initial evaluation acceptance and later token freshness or single-use enforcement are different transitions.** The first action can succeed while replay remains correctly blocked, as the local model demonstrates.
+
+- **5. The external result has a different threat model, versions, data, implementation, observed signals, and evaluation target.** It may inform a hypothesis but cannot replace local execution and evidence.
 
 </details>
 

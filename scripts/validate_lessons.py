@@ -18,8 +18,7 @@ REQUIRED_HEADINGS = (
     "## Worked example",
     "## Guided exercise",
     "## Why this matters offensively",
-    "## Required artifact",
-    "## Pass gate",
+    "## Check your understanding",
     "## Answer key",
     "## Next lesson",
 )
@@ -29,7 +28,6 @@ PROGRESS_FIELDS = (
     "- Depth:",
     "- Estimated time:",
     "- Prerequisites:",
-    "- Required artifact:",
     "- Next lesson:",
 )
 EXERCISE_HEADINGS = (
@@ -100,6 +98,64 @@ def subsection_blocks(text: str) -> list[str]:
         text[start : starts[index + 1] if index + 1 < len(starts) else len(text)]
         for index, start in enumerate(starts)
     ]
+
+
+def numbered_questions(block: str) -> list[tuple[int, str]]:
+    """Return numbered questions, including any wrapped continuation lines."""
+
+    matches = list(re.finditer(r"^(\d+)\.\s+", block, re.MULTILINE))
+    return [
+        (
+            int(match.group(1)),
+            block[match.end() : matches[index + 1].start() if index + 1 < len(matches) else len(block)].strip(),
+        )
+        for index, match in enumerate(matches)
+    ]
+
+
+def answer_word_count(block: str) -> int:
+    """Count readable answer words after removing Markdown and HTML markers."""
+
+    plain = re.sub(r"<[^>]+>", " ", block)
+    plain = re.sub(r"[`*_\[\]()#>-]", " ", plain)
+    return len(re.findall(r"\b[\w'-]+\b", plain))
+
+
+def validate_answer_key(relative: Path, answer_key: str, question_numbers: list[int]) -> list[str]:
+    """Validate the exact collapsible numbered-bullet answer-key contract."""
+
+    errors: list[str] = []
+    for marker in ("<details>", "<summary>Show answers</summary>", "</details>"):
+        if answer_key.count(marker) != 1:
+            errors.append(f"{relative}: Answer key requires exactly one {marker}")
+    details_match = re.search(
+        r"<details>\s*<summary>Show answers</summary>\s*(.*?)\s*</details>",
+        answer_key,
+        re.DOTALL,
+    )
+    if details_match is None or not details_match.group(1).strip():
+        errors.append(f"{relative}: Answer key collapsible block is empty or malformed")
+        return errors
+    content = details_match.group(1)
+    if re.search(r"^\d+\.\s+", content, re.MULTILINE):
+        errors.append(f"{relative}: Answer key uses an old numbered-paragraph answer")
+    matches = list(re.finditer(r"^- \*\*(\d+)\.\s+", content, re.MULTILINE))
+    answer_numbers = [int(match.group(1)) for match in matches]
+    if answer_numbers != question_numbers:
+        errors.append(
+            f"{relative}: Answer bullets {answer_numbers} do not match questions {question_numbers}"
+        )
+    if len(answer_numbers) != len(set(answer_numbers)):
+        errors.append(f"{relative}: Answer key has duplicate answer numbers")
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(content)
+        answer = content[match.start() : end].strip()
+        words = answer_word_count(answer)
+        if words < 15:
+            errors.append(f"{relative}: answer {match.group(1)} has {words} words; minimum is 15")
+        if words > 120:
+            errors.append(f"{relative}: answer {match.group(1)} has {words} words; maximum is 120")
+    return errors
 
 
 def main() -> int:
@@ -173,15 +229,23 @@ def main() -> int:
         if len(re.findall(r"^- ", failures, re.MULTILINE)) < 2:
             errors.append(f"{relative}: Common failure modes needs at least two concrete failures")
 
-        pass_gate = section(text, "## Pass gate", "## Answer key")
-        question_count = len(re.findall(r"^\d+\.\s+", pass_gate, re.MULTILINE))
-        if question_count < 5:
-            errors.append(f"{relative}: Pass gate needs at least five numbered questions; got {question_count}")
+        knowledge_check = section(text, "## Check your understanding", "## Answer key")
+        questions = numbered_questions(knowledge_check)
+        question_numbers = [number for number, _ in questions]
+        expected_numbers = list(range(1, len(questions) + 1))
+        if not 3 <= len(questions) <= 5:
+            errors.append(
+                f"{relative}: Check your understanding needs three to five questions; got {len(questions)}"
+            )
+        if question_numbers != expected_numbers:
+            errors.append(
+                f"{relative}: question numbers {question_numbers} are duplicate or nonsequential"
+            )
+        for number, question in questions:
+            if not question.endswith("?"):
+                errors.append(f"{relative}: question {number} must end with a question mark")
         answer_key = section(text, "## Answer key", "## Next lesson")
-        if "<details>" not in answer_key or "<summary>" not in answer_key or "</details>" not in answer_key:
-            errors.append(f"{relative}: Answer key must be collapsible")
-        if len(re.findall(r"^\d+\.\s+", answer_key, re.MULTILINE)) < question_count:
-            errors.append(f"{relative}: Answer key must explain every pass-gate question")
+        errors.extend(validate_answer_key(relative, answer_key, question_numbers))
 
         if re.search(r"^- Depth: Foundation\s*$", progress, re.MULTILINE | re.IGNORECASE):
             mental_model = section(text, "## Mental model", "## Required external instruction")
@@ -212,7 +276,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
     print("Lesson validation: PASS")
-    print(f"- {len(lessons)} canonical lessons satisfy the complete remediation template")
+    print(f"- {len(lessons)} canonical lessons satisfy the learning-experience template")
     print(f"- {len(indexes)} module indexes expose Foundation, Applied, Integrated, and Deep")
     print(f"- {len(FOUNDATION_SLICE)} mandatory Foundation pages and the first-browser release gate pass")
     return 0

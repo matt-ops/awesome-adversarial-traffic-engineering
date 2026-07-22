@@ -8,7 +8,7 @@ observes asynchronous network work.
 
 Complete [browser processes](01-browser-process-model.md), [DOM and Web
 APIs](02-dom-and-web-apis.md), and [JavaScript core](03-javascript-core.md).
-Produce the process/context diagram and working JavaScript artifact.
+Produce the process/context diagram and run the working JavaScript exercise.
 
 ## Applied
 

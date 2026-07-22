@@ -12,7 +12,6 @@
   - [Edge controls](03-edge-controls.md)
   - k6 installed from official Grafana distribution
   - Healthy local API and approved metric/control map
-- Required artifact: `artifacts/module-08/bounded-results.md`
 - Next lesson: Recovery and retest
 
 ## Role outcome
@@ -126,28 +125,28 @@ Stop k6, reset app, and stop Compose. No process should continue generating traf
 Bounded tests prove control/resource assumptions safely. The quality is in the
 comparison and evidence, not traffic volume.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-08/bounded-results.md` with seven configs/results, request
-counts, thresholds, effects, limitations, and no-production-capacity claim.
-
-## Pass gate
-
-1. When are target/ceiling checks evaluated?
-2. Why include a boundary iteration in total math?
-3. What should happen on threshold failure?
-4. What does expected-status classification do?
-5. What may the local results claim?
+1. The k6 script receives a non-loopback target or an excessive VU ceiling. When must destination and envelope validation reject the configuration?
+2. Why does the lesson include a possible iteration scheduled at the duration boundary when calculating the maximum total work?
+3. A latency or error threshold fails during a bounded scenario. What should the operator do instead of increasing the limit and rerunning immediately?
+4. The fixture deliberately returns one expected status class. What does expected-status classification change in the result analysis?
+5. Seven loopback scenarios complete under fixed ceilings. What may the learner claim from those results, and which production claim remains unsupported?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Script initialization, before traffic executor setup.
-2. Arrival scheduling may include an iteration at the duration boundary.
-3. Abort, preserve evidence, diagnose; do not raise limits.
-4. Separates deliberate fixture response from unexpected request failure.
-5. Relative synthetic behavior and safety/control logic only.
+- **1. Validation must reject the target or envelope during script initialization, before traffic executors and workers begin sending requests.** Unsafe configuration should fail closed without relying on operator timing.
+
+- **2. Arrival scheduling can place an iteration exactly at the declared duration boundary.** Including that possibility makes the total-work ceiling conservative and prevents an off-by-one safety underestimate.
+
+- **3. Abort according to the plan, preserve the evidence, confirm recovery, and diagnose the failed criterion.** Raising limits after failure would discard the safety boundary and change the experiment.
+
+- **4. Classification separates deliberate fixture or shedding responses from unexpected failures while preserving both counts.** It changes interpretation, not the actual response or hard safety envelope.
+
+- **5. The learner may claim relative synthetic behavior and verified local safety or control logic under the recorded envelope.** The results do not establish production capacity, internet-scale resilience, or universal control performance.
 
 </details>
 

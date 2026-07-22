@@ -50,7 +50,7 @@ method -> HTTP/edge -> browser/JavaScript -> Playwright -> automated abuse
 ```
 
 Complete lessons in navigation order. Every lesson names its prerequisites,
-source assignment, artifact, pass gate, and next lesson.
+source assignment, guided exercise, knowledge check, and next lesson.
 
 ## Cumulative checkpoints
 
@@ -74,7 +74,7 @@ course platform is required.
 - A current browser with developer tools
 - Python 3.12 or newer
 - A text editor
-- Git for saving your artifacts privately
+- Git for cloning the repository and optionally saving your own work
 
 ## Command platforms
 

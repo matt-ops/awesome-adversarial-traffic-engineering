@@ -2,7 +2,7 @@
 
 Do not use this file as a second curriculum. Follow **[Start the
 path](docs/start-here.md)**; every lesson names one required source, exact
-sections, time, focus, skips, expected takeaway, exercise, artifact, and pass gate.
+sections, time, focus, skips, expected takeaway, exercise, and knowledge check.
 
 Use these indexes only when maintaining or extending the course:
 
@@ -13,7 +13,7 @@ Use these indexes only when maintaining or extending the course:
 
 Labels used throughout the course:
 
-- **Required** — part of the canonical lesson and pass gate
+- **Required** — part of the canonical lesson and its knowledge check
 - **Required provider lab** — complete only against the provider-assigned target
 - **Alternate** — use only when the required source is unavailable
 - **Elective** — not part of the core path; begin only at the named readiness point

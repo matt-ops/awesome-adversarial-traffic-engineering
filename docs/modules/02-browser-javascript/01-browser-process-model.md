@@ -10,8 +10,7 @@
 - Estimated time: 80 minutes
 - Prerequisites:
   - [Module 01](../01-http-edge/index.md)
-  - Your request-path and manual-trace artifacts
-- Required artifact: `artifacts/module-02/browser-process-map.md`
+  - Be able to explain the request path and read a manual Network trace
 - Next lesson: DOM and Web APIs
 
 ## Role outcome
@@ -134,30 +133,25 @@ changes only the easiest page-visible property can leave contradictory evidence
 in frames, workers, protocols, or browser-managed behavior. Architecture is the
 reason cross-context validation matters.
 
-## Required artifact
+## Check your understanding
 
-Create `artifacts/module-02/browser-process-map.md` with observed process rows,
-resource-to-context mapping, global-object results, browser version, and three
-claims you intentionally cannot make from the snapshot.
-
-## Pass gate
-
-1. How does a process differ from a thread?
-2. Which broad process is responsible for rendering and page JavaScript?
-3. Why is process count version-sensitive?
-4. Why does a worker lack `document`?
-5. How can context separation expose an incomplete browser modification?
+1. The browser's task manager shows a renderer process with several execution threads. How does the renderer process's memory boundary differ from the threads inside that process?
+2. The Foundation page runs page JavaScript and renders HTML. Which broad browser process normally performs that work, subject to site-isolation policy?
+3. Why should a process map record the browser version and observed process allocation instead of assuming one fixed process count?
+4. A top-page modification changes `navigator.language`, but the worker still reports the original value. What does that cross-context difference reveal about the modification?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Processes have separate memory boundaries; threads are execution sequences sharing their process resources.
-2. A renderer process handles content rendering and page JavaScript, subject to browser architecture and isolation policy.
-3. Platform, version, site isolation, origins, and resource policies affect allocation.
-4. A worker has a worker global scope and is not attached to a document tree.
-5. The unchanged value can be collected from a frame or worker and compared with the altered top-page value.
+- **1. A process has its own memory and resource boundary, while threads are execution sequences that share resources inside that process.** The distinction explains why some browser components are isolated more strongly than others.
+
+- **2. A renderer process normally handles page rendering and page JavaScript.** The exact allocation can vary because browser architecture, origins, platform, resource policy, and site isolation influence renderer placement.
+
+- **3. Browser version, platform, site isolation, origins, and resource policy can all change process allocation.** Recording the observed environment keeps the map evidence-based and makes a later comparison reproducible.
+
+- **4. The modification reached the top-page context but not the worker context.** The unchanged worker value is a residual inconsistency that another collection point could observe, although it does not prove a control uses that signal.
 
 </details>
 

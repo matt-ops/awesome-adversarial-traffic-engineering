@@ -10,8 +10,7 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Python telemetry as evidence](../09-tooling-code-review/01-python-telemetry.md)
-  - One synthetic evidence artifact with raw observations and a stated limitation
-- Required artifact: `artifacts/module-10/finding.md`
+  - Be able to locate raw synthetic observations and state their limitation
 - Next lesson: Remediation and exact retest
 
 ## Role outcome
@@ -84,7 +83,7 @@ effect, root cause hypothesis, and boundary.
 
 ### Objective
 
-Rewrite one course artifact as a one-page finding with a traceable evidence chain.
+Rewrite one course exercise result as a one-page finding with a traceable evidence chain.
 
 ### Setup
 
@@ -111,7 +110,7 @@ fact from inference, and see an honest boundary around the claim.
 ### Interpretation
 
 Severity is not a substitute for evidence. In a synthetic target, the useful
-artifact is the method and proof structure; it is not a claim that an external service is vulnerable.
+exercise result is the method and proof structure; it is not a claim that an external service is vulnerable.
 
 ### Common failure modes
 
@@ -130,30 +129,28 @@ Remove secrets if any were accidentally captured, retain synthetic evidence, and
 The operator's work changes defensive priorities only when the attack is
 reproducible, the effect matters, and the recommendation can be verified.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-10/finding.md` with summary, scope, preconditions, steps,
-evidence, protected effect, limitations, recommendation invariant, and retest.
-
-## Pass gate
-
-1. What separates supporting evidence from impact?
-2. Why include a blocked baseline?
-3. How should an unproven root cause be phrased?
-4. What makes a finding reproducible?
-5. Why include a legitimate near-neighbor?
-6. What is the purpose of limitations?
+1. A finding includes the replay request, `200` response, and Session B reservation record. Which item states impact, and which items support the attack path?
+2. Why should the finding preserve Session B's `403` blocked baseline before showing the replayed token's accepted result?
+3. The evidence suggests missing session binding, but the reviewer has not inspected server code. How should the finding phrase that root cause?
+4. Which scope, state, inputs, actions, expected and actual results, and versions make the synthetic finding reproducible?
+5. Why should the finding include a legitimate Session A reservation when evaluating remediation for the Session B replay?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Impact is the protected action/service consequence; supporting evidence explains the path.
-2. It shows the control existed and isolates the effect of the changed variable.
-3. As a hypothesis with supporting and missing evidence.
-4. Exact boundary, state, inputs, actions, expected/actual output, and versions.
-5. To ensure remediation does not block intended behavior and to expose collateral effects.
-6. To prevent unsupported generalization and identify evidence still needed.
+- **1. The Session B reservation record states the protected business impact.** The request and response support how the replay reached that effect, but they are not a substitute for the committed server-side result.
+
+- **2. The blocked baseline shows that the control existed and that Session B could not normally perform the action.** Comparing that baseline with the replay isolates the changed token condition.
+
+- **3. Describe missing session binding as a hypothesis supported by the replay evidence and name the missing code or telemetry needed to confirm causality.** Do not present an uninspected implementation detail as fact.
+
+- **4. Record the exact authorization boundary, initial state, token and session inputs, ordered procedure, expected and actual outputs, server evidence, software versions, cleanup, and limitations.** Another reviewer should be able to repeat the case.
+
+- **5. The legitimate case protects intended behavior and exposes excessive blocking.** A remediation that rejects both Session B and the properly authorized Session A action would not satisfy the security objective.
 
 </details>
 

@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Browser environment](02-browser-environment.md)
   - Module 03 frame/worker collection
-- Required artifact: `artifacts/module-05/context-matrix.md`
 - Next lesson: Session, behavior, and workflow
 
 ## Role outcome
@@ -93,7 +92,7 @@ Use your manual baseline and inspect the `signals` portions of a verified
 ### Expected output
 
 A per-population raw matrix and derived consistency table. Verification mode may
-show headed requested but headless actual; the artifact makes this explicit.
+show headed requested but headless actual; the result record makes this explicit.
 
 ### Interpretation
 
@@ -117,28 +116,28 @@ Incomplete modification is a common failure mode of evasion experiments. A
 context matrix reveals where the claimed environment becomes internally
 contradictory and guides the next falsifiable hypothesis.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-05/context-matrix.md` with raw/derived tables, missing-data
-policy, versions, alternatives, and source limits.
-
-## Pass gate
-
-1. What differs between cross-context and cross-attribute inconsistency?
-2. Why is missing not automatically mismatch?
-3. What does the paper's threat model constrain?
-4. Why retain raw values?
-5. Does a mismatch prove the control uses that signal?
+1. The page reports `en-US`, the frame reports `en-US`, and the worker reports `fr-FR`. Is that a cross-context or cross-attribute inconsistency, and why?
+2. The worker does not expose a page-only API, so the matrix records the value as unavailable. Why should unavailable not be labeled as a mismatch?
+3. A research paper evaluates a specific browser version, adversary, collection point, and dataset. How do those facts limit use of the paper's consistency results?
+4. Why should the exercise retain raw page, frame, and worker values after deriving a consistency label?
+5. Does the `en-US` versus `fr-FR` mismatch prove the local control collects or enforces on language consistency?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Cross-context compares a property across realms; cross-attribute compares related properties.
-2. The API may be unavailable or collection may fail; no contradictory value was observed.
-3. Which adversaries, collection points, data, and conclusions the evaluation supports.
-4. Derived labels can be audited/recomputed and collection errors found.
-5. No; a controlled response/action experiment is still required.
+- **1. The language difference is cross-context because the same property is compared across page, frame, and worker realms.** Cross-attribute analysis would compare related but different properties, such as language and timezone.
+
+- **2. Unavailable means the API did not exist or collection failed, so no contradictory value was observed.** Labeling absence as mismatch would confuse missing evidence with an actual disagreement.
+
+- **3. The threat model defines which adversaries, environments, data, and conclusions the evaluation supports.** Applying the result elsewhere requires a new hypothesis and evidence rather than assuming the paper covers every browser or control.
+
+- **4. Raw values let another reviewer recompute the label, find collection errors, and see exactly which contexts disagreed.** A derived label alone hides details that may matter during retest.
+
+- **5. No.** The mismatch is an observation that may motivate a controlled experiment. A control-use claim requires a measured decision change and, for a bypass, successful repetition of the protected action.
 
 </details>
 

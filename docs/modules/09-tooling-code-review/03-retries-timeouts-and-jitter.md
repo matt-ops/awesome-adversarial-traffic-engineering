@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Async and bounded concurrency](02-async-and-bounded-concurrency.md)
   - Local `/api/reports/unstable` fixture running
-- Required artifact: `artifacts/module-09/retry-budget.md`
 - Next lesson: Secure code review
 
 ## Role outcome
@@ -129,30 +128,28 @@ Retry policy is part of the attack surface. An adversary can look for expensive,
 retryable failures or client behaviors that multiply one action into many backend
 calls. A safe red-team proof bounds that observation instead of inducing an outage.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-09/retry-budget.md` with the trace, failure classification,
-attempt formula, maximum wait, retry owner, idempotency question, and limitations.
-
-## Pass gate
-
-1. Does timeout prove the server stopped work?
-2. What bounds retry-generated work?
-3. What does jitter change?
-4. Why can layered retries amplify load?
-5. When is `503` not enough to justify a retry?
-6. Why should `403` stop in this exercise?
+1. A client times out while waiting, but the server already accepted the operation. Why does the timeout not prove that server-side work stopped?
+2. Which attempt budget, deadline, concurrency, and rate limits bound the extra work created by retries?
+3. Two clients use the same exponential backoff but add random jitter. What does jitter change, and which maximum does jitter not change?
+4. An application client, service proxy, and SDK each retry twice. Why can those independent layers multiply the total attempts?
+5. The local fixture returns `403` for an authorization decision. Why should the retry policy stop instead of treating `403` as a transient failure?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. No. The caller stopped waiting; accepted server work may continue.
-2. A finite attempt/operation budget, plus a deadline and concurrency/rate ceilings.
-3. Attempt timing across clients, reducing synchronization; not the maximum count.
-4. Each layer can repeat every attempt made by the layer below it.
-5. When the operation has unsafe side effects, the deadline is exhausted, or overload makes retries harmful.
-6. It is an authorization decision, not the fixture's transient failure class.
+- **1. A timeout only proves that the caller stopped waiting before its deadline.** The server, queue, or dependency may continue processing accepted work after the client has abandoned the response.
+
+- **2. A finite per-operation attempt budget and overall deadline cap retries, while concurrency and rate ceilings bound simultaneous and scheduled work.** All limits should be enforced before another attempt starts.
+
+- **3. Jitter changes when clients begin later attempts, reducing synchronized retry bursts.** It does not increase or reduce the configured maximum number of attempts by itself.
+
+- **4. Each outer layer can repeat every attempt made by the layer below, creating multiplicative amplification.** Retry ownership and budgets must therefore be coordinated across the full request path.
+
+- **5. `403` represents the exercise's authorization outcome rather than the declared transient failure class.** Repeating the same unauthorized request adds load without changing the missing permission.
 
 </details>
 

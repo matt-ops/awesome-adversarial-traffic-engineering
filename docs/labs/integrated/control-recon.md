@@ -38,7 +38,7 @@ fourth begins from that condition, changes only the sensor frame's language to
 `fr-FR`, and should be challenged for `cross_context_language_mismatch` without
 attempting the protected action.
 
-Automated verification may set `AATE_HEADLESS=1`; the artifact records actual
+Automated verification may set `AATE_HEADLESS=1`; the JSON output records actual
 and requested launch modes so that forced verification cannot be mislabeled as
 a genuine headed observation.
 

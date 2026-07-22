@@ -17,7 +17,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the proposed local run fits executable guardrails; the output is not legal authorization or attack proof
 - **Source basis:** `nist-sp-800-115`, `aate-local-lab`
 - **Safety boundary:** validation completes before any request and accepts only the fixed loopback target
-- **Artifact:** dry-run JSON copied into `artifacts/module-00/engagement-plan.md`
+- **Expected evidence or output:** printed dry-run JSON showing the validated local target and envelope
 - **Cleanup:** none; zero requests are emitted
 - **Retest use:** rerun before every changed safe-client plan and compare the full envelope
 
@@ -32,7 +32,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** hostname validation blocked this example; it does not prove every out-of-scope representation is impossible
 - **Source basis:** `nist-sp-800-115`, `aate-local-lab`
 - **Safety boundary:** do not replace the URL with a real service; the command must not send traffic
-- **Artifact:** rejected-target output in the engagement plan
+- **Expected evidence or output:** a rejected-target error before any network request
 - **Cleanup:** none; stop immediately if the target is accepted
 - **Retest use:** mandatory negative test after any target-validation change
 
@@ -47,7 +47,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the trace teaches HTTP, DOM, storage, frame, and worker behavior; it is not a control bypass
 - **Source basis:** `mdn-http-overview`, `chrome-devtools-network`, `aate-local-lab`
 - **Safety boundary:** explicit `127.0.0.1` bind and fixed document root
-- **Artifact:** request anatomy, DevTools trace, and browser-context observations
+- **Expected evidence or output:** an annotated request, manual Network trace, and browser-context observations
 - **Cleanup:** press Ctrl+C and verify the page no longer refreshes
 - **Retest use:** repeat the same manual workflow before comparing Playwright output
 
@@ -62,7 +62,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** package success proves environment setup, not script behavior or target reachability
 - **Source basis:** `microsoft-learn-playwright`, repository lockfile
 - **Safety boundary:** no target traffic; review install errors rather than changing versions casually
-- **Artifact:** Node/npm versions and resolved Playwright version
+- **Expected evidence or output:** the installed Node.js, npm, and resolved Playwright versions
 - **Cleanup:** none; retain `package-lock.json`, and do not commit `node_modules`
 - **Retest use:** rerun only when rebuilding the local dependency environment
 
@@ -77,7 +77,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** a browser binary exists; no workflow, state, or evasion claim follows
 - **Source basis:** `microsoft-learn-playwright`, Playwright project documentation
 - **Safety boundary:** no target traffic and no arbitrary browser extension installation
-- **Artifact:** Playwright and Chromium version record
+- **Expected evidence or output:** the installed Playwright and Chromium version record
 - **Cleanup:** none; use Playwright's normal cache management if removal is later required
 - **Retest use:** verify the recorded browser version before version-drift comparisons
 
@@ -92,7 +92,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** Playwright repeated one explainable workflow and captured evidence comparable to DevTools
 - **Source basis:** `microsoft-learn-playwright`, `aate-local-lab`
 - **Safety boundary:** target is a constant loopback URL; the script accepts no target argument
-- **Artifact:** first-workflow JSON plus the manual-versus-automated review
+- **Expected evidence or output:** the generated first-workflow JSON and a manual-versus-automated comparison
 - **Cleanup:** nested `finally` blocks close the BrowserContext and Browser; stop the static server separately
 - **Retest use:** rerun unchanged after dependency/browser updates to establish drift in events or behavior
 
@@ -107,7 +107,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** types are consistent; selectors, runtime cleanup, and protected-action assertions still require execution
 - **Source basis:** Playwright TypeScript declarations and repository `tsconfig.json`
 - **Safety boundary:** no network traffic
-- **Artifact:** typecheck result in validation evidence
+- **Expected evidence or output:** the terminal typecheck result
 - **Cleanup:** none
 - **Retest use:** run after every TypeScript client edit and before a browser exercise
 
@@ -124,7 +124,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the target is available; no vulnerability or bypass has yet been demonstrated
 - **Source basis:** `aate-local-lab`, repository Compose configuration
 - **Safety boundary:** published port binds to loopback and course services only
-- **Artifact:** image/config/version and startup timestamp
+- **Expected evidence or output:** the built image configuration, version, and startup timestamp
 - **Cleanup:** use the assigned Compose down command
 - **Retest use:** rebuild after application/control remediation before repeating the same attack
 
@@ -140,7 +140,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the service is reachable and healthy at this instant; business workflows still need separate baselines
 - **Source basis:** `aate-local-lab`
 - **Safety boundary:** one loopback request
-- **Artifact:** timestamped health response
+- **Expected evidence or output:** a successful timestamped health response
 - **Cleanup:** none
 - **Retest use:** execute before pressure, after traffic stops, and after remediation
 
@@ -155,7 +155,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** observations identify where to test; they are not vulnerability proof
 - **Source basis:** `owasp-wstg-entry-points-v42`, `owasp-wstg-map-architecture-v42`, `aate-local-lab`
 - **Safety boundary:** fixed loopback target and documented endpoints
-- **Artifact:** application/control/resource path map
+- **Expected evidence or output:** an application, control, and resource path map
 - **Cleanup:** reset is not required because recon does not mutate state
 - **Retest use:** repeat after routing/control changes to confirm the attack surface actually changed
 
@@ -170,7 +170,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the result characterizes this toy workflow and control; it does not authorize credential testing elsewhere
 - **Source basis:** `owasp-automated-threats`, `portswigger-authentication-path`, `aate-local-lab`
 - **Safety boundary:** fixed synthetic credentials, fixed loopback target, bounded attempts
-- **Artifact:** credential-attempt evidence and blocked baseline
+- **Expected evidence or output:** the printed credential-attempt summary and blocked baseline
 - **Cleanup:** call `/api/reset`
 - **Retest use:** repeat the same five attempts after the authentication/rate-control change
 
@@ -185,7 +185,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the sequence reveals business-state assumptions independently of browser transport
 - **Source basis:** `owasp-automated-threats`, `portswigger-business-logic`, `aate-local-lab`
 - **Safety boundary:** fixed local data and bounded requests
-- **Artifact:** workflow/state-machine evidence
+- **Expected evidence or output:** the printed workflow and state-machine observations
 - **Cleanup:** call `/api/reset`
 - **Retest use:** replay the identical transition sequence after binding/authorization remediation
 
@@ -200,7 +200,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** this is an authorization/workflow flaw independent of browser transport; curl, Python, Burp, or Playwright can exercise it
 - **Source basis:** `portswigger-business-logic`, `owasp-api-security-top-10`, `aate-local-lab`
 - **Safety boundary:** fixed product and loopback target; one synthetic reservation
-- **Artifact:** workflow-authorization JSON and finding draft
+- **Expected evidence or output:** the generated workflow-authorization JSON and a finding outline
 - **Cleanup:** call `/api/reset` and confirm inventory returns to 5
 - **Retest use:** require the same request to fail while an authenticated intended reservation still succeeds
 
@@ -215,7 +215,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the control trusts an attacker-controlled aggregation key; the result does not establish a network-identity bypass
 - **Source basis:** `owasp-automated-threats`, `portswigger-authentication-path`, `aate-local-lab`
 - **Safety boundary:** bounded calls, fixed loopback route, synthetic key values
-- **Artifact:** fixed-versus-rotated key comparison
+- **Expected evidence or output:** the fixed-key versus rotated-key result comparison
 - **Cleanup:** call `/api/reset`
 - **Retest use:** repeat fixed and rotated populations after server-derived identity/workflow binding
 
@@ -230,7 +230,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** metrics help select a brittle assumption or legitimate near-neighbor; detector construction is not the learner's principal outcome
 - **Source basis:** `fp-inconsistent`, `aate-local-lab`
 - **Safety boundary:** offline fixed fixture only
-- **Artifact:** `lab/telemetry/detector-analysis.json`
+- **Expected evidence or output:** the generated `lab/telemetry/detector-analysis.json`
 - **Cleanup:** none
 - **Retest use:** compare the same fixture after a rule change to explain collateral and drift
 
@@ -245,7 +245,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** one toy decision changes; the deliberately incoherent property change does not create a coherent or generally stealthy identity
 - **Source basis:** `fpscanner-project`, `rebrowser-bot-detector`, `fp-inconsistent`, `aate-local-lab`
 - **Safety boundary:** fixed loopback URL and four fixed browser trials
-- **Artifact:** control-recon JSON plus trusted-signal matrix
+- **Expected evidence or output:** the generated control-recon JSON and trusted-signal comparison
 - **Cleanup:** client closes contexts/browsers; call `/api/reset`
 - **Retest use:** rerun unchanged after a control rule or browser-version change
 
@@ -260,7 +260,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the lab token is insufficiently bound; it does not prove a weakness in another token format or service
 - **Source basis:** `fpscanner-project`, `aate-local-lab`, `aate-adversarial-control-loop`
 - **Safety boundary:** fixed loopback endpoint and synthetic token/session identifiers
-- **Artifact:** replay request/response and server session evidence
+- **Expected evidence or output:** the replay request, response, and returned server session evidence
 - **Cleanup:** call `/api/reset`
 - **Retest use:** repeat the same cross-session replay after session/action/nonce/expiry/single-use binding
 
@@ -276,7 +276,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the next experiment starts from the documented state; preserve reset failure as a confounder
 - **Source basis:** `aate-local-lab`
 - **Safety boundary:** one fixed loopback POST
-- **Artifact:** reset timestamp in the experiment log
+- **Expected evidence or output:** the reset confirmation and timestamp
 - **Cleanup:** none beyond confirming health
 - **Retest use:** execute before every baseline/treatment pair and exact remediation retest
 
@@ -291,7 +291,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** local attack surface is no longer running; this is cleanup, not evidence deletion
 - **Source basis:** repository Compose configuration, `aate-local-lab`
 - **Safety boundary:** exact course Compose file only
-- **Artifact:** cleanup timestamp
+- **Expected evidence or output:** the cleanup confirmation and timestamp
 - **Cleanup:** this command is the cleanup action
 - **Retest use:** start from a new build when validating application remediation
 
@@ -308,7 +308,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** useful deterministic regression only; not a coherent identity or primary evasion lab
 - **Source basis:** `aate-local-lab`
 - **Safety boundary:** fixed loopback fixture and bounded requests
-- **Artifact:** compatibility JSON output
+- **Expected evidence or output:** the compatibility JSON printed by the command
 - **Cleanup:** call `/api/reset`
 - **Retest use:** retain as a fast detector-rule regression after local changes
 
@@ -323,7 +323,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** supports the resource model; k6 scenarios provide the primary controlled evidence
 - **Source basis:** `aate-local-lab`
 - **Safety boundary:** fixed count and loopback target
-- **Artifact:** compatibility timing output
+- **Expected evidence or output:** the compatibility timing output printed by the command
 - **Cleanup:** call `/api/reset`
 - **Retest use:** quick resource-path check after endpoint implementation changes
 
@@ -338,7 +338,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** proves the bundled exercise works locally; it does not prove production behavior
 - **Source basis:** `microsoft-learn-playwright`, `aate-local-lab`
 - **Safety boundary:** fixed loopback target
-- **Artifact:** terminal pass/fail output; no learner artifact
+- **Expected evidence or output:** terminal pass or fail output; no separate learner file is required
 - **Cleanup:** the test closes Chromium and the static server, including on failure
 - **Retest use:** run after Foundation web application or lesson changes
 
@@ -355,7 +355,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** Python/OpenSSL configuration changes generated bytes; the helper does not parse ALPN, calculate JA4, capture browser TLS, or prove identity
 - **Source basis:** `rfc-8446`, `ja4-project`
 - **Safety boundary:** no socket is opened
-- **Artifact:** ClientHello comparison table and fixture hashes
+- **Expected evidence or output:** the ClientHello comparison table and fixture hashes
 - **Cleanup:** none
 - **Retest use:** repeat after Python/OpenSSL changes to document protocol drift
 
@@ -370,7 +370,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** the plain-HTTP result describes only this helper/path; browser TLS, JA4, HTTP/2, HTTP/3, QUIC, and proxy-induced changes remain source-led theory or future approved work
 - **Source basis:** `mdn-http-overview`, `owasp-wstg-map-architecture-v42`, `ja4-project`
 - **Safety boundary:** one fixed loopback URL
-- **Artifact:** client/edge/application observation-point matrix
+- **Expected evidence or output:** a client, edge, and application observation-point matrix
 - **Cleanup:** none
 - **Retest use:** repeat with a declared local intermediary/configuration change
 
@@ -385,7 +385,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** compare only the asserted local behavior inside the hard envelope; endpoint-cost and workflow-sequence observations are not mitigation tests, and no run is a capacity claim
 - **Source basis:** `k6-thresholds`, `aws-builders-library-load-shedding`, `aate-local-lab`
 - **Safety boundary:** loopback only, ≤15 seconds, ≤5 VUs, ≤10 effective requests/second, ≤100 worst-case requests, aborting thresholds
-- **Artifact:** scenario configuration and k6 result in `bounded-results.md`
+- **Expected evidence or output:** the scenario configuration and bounded k6 result
 - **Cleanup:** teardown health check, `/api/reset`, then Compose down when finished
 - **Retest use:** repeat the identical scenario, rate, duration, assertions, thresholds, and legitimate-neighbor check; a mitigation claim also requires a real changed control
 
@@ -400,7 +400,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Interpretation:** configuration is accepted by guards; no service behavior has been tested
 - **Source basis:** `k6-thresholds`, `aate-local-lab`
 - **Safety boundary:** dry-run branch returns before reset or scenario requests
-- **Artifact:** configuration JSON
+- **Expected evidence or output:** the printed scenario configuration JSON
 - **Cleanup:** none
 - **Retest use:** mandatory before every changed scenario configuration
 
@@ -428,7 +428,7 @@ AATE_DRY_RUN=1 k6 run lab/load/bounded.js
 - **Interpretation:** counts describe the fixture; they do not identify a user or establish production prevalence
 - **Source basis:** `python-standard-library`, `pytest-documentation`, `aate-local-lab`
 - **Safety boundary:** offline fixed fixture
-- **Artifact:** telemetry summary JSON
+- **Expected evidence or output:** the generated telemetry summary JSON
 - **Cleanup:** none
 - **Retest use:** use the same fixture and assertions after parser/rule changes
 
@@ -443,7 +443,7 @@ AATE_DRY_RUN=1 k6 run lab/load/bounded.js
 - **Interpretation:** concurrency shapes timing but does not change total work; both limits must remain explicit
 - **Source basis:** `python-standard-library`, `pytest-documentation`, `aate-local-lab`
 - **Safety boundary:** fixed loopback route, total 6, concurrency 2, per-request timeout
-- **Artifact:** concurrency trace
+- **Expected evidence or output:** the bounded-concurrency trace
 - **Cleanup:** none; health is read-only
 - **Retest use:** repeat the same work/concurrency pair after client or service changes
 
@@ -458,7 +458,7 @@ AATE_DRY_RUN=1 k6 run lab/load/bounded.js
 - **Interpretation:** one logical action consumed two requests; unbounded retries could magnify overload
 - **Source basis:** `aws-builders-library-timeouts-retries-jitter`, `python-standard-library`, `aate-local-lab`
 - **Safety boundary:** exact loopback URL, ≤3 attempts, ≤2-second timeout, bounded jitter
-- **Artifact:** retry-budget trace
+- **Expected evidence or output:** the retry-budget trace
 - **Cleanup:** call `/api/reset`
 - **Retest use:** repeat after idempotency, retry, or overload-control remediation
 

@@ -10,8 +10,7 @@
 - Estimated time: 4 hours plus later repeat
 - Prerequisites:
   - [Replay and temporal consistency](04-replay-and-temporal-consistency.md)
-  - At least one complete baseline/treatment artifact
-- Required artifact: `artifacts/module-06/version-drift-study.md`
+  - At least one complete baseline and treatment comparison
 - Next lesson: Protocol identity
 
 ## Role outcome
@@ -95,7 +94,7 @@ Design and, when a second version is available, execute an exact drift compariso
 
 ### Setup
 
-Copy the original artifact immutably. Use a later pinned browser/framework or a
+Keep the original observations unchanged. Use a later pinned browser/framework or a
 clearly labeled static fixture; never overwrite Run A.
 
 ### Exact actions or commands
@@ -134,28 +133,28 @@ keep lock/version and public-safe evidence.
 Red teams must repeat capability after fixes and platform changes. Drift-aware
 evidence prevents brittle tricks from becoming durable security conclusions.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-06/version-drift-study.md` with two environments, one change,
-raw diff, decisions/actions, residuals, confounders, and future retest trigger.
-
-## Pass gate
-
-1. Why is a browser version part of evidence?
-2. What makes a drift comparison confounded?
-3. Does an unchanged result prove permanence?
-4. Why keep residual anomalies after success?
-5. How should a static fixture be labeled?
+1. Run A records browser 149, Playwright 1.61.1, and local control commit X. Why is the browser version part of the evidence rather than incidental setup?
+2. Run B changes both the browser version and the local control code. Why is any changed decision confounded?
+3. The same one-variable result appears in two recorded versions. Does that repeated result prove the behavior will remain permanent?
+4. A treatment succeeds, but worker and protocol observations still differ from the manual baseline. Why should those residual anomalies remain in the conclusion?
+5. The learner cannot run an older browser and instead compares a saved static fixture. How should that fixture be labeled?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. Observable properties and automation artifacts can change with implementation.
-2. Multiple uncontrolled version/control/environment changes prevent attribution.
-3. No; it supports only recorded runs and conditions.
-4. They limit the claim and may remain useful to the control/remediation.
-5. As a simulated comparison input, not a live execution of that version.
+- **1. Observable browser behavior and automation signals can change with implementation versions.** Recording the browser version lets a reviewer reproduce the trial and distinguish client drift from control or environment drift.
+
+- **2. Two uncontrolled variables changed, so either the browser, the control, or their interaction could explain the decision.** A later comparison must isolate one change before assigning cause.
+
+- **3. No.** The repeated result supports only the recorded runs, environments, and conditions. Future browser, framework, control, or dependency changes can produce different behavior.
+
+- **4. Residual anomalies limit the bypass claim and may remain useful to detection or remediation.** Removing them would make a narrow successful action look like a complete and coherent identity transformation.
+
+- **5. Label the fixture as a simulated comparison input rather than a live execution of that browser version.** The limitation should state which behaviors the static data cannot reproduce.
 
 </details>
 

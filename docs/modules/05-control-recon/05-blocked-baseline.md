@@ -10,8 +10,7 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Session, behavior, and workflow](04-session-behavior-workflow.md)
-  - Healthy local API and manual baseline artifact
-- Required artifact: `artifacts/module-05/blocked-baseline.md`
+  - Healthy local API and a completed manual baseline observation
 - Next lesson: Evasion hypotheses
 
 ## Role outcome
@@ -71,7 +70,7 @@ collection gaps; they are not substitutes for the blocked stock client.
 !!! warning "Safety boundary"
     The browser runner is fixed to localhost. `AATE_HEADLESS=1` is only automated
     verification; because it forces the requested headed trial to run headless,
-    that artifact cannot be claimed as a genuine headed baseline.
+    that run cannot be claimed as a genuine headed baseline.
 
 ## Worked example
 
@@ -130,29 +129,28 @@ The runner closes browsers. Reset the local API and retain versioned evidence.
 Without a blocked baseline, an allowed result may be normal behavior rather than
 a bypass. Population discipline makes the later causal claim defensible.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-05/blocked-baseline.md` with four populations, environment,
-raw signals, control/action outcomes, missing-data rules, fixed variables, and
-the withheld hypothesis.
-
-## Pass gate
-
-1. Why exclude one-variable from the baseline?
-2. What invalidates a claimed headed baseline?
-3. Why include HTTP-only behavior?
-4. What proves the stock client is blocked?
-5. Which variables are frozen before evasion?
+1. The baseline compares manual, stock headed, stock headless, and HTTP-only populations. Why must the one-variable treatment remain excluded until the next module?
+2. A run requests headed mode, but verification forces the actual browser to run headless. Why can that run not serve as the claimed headed baseline?
+3. What does the HTTP-only population reveal when the HTTP client fetches HTML but executes no page, frame, or worker JavaScript?
+4. The stock-headless population receives a challenge, obtains no action token, and never completes the report. Which evidence proves that population is blocked in the local model?
+5. Which conditions should be frozen before comparing stock headless with the one-variable evasion treatment?
 
 ## Answer key
 
-<details><summary>Check your reasoning</summary>
+<details>
+<summary>Show answers</summary>
 
-1. It is the treatment condition and would contaminate the reference.
-2. Actual launch mode was headless, including forced verification mode.
-3. It exposes browser-dependent observations and a non-rendering near-neighbor.
-4. The control challenges it and it receives no token/protected action.
-5. Target, workflow, state, context, versions, timing plan, and evidence schema except the declared change.
+- **1. The one-variable population is the treatment condition, not a reference population.** Including it in the baseline would contaminate the comparison and hide which result belongs to the declared change.
+
+- **2. Evidence must describe actual execution, not only requested configuration.** A headless process has different observable conditions, so labeling the run headed would make the population definition false.
+
+- **3. The HTTP client provides a non-rendering near-neighbor and identifies observations that require a browser JavaScript environment.** It does not create page, frame, or worker values for comparison.
+
+- **4. The control decision is challenge, no token is issued, and the protected report does not occur.** Together those observations establish a blocked baseline for this transparent local rule.
+
+- **5. Freeze the target, workflow, reset state, BrowserContext configuration, browser and framework versions, timing plan, protected action, and evidence schema.** Only the predeclared property should change.
 
 </details>
 

@@ -36,4 +36,4 @@ and hard attempt/concurrency ceilings execute before repeated traffic.
 Use [Python telemetry](../../modules/09-tooling-code-review/01-python-telemetry.md),
 [bounded concurrency](../../modules/09-tooling-code-review/02-async-and-bounded-concurrency.md),
 and [retry budgets](../../modules/09-tooling-code-review/03-retries-timeouts-and-jitter.md)
-for setup, interpretation, failure modes, cleanup, and pass gates.
+for setup, interpretation, failure modes, cleanup, and knowledge checks.

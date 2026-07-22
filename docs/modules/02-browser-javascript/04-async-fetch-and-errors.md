@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Minimum JavaScript](03-javascript-core.md)
   - Functions, objects, arrays, and conditions
-- Required artifact: `artifacts/module-02/fetch-observation.js`
 - Next lesson: Playwright object model
 
 ## Role outcome
@@ -123,7 +122,7 @@ Classify successful, HTTP-error, and unavailable-target outcomes.
 ### Setup
 
 Start the Foundation server and load `http://127.0.0.1:4173/`. Create
-`artifacts/module-02/fetch-observation.js` and paste the worked function into a
+`fetch-observation.js` in a working directory of your choice and paste the worked function into a
 DevTools **Sources > Snippets** entry or adapt it in the **Console** panel.
 
 ### Exact actions or commands
@@ -157,8 +156,8 @@ from being counted as the same control result.
 
 ### Cleanup
 
-Restore the correct path, stop the server, and retain only the local synthetic
-observations in the artifact.
+Restore the correct path and stop the server. If you keep the result, retain
+only the local synthetic observations.
 
 ## Why this matters offensively
 
@@ -166,30 +165,28 @@ Automation is asynchronous. Incorrect waiting and error classification can
 create false bypasses, missed blocks, accidental retry pressure, and reports
 whose evidence cannot be reproduced.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-02/fetch-observation.js` plus a Markdown table showing the four
-outcome categories, whether a Response exists, the available evidence, and the
-allowed conclusion.
-
-## Pass gate
-
-1. What does an `async` function return?
-2. Does fetch normally reject for HTTP `500`?
-3. What does `await response.json()` add to the failure model?
-4. Why rethrow after logging an error?
-5. Why classify timeout/network failure separately from a control block?
+1. The lesson's `async` function returns a value on success and throws on failure. What does the caller receive in each case?
+2. `fetch('/inventory.json')` receives an HTTP `500` response. Does `fetch` normally reject the Promise, and which response property must the code check?
+3. The response status is `200`, but `await response.json()` cannot parse the body. Which failure category should the exercise record?
+4. The catch block logs an error and then throws the same error again. Why is rethrowing important for the caller?
+5. A request times out before any HTTP response arrives. Why should the learner avoid labeling that network failure as a control block?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. It returns a Promise, fulfilled with the returned value or rejected by a thrown error.
-2. No; it normally fulfills with a Response whose status must be checked.
-3. Body reading/parsing is another asynchronous operation that can reject.
-4. Callers still need to observe failure rather than receive a misleading success value.
-5. No HTTP control response may exist, so causes and conclusions differ.
+- **1. Calling the `async` function returns a Promise.** A returned value fulfills that Promise, while a thrown error rejects it so callers can await or catch the outcome.
+
+- **2. `fetch` normally fulfills with a Response even for HTTP `500`.** The code must inspect `response.ok` or `response.status` and classify the HTTP failure explicitly.
+
+- **3. Record a body-reading or JSON-parsing failure.** The HTTP exchange succeeded, but the separate asynchronous parse step failed because the returned representation was not valid JSON for the expected operation.
+
+- **4. Rethrowing keeps the operation failed for code higher in the call chain.** Without the throw, logging could accidentally turn the failed request into a misleading successful completion with no usable result.
+
+- **5. A timeout or network error may produce no HTTP response and therefore no observed control decision.** Calling every missing response a block would confuse transport failure with deliberate server enforcement.
 
 </details>
 

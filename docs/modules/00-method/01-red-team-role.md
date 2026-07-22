@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Start here](../../start-here.md)
   - Ability to read a request/response example; no browser automation required
-- Required artifact: `artifacts/module-00/role-comparison.md`
 - Next lesson: Scope and Rules of Engagement
 
 ## Role outcome
@@ -105,7 +104,7 @@ actions and observable proof.
 
 ### Setup
 
-Create `artifacts/module-00/role-comparison.md`. No software or target is needed.
+Use a temporary note, document, or sheet. No software or target is needed.
 
 ### Exact actions or commands
 
@@ -147,8 +146,12 @@ decided from preserved evidence.
 
 ### Cleanup
 
-No target was contacted. Keep the artifact; remove any real organization or
-customer names before it enters the repository.
+No target was contacted. If you keep the exercise result, remove any real
+organization or customer names before sharing or committing it.
+
+!!! tip "Optional: keep this for later"
+    Save the comparison if you want to reuse it during interview practice.
+    Saving it is not required to continue.
 
 ## Why this matters offensively
 
@@ -158,39 +161,28 @@ weak findings. A precise objective keeps reconnaissance, evasion, pressure,
 evidence, remediation, and retest aligned to the outcome the control exists to
 prevent.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-00/role-comparison.md` with three rows and these columns:
-
-```text
-vague request | adversary objective | protected action | behavior chain
-blocked baseline | proof | insufficient observation | claim limitation
-```
-
-## Pass gate
-
-1. What distinguishes a protected action from a control signal?
-2. Why is a changed detector score not automatically a bypass?
-3. How does MITRE's behavior focus change an emulation plan?
-4. Which NIST phase attempts to validate a discovered weakness?
-5. What evidence would prove a cross-session challenge-token bypass?
+1. The worked example shows Session B receiving `200` after reusing Session A's challenge token. Which observation is the protected-action proof, and which observations are only control signals?
+2. A detector score changes after a browser property is modified, but `/api/reports/protected` still returns `403`. Why has the operator not proved a bypass?
+3. NIST's Discovery phase identifies a possible weakness in challenge-token binding. Which NIST phase attempts to validate the weakness through the protected action?
+4. MITRE's behavior-focused approach is applied to a challenge replay. Why should the emulation plan describe the chained actions instead of naming only Playwright or curl?
+5. For the exercise statement “Check the rate limit,” what server-side result would turn the statement into a testable adversary objective?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. A protected action is the hostile server-side state change or service effect;
-   a signal is an input to, or observation about, a control decision.
-2. The action may still fail at another layer, and the score may not be the
-   enforcement decision. Repeat and verify the original protected action.
-3. It organizes representative chained actions around an adversary objective
-   rather than copying one tool, command, or indicator.
-4. NIST's Attack phase attempts to validate vulnerabilities identified during
-   discovery, while reporting and analysis constrain the conclusion.
-5. Preserve the `403` baseline, token issuance to session A, the same token used
-   by session B, `200` for B's protected request, and server evidence that the
-   request was processed as B.
+- **1. The `200` response for Session B's protected request, backed by server evidence naming Session B, is the protected-action proof.** Token issuance and detector or challenge changes describe control behavior, but do not by themselves show that the protected action succeeded.
+
+- **2. The operator has changed a control observation, not completed the hostile action.** Because the protected endpoint still returns `403`, the original objective remains blocked even if an intermediate score looks more favorable.
+
+- **3. NIST's Attack phase attempts to validate the discovered weakness.** In this example, validation means replaying the token through the protected endpoint and checking the server-side outcome, followed by reporting the evidence and limits.
+
+- **4. A behavior chain records what the adversary does and what each step accomplishes, so another operator can reproduce the objective with a different tool.** Naming only Playwright or curl describes implementation, not the sequence under test.
+
+- **5. The objective needs a measurable accepted action, such as obtaining three expensive reports during one evaluation window when the intended limit allows fewer.** Statuses and server-side report results make success or failure decidable.
 
 </details>
 

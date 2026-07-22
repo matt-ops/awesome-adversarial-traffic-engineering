@@ -25,10 +25,10 @@ headless, and HTTP-client populations and a ranked control hypothesis.
 Add false-positive populations, repeated trials, version labels, drift risks,
 alternate explanations, and the evidence required to distinguish them.
 
-## Canonical offensive artifact
+## Canonical offensive outcome
 
 Use this schema for every control hypothesis. A detector score may appear as an
-observation, but the artifact ends with the protected-action result and exact
+observation, but the exercise ends with the protected-action result and exact
 retest—not a classifier-building task.
 
 ```text

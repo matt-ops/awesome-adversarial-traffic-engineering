@@ -30,11 +30,16 @@ markdown_extensions:
   - admonition
   - attr_list
   - footnotes
+  - markdown.extensions.md_in_html
   - tables
   - toc:
       permalink: true
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+hooks:
+  - scripts/mkdocs_hooks.py
 nav:
   - Start Here:
       - Course home: index.md

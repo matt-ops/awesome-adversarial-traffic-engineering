@@ -12,7 +12,6 @@
   - [The authorized red-team role](01-red-team-role.md)
   - [Scope and Rules of Engagement](02-scope-and-rules.md)
   - Completed engagement plan
-- Required artifact: `artifacts/module-00/experiment-plan.md`
 - Next lesson: HTTP request and response
 
 ## Role outcome
@@ -117,9 +116,8 @@ Write the complete experiment before touching the challenge endpoint.
 
 ### Setup
 
-Copy the engagement boundary from your previous artifact into
-`artifacts/module-00/experiment-plan.md`. Use the synthetic challenge scenario
-above; Docker is not required yet.
+Use the engagement boundary from the prior lesson in a temporary experiment
+plan. Use the synthetic challenge scenario above; Docker is not required yet.
 
 ### Exact actions or commands
 
@@ -173,45 +171,28 @@ evidence schema prevent the operator from selecting only successful mutations or
 confusing correlation with causation. The same structure makes remediation
 measurable and the retest defensible.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-00/experiment-plan.md` with all fifteen AATE steps, plus:
-
-```text
-fact classification: documented | observed | inferred
-changed variable or coherent set
-fixed variables
-success and refutation conditions
-residual anomalies
-alternative explanations
-legitimate near-neighbor
-remediation success criteria
-exact retest
-```
-
-## Pass gate
-
-1. What makes a bypass hypothesis falsifiable?
-2. Why must the protected action remain the same after the change?
-3. When is changing several properties one coherent experimental treatment?
-4. What is the difference between a residual anomaly and an alternative explanation?
-5. What makes a retest “exact” rather than merely similar?
+1. The challenge-token hypothesis predicts that Session B will receive `200` when presenting Session A's token. Which result would refute the hypothesis under the fixed conditions?
+2. After changing only the requesting session, why must the operator repeat the same protected endpoint, method, token, and body used in the baseline?
+3. A browser treatment changes locale, timezone, and language together to express one declared regional profile. When can those three properties count as one coherent treatment?
+4. The replay returns `200`, but the application may have shared global state after an incomplete reset. Is the shared-state possibility a residual anomaly or an alternative explanation?
+5. After token-binding remediation, which parts of the original Session B replay must remain unchanged for the retest to be comparable?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. It predicts observable control and protected-action results and names a result
-   that would refute the claim.
-2. Otherwise the outcome could come from a different workflow or objective, so
-   the comparison cannot establish that the change affected the original control.
-3. When the properties jointly represent one necessary environment claim, the
-   set is declared in advance, and other target/workflow/state variables remain fixed.
-4. A residual anomaly is evidence that still looks inconsistent after the result;
-   an alternative explanation is a competing causal account for the result.
-5. It repeats the same adversary objective, protected action, attack procedure,
-   baselines, fixed variables, and evidence schema after the remediation.
+- **1. A `403` for Session B's replayed protected request would refute the prediction, provided the token, route, state reset, and other fixed variables were correct.** A refutable outcome is what makes the hypothesis falsifiable.
+
+- **2. Keeping the protected action and other inputs fixed isolates the requesting session as the meaningful change.** If the route, body, or objective also changes, a different workflow could explain the outcome.
+
+- **3. The properties count as one treatment when they jointly express the predeclared regional claim and all unrelated target, workflow, state, and version variables stay fixed.** The set must not expand after seeing the result.
+
+- **4. Shared global state is an alternative explanation because it offers a competing cause for the `200` result.** A residual anomaly is an observation that still looks inconsistent after the main result, such as an unchanged worker value.
+
+- **5. Repeat the same objective, Session B blocked baseline, captured-token procedure, endpoint, method, body, fixed state, and evidence fields.** The corrected result should reject Session B while preserving the intended Session A action.
 
 </details>
 

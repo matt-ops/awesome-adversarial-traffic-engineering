@@ -9,9 +9,8 @@
 - Depth: Foundation
 - Estimated time: 3 hours
 - Prerequisites:
-  - [Module 03](../03-playwright/index.md) and all earlier artifacts
+  - [Module 03](../03-playwright/index.md) and the knowledge and exercise behavior from earlier modules
   - Ability to distinguish a request, session, workflow, and objective
-- Required artifact: `artifacts/module-04/abuse-threat-map.md`
 - Next lesson: Workflow and API mapping
 
 ## Role outcome
@@ -91,7 +90,7 @@ Produce a seven-row abuse threat map with testable outcomes.
 
 ### Setup
 
-Create the artifact from the required template. No target or credential list is
+Use the table format shown in this lesson. No target or credential list is
 needed; use fictional scenarios and synthetic identities.
 
 ### Exact actions or commands
@@ -126,7 +125,7 @@ until authoritative state or a service effect decides success.
 ### Cleanup
 
 No target was contacted. Remove employer, customer, or real account details from
-the public-safe artifact.
+the public-safe exercise result.
 
 ## Why this matters offensively
 
@@ -134,30 +133,28 @@ The abuse objective determines reconnaissance, client capabilities, fixed
 variables, evidence, impact, and retest. A vague "bot test" encourages random
 signal changes; a precise inventory or login outcome yields an emulation plan.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-04/abuse-threat-map.md` with columns: OAT, objective,
-preconditions, chain, protected action, proof, intermediate control, legitimate
-near-neighbor, authorization source, and limitation.
-
-## Pass gate
-
-1. How does Credential Stuffing differ from password guessing?
-2. What separates Scalping from Denial of Inventory?
-3. Why is CAPTCHA passage usually an intermediate outcome?
-4. Can public content still be the object of scraping abuse?
-5. What evidence distinguishes Denial of Inventory from DoS?
+1. An operator tests a fixed list of previously obtained synthetic username/password pairs. Why is that Credential Stuffing rather than password guessing?
+2. One script completes purchases while another holds reservations and never checks out. Which business outcome separates Scalping from Denial of Inventory?
+3. A script passes a CAPTCHA but never performs the gated reservation. Why is CAPTCHA passage only an intermediate outcome in that workflow?
+4. The exercise maps automated collection of publicly accessible catalog data. Can the activity still fit a scraping-abuse objective, and what must be analyzed before claiming harm?
+5. Five reservation holds reduce inventory from 5 to 0 without purchases. Which evidence makes that Denial of Inventory rather than service-level Denial of Service?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Stuffing tests previously obtained username/password pairs; guessing generates candidate secrets.
-2. Scalping acquires the scarce good/service; inventory denial holds it without completing acquisition.
-3. The adversary usually needs passage to perform a later protected business action.
-4. Yes; the category concerns automated collection and subsequent use, though authorization/impact still need specific analysis.
-5. Inventory state and absent purchase prove held goods; health/resource metrics prove service degradation.
+- **1. Credential Stuffing tests known username/password pairs that came from an earlier source, while guessing generates candidate passwords.** The lesson uses only fixed synthetic pairs and does not obtain or test external credentials.
+
+- **2. Scalping ends with the adversary acquiring the scarce product or service.** Denial of Inventory removes availability through holds or reservations without completing the acquisition, so purchase records distinguish the outcomes.
+
+- **3. Passing the CAPTCHA only opens a later workflow edge.** The protected business objective remains unproved until the reservation, purchase, login, or other gated action actually succeeds.
+
+- **4. Yes, automated collection of public content can fit a scraping scenario.** The operator must still analyze authorization, collection scale, later use, protected outcome, and demonstrated impact rather than assuming public access makes every use harmless.
+
+- **5. Inventory records showing five held units and no completed purchases prove an inventory-state effect.** A Denial-of-Service claim instead requires resource and health evidence showing impaired service capacity or availability.
 
 </details>
 

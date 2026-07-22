@@ -5,7 +5,7 @@ and Deep exit ramps. It reuses completed lessons; it does not introduce a second
 
 These are rubric-driven **portfolio drills**, not independently packaged
 exercises. A packaged exercise would have its own README, starter material,
-learner task, expected artifact, tests or grading criteria, solution, and
+learner task, expected result, tests or grading criteria, solution, and
 explanation. The counted lists below reuse shared course code, tests, lessons,
 and answer guidance and therefore make no package claim.
 
@@ -19,7 +19,7 @@ and answer guidance and therefore make no package claim.
 - Hypothesis: one falsifiable sentence per drill before execution/review
 - Changed variable: one declared value or one deliberately coherent set
 - Fixed variables: target/version/reset/evidence schema and all unrelated inputs
-- Success: the row's artifact meets its stated proof and limitation requirement
+- Success: the row's result meets its stated proof and limitation requirement
 - Evidence: code/test output, review trace, threat model, design diagram, or report section
 - Limitations: repetition increases practice, not production scale or universal coverage
 - Cleanup: stop/reset local services and keep private material outside the repository
@@ -29,7 +29,7 @@ and answer guidance and therefore make no package claim.
 ## Six Python drills
 
 Complete all six. Existing code is the teacher: read the named function, explain
-it, run its test, then make the stated artifact or test extension.
+it, run its test, then make the stated output or test extension.
 
 | # | Code and exact action | Required evidence |
 |---:|---|---|
@@ -52,7 +52,7 @@ Run each for 25 minutes, then use the Module 10 scorecard and repair the weakest
    choose one bounded scenario, state ceilings/abort/recovery, interpret shedding
    versus failure, and define remediation plus exact hostile/legitimate retest.
 
-Artifact: two prompt/answer outlines, evidence links, scorecards, and exact repairs.
+Expected result: two prompt/answer outlines, evidence links, scorecards, and exact repairs.
 
 ## Ten code-review drills
 
@@ -99,7 +99,7 @@ remediation migration, hostile tests, and legitimate tests.
 | Workflow-aware rate control | server-derived identity, endpoint/workflow key, window, fairness, and fail mode |
 | Resilient report service | cache/admission, work budget, retry owner, dependency isolation, shedding, and recovery objective |
 | Cross-context browser observation | page/frame/worker collection, session join, freshness, versioning, and accessible/privacy-preserving alternatives |
-| Evidence and retest pipeline | immutable raw capture, derived metrics, decision log, artifact version, access control, cleanup, and regression ownership |
+| Evidence and retest pipeline | immutable raw capture, derived metrics, decision log, output version, access control, cleanup, and regression ownership |
 
 ## Integrated report package
 

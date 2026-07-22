@@ -11,7 +11,6 @@
 - Prerequisites:
   - [Browser contexts and storage state](03-contexts-and-state.md)
   - HTTP message anatomy from Module 01
-- Required artifact: `artifacts/module-03/network-evidence.md`
 - Next lesson: Frames, workers, and CDP
 
 ## Role outcome
@@ -25,7 +24,7 @@ and distinguish browser observations from protected-action proof.
 |---|---|---|---|---|
 | OFFICIAL_DOCUMENTATION | [Playwright Network](https://playwright.dev/docs/network) | Network events; HTTP authentication; missing events/service workers | Defines observable events and important blind spots | API behavior is version-sensitive; examples pin the repository version. |
 | OFFICIAL_DOCUMENTATION | [MDN HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) | HTTP flow and messages | Keeps event objects tied to protocol meaning | Stop before APIs based on HTTP; it is a browser-platform overview, not an attack guide. |
-| LAB_SPECIFIC | [First Playwright workflow](../../labs/foundation/first-playwright.md) | Request/response listeners and artifact | Supplies the tested capture implementation | Deliberately small and vulnerable; results do not generalize to production systems. |
+| LAB_SPECIFIC | [First Playwright workflow](../../labs/foundation/first-playwright.md) | Request/response listeners and JSON output | Supplies the tested capture implementation | Deliberately small and vulnerable; results do not generalize to production systems. |
 | COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Evidence, residual anomalies, and proof | Adds trial correlation fields without overstating browser events | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
 ## Mental model
@@ -104,12 +103,12 @@ without editing it.
 4. Record method, status, and whether the body was preserved.
 5. Add three fields the script should capture for integrated trials: trial ID,
    population, and workflow step.
-6. List four claims the current artifact cannot support.
+6. List four claims the current network output cannot support.
 
 ### Expected output
 
 Local URLs have request/response pairs with `200` in a normal trial. The current
-artifact preserves no response bodies or server event IDs and therefore cannot
+output preserves no response bodies or server event IDs and therefore cannot
 prove server-side mutation, enforcement reason, raw-wire identity, or uniqueness
 of the caller.
 
@@ -129,8 +128,8 @@ than inflating what browser events prove.
 
 ### Cleanup
 
-Stop the server. Retain the original artifact unchanged and place analysis in a
-separate file.
+Stop the server. Keep the original output unchanged while you analyze it. Saving
+that analysis in a separate file is optional.
 
 ## Why this matters offensively
 
@@ -138,29 +137,28 @@ Control testing requires a chain of evidence: exact input, control response,
 same protected action, and authoritative outcome. Browser events cover a vital
 middle segment but must be correlated rather than overclaimed.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-03/network-evidence.md` with ordered/pair tables, missing-data
-analysis, proposed correlation schema, and four prohibited conclusions.
-
-## Pass gate
-
-1. What is observable at request time that is not yet known?
-2. Why can URL-only pairing fail?
-3. What scope difference exists between Page and Context listeners?
-4. Is a missing response automatically a control rejection?
-5. What evidence upgrades a browser event into protected-action proof?
+1. A Playwright request event records the method, URL, headers, and body intent. Which server outcome is still unknown at request-event time?
+2. Two inventory requests use the same URL during one trial. Why can a URL-only pairing method attach the wrong response to a request?
+3. The exercise listens on one Page while another Page exists in the same BrowserContext. Which events would a context-level listener observe that the page-level listener would not?
+4. A request event has no matching response event. Why should the learner investigate failure, interception, worker behavior, and cleanup before calling the missing response a control rejection?
+5. Which additional evidence would turn a browser request/response event into proof that the protected server action succeeded?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Method/URL/headers/body intent are visible, but no server outcome exists yet.
-2. Concurrent or repeated requests can share a URL and need stronger correlation.
-3. Context listeners observe relevant Pages in that context; Page listeners observe that Page.
-4. No; failure, interception, worker behavior, or cleanup may explain it.
-5. Correlate it with the same trial/action and authoritative server state or service-health effect.
+- **1. The response status, response body, and resulting server state are not yet known.** A request event shows what the browser attempted to send, not how the server processed the operation.
+
+- **2. Repeated or concurrent requests can share an identical URL, so URL text does not uniquely identify one exchange.** Pairing needs stronger correlation such as request objects, action timing, or trial identifiers.
+
+- **3. A BrowserContext listener can observe relevant network events from every Page in that context.** A Page listener is limited to traffic associated with the single Page where the listener was registered.
+
+- **4. Several non-control causes can prevent a response event from appearing.** Without an HTTP control response or correlated server evidence, labeling the absence as enforcement would overstate what the browser trace shows.
+
+- **5. Correlate the event with the same trial and action, then verify the server record used as the source of truth or the intended service-health effect.** Browser events alone describe traffic, not final protected-action completion.
 
 </details>
 

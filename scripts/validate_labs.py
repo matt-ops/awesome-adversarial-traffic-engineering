@@ -37,7 +37,7 @@ MAP_FIELDS = (
     "- **Interpretation:**",
     "- **Source basis:**",
     "- **Safety boundary:**",
-    "- **Artifact:**",
+    "- **Expected evidence or output:**",
     "- **Cleanup:**",
     "- **Retest use:**",
 )

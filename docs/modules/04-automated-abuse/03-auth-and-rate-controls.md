@@ -12,7 +12,6 @@
   - [Workflow and API mapping](02-workflow-mapping.md)
   - Active local lab for local exercises
   - A free PortSwigger Web Security Academy account for the assigned provider lab
-- Required artifact: `artifacts/module-04/auth-rate-evidence.md`
 - Next lesson: Inventory and promotion abuse
 
 ## Role outcome
@@ -142,30 +141,28 @@ Controls frequently bind decisions to a single identity dimension. Controlled
 testing reveals whether one adversary workflow can escape that grouping while
 preserving the same action and evidence.
 
-## Required artifact
+## Check your understanding
 
-`artifacts/module-04/auth-rate-evidence.md` containing two local trial tables,
-the provider-lab evidence outline, taxonomy distinction, changed/fixed variables,
-protected outcomes, residual anomalies, and limitations.
-
-## Pass gate
-
-1. How does authentication differ from authorization?
-2. What exact variable changes in the local rate bypass?
-3. Why is `200, 200, 200` incomplete without response content?
-4. Why is the local credential sequence not credential theft?
-5. What confines the PortSwigger procedure legally and technically?
+1. The local login accepts a known synthetic credential pair, while the report endpoint decides whether that caller may run an expensive action. How do authentication and authorization differ in these two decisions?
+2. The fixed-key rate trial returns `200, 200, 429`, while the rotated-key trial returns `200, 200, 200`. Which single request value changes in the rotated trial?
+3. Why must the learner inspect each `200` response body instead of treating the rotated status sequence alone as proof of three accepted reports?
+4. The credential exercise sends five predefined synthetic pairs and obtains no outside secrets. Why should the result not be described as credential theft?
+5. Which provider controls confine the assigned PortSwigger authentication exercise legally and technically?
 
 ## Answer key
 
 <details>
-<summary>Check your reasoning</summary>
+<summary>Show answers</summary>
 
-1. Authentication establishes identity; authorization permits a specific action for that identity/state.
-2. Only the caller-supplied `session_id` aggregation key changes per request.
-3. Status alone does not prove the protected report action completed.
-4. It uses five fixed synthetic pairs and reports controlled outcomes; it acquires no external secrets.
-5. The provider issues a specific lab host, account/data, scenario, and allowed procedure.
+- **1. Authentication establishes which identity the server recognizes, while authorization decides whether that identity and state permit a particular action.** A valid login therefore does not automatically authorize every protected report or business operation.
+
+- **2. Only the caller-supplied `session_id` aggregation value changes from request to request.** The route, work, request count, order, reset state, and protected report action remain fixed.
+
+- **3. A `200` can be success-shaped without containing the expected protected result.** The response body and server summary confirm that each expensive report was actually accepted under the rotated keys.
+
+- **4. The exercise starts with a small fixed set of course-owned synthetic values and reports controlled outcomes.** It neither acquires nor exfiltrates real credentials, so a credential-theft claim would misrepresent the activity.
+
+- **5. The provider issues a specific lab host, scenario, account or data, and approved procedure, then supplies a completion signal.** Testing must stay inside that assigned environment rather than moving to arbitrary systems.
 
 </details>
 
