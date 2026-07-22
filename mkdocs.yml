@@ -51,15 +51,6 @@ nav:
       - 7 days - Applied: checkpoints/7-days.md
       - 21 days - Integrated: checkpoints/21-days.md
       - 6 weeks - Deep: checkpoints/6-weeks.md
-  - Method and Provenance:
-      - Provenance: methodology/provenance.md
-      - Authorization and safety: methodology/authorization-and-safety.md
-      - Adversarial-control loop: methodology/adversarial-control-loop.md
-      - Experiment design: methodology/experiment-design.md
-      - Method module overview: modules/00-method/index.md
-      - The red-team role: modules/00-method/01-red-team-role.md
-      - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
-      - Experimental method: modules/00-method/03-experimental-method.md
   - HTTP and Edge:
       - Overview: modules/01-http-edge/index.md
       - Request and response: modules/01-http-edge/01-http-request-response.md
@@ -146,6 +137,15 @@ nav:
       - Source ledger: references/source-ledger.md
       - Glossary: references/glossary.md
       - Electives: references/electives.md
+  - Optional Appendices:
+      - Red-team method and engagement practice: modules/00-method/index.md
+      - The authorized red-team role: modules/00-method/01-red-team-role.md
+      - Scope and Rules of Engagement: modules/00-method/02-scope-and-rules.md
+      - Experimental method: modules/00-method/03-experimental-method.md
+      - Methodology provenance: methodology/provenance.md
+      - Authorization and safety background: methodology/authorization-and-safety.md
+      - Adversarial-control loop: methodology/adversarial-control-loop.md
+      - Experiment design: methodology/experiment-design.md
   - Safety:
       - Boundary: safety/index.md
       - Local target policy: safety/local-target-policy.md

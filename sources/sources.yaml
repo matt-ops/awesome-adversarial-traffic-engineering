@@ -19,7 +19,7 @@
     - rules of engagement
   limitations:
     - General testing guide; it does not define bot-control or DDoS red-team procedure.
-  modules: [module-00, module-10]
+  modules: [appendix-red-team-method, module-10]
 
 - id: mitre-adversary-emulation-plans
   title: Adversary Emulation Plans
@@ -37,7 +37,7 @@
     - behavior-focused defense evaluation
   limitations:
     - Examples focus on enterprise adversaries, not automated-abuse controls.
-  modules: [module-00, module-04]
+  modules: [appendix-red-team-method, module-04]
 
 - id: owasp-wstg-entry-points-v42
   title: Identify Application Entry Points
@@ -879,7 +879,7 @@
   supports: [aate-method, controlled-experiments, protected-action-proof, retest]
   limitations:
     - Course synthesis; no cited standard defines the exact fifteen-step sequence.
-  modules: [module-00, module-01, module-04, module-05, module-06, module-07, module-08, module-09, module-10]
+  modules: [appendix-red-team-method, module-01, module-04, module-05, module-06, module-07, module-08, module-09, module-10]
 
 - id: aate-local-lab
   title: AATE synthetic local lab behavior
@@ -898,4 +898,4 @@
   supports: [local-exercises, expected-output, safety-boundaries]
   limitations:
     - Deliberately small and vulnerable; results do not generalize to production systems.
-  modules: [module-00, module-01, module-03, module-04, module-05, module-06, module-08, module-09, module-10]
+  modules: [appendix-red-team-method, module-01, module-03, module-04, module-05, module-06, module-08, module-09, module-10]

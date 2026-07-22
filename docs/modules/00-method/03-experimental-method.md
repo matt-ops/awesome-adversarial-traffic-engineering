@@ -2,17 +2,17 @@
 
 <!-- source-ids: nist-sp-800-115, owasp-wstg-entry-points-v42, aate-adversarial-control-loop, aate-local-lab -->
 
-## Progress
+## Appendix guide
 
-- Module: 00 — Method and authorization
-- Lesson: 3 of 3
-- Depth: Foundation
+- Appendix: Red-team method and engagement practice
+- Status: Optional
+- Best time to review: before an informational or interview; before a
+  provider-hosted assessment; before an organization-owned engagement; or
+  before the integrated capstone
+- Prior technical lessons required: None
+- Return to the core path: [HTTP request and response](../01-http-edge/01-http-request-response.md)
+- Appendix lesson: 3 of 3
 - Estimated time: 100 minutes
-- Prerequisites:
-  - [The authorized red-team role](01-red-team-role.md)
-  - [Scope and Rules of Engagement](02-scope-and-rules.md)
-  - Completed engagement plan
-- Next lesson: HTTP request and response
 
 ## Role outcome
 
@@ -108,7 +108,7 @@ The local challenge token may not be bound to the session that solved it.
 The hypothesis can fail: the second session may remain blocked. That is useful
 evidence if the baseline, token, state, and request are correct.
 
-## Guided exercise
+## Optional exercise
 
 ### Objective
 
@@ -116,8 +116,8 @@ Write the complete experiment before touching the challenge endpoint.
 
 ### Setup
 
-Use the engagement boundary from the prior lesson in a temporary experiment
-plan. Use the synthetic challenge scenario above; Docker is not required yet.
+Use the synthetic engagement boundary and challenge scenario above in a
+temporary experiment plan. Docker is not required.
 
 ### Exact actions or commands
 
@@ -196,8 +196,9 @@ measurable and the retest defensible.
 
 </details>
 
-## Next lesson
+## Continue
 
-[Begin HTTP request and response](../01-http-edge/01-http-request-response.md)
-before using application or Docker exercises, because every later claim depends
-on tracing the actual exchange.
+- Continue through the appendix by reviewing its [methodology
+  references](index.md#methodology-references) when you want more methodology depth.
+- Return to [HTTP request and response](../01-http-edge/01-http-request-response.md)
+  to begin the core technical path.

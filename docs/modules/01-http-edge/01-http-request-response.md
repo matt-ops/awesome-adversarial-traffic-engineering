@@ -9,8 +9,8 @@
 - Depth: Foundation
 - Estimated time: 90 minutes
 - Prerequisites:
-  - [Module 00](../00-method/index.md), especially protected-action proof
-  - A browser and the Python runtime already present on the course workstation
+  - No prior course lesson is required
+  - A browser; Python is needed only when the documented local server command is reached
 - Next lesson: Sessions and workflows
 
 ## Role outcome

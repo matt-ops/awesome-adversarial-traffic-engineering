@@ -1,27 +1,41 @@
-# Module 00 - Method and authorization
+# Optional appendix - Red-team method and engagement practice
 
-**Outcome:** design an authorized, falsifiable engagement whose evidence proves
-an adversarial objective rather than merely showing tool output.
+This optional appendix preserves the course's full methodology instruction for
+learners who want formal red-team planning, Rules of Engagement, experimental
+method reinforcement, or interview review. It is not part of the core lesson
+sequence, prerequisite closure, checkpoint time, or core lesson count.
 
-## Foundation
+## Appendix guide
 
-Complete [the red-team role](01-red-team-role.md), [scope and Rules of
-Engagement](02-scope-and-rules.md), and [experimental method](03-experimental-method.md).
-Produce the role comparison, engagement plan, and experiment plan.
+- Status: Optional
+- Best time to review: before an informational or interview; before a
+  provider-hosted assessment; before an organization-owned engagement; or
+  before the integrated capstone
+- Prior technical lessons required: None
+- Estimated lesson time: 265 minutes (4.42 hours)
+- Return to the core path: [HTTP request and response](../01-http-edge/01-http-request-response.md)
 
-## Applied
+## Lessons
 
-Use the scope lesson's safe-client dry run and rejected-target exercise. Preserve
-the configuration, rejection, and explanation as evidence that boundaries execute.
+1. [The authorized red-team role](01-red-team-role.md) distinguishes control
+   observation from protected-action proof.
+2. [Scope and Rules of Engagement](02-scope-and-rules.md) turns permission into
+   target, action, traffic, data, abort, cleanup, and retest controls.
+3. [Experimental method before attack execution](03-experimental-method.md)
+   develops falsifiable hypotheses, fixed variables, alternatives, and exact retests.
 
-## Integrated
+The lessons retain their source assignments, worked examples, optional
+exercises, checks for understanding, and bullet-list answer keys.
 
-Use the experimental-method guided exercise to turn one synthetic weakness into
-an end-to-end authorized runbook from recon through protected-effect proof.
+## Methodology references
 
-## Deep
+- [Methodology provenance](../../methodology/provenance.md)
+- [Authorization and safety background](../../methodology/authorization-and-safety.md)
+- [The AATE adversarial-control loop](../../methodology/adversarial-control-loop.md)
+- [Experiment design](../../methodology/experiment-design.md)
 
-Extend that runbook with change control, staged evidence gates, rollback,
-cleanup, remediation owner, and same-attack retest ownership.
+## Continue
 
-Begin with [Lesson 1: the authorized red-team role](01-red-team-role.md).
+- Continue through the appendix when you want more methodology depth.
+- Return to [HTTP request and response](../01-http-edge/01-http-request-response.md)
+  to begin the core technical path.

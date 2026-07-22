@@ -25,4 +25,19 @@ Complete [the full mock loop](05-mock-loop.md), including rebuttal, exact gap
 repairs, repeated failed sections, and a public-safe portfolio limitation statement.
 Then complete the [Integrated and Deep portfolio package](../../labs/deep/portfolio-drills.md).
 
+## Evidence and retest frame used in this module
+
+| Field | What the finding must state |
+|---|---|
+| Baseline | Record the intended action and the blocked or healthy comparison before the attack. |
+| Changed variable | Identify the attacker-controlled input or remediation invariant that changed. |
+| Fixed variables | Preserve the target, action, state, version, evidence fields, and relevant limits. |
+| Success condition | Name the authoritative protected action or service effect that proves the result. |
+| Alternative explanation | State competing causes and the evidence that would distinguish them. |
+| Retest | Repeat the exact attack after remediation while confirming the intended action still works. |
+
 Start with [Finding and evidence](01-finding-and-evidence.md).
+
+For interview methodology and formal engagement review, use the optional
+[Red-team method and engagement practice appendix](../00-method/index.md). It is
+recommended context, not a core completion dependency.

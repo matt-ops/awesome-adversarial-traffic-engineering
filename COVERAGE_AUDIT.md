@@ -9,7 +9,7 @@ free/paid route instead of a shallow paragraph or empty assignment.
 
 | Capability | Direct instruction | Demonstration/evidence | Status |
 |---|---|---|---|
-| Authorized offensive method and attack lifecycle | [Module 00](docs/modules/00-method/index.md) | executable target rejection and complete experiment plan | Core complete |
+| Authorized offensive method and attack lifecycle | [Optional red-team method appendix](docs/modules/00-method/index.md) plus concise experiment frames inside relevant technical lessons | executable target rejection, local safety boundaries, and complete optional experiment plan | Optional depth; minimum technical method remains core and self-contained |
 | HTTP, sessions, workflows, edge path | [Module 01](docs/modules/01-http-edge/index.md) | DevTools trace and request-path diagram | Core complete |
 | Browser processes, DOM, Web APIs, JavaScript async | [Module 02](docs/modules/02-browser-javascript/index.md) | static page/frame/worker/fetch exercises | Core complete |
 | Browser automation and evidence | [Module 03](docs/modules/03-playwright/index.md) | headed local workflow and network trace | Core complete |
@@ -48,6 +48,6 @@ free/paid route instead of a shallow paragraph or empty assignment.
 ## Final gap rule
 
 Before release, every row must have one of three outcomes: full source-backed
-instruction plus an artifact; an exact mature external assignment; or an explicit
+instruction plus a self-contained exercise; an exact mature external assignment; or an explicit
 out-of-role exclusion. No row may end in “research it,” a generic paragraph, or a
 tool list without a readiness point and expected evidence.

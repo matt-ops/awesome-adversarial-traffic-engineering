@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LESSON_ROOT = ROOT / "docs" / "modules"
+APPENDIX_ROOT = LESSON_ROOT / "00-method"
 
 REQUIRED_HEADINGS = (
     "## Progress",
@@ -29,6 +30,29 @@ PROGRESS_FIELDS = (
     "- Estimated time:",
     "- Prerequisites:",
     "- Next lesson:",
+)
+APPENDIX_HEADINGS = (
+    "## Appendix guide",
+    "## Role outcome",
+    "## Source basis",
+    "## Mental model",
+    "## Required external instruction",
+    "## Course bridge",
+    "## Worked example",
+    "## Optional exercise",
+    "## Why this matters offensively",
+    "## Check your understanding",
+    "## Answer key",
+    "## Continue",
+)
+APPENDIX_GUIDE_FIELDS = (
+    "- Appendix:",
+    "- Status:",
+    "- Best time to review:",
+    "- Prior technical lessons required:",
+    "- Return to the core path:",
+    "- Appendix lesson:",
+    "- Estimated time:",
 )
 EXERCISE_HEADINGS = (
     "### Objective",
@@ -77,11 +101,19 @@ FOUNDATION_SLICE = (
 
 
 def lesson_files() -> list[Path]:
-    return sorted(path for path in LESSON_ROOT.glob("*/*.md") if path.name != "index.md")
+    return sorted(
+        path
+        for path in LESSON_ROOT.glob("*/*.md")
+        if path.name != "index.md" and path.parent != APPENDIX_ROOT
+    )
 
 
 def module_indexes() -> list[Path]:
-    return sorted(LESSON_ROOT.glob("*/index.md"))
+    return sorted(path for path in LESSON_ROOT.glob("*/index.md") if path.parent != APPENDIX_ROOT)
+
+
+def appendix_files() -> list[Path]:
+    return sorted(path for path in APPENDIX_ROOT.glob("*.md") if path.name != "index.md")
 
 
 def section(text: str, heading: str, next_heading: str | None) -> str:
@@ -162,6 +194,7 @@ def main() -> int:
     errors: list[str] = []
     lessons = lesson_files()
     indexes = module_indexes()
+    appendices = appendix_files()
 
     for foundation_relative in FOUNDATION_SLICE:
         if not (ROOT / foundation_relative).is_file():
@@ -258,6 +291,81 @@ def main() -> int:
         if re.search(r"amazon\.jobs|leadership principles", text, re.IGNORECASE):
             errors.append(f"{relative}: employer-specific material is prohibited")
 
+    for appendix in appendices:
+        text = appendix.read_text(encoding="utf-8")
+        relative = appendix.relative_to(ROOT)
+        if len(text.splitlines()) > 560:
+            errors.append(f"{relative}: appendix exceeds 560 lines; split distinct outcomes")
+        previous = -1
+        for heading in APPENDIX_HEADINGS:
+            if text.count(heading) != 1:
+                errors.append(f"{relative}: expected exactly one {heading}")
+                continue
+            position = text.find(heading)
+            if position <= previous:
+                errors.append(f"{relative}: {heading} is out of appendix template order")
+            previous = position
+
+        guide = section(text, "## Appendix guide", "## Role outcome")
+        for field in APPENDIX_GUIDE_FIELDS:
+            if guide.count(field) != 1:
+                errors.append(f"{relative}: Appendix guide requires exactly one {field}")
+        if "- Status: Optional" not in guide:
+            errors.append(f"{relative}: appendix status must be Optional")
+        if "- Prior technical lessons required: None" not in guide:
+            errors.append(f"{relative}: appendix must not require a core technical lesson")
+        if "../01-http-edge/01-http-request-response.md" not in guide:
+            errors.append(f"{relative}: Appendix guide must link to the core start")
+
+        source_block = section(text, "## Source basis", "## Mental model")
+        if "| Type | Source | Exact assigned area | What it supports | Limitation |" not in source_block:
+            errors.append(f"{relative}: Source basis lacks the exact remediation table")
+
+        assignment = section(text, "## Required external instruction", "## Course bridge")
+        blocks = subsection_blocks(assignment)
+        if not blocks:
+            errors.append(f"{relative}: external instruction needs at least one named resource block")
+        for number, block in enumerate(blocks, start=1):
+            for field in ASSIGNMENT_FIELDS:
+                if block.count(field) != 1:
+                    errors.append(f"{relative}: resource block {number} requires exactly one {field}")
+
+        exercise = section(text, "## Optional exercise", "## Why this matters offensively")
+        for heading in EXERCISE_HEADINGS:
+            if exercise.count(heading) != 1:
+                errors.append(f"{relative}: Optional exercise requires exactly one {heading}")
+        expected = section(exercise, "### Expected output", "### Interpretation")
+        interpretation = section(exercise, "### Interpretation", "### Common failure modes")
+        failures = section(exercise, "### Common failure modes", "### Cleanup")
+        if len(expected.split()) < 20:
+            errors.append(f"{relative}: Expected output is too thin to verify the optional exercise")
+        if len(interpretation.split()) < 20:
+            errors.append(f"{relative}: Interpretation is too thin to teach the optional result")
+        if len(re.findall(r"^- ", failures, re.MULTILINE)) < 2:
+            errors.append(f"{relative}: Common failure modes needs at least two concrete failures")
+
+        knowledge_check = section(text, "## Check your understanding", "## Answer key")
+        questions = numbered_questions(knowledge_check)
+        question_numbers = [number for number, _ in questions]
+        if not 3 <= len(questions) <= 5:
+            errors.append(
+                f"{relative}: Check your understanding needs three to five questions; got {len(questions)}"
+            )
+        if question_numbers != list(range(1, len(questions) + 1)):
+            errors.append(f"{relative}: question numbers are duplicate or nonsequential")
+        for number, question in questions:
+            if not question.endswith("?"):
+                errors.append(f"{relative}: question {number} must end with a question mark")
+        answer_key = section(text, "## Answer key", "## Continue")
+        errors.extend(validate_answer_key(relative, answer_key, question_numbers))
+
+        continue_block = section(text, "## Continue", None)
+        if "../01-http-edge/01-http-request-response.md" not in continue_block:
+            errors.append(f"{relative}: Continue must link back to HTTP request and response")
+        for pattern, label in REJECTED_PATTERNS.items():
+            if re.search(pattern, text, re.IGNORECASE):
+                errors.append(f"{relative}: rejected placeholder/claim: {label}")
+
     first_browser = (LESSON_ROOT / "03-playwright" / "02-first-browser.md").read_text(encoding="utf-8")
     for marker in (
         "### Every import",
@@ -276,8 +384,9 @@ def main() -> int:
             print(f"- {error}")
         return 1
     print("Lesson validation: PASS")
-    print(f"- {len(lessons)} canonical lessons satisfy the learning-experience template")
-    print(f"- {len(indexes)} module indexes expose Foundation, Applied, Integrated, and Deep")
+    print(f"- {len(lessons)} core lessons satisfy the learning-experience template")
+    print(f"- {len(indexes)} core module indexes expose Foundation, Applied, Integrated, and Deep")
+    print(f"- {len(appendices)} optional appendix lessons satisfy the appendix contract")
     print(f"- {len(FOUNDATION_SLICE)} mandatory Foundation pages and the first-browser release gate pass")
     return 0
 

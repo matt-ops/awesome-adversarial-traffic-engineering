@@ -2,16 +2,17 @@
 
 <!-- source-ids: nist-sp-800-115, aate-local-lab, aate-adversarial-control-loop -->
 
-## Progress
+## Appendix guide
 
-- Module: 00 — Method and authorization
-- Lesson: 2 of 3
-- Depth: Foundation
+- Appendix: Red-team method and engagement practice
+- Status: Optional
+- Best time to review: before an informational or interview; before a
+  provider-hosted assessment; before an organization-owned engagement; or
+  before the integrated capstone
+- Prior technical lessons required: None
+- Return to the core path: [HTTP request and response](../01-http-edge/01-http-request-response.md)
+- Appendix lesson: 2 of 3
 - Estimated time: 90 minutes
-- Prerequisites:
-  - [The authorized red-team role](01-red-team-role.md)
-  - A terminal capable of running Python 3.12 or newer
-- Next lesson: Experimental method
 
 ## Role outcome
 
@@ -89,7 +90,7 @@ local exercise.
 | Cleanup | Reset synthetic state and stop the local service |
 | Retest owner | Named operator repeats the exact replay after token binding fix |
 
-## Guided exercise
+## Optional exercise
 
 ### Objective
 
@@ -176,7 +177,9 @@ controls.
 
 </details>
 
-## Next lesson
+## Continue
 
-[Design a falsifiable experiment](03-experimental-method.md) so an authorized
-run can support a causal, limited conclusion.
+- Continue through the appendix with [Experimental method before attack
+  execution](03-experimental-method.md) when you want more methodology depth.
+- Return to [HTTP request and response](../01-http-edge/01-http-request-response.md)
+  to begin the core technical path.

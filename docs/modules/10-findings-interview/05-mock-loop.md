@@ -9,7 +9,7 @@
 - Depth: Deep
 - Estimated time: 5 hours
 - Prerequisites:
-  - All Modules 00-10
+  - The core lessons named by this lesson's manifest prerequisite closure
   - Be able to explain a finding, retest, briefing, role narrative, and runnable lab behavior
 - Next lesson: Checkpoint and portfolio review
 
@@ -167,3 +167,6 @@ foundations, attack lifecycle, tooling, evidence, and communication while constr
 
 Use the cumulative checkpoint pages as honest portfolio views, then complete the
 final coverage and quality checklists before presenting the course as finished.
+For optional interview methodology review, use the [Red-team method and
+engagement practice appendix](../00-method/index.md); it is not required for core
+completion.
