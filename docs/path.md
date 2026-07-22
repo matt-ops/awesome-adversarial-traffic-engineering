@@ -13,7 +13,7 @@ progress boxes and checkpoint pages are validated against it.
 | 01 | [HTTP and the edge](modules/01-http-edge/index.md) | Trace and map the complete request/control/resource path |
 | 02 | [Browser and JavaScript](modules/02-browser-javascript/index.md) | Explain the runtime that collects and exposes browser signals |
 | 03 | [Playwright](modules/03-playwright/index.md) | Build and instrument a representative automated browser |
-| 04 | [Automated abuse](modules/04-automated-abuse/index.md) | Reproduce credential, inventory, promotion, race, and rate abuse |
+| 04 | [Automated abuse](modules/04-automated-abuse/index.md) | Reproduce credential, rate, challenge-proof, inventory, promotion, and race abuse with protected-action evidence |
 | 05 | [Control reconnaissance](modules/05-control-recon/index.md) | Map candidate relied-upon signals and establish a blocked baseline |
 | 06 | [Browser evasion](modules/06-browser-evasion/index.md) | Test controlled changes, coherence, replay, and version drift |
 | 07 | [Protocol identity foundations](modules/07-protocol-identity/index.md) | Generate Python/OpenSSL fixtures and use source-led models for browser/protocol coherence |
@@ -41,9 +41,9 @@ pages only when you want to assess whether you can pause with an honest claim.
 | Checkpoint | Depth ceiling | Direct targets/time | Closure lessons | From-zero closure time |
 |---|---:|---:|---:|---:|
 | [24 focused hours](checkpoints/24-hours.md) | Foundation | 2 / 285 minutes | 11 | 1,250 minutes / 20.83 hours |
-| [7 days](checkpoints/7-days.md) | Applied | 4 / 645 minutes | 15 | 1,970 minutes / 32.83 hours |
-| [21 days](checkpoints/21-days.md) | Integrated | 7 / 1,065 minutes | 28 | 4,010 minutes / 66.83 hours |
-| [6 weeks](checkpoints/6-weeks.md) | Deep | 11 / 1,905 minutes | 44 | 6,930 minutes / 115.50 hours |
+| [7 days](checkpoints/7-days.md) | Applied | 5 / 885 minutes | 16 | 2,210 minutes / 36.83 hours |
+| [21 days](checkpoints/21-days.md) | Integrated | 8 / 1,305 minutes | 29 | 4,250 minutes / 70.83 hours |
+| [6 weeks](checkpoints/6-weeks.md) | Deep | 12 / 2,145 minutes | 45 | 7,170 minutes / 119.50 hours |
 
 The closure total, not the direct-selection total, is the checkpoint time for a
 learner starting at the course entry point. Each closure contains every

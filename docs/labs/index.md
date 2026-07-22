@@ -10,6 +10,7 @@ separate PowerShell and Bash/zsh examples; use the block for your shell.
 - [Foundation static site](foundation/static-site.md)
 - [First Playwright workflow](foundation/first-playwright.md)
 - [Integrated local API](applied/local-api.md)
+- [Challenge systems and protected-action enforcement](applied/challenge-systems.md)
 - [Workflow authorization](applied/workflow-authorization.md)
 - [Python tooling](applied/python-tooling.md)
 - [Control reconnaissance and one-variable experiment](integrated/control-recon.md)

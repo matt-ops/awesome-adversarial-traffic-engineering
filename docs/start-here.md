@@ -67,9 +67,9 @@ a new learner because it includes every recursive prerequisite exactly once.
 | Review point | Direct selection | From-zero closure | Claim |
 |---|---:|---:|---|
 | [24 focused hours](checkpoints/24-hours.md) | 4.75 hours | 20.83 hours | HTTP, session, browser, JavaScript, Playwright state, and network-evidence readiness |
-| [7 days](checkpoints/7-days.md) | 10.75 hours | 32.83 hours | Local browser, workflow-mapping, and authorized authentication/rate-control readiness |
-| [21 days](checkpoints/21-days.md) | 17.75 hours | 66.83 hours | Integrated experiment, finding, briefing, and role-narrative readiness |
-| [6 weeks](checkpoints/6-weeks.md) | 31.75 hours | 115.50 hours | Practitioner-depth portfolio, not proof of production expertise |
+| [7 days](checkpoints/7-days.md) | 14.75 hours | 36.83 hours | Local browser, workflow, authentication/rate, and challenge-proof enforcement readiness |
+| [21 days](checkpoints/21-days.md) | 21.75 hours | 70.83 hours | Integrated challenge/replay experiment, finding, briefing, and role-narrative readiness |
+| [6 weeks](checkpoints/6-weeks.md) | 35.75 hours | 119.50 hours | Practitioner-depth portfolio, not proof of production expertise |
 
 Checkpoint pages are views into this path. They never duplicate lessons.
 Use the plain [progress table](progress.md) if you want checkboxes; no account or

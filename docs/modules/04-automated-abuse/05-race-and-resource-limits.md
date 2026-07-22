@@ -5,7 +5,7 @@
 ## Progress
 
 - Module: 04 - Automated abuse and workflow attacks
-- Lesson: 5 of 5
+- Lesson: 6 of 6
 - Depth: Integrated
 - Estimated time: 4 hours
 - Prerequisites:

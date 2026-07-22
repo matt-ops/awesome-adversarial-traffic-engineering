@@ -128,6 +128,122 @@ def control_worker() -> str:
     return "postMessage({language: navigator.language, platform: navigator.platform || 'worker-unavailable'});"
 
 
+@app.get("/challenge-lab", response_class=HTMLResponse)
+def challenge_lab() -> str:
+    """Serve the smallest provider-neutral browser surface for the challenge flow."""
+    return """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AATE synthetic challenge lab</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; line-height: 1.5; }
+    body { margin: 0; }
+    main { margin: 0 auto; max-width: 46rem; padding: 2rem; }
+    form, section { border: 1px solid currentColor; margin-block: 1rem; padding: 1rem; }
+    label, input, button { display: block; font: inherit; margin-block: .5rem; }
+    input, button { padding: .6rem; }
+    code { overflow-wrap: anywhere; }
+  </style>
+  <script src="/challenge-lab.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Synthetic challenge lab</h1>
+    <p>This provider-neutral page has no visual CAPTCHA widget or iframe. It exposes the local proof lifecycle only.</p>
+    <p>Session: <code id="session-id">loading</code></p>
+    <section aria-labelledby="action-heading">
+      <h2 id="action-heading">Protected report</h2>
+      <button id="protected-action" type="button">Request protected report</button>
+      <p id="action-status" role="status">Not requested.</p>
+    </section>
+    <form id="challenge-form">
+      <h2>Synthetic challenge</h2>
+      <label for="challenge-answer">Course-owned answer</label>
+      <input id="challenge-answer" name="answer" autocomplete="off" required>
+      <button type="submit">Produce proof token</button>
+      <p id="challenge-status" role="status">Not solved.</p>
+    </form>
+    <section aria-labelledby="trace-heading">
+      <h2 id="trace-heading">Browser callback trace</h2>
+      <pre id="trace-output">[]</pre>
+    </section>
+  </main>
+</body>
+</html>"""
+
+
+@app.get("/challenge-lab.js", response_class=PlainTextResponse)
+def challenge_lab_script() -> str:
+    return """const parameters = new URLSearchParams(window.location.search);
+const sessionId = parameters.get('session_id') || 'browser-session';
+const proofKey = 'aate.challenge-proof';
+const trace = [];
+const sessionElement = document.querySelector('#session-id');
+const challengeStatus = document.querySelector('#challenge-status');
+const actionStatus = document.querySelector('#action-status');
+const traceOutput = document.querySelector('#trace-output');
+
+function record(phase, details) {
+  trace.push({ phase, ...details });
+  traceOutput.textContent = JSON.stringify(trace, null, 2);
+}
+
+sessionElement.textContent = sessionId;
+record('challenge-delivered', {
+  session_id: sessionId,
+  surface: 'provider-neutral form',
+  visual_widget: false,
+  iframe: false,
+});
+
+document.querySelector('#challenge-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const answer = document.querySelector('#challenge-answer').value;
+  record('challenge-submit-callback', { session_id: sessionId });
+  const response = await fetch('/api/challenge', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ session_id: sessionId, answer }),
+  });
+  const body = await response.json();
+  if (response.ok) {
+    window.sessionStorage.setItem(proofKey, body.lab_token);
+    challengeStatus.textContent = `Proof produced for ${body.session_id}.`;
+    record('proof-produced', { status: response.status, session_id: body.session_id });
+  } else {
+    challengeStatus.textContent = `Challenge failed with ${response.status}.`;
+    record('proof-denied', { status: response.status });
+  }
+});
+
+document.querySelector('#protected-action').addEventListener('click', async () => {
+  const token = window.sessionStorage.getItem(proofKey);
+  record('protected-action-submit', { session_id: sessionId, proof_present: Boolean(token) });
+  const headers = token ? { 'X-Lab-Challenge': token } : {};
+  const response = await fetch(`/api/reports/protected?session_id=${encodeURIComponent(sessionId)}&work=10`, {
+    headers,
+  });
+  const body = await response.json();
+  actionStatus.textContent = response.ok
+    ? `Protected report completed for ${body.session_id}.`
+    : `Protected report denied with ${response.status}.`;
+  record('protected-action-result', {
+    status: response.status,
+    returned_session: body.session_id || null,
+    detail: body.detail || null,
+  });
+});
+
+window.aateChallenge = {
+  proofKey,
+  sessionId,
+  trace: () => structuredClone(trace),
+};
+"""
+
+
 @app.post("/api/control/evaluate")
 def evaluate_control(payload: ControlEvaluationRequest) -> dict[str, Any]:
     """Evaluate transparent toy rules and issue a single-use local action token."""

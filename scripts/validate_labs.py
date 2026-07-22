@@ -11,6 +11,16 @@ SAMPLE_REPORT = ROOT / "lab" / "reports" / "synthetic-finding.md"
 LAB_MAP = ROOT / "lab" / "LAB_COURSE_MAP.md"
 PUBLIC_LAB_MAP = ROOT / "docs" / "labs" / "course-map.md"
 COMPOSE_FILE = ROOT / "lab" / "docker-compose.yml"
+CHALLENGE_LAB_PAGE = LAB_ROOT / "applied" / "challenge-systems.md"
+CHALLENGE_LAB_MARKERS = (
+    "POST /api/challenge",
+    "GET /api/reports/protected",
+    "npm run playwright:challenge-flow",
+    "python -m lab.analysis.challenge_metrics",
+    "no visual CAPTCHA widget or iframe",
+    "Session B's first transfer receives `403`",
+    "Session A's intended request succeeds once before expiry",
+)
 REQUIRED_CONCEPTS = (
     "authorization",
     "target",
@@ -51,6 +61,8 @@ REQUIRED_COMMAND_MARKERS = (
     "python -m lab.run workflow",
     "playwright:workflow-authorization",
     "python -m lab.run ratelimit",
+    "playwright:challenge-flow",
+    "python -m lab.analysis.challenge_metrics",
     "python -m lab.analysis.analyze",
     "playwright:control-recon",
     "python -m lab.run bypass",
@@ -86,6 +98,14 @@ def main() -> int:
             and "scorecard" not in text.casefold()
         ):
             errors.append(f"{page.relative_to(ROOT)}: no command, command table, or scored action")
+
+    if not CHALLENGE_LAB_PAGE.is_file():
+        errors.append("docs/labs/applied/challenge-systems.md: required challenge lab page is missing")
+    else:
+        challenge_lab = CHALLENGE_LAB_PAGE.read_text(encoding="utf-8")
+        for marker in CHALLENGE_LAB_MARKERS:
+            if marker not in challenge_lab:
+                errors.append(f"{CHALLENGE_LAB_PAGE.relative_to(ROOT)}: challenge marker missing: {marker}")
 
     if not SAMPLE_REPORT.is_file():
         errors.append("lab/reports/synthetic-finding.md: sample report is missing")

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "description": "Deterministic teaching fixture; rows are synthetic and do not describe real accessibility or privacy-tool populations.",
+  "rows": [
+    {
+      "population": "manual-legitimate-user",
+      "category": "legitimate",
+      "attempts": 100,
+      "challenges_issued": 20,
+      "challenge_solves": 18,
+      "challenge_bypasses": 0,
+      "protected_actions_completed": 90,
+      "challenge_abandonments": 2,
+      "repeated_challenges": 2,
+      "added_latency_ms": 180000,
+      "false_positive_challenges": 0,
+      "attacker_time_seconds": 0,
+      "attacker_cost_usd": 0,
+      "alternate_workflow_successes": 0
+    },
+    {
+      "population": "legitimate-automation-or-accessibility-like-client",
+      "category": "legitimate-near-neighbor",
+      "attempts": 100,
+      "challenges_issued": 80,
+      "challenge_solves": 40,
+      "challenge_bypasses": 0,
+      "protected_actions_completed": 50,
+      "challenge_abandonments": 40,
+      "repeated_challenges": 30,
+      "added_latency_ms": 800000,
+      "false_positive_challenges": 80,
+      "attacker_time_seconds": 0,
+      "attacker_cost_usd": 0,
+      "alternate_workflow_successes": 0
+    },
+    {
+      "population": "stock-automated-attacker",
+      "category": "attacker",
+      "attempts": 100,
+      "challenges_issued": 100,
+      "challenge_solves": 5,
+      "challenge_bypasses": 0,
+      "protected_actions_completed": 5,
+      "challenge_abandonments": 0,
+      "repeated_challenges": 10,
+      "added_latency_ms": 500000,
+      "false_positive_challenges": 0,
+      "attacker_time_seconds": 500,
+      "attacker_cost_usd": 5,
+      "alternate_workflow_successes": 0
+    },
+    {
+      "population": "adapted-or-replaying-attacker",
+      "category": "attacker",
+      "attempts": 100,
+      "challenges_issued": 30,
+      "challenge_solves": 5,
+      "challenge_bypasses": 65,
+      "protected_actions_completed": 70,
+      "challenge_abandonments": 0,
+      "repeated_challenges": 5,
+      "added_latency_ms": 210000,
+      "false_positive_challenges": 0,
+      "attacker_time_seconds": 700,
+      "attacker_cost_usd": 7,
+      "alternate_workflow_successes": 20
+    }
+  ]
+}

@@ -69,13 +69,26 @@ class SyntheticAppTests(unittest.TestCase):
         self.assertEqual(denied.status_code, 403)
         solved = self.client.post("/api/challenge", json={"session_id": "solver-session", "answer": "AATE"})
         token = solved.json()["lab_token"]
-        replayed = self.client.get(
-            "/api/reports/protected",
-            params={"session_id": "replay-session"},
-            headers={"X-Lab-Challenge": token},
-        )
-        self.assertEqual(replayed.status_code, 200)
-        self.assertEqual(replayed.json()["session_id"], "replay-session")
+        replayed = [
+            self.client.get(
+                "/api/reports/protected",
+                params={"session_id": "replay-session"},
+                headers={"X-Lab-Challenge": token},
+            )
+            for _ in range(2)
+        ]
+        self.assertEqual([response.status_code for response in replayed], [200, 200])
+        self.assertEqual([response.json()["session_id"] for response in replayed], ["replay-session"] * 2)
+
+    def test_challenge_browser_surface_is_provider_neutral_and_local(self) -> None:
+        page = self.client.get("/challenge-lab")
+        script = self.client.get("/challenge-lab.js")
+        self.assertEqual((page.status_code, script.status_code), (200, 200))
+        self.assertIn("no visual CAPTCHA widget or iframe", page.text)
+        self.assertIn('src="/challenge-lab.js"', page.text)
+        self.assertIn("/api/challenge", script.text)
+        self.assertIn("/api/reports/protected", script.text)
+        self.assertNotIn("recaptcha", (page.text + script.text).casefold())
 
     def test_per_session_limit_is_intentionally_bypassable_by_key_rotation(self) -> None:
         fixed = [self.client.get("/api/reports/limited", params={"session_id": "fixed"}).status_code for _ in range(3)]

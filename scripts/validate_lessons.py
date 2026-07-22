@@ -98,6 +98,25 @@ FOUNDATION_SLICE = (
     "docs/modules/03-playwright/03-contexts-and-state.md",
     "docs/modules/03-playwright/04-network-events.md",
 )
+CHALLENGE_LESSON = LESSON_ROOT / "04-automated-abuse" / "06-challenge-systems-and-protected-action-enforcement.md"
+CHALLENGE_LESSON_MARKERS = (
+    "request or workflow",
+    "risk decision",
+    "challenge issued",
+    "challenge delivered",
+    "proof produced",
+    "proof verified",
+    "protected action allowed or denied",
+    "proof expires, is reused, or is transferred",
+    "Challenge-trigger avoidance",
+    "Authorized synthetic completion",
+    "Cross-session replay",
+    "Missing protected-action enforcement",
+    "Abuse displacement",
+    "Accessibility/privacy/automation impact",
+    "Visual CAPTCHA model training",
+    "No external challenge service is contacted",
+)
 
 
 def lesson_files() -> list[Path]:
@@ -377,6 +396,14 @@ def main() -> int:
     ):
         if marker not in first_browser:
             errors.append(f"docs/modules/03-playwright/02-first-browser.md: release-blocker marker missing: {marker}")
+
+    if not CHALLENGE_LESSON.is_file():
+        errors.append(f"{CHALLENGE_LESSON.relative_to(ROOT)}: required core challenge lesson is missing")
+    else:
+        challenge_text = CHALLENGE_LESSON.read_text(encoding="utf-8")
+        for marker in CHALLENGE_LESSON_MARKERS:
+            if marker not in challenge_text:
+                errors.append(f"{CHALLENGE_LESSON.relative_to(ROOT)}: challenge marker missing: {marker}")
 
     if errors:
         print("Lesson validation: FAIL")

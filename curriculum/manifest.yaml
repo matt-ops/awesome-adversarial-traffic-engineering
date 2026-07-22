@@ -240,6 +240,24 @@ lessons:
   - owasp-automated-threats
   - aate-local-lab
   - aate-adversarial-control-loop
+- id: m04-l06
+  path: docs/modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md
+  module: 04-automated-abuse
+  title: Challenge Systems and Protected-Action Enforcement
+  depth: applied
+  estimated_minutes: 240
+  prerequisites:
+  - m04-l03
+  - m03-l04
+  source_ids:
+  - owasp-automated-threats
+  - rfc-9576
+  - w3c-captcha-accessibility
+  - cloudflare-turnstile-validation
+  - usenix-modern-captchas
+  - playwright-network
+  - aate-local-lab
+  - aate-adversarial-control-loop
 - id: m04-l04
   path: docs/modules/04-automated-abuse/04-inventory-and-promotion-abuse.md
   module: 04-automated-abuse
@@ -248,6 +266,7 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m04-l03
+  - m04-l06
   - m03-l02
   source_ids:
   - portswigger-business-logic
@@ -328,9 +347,12 @@ lessons:
   prerequisites:
   - m05-l04
   - m04-l04
+  - m04-l06
   source_ids:
   - rebrowser-bot-detector
   - fpscanner-version-note
+  - owasp-automated-threats
+  - w3c-captcha-accessibility
   - aate-local-lab
   - aate-adversarial-control-loop
 - id: m06-l01
@@ -379,9 +401,13 @@ lessons:
   estimated_minutes: 180
   prerequisites:
   - m06-l03
+  - m04-l06
   source_ids:
   - fpscanner-project
   - fp-inconsistent
+  - owasp-automated-threats
+  - rfc-9576
+  - cloudflare-turnstile-validation
   - aate-local-lab
   - aate-adversarial-control-loop
 - id: m06-l05
@@ -678,6 +704,7 @@ module_indexes:
   - m04-l01
   - m04-l02
   - m04-l03
+  - m04-l06
   - m04-l04
   - m04-l05
 - id: module-05
@@ -763,7 +790,8 @@ checkpoints:
   - m03-l04
   - m03-l05
   - m04-l03
-  capability_claim: Functional hands-on readiness in local browser, workflow-mapping, and provider-authorized authentication and rate-control exercises.
+  - m04-l06
+  capability_claim: Functional hands-on readiness in local browser, workflow-mapping, provider-authorized authentication/rate-control exercises, and local challenge-proof enforcement testing.
 - id: 21-days
   path: docs/checkpoints/21-days.md
   title: 21 days cumulative
@@ -776,10 +804,11 @@ checkpoints:
   - m03-l04
   - m03-l05
   - m04-l03
+  - m04-l06
   - m06-l02
   - m10-l03
   - m10-l04
-  capability_claim: Integrated experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
+  capability_claim: Integrated challenge/replay experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
 - id: 6-weeks
   path: docs/checkpoints/6-weeks.md
   title: 6 weeks cumulative
@@ -792,6 +821,7 @@ checkpoints:
   - m03-l04
   - m03-l05
   - m04-l03
+  - m04-l06
   - m06-l02
   - m10-l03
   - m10-l04

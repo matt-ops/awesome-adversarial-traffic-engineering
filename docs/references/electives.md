@@ -66,17 +66,21 @@ adds planning variability and tool-use risk; it should not hide weak browser fou
 - **Required local route:** [Playwright MCP](https://github.com/microsoft/playwright-mcp) — expose only the self-hosted course target and a constrained action set; compare model plan, actual Playwright trace, protected effect, failed actions, and replayability with the deterministic workflow.
 - **Research alternate:** [BrowserGym](https://github.com/ServiceNow/BrowserGym) — run one supplied benchmark/task locally and preserve action/observation traces. General prompt-injection frameworks such as AgentDojo remain outside this browser-traffic course.
 
-## CAPTCHA solver development
+## Advanced challenge-solver development
 
-**Begin after:** Module 06 Deep and only when the authorized role explicitly requires visual-challenge research.
+**Begin after:** Module 06 Deep and only when the authorized role explicitly
+requires a provider-assigned advanced challenge study.
 
 **Relevant checkpoint:** Deep.
 
-**Why elective:** challenge-token binding and replay belong in the core. Training
-or operating a visual solver adds ML/data/tooling prerequisites and is not needed
-to learn the control-evasion method.
+**Why elective:** challenge-token binding, protected enforcement, replay,
+economics, and customer impact belong in the core. Visual CAPTCHA model training,
+audio solver development, commercial solver-service integration, vendor-specific
+reverse engineering, and testing a real third-party challenge add specialized
+ML, data, procurement, privacy, protocol, and authorization prerequisites.
+None is needed to learn the core control-evaluation method.
 
-- **Paid route:** [Infosec Hacking CAPTCHA Systems](https://www.infosecinstitute.com/skills/courses/hacking-captcha-systems/) — use only its supplied target/data and retain model/version, success metric, false solves, boundary, and limitations.
+- **Paid route:** [Infosec Hacking CAPTCHA Systems](https://www.infosecinstitute.com/skills/courses/hacking-captcha-systems/) — use only its supplied target/data and retain model/version, success metric, false solves, boundary, and limitations. Do not add provider keys, paid solver APIs, public-target automation, or universal-bypass claims to the core repository.
 
 ## L3/L4 pressure, spoofing, and TCP-state attacks
 

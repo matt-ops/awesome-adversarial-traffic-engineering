@@ -5,11 +5,12 @@
 ## Progress
 
 - Module: 04 - Automated abuse and workflow attacks
-- Lesson: 4 of 5
+- Lesson: 5 of 6
 - Depth: Applied
 - Estimated time: 3 hours
 - Prerequisites:
   - [Authentication and rate controls](03-auth-and-rate-controls.md)
+  - [Challenge systems and protected-action enforcement](06-challenge-systems-and-protected-action-enforcement.md)
   - Successful local API map and Playwright Foundation workflow
 - Next lesson: Race and resource limits
 

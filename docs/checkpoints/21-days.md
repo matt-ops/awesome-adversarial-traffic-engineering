@@ -1,23 +1,23 @@
 # 21 days cumulative
 
 <!-- checkpoint-id: 21-days -->
-<!-- direct-selection-minutes: 1065 -->
-<!-- prerequisite-closure-minutes: 4010 -->
+<!-- direct-selection-minutes: 1305 -->
+<!-- prerequisite-closure-minutes: 4250 -->
 
 This cumulative Integrated checkpoint extends the Applied path through a
-blocked baseline, one-variable evasion experiment, synthetic finding, exact
-retest plan, technical briefing, and public-safe role narrative.
+blocked baseline, challenge-proof replay, one-variable evasion experiment,
+synthetic finding, exact retest plan, technical briefing, and public-safe role narrative.
 
 ## Time calculation
 
-- Direct capability-selection time: **1065 minutes (17.75 hours)**
-- From-zero prerequisite-closure time: **4010 minutes (66.83 hours)**
+- Direct capability-selection time: **1305 minutes (21.75 hours)**
+- From-zero prerequisite-closure time: **4250 minutes (70.83 hours)**
 - Declared cumulative range: **3600-4800 minutes (60-80 hours)**
 - Maximum lesson depth: **Integrated**
 
-The direct selection identifies seven capability targets. It is not the
+The direct selection identifies eight capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 28 lessons below exactly once, including
+prerequisite graph and sums each of the 29 lessons below exactly once, including
 the complete earlier checkpoint selections. Optional appendix study is not
 included in checkpoint time.
 
@@ -27,6 +27,7 @@ included in checkpoint time.
 - `m03-l04` - browser-context state and network evidence
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
+- `m04-l06` - challenge lifecycle, proof binding, protected enforcement, and customer impact
 - `m06-l02` - one-variable evasion experiment
 - `m10-l03` - technical briefing
 - `m10-l04` - public-safe role narrative
@@ -50,6 +51,7 @@ included in checkpoint time.
 | `m04-l01` | [Automated-abuse objectives](../modules/04-automated-abuse/01-abuse-objectives.md) | Foundation | 180 |
 | `m04-l02` | [Workflow and API mapping](../modules/04-automated-abuse/02-workflow-mapping.md) | Foundation | 180 |
 | `m04-l03` | [Authentication and rate controls](../modules/04-automated-abuse/03-auth-and-rate-controls.md) | Applied | 240 |
+| `m04-l06` | [Challenge Systems and Protected-Action Enforcement](../modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md) | Applied | 240 |
 | `m04-l04` | [Inventory and promotion abuse](../modules/04-automated-abuse/04-inventory-and-promotion-abuse.md) | Applied | 180 |
 | `m05-l01` | [Five signal families](../modules/05-control-recon/01-signal-families.md) | Foundation | 120 |
 | `m05-l02` | [Browser-environment observations](../modules/05-control-recon/02-browser-environment.md) | Foundation | 120 |
@@ -68,12 +70,13 @@ included in checkpoint time.
 
 - Demonstrate every capability from the 7 days checkpoint.
 - Establish a blocked browser baseline, run the one-variable local treatment, and bound the conclusion.
+- Connect challenge trigger, proof binding, protected enforcement, first/second/cross-session replay, and exact negative/legitimate-positive retests.
 - Write a reproducible synthetic finding with remediation and an exact retest.
 - Deliver a short technical briefing and a public-safe role narrative grounded in course evidence.
 
 ## Capability claim
 
-Integrated experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
+Integrated challenge/replay experiment, finding, technical-briefing, and role-narrative readiness with synthetic evidence.
 
 ## What this does not claim
 
@@ -83,4 +86,6 @@ scale, or universal bypass ability.
 
 ## Exit gate
 
-Repeat the local one-variable experiment, connect the result to a bounded finding and retest, and present the evidence with an explicit limitation.
+Repeat the local challenge/replay and one-variable experiments, connect protected
+results to a bounded finding and exact retest, and present the evidence with an
+explicit limitation.

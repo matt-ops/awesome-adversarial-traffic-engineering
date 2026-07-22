@@ -337,31 +337,73 @@ def evasion_demo() -> None:
 
 def bypass_demo() -> None:
     reset()
-    denied_status, _, _ = request("GET", "/api/reports/protected?session_id=attacker-copy&work=10")
+    session_a = "session-a"
+    session_b = "session-b"
+    protected_path = f"/api/reports/protected?session_id={session_b}&work=10"
+    denied_status, denied_body, _ = request("GET", protected_path)
     challenge_status, challenge_body, _ = request(
-        "POST", "/api/challenge", {"session_id": "solver-session", "answer": "AATE"}
+        "POST", "/api/challenge", {"session_id": session_a, "answer": "AATE"}
     )
     token = str(challenge_body.get("lab_token", ""))
-    replay_status, replay_body, _ = request(
-        "GET",
-        "/api/reports/protected?session_id=attacker-copy&work=10",
-        extra_headers={"X-Lab-Challenge": token},
-    )
-    if (denied_status, challenge_status, replay_status) != (403, 200, 200):
+    first_status, first_body, _ = request("GET", protected_path, extra_headers={"X-Lab-Challenge": token})
+    second_status, second_body, _ = request("GET", protected_path, extra_headers={"X-Lab-Challenge": token})
+    if (denied_status, challenge_status, first_status, second_status) != (403, 200, 200, 200):
         raise RuntimeError("challenge replay did not produce the expected local bypass")
-    print(json.dumps({"phase": "baseline", "without_token_status": denied_status}))
-    print(json.dumps({"phase": "capture", "solver_session": "solver-session", "token": token}))
+    print(
+        json.dumps(
+            {"phase": "blocked-baseline", "session": session_b, "status": denied_status, "response": denied_body},
+            sort_keys=True,
+        )
+    )
     print(
         json.dumps(
             {
-                "phase": "bypass",
-                "replayed_as_session": "attacker-copy",
-                "status": replay_status,
-                "observation": replay_body,
-            }
+                "phase": "solve-session-a",
+                "session": session_a,
+                "status": challenge_status,
+                "token": token,
+                "response": challenge_body,
+            },
+            sort_keys=True,
         )
     )
-    print(json.dumps({"result": "control bypassed", "weakness": "token not bound to session, action, expiry, or use"}))
+    print(
+        json.dumps(
+            {
+                "phase": "cross-session-first-use",
+                "session": session_b,
+                "status": first_status,
+                "response": first_body,
+            },
+            sort_keys=True,
+        )
+    )
+    print(
+        json.dumps(
+            {
+                "phase": "same-request-second-use",
+                "session": session_b,
+                "status": second_status,
+                "response": second_body,
+            },
+            sort_keys=True,
+        )
+    )
+    print(
+        json.dumps(
+            {
+                "result": "protected action completed twice from Session B",
+                "absent_bindings": ["session", "action", "origin", "nonce", "expiry", "one-use"],
+                "remediation": (
+                    "issue unpredictable proof bound to session, action, origin, nonce, expiry, "
+                    "and atomic one-use consumption"
+                ),
+                "negative_retest": "Session B receives 403 for Session A proof on first and repeated presentation",
+                "legitimate_positive_retest": "Session A completes the intended protected action once before expiry",
+            },
+            sort_keys=True,
+        )
+    )
 
 
 def ratelimit_demo() -> None:

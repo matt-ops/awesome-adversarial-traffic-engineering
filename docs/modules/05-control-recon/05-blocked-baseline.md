@@ -1,6 +1,6 @@
 # Establish the blocked baseline
 
-<!-- source-ids: rebrowser-bot-detector, fpscanner-version-note, aate-local-lab, aate-adversarial-control-loop -->
+<!-- source-ids: rebrowser-bot-detector, fpscanner-version-note, owasp-automated-threats, w3c-captcha-accessibility, aate-local-lab, aate-adversarial-control-loop -->
 
 ## Progress
 
@@ -10,13 +10,15 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Session, behavior, and workflow](04-session-behavior-workflow.md)
+  - [Challenge systems and protected-action enforcement](../04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md)
   - Healthy local API and a completed manual baseline observation
 - Next lesson: Evasion hypotheses
 
 ## Role outcome
 
 Record manual, stock headed, stock headless, and HTTP-client populations with
-versions, signal matrices, control decisions, and protected-action outcomes.
+versions, signal matrices, challenge delivery/proof details, control decisions,
+legitimate near-neighbor behavior, and protected-action outcomes.
 
 ## Source basis
 
@@ -24,6 +26,8 @@ versions, signal matrices, control decisions, and protected-action outcomes.
 |---|---|---|---|---|
 | PROJECT_DOCUMENTATION | [Rebrowser detector](https://github.com/rebrowser/rebrowser-bot-detector) | README tests and limitations | Identifies version-sensitive stock automation observations | Version-sensitive artifact catalog with strong project claims; not a model of every commercial control. |
 | VERSION_SENSITIVE | [FPScanner observation record](https://github.com/antoinevastel/fpscanner) | Commit/package/browser/options/output fields | Defines reproducibility metadata | Observations are valid only for the recorded code and browser versions. |
+| PROJECT_DOCUMENTATION | [OWASP OAT-009](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-009_CAPTCHA_Defeat.html) | Summary, Description, Symptoms, and Countermeasures | Supplies challenge-defeat and enforcement observations to record | Taxonomy and guidance, not proof about the local or commercial control. |
+| OFFICIAL_DOCUMENTATION | [W3C CAPTCHA accessibility note](https://www.w3.org/TR/turingtest/) | Sections 2-4 and Status | Supports recording legitimate accessibility, privacy-tool, and automation near-neighbors | Draft Note; it does not classify a particular user or quantify this lab. |
 | LAB_SPECIFIC | [Control-recon lab](../../labs/integrated/control-recon.md) | HTTP and browser commands; expected decisions | Supplies the transparent local control | Deliberately small and vulnerable; results do not generalize to production systems. |
 | COURSE_SYNTHESIS | [AATE control loop](../../methodology/adversarial-control-loop.md) | Legitimate and blocked baselines; fixed variables | Gates evasion on comparable evidence | Course synthesis; no cited standard defines the exact fifteen-step sequence. |
 
@@ -35,6 +39,19 @@ versions, signal matrices, control decisions, and protected-action outcomes.
 | Stock headed | Playwright visible | page/frame/worker/events | challenge in a genuine headed learner run |
 | Stock headless | Playwright headless | same schema | challenge |
 | Python HTTP | no renderer/DOM | HTTP response and absent browser APIs | page fetch only; cannot produce browser context matrix |
+
+For every population, extend that record with the challenge path:
+
+| Required field | Record |
+|---|---|
+| Population challenged | Which manual, accessibility/privacy/automation near-neighbor, stock, or adapted population received it |
+| Observed trigger reasons | Returned reason fields or `unknown`; do not invent an opaque score explanation |
+| Challenge type | CAPTCHA, JavaScript, proof of work, state, attestation, queue/interstitial, step-up, or synthetic form |
+| Token/cookie/storage flow | Proof location, cookie names, local/session-storage keys, and explicitly absent state |
+| Enforcement point | Exact server-side protected endpoint or component that verifies proof |
+| Solve or abandonment | Completed, failed, abandoned, bypassed, or not attempted |
+| Legitimate near-neighbor | Same workflow result for the nearest accessibility-like, privacy-tool, or test-automation case |
+| Protected-action result | Method, endpoint, status, response/state evidence, and returned server identity |
 
 ## Required external instruction
 
@@ -56,16 +73,33 @@ versions, signal matrices, control decisions, and protected-action outcomes.
 **What to skip:** unrecorded current-main behavior and external execution  
 **Expected takeaway:** produce a baseline record that can be repeated after browser or framework drift.
 
+### OWASP challenge-baseline assignment
+
+**Direct link:** [OWASP OAT-009 CAPTCHA Defeat](https://owasp.org/www-project-automated-threats-to-web-applications/assets/oats/EN/OAT-009_CAPTCHA_Defeat.html)
+
+**Exact section, chapter, or unit:** Summary Defining Characteristics, Description, Symptoms, and Countermeasures
+
+**Estimated time:** 20 minutes
+
+**What to focus on:** distinguish challenge encounter, solve, implementation failure, and final protected workflow outcome
+
+**What to skip:** solver development and any target not explicitly assigned
+
+**Expected takeaway:** add challenge type, proof flow, enforcement point, outcome, and limitations to each comparable population record.
+
 ## Course bridge
 
 A blocked baseline proves that the stock adversarial population does not perform
 the protected action under the current control. It is the comparison point for
-a later change. Manual and HTTP populations reveal near-neighbor behavior and
-collection gaps; they are not substitutes for the blocked stock client.
+a later change. Manual, accessibility/privacy/automation near-neighbors, and HTTP
+populations reveal friction and collection gaps; they are not substitutes for
+the blocked stock client. Challenge issuance is an observation, never the final
+success criterion.
 
 !!! note "Course synthesis"
-    **COURSE_SYNTHESIS:** AATE requires population, versions, control decision,
-    and protected-action outcome in one comparison before changing any signal.
+    **COURSE_SYNTHESIS:** AATE requires population, versions, trigger reason,
+    challenge/proof/storage flow, enforcement point, solve or abandonment, and
+    protected-action outcome in one comparison before changing any signal.
 
 !!! warning "Safety boundary"
     The browser runner is fixed to localhost. `AATE_HEADLESS=1` is only automated
@@ -81,11 +115,17 @@ required conclusion: stock headless is blocked by this transparent local rule
 prohibited: commercial controls block Playwright or the signal proves automation
 ```
 
+The separate provider-neutral challenge fixture adds a blocked Session B
+request, Session A proof production, token transfer, and protected `200`. Do not
+merge its weak bearer token with `/api/control/evaluate`'s single-use action
+token; they are deliberately different control objects.
+
 ## Guided exercise
 
 ### Objective
 
-Complete the four-population baseline and freeze an evasion plan.
+Complete the four-population baseline, add the challenge-path record and
+legitimate near-neighbor, and freeze an evasion plan.
 
 ### Setup
 
@@ -100,18 +140,25 @@ environment variable on a workstation with a visible browser.
    and stock-headless records; do not interpret one-variable yet.
 4. Verify requested/actual head mode, versions, contexts, decisions, and absence
    of protected action for challenged trials.
-5. Freeze target, workflow, context configuration, evidence schema, and candidate
+5. Reuse the Module 04 `playwright:challenge-flow` result to record trigger,
+   synthetic challenge type, session-storage proof, enforcement point, solve,
+   cross-session outcome, and returned server session. Record the deterministic
+   legitimate near-neighbor metrics without treating the composite as a real population study.
+6. Freeze target, workflow, context configuration, evidence schema, and candidate
    single changed property.
 
 ### Expected output
 
 Stock populations report `challenge` and no protected action. HTTP returns the
-HTML but executes no frame/worker JS. Manual values remain the reference.
+HTML but executes no frame/worker JS. The challenge record distinguishes
+issuance from final enforcement and records the legitimate near-neighbor.
+Manual values remain the reference.
 
 ### Interpretation
 
-The evasion gate passes only when the headed trial actually ran headed and all
-populations have explicit missing-data handling and comparable versions.
+The evasion gate passes only when the headed trial actually ran headed, all
+populations have explicit missing-data handling and comparable versions, and
+challenge observations remain separate from protected-action outcomes.
 
 ### Common failure modes
 
@@ -119,6 +166,7 @@ populations have explicit missing-data handling and comparable versions.
 - Including the changed trial in the baseline
 - Calling missing JavaScript values suspicious values
 - Omitting protected-action status
+- Recording “challenged” without trigger reason, proof/storage flow, enforcement point, or abandonment
 
 ### Cleanup
 
@@ -133,7 +181,7 @@ a bypass. Population discipline makes the later causal claim defensible.
 
 1. The baseline compares manual, stock headed, stock headless, and HTTP-only populations. Why must the one-variable treatment remain excluded until the next module?
 2. A run requests headed mode, but verification forces the actual browser to run headless. Why can that run not serve as the claimed headed baseline?
-3. What does the HTTP-only population reveal when the HTTP client fetches HTML but executes no page, frame, or worker JavaScript?
+3. What must a challenge-aware blocked baseline record in addition to population, versions, and a challenge decision?
 4. The stock-headless population receives a challenge, obtains no action token, and never completes the report. Which evidence proves that population is blocked in the local model?
 5. Which conditions should be frozen before comparing stock headless with the one-variable evasion treatment?
 
@@ -146,7 +194,7 @@ a bypass. Population discipline makes the later causal claim defensible.
 
 - **2. Evidence must describe actual execution, not only requested configuration.** A headless process has different observable conditions, so labeling the run headed would make the population definition false.
 
-- **3. The HTTP client provides a non-rendering near-neighbor and identifies observations that require a browser JavaScript environment.** It does not create page, frame, or worker values for comparison.
+- **3. Record observed trigger reasons, challenge type, token/cookie/storage flow, protected-action enforcement point, solve or abandonment outcome, legitimate near-neighbor behavior, and the final protected response or state.** Unknown opaque reasons and absent storage must be explicit rather than inferred.
 
 - **4. The control decision is challenge, no token is issued, and the protected report does not occur.** Together those observations establish a blocked baseline for this transparent local rule.
 

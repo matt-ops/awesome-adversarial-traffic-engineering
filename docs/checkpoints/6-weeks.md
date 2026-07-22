@@ -1,8 +1,8 @@
 # 6 weeks cumulative
 
 <!-- checkpoint-id: 6-weeks -->
-<!-- direct-selection-minutes: 1905 -->
-<!-- prerequisite-closure-minutes: 6930 -->
+<!-- direct-selection-minutes: 2145 -->
+<!-- prerequisite-closure-minutes: 7170 -->
 
 This cumulative Deep checkpoint extends the Integrated path through version
 drift, protocol identity through connection reuse, bounded-load recovery,
@@ -10,14 +10,14 @@ secure code review, and the existing finding and briefing path.
 
 ## Time calculation
 
-- Direct capability-selection time: **1905 minutes (31.75 hours)**
-- From-zero prerequisite-closure time: **6930 minutes (115.50 hours)**
+- Direct capability-selection time: **2145 minutes (35.75 hours)**
+- From-zero prerequisite-closure time: **7170 minutes (119.50 hours)**
 - Declared cumulative range: **5400-7200 minutes (90-120 hours)**
 - Maximum lesson depth: **Deep**
 
-The direct selection identifies eleven capability targets. It is not the
+The direct selection identifies twelve capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 44 lessons below exactly once, including
+prerequisite graph and sums each of the 45 lessons below exactly once, including
 the complete earlier checkpoint selections. Optional appendix study is not
 included in checkpoint time.
 
@@ -27,6 +27,7 @@ included in checkpoint time.
 - `m03-l04` - browser-context state and network evidence
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
+- `m04-l06` - challenge lifecycle, proof binding, protected enforcement, and customer impact
 - `m06-l02` - one-variable evasion experiment
 - `m10-l03` - technical briefing
 - `m10-l04` - public-safe role narrative
@@ -55,6 +56,7 @@ included in checkpoint time.
 | `m04-l01` | [Automated-abuse objectives](../modules/04-automated-abuse/01-abuse-objectives.md) | Foundation | 180 |
 | `m04-l02` | [Workflow and API mapping](../modules/04-automated-abuse/02-workflow-mapping.md) | Foundation | 180 |
 | `m04-l03` | [Authentication and rate controls](../modules/04-automated-abuse/03-auth-and-rate-controls.md) | Applied | 240 |
+| `m04-l06` | [Challenge Systems and Protected-Action Enforcement](../modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md) | Applied | 240 |
 | `m04-l04` | [Inventory and promotion abuse](../modules/04-automated-abuse/04-inventory-and-promotion-abuse.md) | Applied | 180 |
 | `m05-l01` | [Five signal families](../modules/05-control-recon/01-signal-families.md) | Foundation | 120 |
 | `m05-l02` | [Browser-environment observations](../modules/05-control-recon/02-browser-environment.md) | Foundation | 120 |

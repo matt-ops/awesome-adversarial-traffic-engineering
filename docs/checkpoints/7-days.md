@@ -1,23 +1,23 @@
 # 7 days cumulative
 
 <!-- checkpoint-id: 7-days -->
-<!-- direct-selection-minutes: 645 -->
-<!-- prerequisite-closure-minutes: 1970 -->
+<!-- direct-selection-minutes: 885 -->
+<!-- prerequisite-closure-minutes: 2210 -->
 
 This cumulative Applied checkpoint extends the first browser workflow through
-context and CDP observation, workflow mapping, and provider-authorized
-authentication and rate-control analysis.
+context and CDP observation, workflow mapping, provider-authorized
+authentication/rate-control analysis, and local challenge-proof enforcement.
 
 ## Time calculation
 
-- Direct capability-selection time: **645 minutes (10.75 hours)**
-- From-zero prerequisite-closure time: **1970 minutes (32.83 hours)**
+- Direct capability-selection time: **885 minutes (14.75 hours)**
+- From-zero prerequisite-closure time: **2210 minutes (36.83 hours)**
 - Declared cumulative range: **1800-2400 minutes (30-40 hours)**
 - Maximum lesson depth: **Applied**
 
-The direct selection identifies four capability targets. It is not the
+The direct selection identifies five capability targets. It is not the
 checkpoint time for a new learner. The validator recursively closes the
-prerequisite graph and sums each of the 15 lessons below exactly once, including
+prerequisite graph and sums each of the 16 lessons below exactly once, including
 the complete 24-hour checkpoint selection. Optional appendix study is not
 included in checkpoint time.
 
@@ -27,6 +27,7 @@ included in checkpoint time.
 - `m03-l04` - browser-context state and network evidence
 - `m03-l05` - frames, workers, and CDP observations
 - `m04-l03` - authentication and rate-control evidence
+- `m04-l06` - challenge lifecycle, proof binding, protected enforcement, and customer impact
 
 ## Required lessons
 
@@ -47,6 +48,7 @@ included in checkpoint time.
 | `m04-l01` | [Automated-abuse objectives](../modules/04-automated-abuse/01-abuse-objectives.md) | Foundation | 180 |
 | `m04-l02` | [Workflow and API mapping](../modules/04-automated-abuse/02-workflow-mapping.md) | Foundation | 180 |
 | `m04-l03` | [Authentication and rate controls](../modules/04-automated-abuse/03-auth-and-rate-controls.md) | Applied | 240 |
+| `m04-l06` | [Challenge Systems and Protected-Action Enforcement](../modules/04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md) | Applied | 240 |
 
 ## What you should be able to demonstrate
 
@@ -54,16 +56,20 @@ included in checkpoint time.
 - Compare clean and restored BrowserContexts and collect page, frame, worker, and network observations.
 - Map the local API and turn bounded reconnaissance into testable hypotheses.
 - Run the authorized authentication and rate-key exercises and explain their protected-action evidence.
+- Trace the local challenge through proof production and server enforcement, prove the bounded cross-session/repeat-use result, compare deterministic attacker/customer metrics, and define both remediation retests.
 
 ## Capability claim
 
-Functional hands-on readiness in local browser, workflow-mapping, and provider-authorized authentication and rate-control exercises.
+Functional hands-on readiness in local browser, workflow-mapping, provider-authorized authentication/rate-control exercises, and local challenge-proof enforcement testing.
 
 ## What this does not claim
 
-You are not claiming controlled evasion, protocol-identity analysis, bounded
-load-testing competence, a complete portfolio, or production experience.
+You are not claiming commercial solver development, universal challenge bypass,
+controlled browser evasion, protocol-identity analysis, bounded load-testing
+competence, a complete portfolio, or production experience.
 
 ## Exit gate
 
-Reproduce the listed local and provider-authorized behavior, explain the context observations and workflow map, and distinguish authentication evidence from rate-control evidence.
+Reproduce the listed local and provider-authorized behavior, explain the context
+observations and workflow map, and distinguish authentication/rate observations
+from challenge issuance, proof validation, and the protected-action result.

@@ -2,7 +2,8 @@
 
 **Outcome:** build a control-surface map from manual, browser-automation, and
 HTTP-client populations, then establish the blocked baseline required before an
-evasion hypothesis.
+evasion hypothesis. Challenge issuance, proof flow, customer friction, and the
+protected enforcement point remain separate observations.
 
 ## Foundation
 
@@ -44,6 +45,12 @@ Blocked baseline:
 Hypothesis:
 Changed variable or coherent signal set:
 Protected-action result:
+Challenge populations and observed trigger reasons:
+Challenge type and delivery surface:
+Token, cookie, and storage flow:
+Protected-action enforcement point:
+Solve, abandonment, or bypass outcome:
+Legitimate accessibility/privacy/automation near-neighbor:
 Residual anomalies:
 Alternative explanations:
 Remediation:

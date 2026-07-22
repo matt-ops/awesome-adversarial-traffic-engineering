@@ -6,6 +6,7 @@ from scripts.validate_curriculum import (
     calculate_checkpoint_stats,
     cumulative_checkpoint_errors,
     cycle_errors,
+    required_checkpoint_membership_errors,
 )
 
 
@@ -61,4 +62,12 @@ def test_cumulative_checkpoint_cannot_drop_an_earlier_selection() -> None:
 
     assert cumulative_checkpoint_errors(checkpoints) == [
         "third: cumulative checkpoint dropped lessons ['a']"
+    ]
+
+
+def test_required_core_lesson_must_be_directly_selected_at_earliest_checkpoint() -> None:
+    checkpoints = [("7-days", ["m04-l03"]), ("21-days", ["m04-l03", "m04-l06"])]
+
+    assert required_checkpoint_membership_errors(checkpoints, {"m04-l06": "7-days"}) == [
+        "7-days: required core lesson m04-l06 is not a direct selection"
     ]
