@@ -8,27 +8,16 @@ node_modules/
 site/
 .docs-build/
 .env
+.env.*
+!.env.example
 lab/data/*.db
-lab/telemetry/*.jsonl
+lab/telemetry/
 lab/reports/generated/
 playwright-report/
 test-results/
-
-# Local release-review and audit material (never part of the public tree)
-archive/
 artifacts/
-audit-evidence/
-fix-evidence/
 *.zip
-FIX_STATUS.md
-REMEDIATION_*.md
-REWRITE_*.md
-AATE-CODEX-*
-
-# Local specification and preparation inputs (read-only source material)
-01-AATE-CODEX-MASTER-PROMPT-FINAL.md
-02-AATE-CODEX-KICKOFF.txt
-awesome-red-team-bots-ddos-interview-prep.md
-codex-addendum-single-progressive-path.md
-codex-master-prompt-awesome-adversarial-traffic-engineering-v2-progressive-path.md
-AATE-CODEX-COMPLETE-SOURCE-FIRST-REWRITE.md
+.local/
+.private/
+.scratch/
+.tmp/

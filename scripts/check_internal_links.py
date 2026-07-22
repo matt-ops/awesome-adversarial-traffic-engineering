@@ -19,10 +19,7 @@ def markdown_files() -> list[Path]:
     for relative in (
         "README.md",
         "RESOURCES.md",
-        "COVERAGE_AUDIT.md",
-        "CONTENT_QUALITY_CHECKLIST.md",
-        "REWRITE_AUDIT.md",
-        "REWRITE_STATUS.md",
+        "SAFETY.md",
         "lab/README.md",
         "lab/LAB_COURSE_MAP.md",
         "sources/README.md",

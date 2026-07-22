@@ -9,7 +9,6 @@ Use these indexes only when maintaining or extending the course:
 - [Typed source ledger](sources/sources.yaml) — provenance, assigned sections, and limitations
 - [Rendered source ledger](docs/references/source-ledger.md) — learner-readable source policy
 - [Electives](docs/references/electives.md) — advanced gaps intentionally outside the core path
-- [Coverage audit](COVERAGE_AUDIT.md) — direct instruction, lab proof, and external fallback for every target capability
 
 Labels used throughout the course:
 

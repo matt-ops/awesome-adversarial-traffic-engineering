@@ -29,7 +29,6 @@ Optional maintenance indexes:
 - [Progress](docs/progress.md)
 - [Lab-to-course map](lab/LAB_COURSE_MAP.md)
 - [Source ledger](sources/sources.yaml)
-- [Coverage and external-resource audit](COVERAGE_AUDIT.md)
 
 ## Command platforms
 
