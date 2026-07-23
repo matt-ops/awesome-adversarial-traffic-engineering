@@ -15,6 +15,11 @@ Every lesson exposes the relevant subset in its **Source basis** table. Source
 types and review policy are described in the repository's
 `sources/README.md`.
 
+`python scripts/validate_sources.py` treats this ledger as the single source of
+truth for each visible table's source type and URL. It also verifies that every
+**Direct link** belongs to a declared source ID and blocks known-obsolete FIRST
+and STIX references.
+
 ## Required spine
 
 The path is anchored in NIST SP 800-115, MITRE adversary-emulation guidance,

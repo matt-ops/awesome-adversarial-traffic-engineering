@@ -18,10 +18,13 @@
 - Observer B: ephemeral-certificate local TLS HTTP/2 server
 - Clients: Python/OpenSSL, installed curl, Playwright Chromium, and Node HTTP/2
 - Optional client: manually launched local Chrome or Chromium, not automated
-- Hard caps: four connections, eight HTTP/2 streams, twelve seconds
+- Hard caps: four connections per observer, eight HTTP/2 streams, 45-second whole command
+- Smaller bounds: 4-second raw observer, 30-second HTTP/2 observer, and 15-second per client
 - Output: standard output only; saving diagnostics is optional and ignored
 
 ## Preflight
+
+PowerShell:
 
 ```powershell
 python --version
@@ -30,20 +33,47 @@ curl.exe --version
 npm run typecheck
 ```
 
-If `curl.exe --version` lacks `HTTP2` on its `Features:` line, its HTTP/2 row
-must be `unsupported`. The raw TLS result can also be unsupported when the local
-TLS backend fails before sending a complete ClientHello.
+Bash or zsh:
+
+```bash
+python3 --version
+node --version
+curl --version
+npm run typecheck
+```
+
+If the installed curl version output lacks `HTTP2` on its `Features:` line, its
+HTTP/2 row must be `unsupported`. That does not erase an independently observed
+raw ClientHello.
 
 ## Fully automated command
+
+PowerShell:
 
 ```powershell
 python -m lab.protocol.compare automated
 ```
 
+Bash or zsh:
+
+```bash
+python3 -m lab.protocol.compare automated
+```
+
 The Python parent removes proxy variables, validates every target, starts only
 loopback listeners, generates the self-signed certificate and key under the OS
 temporary directory, invokes supported clients, stops the Node observer through
-its private standard input, and deletes the temporary directory.
+its private standard input, and deletes the temporary directory. The 45-second
+deadline begins at command start; each socket, queue, client, child process, and
+shutdown wait receives only the remaining budget.
+
+The Playwright client prevalidates navigation URLs and routes every page request.
+Only `127.0.0.1`, `localhost`, and `::1` are permitted; a non-loopback page
+request is aborted, returned to the Python parent, and fails the comparison.
+Browser flags reduce background networking. The output does not claim packet-
+level capture: it reports loopback-only configured targets, observed page-
+request violations, proxy inheritance, and `packet-level external traffic: not
+measured`.
 
 ## Expected table
 
@@ -69,18 +99,29 @@ python -m unittest lab.tests.test_protocol -v
 
 Tests cover generated ClientHello parsing, malformed and truncated records,
 connection caps, loopback rejection, certificate cleanup, Python/OpenSSL
-capture, the local HTTP/2 observer, unsupported-client rows, and non-JA4 labels.
+capture, the local HTTP/2 observer, unsupported-client rows, non-JA4 labels,
+global-deadline exit behavior, non-loopback page-request failure, malformed
+ready output, client exceptions, output parse failure, terminate/kill
+escalation, and temporary-key cleanup.
 
 ## Failure guidance
 
 - `ClientHello observer timed out`: the client did not connect; record it as unsupported.
 - `truncated TLS record`: the local TLS backend connected but sent no complete record.
-- Playwright browser missing: install the repository-pinned Chromium, then repeat.
+- curl missing: install it, rerun the shell-specific version command, and do not infer the executable name.
+- curl present without HTTP2: retain any raw ClientHello, but mark only its HTTP/2 row `unsupported`.
+- Playwright browser missing: install the repository-pinned Chromium and platform dependencies, then repeat.
+- Node or `npx` missing: install Node 22+ with npm before starting Observer B.
 - HTTP/2 observer did not become ready: inspect Node/typecheck output; do not substitute HTTP/1.1.
+- `Protocol comparison timeout`: a dependency exhausted the 45-second global budget; the command exits nonzero.
+- Unsupported client: retain the runtime and reason rather than copying another client's values.
 - `cap-exceeded`: stop and inspect the client; the command must exit nonzero.
+- Cleanup failure: stop the named local observer, remove its `aate-protocol-` temporary directory, and fail the run.
 
 ## Cleanup and limitations
 
 Successful and failed paths close children and remove temporary certificate
 material. No packet capture, administrator privilege, production JA4, HTTP/3,
-QUIC, external fingerprint site, real proxy chain, or commercial control is used.
+QUIC, external fingerprint site, real proxy chain, or commercial control is
+used. An empty page-request violation list is scoped Playwright evidence, not
+proof that the browser process made zero packet-level external connections.

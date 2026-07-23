@@ -1,6 +1,7 @@
 # Classifier Evaluation and Adversarial Drift
 
 <!-- source-ids: scikit-learn-classification-metrics, axelsson-base-rate, google-ml-monitoring, aate-local-lab, aate-adversarial-control-loop -->
+<!-- source-ledger-consistency: strict -->
 
 ## Progress
 

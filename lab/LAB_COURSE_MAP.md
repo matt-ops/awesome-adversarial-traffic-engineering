@@ -417,7 +417,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Expected output:** actual client/runtime versions, parsed ClientHello vectors, non-JA4 digests, negotiated ALPN, remote settings, stream IDs, reuse, and explicit unsupported rows
 - **Interpretation:** differences are implementation observations at the local observer, not universal browser fingerprints, identity proof, commercial-control behavior, or production JA4 parity
 - **Source basis:** `rfc-8446`, `rfc-9113`, `playwright-network`, `curl-http2-capabilities`, `node-http2`, `ja4-project`, `aate-local-lab`
-- **Safety boundary:** runtime-selected `127.0.0.1` ports, maximum four connections and eight HTTP/2 streams, twelve-second wall bound, proxy variables removed
+- **Safety boundary:** runtime-selected `127.0.0.1` ports, maximum four connections per observer and eight HTTP/2 streams, enforced 45-second whole-command budget with smaller observer/client bounds, proxy variables removed, and non-loopback Playwright page requests aborted and reported
 - **Expected evidence or output:** ClientHello and HTTP/2 comparison tables with every missing capability labeled `unsupported`
 - **Cleanup:** close clients/listeners and delete the runtime temporary certificate and private key on success or failure
 - **Retest use:** repeat after an installed client/runtime version change and compare only fields observed at the same loopback termination point

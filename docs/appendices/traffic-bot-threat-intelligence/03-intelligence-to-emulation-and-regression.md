@@ -1,6 +1,7 @@
 # Intelligence to emulation and regression
 
 <!-- source-ids: mitre-adversary-emulation-plans, owasp-automated-threats, aate-local-lab, aate-adversarial-control-loop -->
+<!-- source-ledger-consistency: strict -->
 
 ## Appendix guide
 
@@ -22,7 +23,7 @@ conditions, telemetry, cleanup, and an exact regression without copying a tool o
 
 | Type | Source | Exact assigned area | What it supports | Limitation |
 |---|---|---|---|---|
-| PROJECT_DOCUMENTATION | [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/) | Overview and emulation-plan documents description | Supports behavior chains tied to an objective | Enterprise examples require translation to bounded traffic workflows. |
+| OFFICIAL_DOCUMENTATION | [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/) | Overview through Emulation Plan Documents | Supports behavior chains tied to an objective | Enterprise examples require translation to bounded traffic workflows. |
 | PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Login and checkout-related threat events | Supplies provider-neutral automated-abuse objectives | Taxonomy does not authorize execution or prescribe one control. |
 | LAB_SPECIFIC | [Synthetic intelligence analysis](../../labs/course-map.md) | Emulation-plan and exact-regression output in the command record | Supplies deterministic non-network planning evidence | Plan output does not execute traffic or prove a control result. |
 | COURSE_SYNTHESIS | [AATE adversarial-control loop](../../methodology/adversarial-control-loop.md) | Objective through remediation and exact retest | Connects behavior intelligence to protected-action evidence | The complete loop is course synthesis, not a quoted standard procedure. |
@@ -101,14 +102,18 @@ python -m lab.analysis.traffic_intelligence
 ```
 
 Review the plan and regression blocks. Confirm the target is a placeholder,
-traffic is not sent, and attribution remains unsupported.
+traffic is not sent, attribution remains unsupported, and the plan's member IDs
+and confidence are copied from the selected evidence-derived group.
 
 ### Expected output
 
-The plan names the bounded objective, synthetic behavior steps, fixed variables,
-expected control observation, protected-action proof, legitimate near-neighbor,
-telemetry, ceiling, abort conditions, and cleanup. The regression repeats the
-same populations and requires cross-session replay denial without breaking valid first use.
+The plan derives the behavior steps and supporting event IDs from the selected
+group, then names the bounded objective, fixed variables, expected control
+observation, protected-action proof, legitimate near-neighbor, telemetry,
+ceiling, abort conditions, and cleanup. Its **high** categorical confidence
+result is identical in the group, plan, and regression. The regression repeats
+the same populations and requires cross-session replay denial without breaking
+valid first use.
 
 ### Interpretation
 

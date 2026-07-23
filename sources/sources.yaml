@@ -839,7 +839,7 @@
     - Information reliability
     - NATO Admiralty Code examples
   supports:
-    - separate source-reliability and information-credibility ratings
+    - separate source-reliability and information-reliability ratings
     - explicit cannot-be-judged values
     - corroboration-aware confidence
   limitations:
@@ -855,11 +855,12 @@
   last_content_reviewed: "2026-07-22"
   last_link_checked: "2026-07-22"
   assigned_sections:
-    - 3.4 Confidence
-    - 4.6 Indicator
-    - 4.13 Observed Data
+    - 3.2 Common Properties, specifically the confidence property
+    - 4.7 Indicator
+    - 4.14 Observed Data
     - 5.1 Relationship
     - 5.2 Sighting
+    - "Appendix A: Confidence Scales"
   supports:
     - observation versus intelligence assertion
     - indicator-to-observed-data relationships

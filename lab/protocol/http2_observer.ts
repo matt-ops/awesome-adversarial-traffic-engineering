@@ -53,7 +53,7 @@ function parseArguments(argv: string[]): Arguments {
   if (port < 0 || port > 65535) fail("port is outside its valid range");
   if (maxConnections < 1 || maxConnections > 4) fail("connection cap must be between 1 and 4");
   if (maxStreams < 1 || maxStreams > 8) fail("stream cap must be between 1 and 8");
-  if (timeoutMs < 100 || timeoutMs > 12000) fail("timeout must be between 100 and 12000 ms");
+  if (timeoutMs < 100 || timeoutMs > 30000) fail("timeout must be between 100 and 30000 ms");
   return {
     host,
     port,

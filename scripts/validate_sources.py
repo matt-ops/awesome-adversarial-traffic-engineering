@@ -96,6 +96,30 @@ REQUIRED_SOURCE_IDS = {
 }
 SOURCE_COMMENT = re.compile(r"<!--\s*source-ids:\s*([^>]+?)\s*-->", re.IGNORECASE)
 SOURCE_HEADER = "| Type | Source | Exact assigned area | What it supports | Limitation |"
+STRICT_SOURCE_CONSISTENCY = "<!-- source-ledger-consistency: strict -->"
+MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\((?P<url>[^)]+)\)")
+DIRECT_LINK = re.compile(r"\*\*Direct link:\*\*\s*\[[^\]]+\]\((?P<url>[^)]+)\)")
+SOURCE_REFERENCE_RULES: dict[str, dict[str, tuple[str, ...]]] = {
+    "first-cti-source-evaluation": {
+        "prohibited_urls": (
+            "https://www.first.org/global/sigs/cti/curriculum/cti-source-evaluation",
+        ),
+        "prohibited_labels": ("information credibility",),
+    },
+    "oasis-stix-21": {
+        "prohibited_urls": (
+            "https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html",
+        ),
+        "prohibited_labels": (
+            "3.4 Confidence",
+            "4.6 Indicator",
+            "4.10 Observed Data",
+            "4.13 Observed Data",
+            "5.2 Relationship",
+            "5.3 Sighting",
+        ),
+    },
+}
 
 
 def load_ledger() -> list[dict[str, Any]]:
@@ -133,6 +157,57 @@ def source_rows(text: str) -> list[list[str]]:
     for line in lines[2:]:
         rows.append([cell.strip() for cell in re.split(r"(?<!\\)\|", line.strip().strip("|"))])
     return rows
+
+
+def strict_source_consistency_errors(
+    relative: Path,
+    text: str,
+    ids: list[str],
+    rows: list[list[str]],
+    by_id: dict[str, dict[str, Any]],
+) -> list[str]:
+    """Compare an opted-in source table and its direct references with the ledger."""
+    if STRICT_SOURCE_CONSISTENCY not in text:
+        return []
+    errors: list[str] = []
+    for row_number, (source_id, row) in enumerate(zip(ids, rows, strict=False), start=1):
+        if source_id not in by_id or len(row) != 5:
+            continue
+        source_type, source, _, _, _ = row
+        ledger_entry = by_id[source_id]
+        if source_type != ledger_entry["source_type"]:
+            errors.append(
+                f"{relative}: source row {row_number} type {source_type!r} differs from "
+                f"{source_id} ledger type {ledger_entry['source_type']!r}"
+            )
+        link_match = MARKDOWN_LINK.fullmatch(source)
+        if link_match is None:
+            errors.append(f"{relative}: source row {row_number} must contain one Markdown link")
+        elif (
+            ledger_entry["source_type"] not in {"COURSE_SYNTHESIS", "LAB_SPECIFIC"}
+            and link_match.group("url") != ledger_entry["url"]
+        ):
+            errors.append(f"{relative}: source row {row_number} URL differs from {source_id} ledger URL")
+
+    declared_urls = {
+        str(by_id[source_id]["url"])
+        for source_id in ids
+        if source_id in by_id
+        and by_id[source_id]["source_type"] not in {"COURSE_SYNTHESIS", "LAB_SPECIFIC"}
+    }
+    for direct_match in DIRECT_LINK.finditer(text):
+        direct_url = direct_match.group("url")
+        if direct_url not in declared_urls:
+            errors.append(f"{relative}: Direct link {direct_url!r} does not correspond to a declared source ID")
+    for source_id in ids:
+        rules = SOURCE_REFERENCE_RULES.get(source_id, {})
+        for prohibited_url in rules.get("prohibited_urls", ()):
+            if prohibited_url in text:
+                errors.append(f"{relative}: obsolete URL is prohibited for {source_id}: {prohibited_url}")
+        for prohibited_label in rules.get("prohibited_labels", ()):
+            if prohibited_label.casefold() in text.casefold():
+                errors.append(f"{relative}: stale source label is prohibited for {source_id}: {prohibited_label}")
+    return errors
 
 
 def main() -> int:
@@ -249,6 +324,7 @@ def main() -> int:
             ):
                 if not value.strip():
                     errors.append(f"{relative}: source row {row_number} has empty {label}")
+        errors.extend(strict_source_consistency_errors(relative, text, ids, rows, by_id))
         known_entries = [by_id[source_id] for source_id in ids if source_id in by_id]
         if any(entry["source_type"] == "COURSE_SYNTHESIS" for entry in known_entries):
             if "**COURSE_SYNTHESIS:**" not in text or "Course synthesis" not in text:
@@ -276,7 +352,10 @@ def main() -> int:
     print(f"- {len(entries)} unique ledger entries with complete schema")
     print(f"- {len(lesson_files())} lessons have one traceable five-column row per cited source")
     print(f"- all {len(REQUIRED_SOURCE_IDS)} mandated source IDs are present")
-    print("- synthesis, lab-specific, version-sensitive, Foundation, and 15-step provenance rules pass")
+    print(
+        "- source-table types/links, Direct links, canonical-reference regressions, synthesis, "
+        "lab-specific, version-sensitive, Foundation, and 15-step provenance rules pass"
+    )
     return 0
 
 

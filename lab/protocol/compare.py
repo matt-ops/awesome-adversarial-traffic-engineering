@@ -13,6 +13,7 @@ import shutil
 import socket
 import ssl
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -22,7 +23,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import IO, Any
 from urllib.parse import urlsplit
 
 from cryptography import x509
@@ -35,7 +36,32 @@ HOST = "127.0.0.1"
 MAX_CLIENTHELLO_BYTES = 65_540
 MAX_CONNECTIONS = 4
 MAX_HTTP2_STREAMS = 8
-WALL_TIMEOUT_SECONDS = 12
+AUTOMATED_WALL_TIMEOUT_SECONDS = 45
+RAW_OBSERVER_TIMEOUT_SECONDS = 4.0
+HTTP2_OBSERVER_TIMEOUT_SECONDS = 30.0
+PER_CLIENT_TIMEOUT_SECONDS = 15.0
+PROCESS_CLEANUP_TIMEOUT_SECONDS = 2.0
+
+
+class ProtocolDeadlineExceeded(TimeoutError):
+    """The absolute whole-command deadline expired."""
+
+
+class ProtocolSafetyError(RuntimeError):
+    """A protocol client violated the loopback-only page-request boundary."""
+
+
+def remaining_seconds(deadline: float, label: str, cap: float | None = None) -> float:
+    """Return positive remaining budget, capped for one operation."""
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise ProtocolDeadlineExceeded(f"whole-command deadline exceeded before {label}")
+    return remaining if cap is None else min(remaining, cap)
+
+
+def _operation_deadline(deadline: float | None, cap: float) -> float:
+    local_deadline = time.monotonic() + cap
+    return local_deadline if deadline is None else min(deadline, local_deadline)
 
 
 def require_loopback_host(host: str) -> str:
@@ -213,12 +239,19 @@ def summarize_client_hello(data: bytes, label: str) -> dict[str, Any]:
 class RawClientHelloObserver:
     """A fixed-loopback TLS-record observer with explicit connection and time caps."""
 
-    def __init__(self, host: str = HOST, max_connections: int = 1, wall_timeout: float = 4.0) -> None:
+    def __init__(
+        self,
+        host: str = HOST,
+        max_connections: int = 1,
+        wall_timeout: float = RAW_OBSERVER_TIMEOUT_SECONDS,
+        deadline: float | None = None,
+    ) -> None:
         self.host = require_loopback_host(host)
         self.max_connections = validate_cap(max_connections, MAX_CONNECTIONS, "connection cap")
-        if wall_timeout <= 0 or wall_timeout > WALL_TIMEOUT_SECONDS:
-            raise ValueError(f"wall timeout must be within {WALL_TIMEOUT_SECONDS} seconds")
+        if wall_timeout <= 0 or wall_timeout > RAW_OBSERVER_TIMEOUT_SECONDS:
+            raise ValueError(f"observer timeout must be within {RAW_OBSERVER_TIMEOUT_SECONDS} seconds")
         self.wall_timeout = wall_timeout
+        self.deadline = _operation_deadline(deadline, wall_timeout)
         self.port = 0
         self.connection_count = 0
         self._listener: socket.socket | None = None
@@ -238,16 +271,16 @@ class RawClientHelloObserver:
         self._thread.start()
 
     def _serve(self) -> None:
-        deadline = time.monotonic() + self.wall_timeout
         listener = self._listener
         if listener is None:
             self.error = RuntimeError("ClientHello observer listener was not initialized")
             return
         try:
-            while self.connection_count < self.max_connections and time.monotonic() < deadline:
+            while self.connection_count < self.max_connections and time.monotonic() < self.deadline:
                 try:
+                    listener.settimeout(remaining_seconds(self.deadline, "ClientHello accept", 0.2))
                     connection, address = listener.accept()
-                except TimeoutError:
+                except (TimeoutError, ProtocolDeadlineExceeded):
                     continue
                 peer = str(address[0])
                 if not ipaddress.ip_address(peer).is_loopback:
@@ -256,8 +289,8 @@ class RawClientHelloObserver:
                     continue
                 self.connection_count += 1
                 with connection:
-                    connection.settimeout(min(2.0, self.wall_timeout))
-                    header = self._recv_exact(connection, 5)
+                    connection.settimeout(remaining_seconds(self.deadline, "ClientHello header read", 2.0))
+                    header = self._recv_exact(connection, 5, self.deadline)
                     if len(header) != 5:
                         self._result.put(ValueError("truncated TLS record header"))
                         continue
@@ -265,7 +298,7 @@ class RawClientHelloObserver:
                     if length + 5 > MAX_CLIENTHELLO_BYTES:
                         self._result.put(ValueError("TLS record exceeds the ClientHello byte cap"))
                         continue
-                    payload = self._recv_exact(connection, length)
+                    payload = self._recv_exact(connection, length, self.deadline)
                     if len(payload) != length:
                         self._result.put(ValueError("truncated TLS record payload"))
                         continue
@@ -280,10 +313,11 @@ class RawClientHelloObserver:
                 pass
 
     @staticmethod
-    def _recv_exact(connection: socket.socket, length: int) -> bytes:
+    def _recv_exact(connection: socket.socket, length: int, deadline: float) -> bytes:
         chunks: list[bytes] = []
         remaining = length
         while remaining:
+            connection.settimeout(remaining_seconds(deadline, "ClientHello socket read", 2.0))
             chunk = connection.recv(min(remaining, 4096))
             if not chunk:
                 break
@@ -291,23 +325,35 @@ class RawClientHelloObserver:
             remaining -= len(chunk)
         return b"".join(chunks)
 
-    def result(self) -> bytes:
+    def result(self, deadline: float | None = None) -> bytes:
+        result_deadline = self.deadline if deadline is None else min(self.deadline, deadline)
         try:
-            value = self._result.get(timeout=self.wall_timeout + 0.5)
-        except queue.Empty as exc:
-            raise TimeoutError("ClientHello observer timed out") from exc
+            value = self._result.get_nowait()
+        except queue.Empty:
+            try:
+                value = self._result.get(timeout=remaining_seconds(result_deadline, "ClientHello result queue"))
+            except queue.Empty as exc:
+                raise TimeoutError("ClientHello observer timed out") from exc
         if isinstance(value, BaseException):
             raise value
         return value
 
-    def close(self) -> None:
+    def close(self, deadline: float | None = None) -> None:
         if self._listener is not None:
             try:
                 self._listener.close()
             except OSError:
                 pass
         if self._thread is not None:
-            self._thread.join(timeout=1)
+            close_deadline = (
+                time.monotonic() + PROCESS_CLEANUP_TIMEOUT_SECONDS
+                if deadline is None
+                else deadline
+            )
+            try:
+                self._thread.join(timeout=remaining_seconds(close_deadline, "ClientHello observer shutdown"))
+            except ProtocolDeadlineExceeded:
+                self._thread.join(timeout=0)
 
 
 def _proxy_free_environment() -> dict[str, str]:
@@ -320,16 +366,31 @@ def _proxy_free_environment() -> dict[str, str]:
 
 
 def _capture_trigger(
-    client: str, runtime_version: str, trigger: Callable[[int], dict[str, Any]]
+    client: str,
+    runtime_version: str,
+    trigger: Callable[[int, float], dict[str, Any]],
+    deadline: float | None = None,
 ) -> dict[str, Any]:
-    observer = RawClientHelloObserver()
+    observer_deadline = _operation_deadline(deadline, RAW_OBSERVER_TIMEOUT_SECONDS)
+    client_deadline = _operation_deadline(deadline, PER_CLIENT_TIMEOUT_SECONDS)
+    observer = RawClientHelloObserver(deadline=observer_deadline)
     observer.start()
     try:
-        trigger_result = trigger(observer.port)
-        data = observer.result()
+        trigger_result = trigger(observer.port, client_deadline)
+        data = observer.result(observer_deadline)
         parsed = parse_client_hello(data, client, str(trigger_result.get("runtime_version", runtime_version)))
         parsed["status"] = "observed"
         return parsed
+    except ProtocolDeadlineExceeded as exc:
+        if deadline is not None and time.monotonic() >= deadline:
+            raise
+        return {
+            "client": client,
+            "runtime_version": runtime_version,
+            "status": "unsupported",
+            "reason": f"per-observer or per-client deadline exceeded: {exc}",
+            "digest_label": "not JA4; not identity proof",
+        }
     except (OSError, TimeoutError, ValueError, subprocess.SubprocessError) as exc:
         return {
             "client": client,
@@ -339,15 +400,19 @@ def _capture_trigger(
             "digest_label": "not JA4; not identity proof",
         }
     finally:
-        observer.close()
+        observer.close(client_deadline)
 
 
-def _python_tls_trigger(port: int) -> dict[str, Any]:
+def _python_tls_trigger(port: int, deadline: float) -> dict[str, Any]:
     context = ssl.create_default_context()
     context.check_hostname = False
     context.verify_mode = ssl.CERT_NONE
     try:
-        with socket.create_connection((HOST, port), timeout=2) as raw:
+        with socket.create_connection(
+            (HOST, port),
+            timeout=remaining_seconds(deadline, "Python TLS connection", 2.0),
+        ) as raw:
+            raw.settimeout(remaining_seconds(deadline, "Python TLS handshake", 2.0))
             with context.wrap_socket(raw, server_hostname="localhost"):
                 pass
     except (OSError, ssl.SSLError):
@@ -355,23 +420,24 @@ def _python_tls_trigger(port: int) -> dict[str, Any]:
     return {"runtime_version": f"Python {platform.python_version()} / {ssl.OPENSSL_VERSION}"}
 
 
-def _curl_version() -> tuple[str | None, str]:
+def _curl_version(deadline: float | None = None) -> tuple[str | None, str]:
     executable = shutil.which("curl.exe") or shutil.which("curl")
     if executable is None:
         return None, "curl executable not found"
+    operation_deadline = _operation_deadline(deadline, 3.0)
     completed = subprocess.run(  # noqa: S603 - executable is resolved locally and arguments are fixed.
         [executable, "--version"],
         check=False,
         capture_output=True,
         text=True,
-        timeout=3,
+        timeout=remaining_seconds(operation_deadline, "curl version", 3.0),
         env=_proxy_free_environment(),
     )
     lines = completed.stdout.splitlines()
     return executable, lines[0] if lines else "curl version unavailable"
 
 
-def _curl_tls_trigger(executable: str, version: str, port: int) -> dict[str, Any]:
+def _curl_tls_trigger(executable: str, version: str, port: int, deadline: float) -> dict[str, Any]:
     target = require_loopback_url(f"https://{HOST}:{port}/aate-clienthello")
     subprocess.run(  # noqa: S603 - executable is resolved locally and target is loopback-validated.
         [
@@ -392,7 +458,7 @@ def _curl_tls_trigger(executable: str, version: str, port: int) -> dict[str, Any
         check=False,
         capture_output=True,
         text=True,
-        timeout=4,
+        timeout=remaining_seconds(deadline, "curl ClientHello client", 4.0),
         env=_proxy_free_environment(),
     )
     return {"runtime_version": version}
@@ -402,20 +468,36 @@ def _npx_command() -> str | None:
     return shutil.which("npx.cmd") or shutil.which("npx")
 
 
-def _run_protocol_client(mode: str, target: str) -> dict[str, Any]:
+def _run_protocol_client(mode: str, target: str, deadline: float | None = None) -> dict[str, Any]:
     require_loopback_url(target)
+    operation_deadline = _operation_deadline(deadline, PER_CLIENT_TIMEOUT_SECONDS)
     npx = _npx_command()
     if npx is None:
         return {"status": "unsupported", "reason": "npx executable not found", "runtime_version": "unavailable"}
-    completed = subprocess.run(  # noqa: S603 - npx is local and target is loopback-validated.
-        [npx, "tsx", "lab/protocol/protocol_clients.ts", mode, target],
-        cwd=ROOT,
-        check=False,
-        capture_output=True,
-        text=True,
-        timeout=10,
-        env=_proxy_free_environment(),
-    )
+    try:
+        completed = subprocess.run(  # noqa: S603 - npx is local and target is loopback-validated.
+            [
+                npx,
+                "tsx",
+                "lab/protocol/protocol_clients.ts",
+                mode,
+                target,
+                str(max(1, int(remaining_seconds(operation_deadline, f"{mode} client") * 1000))),
+            ],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=remaining_seconds(operation_deadline, f"{mode} subprocess", PER_CLIENT_TIMEOUT_SECONDS),
+            env=_proxy_free_environment(),
+        )
+    except subprocess.TimeoutExpired:
+        return {
+            "status": "unsupported",
+            "reason": f"{mode} exceeded its per-client timeout",
+            "runtime_version": "unavailable",
+            "non_loopback_page_requests_observed": [],
+        }
     lines = [line for line in completed.stdout.splitlines() if line.strip()]
     if completed.returncode != 0 or not lines:
         reason = completed.stderr.strip() or "protocol client returned no result"
@@ -437,14 +519,26 @@ def _run_protocol_client(mode: str, target: str) -> dict[str, Any]:
     return parsed
 
 
-def _playwright_tls_trigger(port: int) -> dict[str, Any]:
-    return _run_protocol_client("browser-clienthello", f"https://{HOST}:{port}/aate-clienthello")
+def _playwright_tls_trigger(port: int, deadline: float) -> dict[str, Any]:
+    return _run_protocol_client(
+        "browser-clienthello",
+        f"https://{HOST}:{port}/aate-clienthello",
+        deadline,
+    )
 
 
-def capture_client_hellos() -> list[dict[str, Any]]:
+def capture_client_hellos(deadline: float | None = None) -> list[dict[str, Any]]:
     """Capture each installed client against a separately capped observer run."""
-    results = [_capture_trigger("python-openssl", "Python/OpenSSL unavailable", _python_tls_trigger)]
-    curl, curl_version = _curl_version()
+    operation_deadline = _operation_deadline(deadline, AUTOMATED_WALL_TIMEOUT_SECONDS)
+    results = [
+        _capture_trigger(
+            "python-openssl",
+            "Python/OpenSSL unavailable",
+            _python_tls_trigger,
+            operation_deadline,
+        )
+    ]
+    curl, curl_version = _curl_version(operation_deadline)
     if curl is None:
         results.append(
             {
@@ -457,10 +551,25 @@ def capture_client_hellos() -> list[dict[str, Any]]:
         )
     else:
         results.append(
-            _capture_trigger("curl", curl_version, lambda port: _curl_tls_trigger(curl, curl_version, port))
+            _capture_trigger(
+                "curl",
+                curl_version,
+                lambda port, client_deadline: _curl_tls_trigger(
+                    curl,
+                    curl_version,
+                    port,
+                    client_deadline,
+                ),
+                operation_deadline,
+            )
         )
     results.append(
-        _capture_trigger("playwright-chromium", "Playwright Chromium unavailable", _playwright_tls_trigger)
+        _capture_trigger(
+            "playwright-chromium",
+            "Playwright Chromium unavailable",
+            _playwright_tls_trigger,
+            operation_deadline,
+        )
     )
     results.append(
         {
@@ -518,8 +627,9 @@ def ephemeral_certificate() -> Iterator[CertificatePaths]:
         yield CertificatePaths(directory, certificate_path, private_key_path)
 
 
-def _curl_supports_http2() -> tuple[bool, str, str | None]:
-    executable, version = _curl_version()
+def _curl_supports_http2(deadline: float | None = None) -> tuple[bool, str, str | None]:
+    operation_deadline = _operation_deadline(deadline, 3.0)
+    executable, version = _curl_version(operation_deadline)
     if executable is None:
         return False, version, None
     completed = subprocess.run(  # noqa: S603 - executable is resolved locally and arguments are fixed.
@@ -527,7 +637,7 @@ def _curl_supports_http2() -> tuple[bool, str, str | None]:
         check=False,
         capture_output=True,
         text=True,
-        timeout=3,
+        timeout=remaining_seconds(operation_deadline, "curl HTTP/2 capability check", 3.0),
         env=_proxy_free_environment(),
     )
     features = " ".join(
@@ -538,7 +648,13 @@ def _curl_supports_http2() -> tuple[bool, str, str | None]:
     return "HTTP2" in {feature.upper() for feature in features}, version, executable
 
 
-def _curl_http2_client(executable: str, version: str, target: str) -> dict[str, Any]:
+def _curl_http2_client(
+    executable: str,
+    version: str,
+    target: str,
+    deadline: float | None = None,
+) -> dict[str, Any]:
+    operation_deadline = _operation_deadline(deadline, 6.0)
     urls = [f"{target}/curl-one", f"{target}/curl-two"]
     completed = subprocess.run(  # noqa: S603 - executable is resolved locally and target is loopback-validated.
         [
@@ -562,7 +678,7 @@ def _curl_http2_client(executable: str, version: str, target: str) -> dict[str, 
         check=False,
         capture_output=True,
         text=True,
-        timeout=6,
+        timeout=remaining_seconds(operation_deadline, "curl HTTP/2 client", 6.0),
         env=_proxy_free_environment(),
     )
     if completed.returncode != 0:
@@ -575,8 +691,95 @@ def _curl_http2_client(executable: str, version: str, target: str) -> dict[str, 
     return {"client": "curl-http2", "status": "observed", "runtime_version": version, "requests": 2}
 
 
-def observe_http2() -> dict[str, Any]:
+def _readline_with_deadline(stream: IO[str], deadline: float) -> str:
+    result: queue.Queue[str | BaseException] = queue.Queue(maxsize=1)
+
+    def read() -> None:
+        try:
+            result.put(stream.readline())
+        except BaseException as exc:  # pragma: no cover - platform pipe failures are uncommon.
+            result.put(exc)
+
+    thread = threading.Thread(target=read, name="aate-http2-ready-reader", daemon=True)
+    thread.start()
+    try:
+        value = result.get(timeout=remaining_seconds(deadline, "HTTP/2 observer ready output"))
+    except queue.Empty as exc:
+        raise ProtocolDeadlineExceeded("whole-command deadline exceeded waiting for HTTP/2 observer") from exc
+    if isinstance(value, BaseException):
+        raise RuntimeError(f"HTTP/2 observer ready output failed: {value}") from value
+    return value
+
+
+def _request_graceful_stop(process: subprocess.Popen[str]) -> None:
+    stream = process.stdin
+    if process.poll() is not None or stream is None or stream.closed:
+        return
+    try:
+        stream.write("STOP\n")
+        stream.flush()
+    except (BrokenPipeError, OSError, ValueError):
+        pass
+    finally:
+        try:
+            stream.close()
+        except OSError:
+            pass
+
+
+def _wait_with_remaining(process: subprocess.Popen[str], deadline: float, label: str) -> bool:
+    try:
+        process.wait(timeout=remaining_seconds(deadline, label, PROCESS_CLEANUP_TIMEOUT_SECONDS))
+        return True
+    except (ProtocolDeadlineExceeded, subprocess.TimeoutExpired):
+        return process.poll() is not None
+
+
+def _cleanup_observer_process(process: subprocess.Popen[str], deadline: float) -> None:
+    """Close pipes and guarantee graceful-stop, terminate, then kill escalation."""
+    _request_graceful_stop(process)
+    if process.poll() is None and not _wait_with_remaining(process, deadline, "HTTP/2 graceful shutdown"):
+        process.terminate()
+    if process.poll() is None and not _wait_with_remaining(process, deadline, "HTTP/2 terminate wait"):
+        process.kill()
+    if process.poll() is None:
+        try:
+            process.wait(timeout=max(0.01, min(PROCESS_CLEANUP_TIMEOUT_SECONDS, deadline - time.monotonic())))
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=PROCESS_CLEANUP_TIMEOUT_SECONDS)
+    for stream in (process.stdin, process.stdout, process.stderr):
+        if stream is not None and not stream.closed:
+            try:
+                stream.close()
+            except OSError:
+                pass
+
+
+def _load_observer_output(output_path: Path) -> dict[str, Any]:
+    observations: Any = json.loads(output_path.read_text(encoding="utf-8"))
+    if not isinstance(observations, dict):
+        raise RuntimeError("HTTP/2 observer result was not an object")
+    return observations
+
+
+def assert_no_non_loopback_page_requests(clients: list[dict[str, Any]]) -> list[str]:
+    """Fail when a Playwright client reports an aborted non-loopback page request."""
+    violations: list[str] = []
+    for client in clients:
+        reported = client.get("non_loopback_page_requests_observed", [])
+        if not isinstance(reported, list) or not all(isinstance(item, str) for item in reported):
+            raise ProtocolSafetyError("protocol client returned an invalid page-request violation list")
+        violations.extend(reported)
+    unique = sorted(set(violations))
+    if unique:
+        raise ProtocolSafetyError(f"non-loopback page requests were aborted: {unique}")
+    return unique
+
+
+def observe_http2(deadline: float | None = None) -> dict[str, Any]:
     """Run the ephemeral Node HTTP/2 observer and supported local clients."""
+    operation_deadline = _operation_deadline(deadline, HTTP2_OBSERVER_TIMEOUT_SECONDS)
     npx = _npx_command()
     if npx is None:
         return {
@@ -584,96 +787,94 @@ def observe_http2() -> dict[str, Any]:
             "reason": "npx executable not found",
             "clients": [],
             "sessions": [],
+            "non_loopback_page_requests_observed": [],
             "cleanup": "no temporary certificate created",
         }
     with ephemeral_certificate() as certificate:
         output_path = certificate.directory / "http2-observations.json"
-        process = subprocess.Popen(  # noqa: S603 - fixed local project command and validated fixed arguments.
-            [
-                npx,
-                "tsx",
-                "lab/protocol/http2_observer.ts",
-                "--host",
-                HOST,
-                "--port",
-                "0",
-                "--cert",
-                str(certificate.certificate),
-                "--key",
-                str(certificate.private_key),
-                "--output",
-                str(output_path),
-                "--max-connections",
-                str(MAX_CONNECTIONS),
-                "--max-streams",
-                str(MAX_HTTP2_STREAMS),
-                "--timeout-ms",
-                str(WALL_TIMEOUT_SECONDS * 1000),
-            ],
-            cwd=ROOT,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            env=_proxy_free_environment(),
-        )
-        stdout = process.stdout
-        stderr_stream = process.stderr
-        if stdout is None or stderr_stream is None:
-            process.kill()
-            process.wait(timeout=2)
-            raise RuntimeError("HTTP/2 observer pipes were not created")
-        ready_line = stdout.readline().strip()
+        process: subprocess.Popen[str] | None = None
         try:
-            ready: Any = json.loads(ready_line)
-        except json.JSONDecodeError as exc:
-            process.kill()
-            _, stderr = process.communicate(timeout=2)
-            raise RuntimeError(f"HTTP/2 observer failed to start: {stderr.strip()}") from exc
-        if not isinstance(ready, dict) or ready.get("status") != "ready":
-            process.kill()
-            process.communicate(timeout=2)
-            raise RuntimeError("HTTP/2 observer did not report a ready state")
-        target = require_loopback_url(f"https://{HOST}:{int(ready['port'])}")
-        clients: list[dict[str, Any]] = [
-            _run_protocol_client("node-http2", target),
-            _run_protocol_client("browser-http2", target),
-        ]
-        curl_supported, curl_version, curl = _curl_supports_http2()
-        if curl_supported and curl is not None:
-            clients.append(_curl_http2_client(curl, curl_version, target))
-        else:
-            clients.append(
-                {
-                    "client": "curl-http2",
-                    "status": "unsupported",
-                    "runtime_version": curl_version,
-                    "reason": "installed curl build does not report HTTP2 support",
-                }
+            observer_timeout_ms = max(
+                100,
+                int(
+                    remaining_seconds(
+                        operation_deadline,
+                        "HTTP/2 observer launch",
+                        HTTP2_OBSERVER_TIMEOUT_SECONDS,
+                    )
+                    * 1000
+                ),
             )
-        if process.stdin is not None:
-            process.stdin.write("STOP\n")
-            process.stdin.flush()
-            process.stdin.close()
-        try:
-            process.wait(timeout=4)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.wait(timeout=2)
-        if process.returncode != 0:
-            error_text = stderr_stream.read().strip()
-            stdout.close()
-            stderr_stream.close()
-            raise RuntimeError(f"HTTP/2 observer failed: {error_text}")
-        observations: Any = json.loads(output_path.read_text(encoding="utf-8"))
-        stdout.close()
-        stderr_stream.close()
-        if not isinstance(observations, dict):
-            raise RuntimeError("HTTP/2 observer result was not an object")
-        observations["clients"] = clients
-        observations["target"] = target
-        observations["cleanup"] = "temporary certificate and private key removed after the command"
-        return observations
+            process = subprocess.Popen(  # noqa: S603 - fixed local project command and validated fixed arguments.
+                [
+                    npx,
+                    "tsx",
+                    "lab/protocol/http2_observer.ts",
+                    "--host",
+                    HOST,
+                    "--port",
+                    "0",
+                    "--cert",
+                    str(certificate.certificate),
+                    "--key",
+                    str(certificate.private_key),
+                    "--output",
+                    str(output_path),
+                    "--max-connections",
+                    str(MAX_CONNECTIONS),
+                    "--max-streams",
+                    str(MAX_HTTP2_STREAMS),
+                    "--timeout-ms",
+                    str(min(30_000, observer_timeout_ms)),
+                ],
+                cwd=ROOT,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                env=_proxy_free_environment(),
+            )
+            stdout = process.stdout
+            stderr_stream = process.stderr
+            if stdout is None or stderr_stream is None or process.stdin is None:
+                raise RuntimeError("HTTP/2 observer pipes were not created")
+            ready_line = _readline_with_deadline(stdout, operation_deadline).strip()
+            try:
+                ready: Any = json.loads(ready_line)
+            except json.JSONDecodeError as exc:
+                raise RuntimeError("HTTP/2 observer emitted malformed ready JSON") from exc
+            if not isinstance(ready, dict) or ready.get("status") != "ready":
+                raise RuntimeError("HTTP/2 observer did not report a ready state")
+            target = require_loopback_url(f"https://{HOST}:{int(ready['port'])}")
+            clients: list[dict[str, Any]] = [
+                _run_protocol_client("node-http2", target, operation_deadline),
+                _run_protocol_client("browser-http2", target, operation_deadline),
+            ]
+            curl_supported, curl_version, curl = _curl_supports_http2(operation_deadline)
+            if curl_supported and curl is not None:
+                clients.append(_curl_http2_client(curl, curl_version, target, operation_deadline))
+            else:
+                clients.append(
+                    {
+                        "client": "curl-http2",
+                        "status": "unsupported",
+                        "runtime_version": curl_version,
+                        "reason": "installed curl build does not report HTTP2 support",
+                    }
+                )
+            violations = assert_no_non_loopback_page_requests(clients)
+            _cleanup_observer_process(process, operation_deadline)
+            if process.returncode != 0:
+                raise RuntimeError("HTTP/2 observer failed or exceeded a configured cap")
+            observations = _load_observer_output(output_path)
+            observations["clients"] = clients
+            observations["target"] = target
+            observations["non_loopback_page_requests_observed"] = violations
+            observations["cleanup"] = "temporary certificate and private key removed after the command"
+            return observations
+        finally:
+            if process is not None:
+                _cleanup_observer_process(process, operation_deadline)
 
 
 def _join_client_results(
@@ -733,19 +934,44 @@ def _join_client_results(
     return rows
 
 
-def run_automated_comparison() -> dict[str, Any]:
+def run_automated_comparison(
+    wall_timeout: float = AUTOMATED_WALL_TIMEOUT_SECONDS,
+    capture: Callable[[float], list[dict[str, Any]]] = capture_client_hellos,
+    observe: Callable[[float], dict[str, Any]] = observe_http2,
+) -> dict[str, Any]:
     """Run both observers, all supported clients, and cleanup in one bounded command."""
+    if wall_timeout <= 0 or wall_timeout > AUTOMATED_WALL_TIMEOUT_SECONDS:
+        raise ValueError(
+            f"automated wall timeout must be within {AUTOMATED_WALL_TIMEOUT_SECONDS} seconds"
+        )
     started = time.monotonic()
-    clienthellos = capture_client_hellos()
-    http2 = observe_http2()
+    deadline = started + wall_timeout
+    remaining_seconds(deadline, "ClientHello comparison start")
+    clienthellos = capture(deadline)
+    remaining_seconds(deadline, "HTTP/2 comparison start")
+    http2 = observe(deadline)
+    remaining_seconds(deadline, "structured result assembly")
+    page_violations = assert_no_non_loopback_page_requests(
+        clienthellos
+        + [
+            client
+            for client in http2.get("clients", [])
+            if isinstance(client, dict)
+        ]
+    )
     return {
         "safety": {
             "bind": HOST,
-            "external_requests": 0,
+            "configured_targets": "loopback only",
+            "non_loopback_page_requests_observed": page_violations,
             "proxy_environment_inherited": False,
+            "packet_level_external_traffic": "not measured",
             "max_connections_per_observer": MAX_CONNECTIONS,
             "max_http2_streams": MAX_HTTP2_STREAMS,
-            "wall_timeout_seconds": WALL_TIMEOUT_SECONDS,
+            "whole_command_wall_budget_seconds": wall_timeout,
+            "raw_observer_connection_timeout_seconds": RAW_OBSERVER_TIMEOUT_SECONDS,
+            "http2_observer_timeout_seconds": HTTP2_OBSERVER_TIMEOUT_SECONDS,
+            "per_client_timeout_seconds": PER_CLIENT_TIMEOUT_SECONDS,
         },
         "clienthello_observations": clienthellos,
         "http2_observations": http2,
@@ -822,7 +1048,14 @@ def main() -> int:
     if args.mode == "http2":
         print(json.dumps(observe_http2(), indent=2, sort_keys=True))
         return 0
-    result = run_automated_comparison()
+    try:
+        result = run_automated_comparison()
+    except ProtocolDeadlineExceeded as exc:
+        print(f"Protocol comparison timeout: {exc}", file=sys.stderr)
+        return 2
+    except ProtocolSafetyError as exc:
+        print(f"Protocol comparison safety failure: {exc}", file=sys.stderr)
+        return 3
     print(render_comparison_table(result["comparison_table"]))
     print("\nStructured observations:\n")
     print(json.dumps(result, indent=2, sort_keys=True))

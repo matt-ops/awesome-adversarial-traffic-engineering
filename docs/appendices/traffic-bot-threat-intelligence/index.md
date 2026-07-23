@@ -7,8 +7,8 @@ checkpoint.
 
 | Lesson | Focus | Time |
 |---|---|---:|
-| [Collection and confidence](01-collection-and-confidence.md) | Source reliability, information credibility, uncertainty, and non-attribution | 90 minutes |
-| [Behavioral clustering and indicator lifecycle](02-behavioral-clustering-and-indicator-lifecycle.md) | Sequence-based clustering, contradictions, alternatives, freshness, and retirement | 120 minutes |
+| [Collection and confidence](01-collection-and-confidence.md) | Source reliability, information reliability, categorical confidence, uncertainty, and non-attribution | 90 minutes |
+| [Behavioral clustering and indicator lifecycle](02-behavioral-clustering-and-indicator-lifecycle.md) | Evidence-derived workflow/sequence grouping, contradictions, alternatives, freshness, and retirement | 120 minutes |
 | [Intelligence to emulation and regression](03-intelligence-to-emulation-and-regression.md) | Bounded behavior plan, control expectation, protected result, and exact retest | 120 minutes |
 
 The deterministic exercise uses only repository fixtures and documentation-only

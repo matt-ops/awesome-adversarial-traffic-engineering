@@ -1,6 +1,7 @@
 # Behavioral clustering and indicator lifecycle
 
 <!-- source-ids: oasis-stix-21, owasp-automated-threats, misp-warning-lists, aate-local-lab -->
+<!-- source-ledger-consistency: strict -->
 
 ## Appendix guide
 
@@ -22,9 +23,9 @@ positive warnings, promotion, and retirement without assuming actor identity.
 
 | Type | Source | Exact assigned area | What it supports | Limitation |
 |---|---|---|---|---|
-| STANDARD | [STIX 2.1](https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html) | Indicator, Sighting, Relationship, valid_from, and valid_until | Supports lifecycle-aware indicator records and relationships | A valid STIX object can still encode poor analysis. |
+| STANDARD | [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html) | 3.2 Common Properties; 4.7 Indicator; 5.1 Relationship; 5.2 Sighting | Supports lifecycle-aware indicator records and relationships | A valid STIX object can still encode poor analysis. |
 | PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Threat-event descriptions and mappings | Supplies behavior-oriented abuse categories | Taxonomy does not establish that one observed cluster belongs to a real actor. |
-| PROJECT_DOCUMENTATION | [MISP warning lists](https://www.misp-project.org/warninglists.html) | Purpose and warning-list matching | Supports known-benign/shared-context warnings | A warning is contextual review input, not an automatic allow decision. |
+| PROJECT_DOCUMENTATION | [MISP Warning Lists](https://github.com/MISP/misp-warninglists) | README purpose, usage, categories, and known false-positive examples | Supports known-benign/shared-context warnings | A warning is contextual review input, not an automatic allow decision. |
 | LAB_SPECIFIC | [Synthetic intelligence exercise](../../labs/course-map.md) | Version, sequence, relay, and outcome fields in the fixture command record | Provides deterministic cluster evidence and contradictions | Small fabricated fixture cannot estimate prevalence or production error rates. |
 
 ## Mental model
@@ -48,8 +49,8 @@ indicators as cheap values such as one header.
 
 ### STIX indicator-lifecycle assignment
 
-**Direct link:** [OASIS STIX 2.1](https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html)
-**Exact section, chapter, or unit:** Section 4.6 Indicator and common properties for created, modified, revoked, confidence, valid_from, and valid_until
+**Direct link:** [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html)
+**Exact section, chapter, or unit:** 3.2 Common Properties; 4.7 Indicator; 5.1 Relationship; and 5.2 Sighting
 **Estimated time:** 30 minutes
 **What to focus on:** confidence, validity windows, sightings, relationships, and revocation as explicit lifecycle data
 **What to skip:** cyber-observable object catalog not present in the fixture
@@ -66,8 +67,8 @@ indicators as cheap values such as one header.
 
 ### MISP warning-context assignment
 
-**Direct link:** [MISP warning lists](https://www.misp-project.org/warninglists.html)
-**Exact section, chapter, or unit:** Warning Lists overview and examples
+**Direct link:** [MISP Warning Lists](https://github.com/MISP/misp-warninglists)
+**Exact section, chapter, or unit:** README purpose and usage, warning-list categories, and known false-positive examples
 **Estimated time:** 15 minutes
 **What to focus on:** shared, public, or otherwise context-sensitive values that can create false-positive matches
 **What to skip:** installing or operating a MISP instance
@@ -75,10 +76,20 @@ indicators as cheap values such as one header.
 
 ## Course bridge
 
-Behavioral clustering favors ordered workflow, state transition, challenge
-interaction, and protected result over a single volatile artifact. A cluster
-record must still expose supporting observations, contradictions, alternatives,
-confidence, and the exact next observation that could change the conclusion.
+The executable grouping never reads a fixture-supplied answer. It first
+normalizes every method/path request into an ordered sequence family. A proposed
+group then requires at least two current events with the same protected workflow
+and normalized request sequence plus recorded session, challenge, and protected-
+action continuity. Timing, network/proxy category, and browser/protocol
+availability are supporting dimensions. Missing values and divergent dimensions
+remain visible; infrastructure is never a membership key.
+
+A group record exposes its ID, member event IDs, matched and missing dimensions,
+contradictions, alternatives, current support, historical-only support, the
+categorical confidence result, and its attribution limitation. An ambiguous
+record exposes candidate behavior families, insufficient or contradictory
+dimensions, and alternative explanations.
+
 Split a campaign hypothesis when behavior, target, or protected result diverges
 beyond the stated alternatives. Merge hypotheses only when corroborated shared
 behavior is stronger than infrastructure coincidence. Neither operation permits
@@ -87,10 +98,11 @@ attribution beyond the evidence, and this appendix does not teach geopolitical a
 ## Worked example
 
 The fixture's checkout sequence retains challenge replay and protected result as
-strong behavior evidence. The Chromium 132 string is stale relative to the
-recorded Chromium 140 environment, so it becomes a degraded version artifact,
-not the cluster definition. `shared-relay.example` receives a shared-context
-warning and cannot support attribution.
+strong behavior evidence. The historical fixture Chromium 132 string is stale
+relative to fixture-current Playwright Chromium 149, so it becomes a degraded
+version artifact, not the cluster definition. These fixture labels are not
+claims about a universally current browser. `shared-relay.example` receives a
+shared-context warning and cannot create membership or attribution.
 
 ## Optional exercise
 
@@ -115,15 +127,19 @@ No service, credential, or external collection source is required.
 python -m lab.analysis.traffic_intelligence
 ```
 
-Compare each cluster's support, contradictions, alternatives, confidence, and
-indicator validity fields. Identify the stale browser artifact and warning-list match.
+Compare each group's matched and missing dimensions, current and historical
+support, contradictions, alternatives, confidence, and indicator validity
+fields. Identify the stale browser artifact and warning-list match.
 
 ### Expected output
 
-The output names `checkout-sequence-with-challenge-replay` and
-`multi-account-login-sequence`, lists their supporting observations, and keeps
-`obs-005` outside confident membership. The Chromium 132 artifact is degraded by
-version drift, and the shared relay is marked insufficient for attribution.
+The evidence-derived output names `checkout-sequence-with-challenge-replay` and
+`multi-account-login-sequence`, lists their actual members and matched
+dimensions, and keeps cross-workflow `obs-005` ambiguous. The historical fixture
+Chromium 132 artifact is degraded by version drift, and the shared relay is
+marked insufficient for membership or attribution. The selected checkout group
+has **high** confidence under the single rubric; the login group is
+**moderate** because one record is inferred and carries weaker ratings.
 
 ### Interpretation
 
