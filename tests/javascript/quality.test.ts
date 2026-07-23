@@ -6,6 +6,7 @@ import {
   parseBooleanFlag,
   resolveHeadless,
   selectMutationProfile,
+  withBrowserCleanup,
 } from "../../lab/clients/playwright/quality.js";
 import { buildIterationKey, buildLoadOptions, parseLoadConfiguration } from "../../lab/load/config.mjs";
 
@@ -30,6 +31,22 @@ test("mutation profiles preserve the one-variable and cross-context contracts", 
     changeWebdriver: true,
     frameLanguage: "fr-FR",
   });
+});
+
+test("browser cleanup runs when an operation fails", async () => {
+  let closed = false;
+  const browser = {
+    async close() {
+      closed = true;
+    },
+  };
+  await assert.rejects(
+    withBrowserCleanup(browser, async () => {
+      throw new Error("injected reset failure");
+    }),
+    /injected reset failure/,
+  );
+  assert.equal(closed, true);
 });
 
 test("artifact schema validation rejects missing, external, and non-JSON values", () => {

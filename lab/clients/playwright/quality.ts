@@ -1,4 +1,4 @@
-const LOCAL_ARTIFACT_TARGETS = new Set(["http://127.0.0.1:4173", "http://localhost:8080"]);
+const LOCAL_ARTIFACT_TARGETS = new Set(["http://127.0.0.1:4173", "http://127.0.0.1:8080", "http://localhost:8080"]);
 
 export type MutationProfile = {
   population: "stock-headed" | "stock-headless" | "one-variable" | "cross-context-mismatch";
@@ -39,6 +39,17 @@ export function parseBooleanFlag(value: string | undefined, name: string): boole
 
 export function resolveHeadless(requestedHeadless: boolean, environmentValue: string | undefined): boolean {
   return parseBooleanFlag(environmentValue, "AATE_HEADLESS") || requestedHeadless;
+}
+
+export async function withBrowserCleanup<T>(
+  browser: { close(): Promise<void> },
+  operation: () => Promise<T>,
+): Promise<T> {
+  try {
+    return await operation();
+  } finally {
+    await browser.close();
+  }
 }
 
 export function selectMutationProfile(population: MutationProfile["population"]): MutationProfile {

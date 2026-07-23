@@ -1,9 +1,9 @@
-import { chromium, type BrowserContext, type Page, type Request } from "@playwright/test";
+import { chromium, type Browser, type BrowserContext, type Page, type Request } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-import { assertArtifactSchema } from "./quality.js";
+import { assertArtifactSchema, withBrowserCleanup } from "./quality.js";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://127.0.0.1:8080";
 const OUTPUT = "lab/telemetry/challenge-flow.json";
 
 type JsonObject = Record<string, unknown>;
@@ -80,8 +80,7 @@ declare global {
   }
 }
 
-async function main(): Promise<void> {
-  const browser = await chromium.launch({ headless: process.env.AATE_HEADLESS === "1" });
+async function executeChallengeFlow(browser: Browser): Promise<void> {
   const resetContext = await browser.newContext();
   try {
     const reset = await resetContext.request.post(`${BASE_URL}/api/reset`);
@@ -189,8 +188,12 @@ async function main(): Promise<void> {
   } finally {
     await contextA.close();
     await contextB.close();
-    await browser.close();
   }
+}
+
+async function main(): Promise<void> {
+  const browser = await chromium.launch({ headless: process.env.AATE_HEADLESS === "1" });
+  await withBrowserCleanup(browser, () => executeChallengeFlow(browser));
 }
 
 main().catch((error: unknown) => {

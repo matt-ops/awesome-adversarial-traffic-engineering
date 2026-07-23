@@ -52,6 +52,8 @@ jobs:
           npm run format:check
           npm run typecheck
           npm run markdown:lint
+      - name: Start loopback lab
+        run: docker compose -f lab/docker-compose.yml up --build --detach --wait --wait-timeout 120
       - name: Run browser and analysis exercises
         env:
           AATE_HEADLESS: "1"
@@ -61,6 +63,9 @@ jobs:
           python -m lab.analysis.traffic_intelligence
           python -m lab.analysis.classifier_tradeoffs
           python -m lab.protocol.compare automated
+      - name: Stop loopback lab
+        if: always()
+        run: docker compose -f lab/docker-compose.yml down --volumes --remove-orphans
       - name: Validate packaging, public tree, and site
         run: |
           docker compose -f lab/docker-compose.yml config --quiet
