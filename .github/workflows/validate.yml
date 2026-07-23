@@ -1,0 +1,75 @@
+name: Validate pull request
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install Python and Node dependencies
+        run: |
+          python -m pip install ".[dev,docs]"
+          npm ci
+      - name: Install pinned Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Validate course structure
+        run: |
+          python scripts/validate_sources.py
+          python scripts/validate_lessons.py
+          python scripts/validate_assessments.py
+          python scripts/validate_labs.py
+          python scripts/validate_load_scripts.py
+          python scripts/validate_curriculum.py
+          python scripts/check_internal_links.py
+      - name: Run Python tests and static analysis
+        run: |
+          python -m pytest lab/tests -q
+          ruff check .
+          mypy .
+      - name: Run Node tests and static analysis
+        run: |
+          npm test
+          npm run lint
+          npm run format:check
+          npm run typecheck
+          npm run markdown:lint
+      - name: Start loopback lab
+        run: docker compose -f lab/docker-compose.yml up --build --detach --wait --wait-timeout 120
+      - name: Run browser and analysis exercises
+        env:
+          AATE_HEADLESS: "1"
+        run: |
+          npm run playwright:foundation
+          npm run playwright:challenge-flow
+          python -m lab.analysis.traffic_intelligence
+          python -m lab.analysis.classifier_tradeoffs
+          python -m lab.protocol.compare automated
+      - name: Stop loopback lab
+        if: always()
+        run: docker compose -f lab/docker-compose.yml down --volumes --remove-orphans
+      - name: Validate packaging, public tree, and site
+        run: |
+          docker compose -f lab/docker-compose.yml config --quiet
+          mkdocs build --strict
+          python scripts/scan_public_tree.py
+          git diff --check

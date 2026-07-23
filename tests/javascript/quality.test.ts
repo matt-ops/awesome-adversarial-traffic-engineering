@@ -6,8 +6,10 @@ import {
   parseBooleanFlag,
   resolveHeadless,
   selectMutationProfile,
+  withBrowserCleanup,
 } from "../../lab/clients/playwright/quality.js";
 import { buildIterationKey, buildLoadOptions, parseLoadConfiguration } from "../../lab/load/config.mjs";
+import { browserRequestDecision, checkedLoopbackUrl } from "../../lab/protocol/protocol_clients.js";
 
 test("safe boolean configuration accepts only explicit binary values", () => {
   assert.equal(parseBooleanFlag(undefined, "FLAG"), false);
@@ -30,6 +32,22 @@ test("mutation profiles preserve the one-variable and cross-context contracts", 
     changeWebdriver: true,
     frameLanguage: "fr-FR",
   });
+});
+
+test("browser cleanup runs when an operation fails", async () => {
+  let closed = false;
+  const browser = {
+    async close() {
+      closed = true;
+    },
+  };
+  await assert.rejects(
+    withBrowserCleanup(browser, async () => {
+      throw new Error("injected reset failure");
+    }),
+    /injected reset failure/,
+  );
+  assert.equal(closed, true);
 });
 
 test("artifact schema validation rejects missing, external, and non-JSON values", () => {
@@ -80,4 +98,28 @@ test("stateful load keys are deterministic and unique by scenario iteration", ()
   assert.notEqual(buildIterationKey("bypass", 1), buildIterationKey("rotated", 1));
   assert.throws(() => buildIterationKey("", 1), /prefix is required/);
   assert.throws(() => buildIterationKey("bounded", -1), /non-negative integer/);
+});
+
+test("protocol browser routing allows only exact loopback paths and sanitizes blocked origins", () => {
+  const target = checkedLoopbackUrl("https://127.0.0.1:8443");
+  const allowedPaths = new Set(["/browser-one", "/browser-two"]);
+  assert.deepEqual(browserRequestDecision("https://127.0.0.1:8443/browser-one", target.origin, allowedPaths), {
+    action: "allow",
+    external: false,
+    origin: "https://127.0.0.1:8443",
+    sanitizedUrl: "https://127.0.0.1:8443/browser-one",
+  });
+  assert.deepEqual(
+    browserRequestDecision("https://user:secret@example.com/collect?token=private", target.origin, allowedPaths),
+    {
+      action: "abort",
+      external: true,
+      origin: "https://example.com",
+      sanitizedUrl: "https://example.com/collect",
+    },
+  );
+  assert.equal(
+    browserRequestDecision("https://127.0.0.1:8443/unassigned", target.origin, allowedPaths).action,
+    "abort",
+  );
 });

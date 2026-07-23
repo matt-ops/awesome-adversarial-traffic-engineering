@@ -5,7 +5,7 @@
 ## Progress
 
 - Module: 07 - Protocol identity
-- Lesson: 3 of 5
+- Lesson: 3 of 6
 - Depth: Integrated
 - Estimated time: 3 hours
 - Prerequisites:

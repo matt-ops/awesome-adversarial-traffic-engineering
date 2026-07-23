@@ -5,14 +5,14 @@
 ## Progress
 
 - Module: 05 - Control reconnaissance
-- Lesson: 5 of 5
+- Lesson: 5 of 6
 - Depth: Integrated
 - Estimated time: 3 hours
 - Prerequisites:
   - [Session, behavior, and workflow](04-session-behavior-workflow.md)
   - [Challenge systems and protected-action enforcement](../04-automated-abuse/06-challenge-systems-and-protected-action-enforcement.md)
   - Healthy local API and a completed manual baseline observation
-- Next lesson: Evasion hypotheses
+- Next lesson: Classifier Evaluation and Adversarial Drift
 
 ## Role outcome
 
@@ -204,5 +204,5 @@ a bypass. Population discipline makes the later causal claim defensible.
 
 ## Next lesson
 
-[Evasion hypotheses](../06-browser-evasion/01-evasion-hypotheses.md) turns the
-candidate trusted signal into a falsifiable prediction and abort criteria.
+[Classifier Evaluation and Adversarial Drift](06-classifier-evaluation-and-adversarial-drift.md)
+measures threshold tradeoffs, base-rate effects, collateral cost, and adapted-abuse drift.

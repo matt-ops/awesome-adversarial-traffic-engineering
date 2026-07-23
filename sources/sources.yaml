@@ -4,8 +4,8 @@
   source_type: STANDARD
   publisher: NIST
   version_or_accessed: "2008-09"
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - "5.2 Penetration Testing"
     - "5.2.1 Penetration Testing Phases"
@@ -19,7 +19,7 @@
     - rules of engagement
   limitations:
     - General testing guide; it does not define bot-control or DDoS red-team procedure.
-  modules: [appendix-red-team-method, module-10]
+  modules: [appendix-red-team-method, module-08, module-10]
 
 - id: mitre-adversary-emulation-plans
   title: Adversary Emulation Plans
@@ -27,8 +27,8 @@
   source_type: OFFICIAL_DOCUMENTATION
   publisher: MITRE ATT&CK
   version_or_accessed: living-page
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - Complete page through Emulation Plan Documents
   supports:
@@ -37,7 +37,7 @@
     - behavior-focused defense evaluation
   limitations:
     - Examples focus on enterprise adversaries, not automated-abuse controls.
-  modules: [appendix-red-team-method, module-04]
+  modules: [appendix-red-team-method, appendix-traffic-bot-intelligence, module-04]
 
 - id: owasp-wstg-entry-points-v42
   title: Identify Application Entry Points
@@ -294,8 +294,8 @@
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Microsoft Playwright
   version_or_accessed: versioned-living-page
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - HTTP Authentication
     - Network events
@@ -305,7 +305,7 @@
   supports: [request-events, response-events, interception]
   limitations:
     - API behavior is version-sensitive; examples pin the repository version.
-  modules: [module-03]
+  modules: [module-03, module-07]
 
 - id: playwright-auth
   title: Authentication
@@ -348,8 +348,8 @@
   source_type: PROJECT_DOCUMENTATION
   publisher: OWASP
   version_or_accessed: living-project
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - Project introduction
     - OAT-008 Credential Stuffing — Summary Defining Characteristics, Description, Other Names and Examples
@@ -362,7 +362,7 @@
   supports: [automated-abuse-taxonomy, business-workflow-abuse]
   limitations:
     - The project is a taxonomy and handbook, not an execution methodology.
-  modules: [module-04, module-05, module-06]
+  modules: [appendix-traffic-bot-intelligence, module-04, module-05, module-06]
 
 - id: rfc-9576
   title: The Privacy Pass Architecture
@@ -640,8 +640,8 @@
   source_type: PROJECT_DOCUMENTATION
   publisher: FoxIO
   version_or_accessed: living-repository
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - Project overview
     - JA4 TLS fingerprint
@@ -649,6 +649,7 @@
     - Current methods and implementation details
     - Technical Details
     - Q&A on changes and ordering
+    - Licensing
   supports: [tls-fingerprinting, http-fingerprinting, cross-layer-coherence]
   limitations:
     - Fingerprints change with implementations; licensing differs across JA4+ methods; fingerprints are not identity proof.
@@ -660,11 +661,12 @@
   source_type: STANDARD
   publisher: IETF
   version_or_accessed: "2018-08"
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - "4.1 Cryptographic Negotiation"
     - "4.1.2 Client Hello"
+    - "4.2 Extensions"
   supports: [tls-handshake, clienthello]
   limitations:
     - Assigned only at Integrated depth; it does not define JA4.
@@ -676,11 +678,13 @@
   source_type: STANDARD
   publisher: IETF
   version_or_accessed: "2022-06"
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - "2 HTTP/2 Protocol Overview"
     - "5 Streams and Multiplexing"
+    - "6.5 SETTINGS"
+    - "9.1 Connection Management"
   supports: [http2, streams, multiplexing]
   limitations:
     - Selected protocol sections only; implementation fingerprinting is separate.
@@ -777,8 +781,8 @@
   source_type: PRACTITIONER_PERSPECTIVE
   publisher: AWS Builders' Library
   version_or_accessed: living-article
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - Complete article
   supports: [load-shedding, admission-control, overload-recovery]
@@ -810,8 +814,8 @@
   source_type: OFFICIAL_DOCUMENTATION
   publisher: Grafana k6
   version_or_accessed: living-page
-  last_content_reviewed: "2026-07-15"
-  last_link_checked: "2026-07-17"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
   assigned_sections:
     - Threshold syntax
     - Failure behavior
@@ -821,6 +825,171 @@
   limitations:
     - Tool documentation; AATE adds stricter local target and load ceilings.
   modules: [module-08]
+
+- id: first-cti-source-evaluation
+  title: Source Evaluation and Information Reliability
+  url: https://www.first.org/global/sigs/cti/curriculum/source-evaluation
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: FIRST Cyber Threat Intelligence SIG
+  version_or_accessed: living-curriculum
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - Source reliability
+    - Information reliability
+    - NATO Admiralty Code examples
+  supports:
+    - separate source-reliability and information-reliability ratings
+    - explicit cannot-be-judged values
+    - corroboration-aware confidence
+  limitations:
+    - The rating system structures analyst judgment; a reliable source does not make every report true.
+  modules: [appendix-traffic-bot-intelligence]
+
+- id: oasis-stix-21
+  title: STIX Version 2.1 Errata 01
+  url: https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html
+  source_type: STANDARD
+  publisher: OASIS Open
+  version_or_accessed: "2.1-errata-01"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - 3.2 Common Properties, specifically the confidence property
+    - 4.7 Indicator
+    - 4.14 Observed Data
+    - 5.1 Relationship
+    - 5.2 Sighting
+    - "Appendix A: Confidence Scales"
+  supports:
+    - observation versus intelligence assertion
+    - indicator-to-observed-data relationships
+    - sightings and confidence
+  limitations:
+    - STIX defines exchange objects and relationships, not AATE clustering or emulation procedure.
+  modules: [appendix-traffic-bot-intelligence]
+
+- id: misp-warning-lists
+  title: MISP Warning Lists
+  url: https://github.com/MISP/misp-warninglists
+  source_type: PROJECT_DOCUMENTATION
+  publisher: MISP Project
+  version_or_accessed: "2026-04-05 release"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - README purpose and usage
+    - Warning-list categories
+    - Known false-positive examples
+  supports:
+    - indicator sharing warnings
+    - common or shared-value false-positive handling
+    - review context for atomic indicators
+  limitations:
+    - A warning-list match is context, not proof that an indicator is benign or malicious.
+  modules: [appendix-traffic-bot-intelligence]
+
+- id: scikit-learn-classification-metrics
+  title: Metrics and scoring - classification metrics
+  url: https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: scikit-learn
+  version_or_accessed: "1.9.0"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - 3.4.4.6 Confusion matrix
+    - 3.4.4.9 Precision, recall and F-measures
+    - Binary classification definitions
+    - Confusion matrices at thresholds
+  supports:
+    - confusion-matrix definitions
+    - precision and recall formulas
+    - threshold-dependent evaluation
+  limitations:
+    - General metric documentation; it does not choose a bot-control operating threshold or cost model.
+  modules: [module-05]
+
+- id: axelsson-base-rate
+  title: The base-rate fallacy and the difficulty of intrusion detection
+  url: https://doi.org/10.1145/357830.357849
+  source_type: PEER_REVIEWED_RESEARCH
+  publisher: ACM Transactions on Information and System Security
+  version_or_accessed: "2000-08"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - Abstract
+    - Base-rate model and Bayesian detection-rate analysis
+    - Discussion of false-alarm constraints
+  supports:
+    - low-base-rate false-positive workload
+    - limits of superficially strong detection rates
+  limitations:
+    - Intrusion-detection model and historical examples; the paper does not evaluate this course fixture.
+  modules: [module-05]
+
+- id: google-ml-monitoring
+  title: Production ML systems - Monitoring pipelines
+  url: https://developers.google.com/machine-learning/crash-course/production-ml-systems/monitoring
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: Google for Developers
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - Check for training-serving skew
+    - Monitor model age throughout pipeline
+    - Test the quality of live model on served data
+    - Randomization
+  supports:
+    - versioned live evaluation
+    - drift and skew monitoring
+    - delayed-label limitations
+  limitations:
+    - General production-ML guidance; adversarial adaptation and protected-action criteria are AATE applications.
+  modules: [module-05]
+
+- id: curl-http2-capabilities
+  title: curl command-line manual and feature reporting
+  url: https://curl.se/docs/manpage.html
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: curl project
+  version_or_accessed: living-page
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - --http2
+    - --version and Features output
+    - --noproxy
+    - --connect-timeout and --max-time
+  supports:
+    - runtime HTTP/2 capability detection
+    - proxy bypass and bounded local client execution
+  limitations:
+    - Available protocols depend on the installed curl build and TLS backend.
+  modules: [module-07]
+
+- id: node-http2
+  title: Node.js HTTP/2 API
+  url: https://nodejs.org/api/http2.html
+  source_type: OFFICIAL_DOCUMENTATION
+  publisher: OpenJS Foundation
+  version_or_accessed: "26.5.0 documentation"
+  last_content_reviewed: "2026-07-22"
+  last_link_checked: "2026-07-22"
+  assigned_sections:
+    - Http2Session remoteSettings
+    - Event remoteSettings
+    - Http2Session alpnProtocol
+    - createSecureServer and stream event
+  supports:
+    - local TLS HTTP/2 observer
+    - negotiated ALPN and remote settings
+    - connection and stream observations
+  limitations:
+    - The API exposes decoded header fields, not a claim about wire-level header ordering.
+  modules: [module-07]
 
 - id: python-standard-library
   title: Python 3 documentation
@@ -966,7 +1135,7 @@
   supports: [aate-method, controlled-experiments, protected-action-proof, retest]
   limitations:
     - Course synthesis; no cited standard defines the exact fifteen-step sequence.
-  modules: [appendix-red-team-method, module-01, module-04, module-05, module-06, module-07, module-08, module-09, module-10]
+  modules: [appendix-red-team-method, appendix-traffic-bot-intelligence, module-01, module-04, module-05, module-06, module-07, module-08, module-09, module-10]
 
 - id: aate-local-lab
   title: AATE synthetic local lab behavior
@@ -985,4 +1154,4 @@
   supports: [local-exercises, expected-output, safety-boundaries]
   limitations:
     - Deliberately small and vulnerable; results do not generalize to production systems.
-  modules: [appendix-red-team-method, module-01, module-03, module-04, module-05, module-06, module-08, module-09, module-10]
+  modules: [appendix-red-team-method, appendix-traffic-bot-intelligence, module-01, module-03, module-04, module-05, module-06, module-07, module-08, module-09, module-10]

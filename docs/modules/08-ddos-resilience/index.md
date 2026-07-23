@@ -32,7 +32,8 @@ observations; the local stack does not implement those two mitigations.
 ## Deep
 
 Complete [recovery and retest](05-recovery-and-retest.md). Map remediation to the
-exhausted resource and repeat the same bounded attack with legitimate-health criteria.
+exhausted resource, translate bounded evidence into an authorized provider-neutral
+pre-production plan, and repeat the same bounded attack with legitimate-health criteria.
 
 ## Experiment frame used in this module
 

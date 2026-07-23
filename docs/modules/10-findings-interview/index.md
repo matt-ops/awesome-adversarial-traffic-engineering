@@ -41,3 +41,9 @@ Start with [Finding and evidence](01-finding-and-evidence.md).
 For interview methodology and formal engagement review, use the optional
 [Red-team method and engagement practice appendix](../00-method/index.md). It is
 recommended context, not a core completion dependency.
+
+For interview discussion of intelligence quality, behavioral clustering,
+indicator lifecycle, and bounded emulation, use the optional [Traffic and Bot
+Threat Intelligence appendix](../../appendices/traffic-bot-threat-intelligence/index.md).
+The [Experienced Practitioner Fast Track](../../experienced-practitioner-fast-track.md)
+also provides an evidence-first interview review route; neither page changes core completion.

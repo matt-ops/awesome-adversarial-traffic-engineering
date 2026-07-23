@@ -6,13 +6,14 @@ import re
 from pathlib import Path
 
 from validate_lessons import (  # type: ignore[import-not-found]
+    appendix_files,
+    lesson_files,
     numbered_questions,
     section,
     validate_answer_key,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-LESSON_ROOT = ROOT / "docs" / "modules"
 VAGUE_QUESTION_PATTERNS = (
     r"\bthis scenario\b",
     r"\bthat result\b",
@@ -58,7 +59,8 @@ def answer_blocks(answer_key: str) -> list[tuple[int, str]]:
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
-    lessons = sorted(path for path in LESSON_ROOT.glob("*/*.md") if path.name != "index.md")
+    appendices = set(appendix_files())
+    lessons = sorted(lesson_files() + list(appendices))
     question_total = 0
 
     for lesson in lessons:
@@ -86,7 +88,8 @@ def main() -> int:
                         f"{relative}: question {number} may need a clearer noun for {pattern!r}"
                     )
 
-        answer_key = section(text, "## Answer key", "## Next lesson")
+        next_heading = "## Continue" if lesson in appendices else "## Next lesson"
+        answer_key = section(text, "## Answer key", next_heading)
         errors.extend(validate_answer_key(relative, answer_key, numbers))
         for number, answer in answer_blocks(answer_key):
             lower = answer.casefold()

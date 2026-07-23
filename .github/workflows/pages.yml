@@ -38,6 +38,7 @@ jobs:
         run: |
           python scripts/validate_sources.py
           python scripts/validate_lessons.py
+          python scripts/validate_assessments.py
           python scripts/validate_labs.py
           python scripts/validate_load_scripts.py
           python scripts/validate_curriculum.py

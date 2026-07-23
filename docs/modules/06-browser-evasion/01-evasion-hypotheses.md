@@ -9,7 +9,7 @@
 - Depth: Integrated
 - Estimated time: 3 hours
 - Prerequisites:
-  - [Blocked baseline](../05-control-recon/05-blocked-baseline.md)
+  - [Classifier Evaluation and Adversarial Drift](../05-control-recon/06-classifier-evaluation-and-adversarial-drift.md)
   - Complete signal, context, and state maps
 - Next lesson: One-variable experiment
 
