@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,40 @@ REQUIRED_POPULATION_FIELDS = {
     "protected_actions_if_flagged",
     "protected_actions_if_allowed",
 }
+REQUIRED_COST_FIELDS = {
+    "review_usd_per_flag",
+    "challenge_operation_usd_per_flag",
+    "legitimate_near_neighbor_cost_usd_per_challenge",
+}
+REQUIRED_BASE_RATE_FIELDS = {
+    "legitimate_events",
+    "abusive_events",
+    "false_positive_rate",
+    "recall",
+}
+SCORE_FIELDS = {"baseline_score", "post_adaptation_score"}
+PROTECTED_ACTION_FIELDS = {
+    "protected_actions_if_flagged",
+    "protected_actions_if_allowed",
+}
+
+
+def _bounded_number(value: Any, label: str, *, lower: float = 0.0, upper: float = 1.0) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{label} must be numeric")
+    number = float(value)
+    if not math.isfinite(number) or not lower <= number <= upper:
+        raise ValueError(f"{label} must be between {lower:g} and {upper:g}")
+    return number
+
+
+def _nonnegative_number(value: Any, label: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{label} must be numeric")
+    number = float(value)
+    if not math.isfinite(number) or number < 0:
+        raise ValueError(f"{label} must be nonnegative")
+    return number
 
 
 def load_fixture(path: Path) -> dict[str, Any]:
@@ -27,12 +62,41 @@ def load_fixture(path: Path) -> dict[str, Any]:
     thresholds = raw.get("thresholds")
     populations = raw.get("populations")
     costs = raw.get("costs")
+    base_rate = raw.get("base_rate_example")
     if not isinstance(thresholds, list) or len(thresholds) < 2:
         raise ValueError("classifier fixture requires at least two thresholds")
     if not isinstance(populations, list) or not populations:
         raise ValueError("classifier fixture requires populations")
     if not isinstance(costs, dict):
         raise ValueError("classifier fixture requires costs")
+    if not isinstance(base_rate, dict):
+        raise ValueError("classifier fixture requires a base_rate_example")
+
+    normalized_thresholds = [
+        _bounded_number(value, f"threshold {number}")
+        for number, value in enumerate(thresholds, start=1)
+    ]
+    if len(set(normalized_thresholds)) != len(normalized_thresholds):
+        raise ValueError("classifier thresholds must be unique")
+
+    missing_costs = REQUIRED_COST_FIELDS - costs.keys()
+    if missing_costs:
+        raise ValueError(f"classifier costs are missing {sorted(missing_costs)}")
+    for name, value in costs.items():
+        _nonnegative_number(value, f"cost {name}")
+
+    missing_base_rate = REQUIRED_BASE_RATE_FIELDS - base_rate.keys()
+    if missing_base_rate:
+        raise ValueError(f"base_rate_example is missing {sorted(missing_base_rate)}")
+    for name in ("legitimate_events", "abusive_events"):
+        value = base_rate[name]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"base_rate_example {name} must be a nonnegative integer")
+    for name in ("false_positive_rate", "recall"):
+        _bounded_number(base_rate[name], f"base_rate_example {name}")
+
+    population_names: set[str] = set()
+    has_unknown_or_delayed_label = False
     for number, population in enumerate(populations, start=1):
         if not isinstance(population, dict):
             raise ValueError(f"population {number} must be an object")
@@ -41,9 +105,30 @@ def load_fixture(path: Path) -> dict[str, Any]:
             raise ValueError(f"population {number} is missing {sorted(missing)}")
         if population["label"] not in KNOWN_LABELS | {None}:
             raise ValueError(f"population {number} has an unsupported label")
+        has_unknown_or_delayed_label |= population["label"] is None
+        name = population["population"]
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(f"population {number} name must be a non-empty string")
+        if name in population_names:
+            raise ValueError(f"population names must be unique: {name}")
+        population_names.add(name)
         count = population["count"]
         if not isinstance(count, int) or isinstance(count, bool) or count <= 0:
             raise ValueError(f"population {number} count must be a positive integer")
+        for field in SCORE_FIELDS:
+            _bounded_number(population[field], f"population {number} {field}")
+        for field in PROTECTED_ACTION_FIELDS:
+            protected_count = population[field]
+            if (
+                isinstance(protected_count, bool)
+                or not isinstance(protected_count, int)
+                or not 0 <= protected_count <= count
+            ):
+                raise ValueError(
+                    f"population {number} {field} must be an integer between 0 and count"
+                )
+    if not has_unknown_or_delayed_label:
+        raise ValueError("classifier fixture requires at least one unknown or delayed-label population")
     return raw
 
 

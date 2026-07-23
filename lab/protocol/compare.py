@@ -35,6 +35,7 @@ ROOT = Path(__file__).resolve().parents[2]
 HOST = "127.0.0.1"
 MAX_CLIENTHELLO_BYTES = 65_540
 MAX_CONNECTIONS = 4
+RAW_CLIENT_CONNECTIONS = 1
 MAX_HTTP2_STREAMS = 8
 AUTOMATED_WALL_TIMEOUT_SECONDS = 45
 RAW_OBSERVER_TIMEOUT_SECONDS = 4.0
@@ -201,6 +202,7 @@ def parse_client_hello(data: bytes, label: str, runtime_version: str) -> dict[st
 
     digest_input = {
         "record_type": data[0],
+        "handshake_type": data[5],
         "record_legacy_version": int.from_bytes(data[1:3], "big"),
         "clienthello_legacy_version": legacy_version,
         "cipher_suite_ids": cipher_suites,
@@ -217,6 +219,7 @@ def parse_client_hello(data: bytes, label: str, runtime_version: str) -> dict[st
         "client": label,
         "runtime_version": runtime_version,
         "record_type": data[0],
+        "handshake_type": data[5],
         "record_legacy_version": f"0x{int.from_bytes(data[1:3], 'big'):04x}",
         "clienthello_legacy_version": f"0x{legacy_version:04x}",
         "cipher_suite_ids": cipher_suites,
@@ -242,7 +245,7 @@ class RawClientHelloObserver:
     def __init__(
         self,
         host: str = HOST,
-        max_connections: int = 1,
+        max_connections: int = RAW_CLIENT_CONNECTIONS,
         wall_timeout: float = RAW_OBSERVER_TIMEOUT_SECONDS,
         deadline: float | None = None,
     ) -> None:
@@ -377,9 +380,25 @@ def _capture_trigger(
     observer.start()
     try:
         trigger_result = trigger(observer.port, client_deadline)
+        browser_safety = aggregate_browser_request_safety([trigger_result])
         data = observer.result(observer_deadline)
         parsed = parse_client_hello(data, client, str(trigger_result.get("runtime_version", runtime_version)))
         parsed["status"] = "observed"
+        if browser_safety["measured_playwright_clients"]:
+            parsed.update(
+                {
+                    "external_request_attempt_count": browser_safety[
+                        "external_request_attempt_count"
+                    ],
+                    "blocked_external_origins": browser_safety["blocked_external_origins"],
+                    "allowed_loopback_request_count": browser_safety[
+                        "allowed_loopback_request_count"
+                    ],
+                    "blocked_non_allowlisted_requests": browser_safety[
+                        "blocked_non_allowlisted_requests"
+                    ],
+                }
+            )
         return parsed
     except ProtocolDeadlineExceeded as exc:
         if deadline is not None and time.monotonic() >= deadline:
@@ -496,7 +515,6 @@ def _run_protocol_client(mode: str, target: str, deadline: float | None = None) 
             "status": "unsupported",
             "reason": f"{mode} exceeded its per-client timeout",
             "runtime_version": "unavailable",
-            "non_loopback_page_requests_observed": [],
         }
     lines = [line for line in completed.stdout.splitlines() if line.strip()]
     if completed.returncode != 0 or not lines:
@@ -624,6 +642,8 @@ def ephemeral_certificate() -> Iterator[CertificatePaths]:
                 serialization.NoEncryption(),
             )
         )
+        if os.name == "posix":
+            private_key_path.chmod(0o600)
         yield CertificatePaths(directory, certificate_path, private_key_path)
 
 
@@ -763,18 +783,88 @@ def _load_observer_output(output_path: Path) -> dict[str, Any]:
     return observations
 
 
-def assert_no_non_loopback_page_requests(clients: list[dict[str, Any]]) -> list[str]:
-    """Fail when a Playwright client reports an aborted non-loopback page request."""
-    violations: list[str] = []
+def aggregate_browser_request_safety(clients: list[dict[str, Any]]) -> dict[str, Any]:
+    """Validate and aggregate measured Playwright routing evidence."""
+    external_attempts = 0
+    allowed_loopback_requests = 0
+    blocked_external_origins: set[str] = set()
+    blocked_non_allowlisted_requests: set[str] = set()
+    measured_clients = 0
+    required_fields = {
+        "external_request_attempt_count",
+        "blocked_external_origins",
+        "allowed_loopback_request_count",
+        "blocked_non_allowlisted_requests",
+    }
     for client in clients:
-        reported = client.get("non_loopback_page_requests_observed", [])
-        if not isinstance(reported, list) or not all(isinstance(item, str) for item in reported):
-            raise ProtocolSafetyError("protocol client returned an invalid page-request violation list")
-        violations.extend(reported)
-    unique = sorted(set(violations))
-    if unique:
-        raise ProtocolSafetyError(f"non-loopback page requests were aborted: {unique}")
-    return unique
+        if not isinstance(client, dict):
+            raise ProtocolSafetyError("protocol client safety result must be an object")
+        is_playwright = client.get("client") == "playwright-chromium"
+        supplied_fields = required_fields & client.keys()
+        if not supplied_fields:
+            if is_playwright and client.get("status") in {"observed", "failed"}:
+                raise ProtocolSafetyError("Playwright result omitted measured request-safety fields")
+            continue
+        if supplied_fields != required_fields:
+            raise ProtocolSafetyError("Playwright result returned an incomplete request-safety contract")
+        attempt_count = client["external_request_attempt_count"]
+        allowed_count = client["allowed_loopback_request_count"]
+        origins = client["blocked_external_origins"]
+        blocked = client["blocked_non_allowlisted_requests"]
+        if (
+            isinstance(attempt_count, bool)
+            or not isinstance(attempt_count, int)
+            or attempt_count < 0
+            or isinstance(allowed_count, bool)
+            or not isinstance(allowed_count, int)
+            or allowed_count < 0
+        ):
+            raise ProtocolSafetyError("Playwright request counts must be nonnegative integers")
+        if not isinstance(origins, list) or not all(isinstance(item, str) for item in origins):
+            raise ProtocolSafetyError("Playwright blocked external origins must be a string list")
+        if not isinstance(blocked, list) or not all(isinstance(item, str) for item in blocked):
+            raise ProtocolSafetyError("Playwright blocked request records must be a string list")
+        if attempt_count < len(origins):
+            raise ProtocolSafetyError("Playwright external request count is smaller than its origin list")
+        for origin in origins:
+            parsed_origin = urlsplit(origin)
+            if (
+                parsed_origin.scheme not in {"http", "https"}
+                or parsed_origin.hostname is None
+                or parsed_origin.username is not None
+                or parsed_origin.password is not None
+                or parsed_origin.query
+                or parsed_origin.fragment
+                or parsed_origin.path not in {"", "/"}
+            ):
+                raise ProtocolSafetyError("Playwright external origin was not safely redacted")
+        for request in blocked:
+            parsed_request = urlsplit(request)
+            if parsed_request.query or parsed_request.username is not None or parsed_request.password is not None:
+                raise ProtocolSafetyError("Playwright blocked request record contains credentials or a query")
+        measured_clients += 1
+        external_attempts += attempt_count
+        allowed_loopback_requests += allowed_count
+        blocked_external_origins.update(origins)
+        blocked_non_allowlisted_requests.update(blocked)
+    result = {
+        "external_request_attempt_count": external_attempts,
+        "blocked_external_origins": sorted(blocked_external_origins),
+        "allowed_loopback_request_count": allowed_loopback_requests,
+        "blocked_non_allowlisted_requests": sorted(blocked_non_allowlisted_requests),
+        "measured_playwright_clients": measured_clients,
+    }
+    if external_attempts:
+        raise ProtocolSafetyError(
+            "external HTTP(S) request attempts were blocked: "
+            f"count={external_attempts}, origins={result['blocked_external_origins']}"
+        )
+    if blocked_non_allowlisted_requests:
+        raise ProtocolSafetyError(
+            "non-allowlisted HTTP(S) requests were blocked: "
+            f"{result['blocked_non_allowlisted_requests']}"
+        )
+    return result
 
 
 def observe_http2(deadline: float | None = None) -> dict[str, Any]:
@@ -787,7 +877,13 @@ def observe_http2(deadline: float | None = None) -> dict[str, Any]:
             "reason": "npx executable not found",
             "clients": [],
             "sessions": [],
-            "non_loopback_page_requests_observed": [],
+            "browser_request_safety": {
+                "external_request_attempt_count": 0,
+                "blocked_external_origins": [],
+                "allowed_loopback_request_count": 0,
+                "blocked_non_allowlisted_requests": [],
+                "measured_playwright_clients": 0,
+            },
             "cleanup": "no temporary certificate created",
         }
     with ephemeral_certificate() as certificate:
@@ -862,14 +958,14 @@ def observe_http2(deadline: float | None = None) -> dict[str, Any]:
                         "reason": "installed curl build does not report HTTP2 support",
                     }
                 )
-            violations = assert_no_non_loopback_page_requests(clients)
+            browser_request_safety = aggregate_browser_request_safety(clients)
             _cleanup_observer_process(process, operation_deadline)
             if process.returncode != 0:
                 raise RuntimeError("HTTP/2 observer failed or exceeded a configured cap")
             observations = _load_observer_output(output_path)
             observations["clients"] = clients
             observations["target"] = target
-            observations["non_loopback_page_requests_observed"] = violations
+            observations["browser_request_safety"] = browser_request_safety
             observations["cleanup"] = "temporary certificate and private key removed after the command"
             return observations
         finally:
@@ -918,10 +1014,11 @@ def _join_client_results(
                 "client": display,
                 "runtime_version": runtime,
                 "clienthello_fields_observed": (
-                    "record/version, ciphers, extensions, groups, signatures, ALPN, SNI, bytes"
+                    "record/handshake/version, ciphers, extensions, groups, signatures, ALPN, SNI, bytes"
                     if hello.get("status") == "observed"
                     else "unsupported"
                 ),
+                "handshake_type": hello.get("handshake_type", "unsupported"),
                 "extension_order": hello.get("extension_ids", "unsupported"),
                 "alpn_offers": hello.get("alpn_offers", "unsupported"),
                 "negotiated_protocol": sessions[0].get("negotiated_alpn", "unsupported") if sessions else "unsupported",
@@ -951,7 +1048,7 @@ def run_automated_comparison(
     remaining_seconds(deadline, "HTTP/2 comparison start")
     http2 = observe(deadline)
     remaining_seconds(deadline, "structured result assembly")
-    page_violations = assert_no_non_loopback_page_requests(
+    browser_request_safety = aggregate_browser_request_safety(
         clienthellos
         + [
             client
@@ -963,10 +1060,23 @@ def run_automated_comparison(
         "safety": {
             "bind": HOST,
             "configured_targets": "loopback only",
-            "non_loopback_page_requests_observed": page_violations,
+            "external_request_attempt_count": browser_request_safety[
+                "external_request_attempt_count"
+            ],
+            "blocked_external_origins": browser_request_safety["blocked_external_origins"],
+            "allowed_loopback_request_count": browser_request_safety[
+                "allowed_loopback_request_count"
+            ],
+            "blocked_non_allowlisted_requests": browser_request_safety[
+                "blocked_non_allowlisted_requests"
+            ],
+            "measured_playwright_clients": browser_request_safety[
+                "measured_playwright_clients"
+            ],
             "proxy_environment_inherited": False,
             "packet_level_external_traffic": "not measured",
-            "max_connections_per_observer": MAX_CONNECTIONS,
+            "max_connections_per_raw_client_observer": RAW_CLIENT_CONNECTIONS,
+            "max_http2_connections": MAX_CONNECTIONS,
             "max_http2_streams": MAX_HTTP2_STREAMS,
             "whole_command_wall_budget_seconds": wall_timeout,
             "raw_observer_connection_timeout_seconds": RAW_OBSERVER_TIMEOUT_SECONDS,
@@ -1012,6 +1122,7 @@ def render_comparison_table(rows: list[dict[str, Any]]) -> str:
         "client",
         "runtime_version",
         "clienthello_fields_observed",
+        "handshake_type",
         "extension_order",
         "alpn_offers",
         "negotiated_protocol",

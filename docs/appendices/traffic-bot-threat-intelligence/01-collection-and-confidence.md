@@ -24,16 +24,16 @@ when infrastructure or user-agent observations have plausible alternatives.
 | Type | Source | Exact assigned area | What it supports | Limitation |
 |---|---|---|---|---|
 | OFFICIAL_DOCUMENTATION | [Source Evaluation and Information Reliability](https://www.first.org/global/sigs/cti/curriculum/source-evaluation) | Source reliability A-F and information reliability 1-6 | Separates source history from the reliability of one reported item | Ordinal judgment aids consistency; it does not calculate truth or attribution. |
-| STANDARD | [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html) | 3.2 Common Properties (confidence); 4.7 Indicator; 4.14 Observed Data; 5.1 Relationship; 5.2 Sighting; Appendix A: Confidence Scales | Supplies typed objects and an interoperable confidence property | STIX defines representation; it does not validate the truth of supplied data. |
+| STANDARD | [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html) | 3.2 Common Properties, specifically the confidence property; 4.7 Indicator; 4.14 Observed Data; 5.1 Relationship; 5.2 Sighting; Appendix A: Confidence Scales | Supplies typed objects and an interoperable confidence property | STIX defines representation; it does not validate the truth of supplied data. |
 | LAB_SPECIFIC | [Synthetic intelligence exercise](../../labs/course-map.md) | `python -m lab.analysis.traffic_intelligence` fixture and command record | Provides deterministic, non-network evidence | Fabricated data cannot describe a real campaign, actor, product, or control. |
 
 ## Mental model
 
 | Field | Question | Example |
 |---|---|---|
-| Incident | What bounded event triggered analysis? | a synthetic protected checkout completed after proof transfer |
+| Incident | What bounded event triggered analysis? | a synthetic protected report completed after proof transfer |
 | Observation | What was directly collected? | request sequence and returned protected result |
-| Indicator | Which reviewable pattern may find related behavior? | proof changes session before checkout |
+| Indicator | Which reviewable pattern may find related behavior? | proof changes session before the protected report request |
 | Inference | What explanation is drawn from observations? | proof may be weakly bound |
 | Hypothesis | Which falsifiable claim selects the next test? | session binding will reject transfer after remediation |
 | Confirmed fact | Which claim has direct, repeatable supporting evidence? | the recorded local response named Session B |

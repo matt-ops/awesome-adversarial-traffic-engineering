@@ -23,7 +23,7 @@ positive warnings, promotion, and retirement without assuming actor identity.
 
 | Type | Source | Exact assigned area | What it supports | Limitation |
 |---|---|---|---|---|
-| STANDARD | [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html) | 3.2 Common Properties; 4.7 Indicator; 5.1 Relationship; 5.2 Sighting | Supports lifecycle-aware indicator records and relationships | A valid STIX object can still encode poor analysis. |
+| STANDARD | [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html) | 3.2 Common Properties, specifically the confidence property; 4.7 Indicator; 4.14 Observed Data; 5.1 Relationship; 5.2 Sighting; Appendix A: Confidence Scales | Supports lifecycle-aware indicator records and relationships | A valid STIX object can still encode poor analysis. |
 | PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Threat-event descriptions and mappings | Supplies behavior-oriented abuse categories | Taxonomy does not establish that one observed cluster belongs to a real actor. |
 | PROJECT_DOCUMENTATION | [MISP Warning Lists](https://github.com/MISP/misp-warninglists) | README purpose, usage, categories, and known false-positive examples | Supports known-benign/shared-context warnings | A warning is contextual review input, not an automatic allow decision. |
 | LAB_SPECIFIC | [Synthetic intelligence exercise](../../labs/course-map.md) | Version, sequence, relay, and outcome fields in the fixture command record | Provides deterministic cluster evidence and contradictions | Small fabricated fixture cannot estimate prevalence or production error rates. |
@@ -37,11 +37,12 @@ positive warnings, promotion, and retirement without assuming actor identity.
 | Degraded | Version drift or rising near-neighbor overlap | rerun exact regression populations | repair pattern or retire |
 | Retired | No longer discriminating or supportable | preserve reason and dates | never silently reactivate |
 
-Cluster across the protected workflow, request sequence, account/session
-behavior, browser and JavaScript observations, HTTP and TLS observations,
-network/proxy category, timing, target selection, infrastructure reuse,
-challenge behavior, and final protected-action result. Treat behavioral
-indicators as sequences, infrastructure indicators as shared pivots,
+Derive group identity from the protected workflow, request sequence, challenge
+behavior, and final protected-action result. Report account/session behavior,
+browser and JavaScript observations, HTTP and TLS observations,
+network/proxy category, timing, target selection, and infrastructure reuse only
+as supporting, missing, or contradictory context. Treat behavioral indicators
+as sequences, infrastructure indicators as shared pivots,
 implementation artifacts as version-bound observations, and brittle atomic
 indicators as cheap values such as one header.
 
@@ -50,7 +51,7 @@ indicators as cheap values such as one header.
 ### STIX indicator-lifecycle assignment
 
 **Direct link:** [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html)
-**Exact section, chapter, or unit:** 3.2 Common Properties; 4.7 Indicator; 5.1 Relationship; and 5.2 Sighting
+**Exact section, chapter, or unit:** 3.2 Common Properties, specifically the confidence property; 4.7 Indicator; 4.14 Observed Data; 5.1 Relationship; 5.2 Sighting; and Appendix A: Confidence Scales
 **Estimated time:** 30 minutes
 **What to focus on:** confidence, validity windows, sightings, relationships, and revocation as explicit lifecycle data
 **What to skip:** cyber-observable object catalog not present in the fixture
@@ -59,7 +60,7 @@ indicators as cheap values such as one header.
 ### OWASP behavior-taxonomy assignment
 
 **Direct link:** [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/)
-**Exact section, chapter, or unit:** Project overview and threat-event descriptions relevant to login and checkout automation
+**Exact section, chapter, or unit:** Project overview and threat-event descriptions relevant to login and protected-workflow automation
 **Estimated time:** 25 minutes
 **What to focus on:** sequences and objectives that remain meaningful when one header or client version changes
 **What to skip:** using taxonomy labels as proof of a specific campaign
@@ -79,8 +80,8 @@ indicators as cheap values such as one header.
 The executable grouping never reads a fixture-supplied answer. It first
 normalizes every method/path request into an ordered sequence family. A proposed
 group then requires at least two current events with the same protected workflow
-and normalized request sequence plus recorded session, challenge, and protected-
-action continuity. Timing, network/proxy category, and browser/protocol
+and normalized request sequence, challenge behavior, and protected-action
+result. Session behavior, timing, network/proxy category, and browser/protocol
 availability are supporting dimensions. Missing values and divergent dimensions
 remain visible; infrastructure is never a membership key.
 
@@ -97,8 +98,8 @@ attribution beyond the evidence, and this appendix does not teach geopolitical a
 
 ## Worked example
 
-The fixture's checkout sequence retains challenge replay and protected result as
-strong behavior evidence. The historical fixture Chromium 132 string is stale
+The fixture's protected-report sequence retains challenge replay and protected
+result as strong behavior evidence. The historical fixture Chromium 132 string is stale
 relative to fixture-current Playwright Chromium 149, so it becomes a degraded
 version artifact, not the cluster definition. These fixture labels are not
 claims about a universally current browser. `shared-relay.example` receives a
@@ -133,12 +134,13 @@ fields. Identify the stale browser artifact and warning-list match.
 
 ### Expected output
 
-The evidence-derived output names `checkout-sequence-with-challenge-replay` and
+The evidence-derived output names
+`protected-report-sequence-with-challenge-replay` and
 `multi-account-login-sequence`, lists their actual members and matched
 dimensions, and keeps cross-workflow `obs-005` ambiguous. The historical fixture
 Chromium 132 artifact is degraded by version drift, and the shared relay is
-marked insufficient for membership or attribution. The selected checkout group
-has **high** confidence under the single rubric; the login group is
+marked insufficient for membership or attribution. The selected
+protected-report group has **high** confidence under the single rubric; the login group is
 **moderate** because one record is inferred and carries weaker ratings.
 
 ### Interpretation

@@ -127,10 +127,10 @@ def main() -> int:
             (
                 "python -m lab.protocol.compare automated",
                 "127.0.0.1",
-                "four connections per observer",
+                "one connection per raw client observer",
                 "eight HTTP/2 streams",
                 "45-second whole command",
-                "non-loopback page",
+                "external_request_attempt_count",
                 "not JA4; not identity proof",
                 "unsupported",
             ),

@@ -24,7 +24,7 @@ conditions, telemetry, cleanup, and an exact regression without copying a tool o
 | Type | Source | Exact assigned area | What it supports | Limitation |
 |---|---|---|---|---|
 | OFFICIAL_DOCUMENTATION | [MITRE Adversary Emulation Plans](https://attack.mitre.org/resources/adversary-emulation-plans/) | Overview through Emulation Plan Documents | Supports behavior chains tied to an objective | Enterprise examples require translation to bounded traffic workflows. |
-| PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Login and checkout-related threat events | Supplies provider-neutral automated-abuse objectives | Taxonomy does not authorize execution or prescribe one control. |
+| PROJECT_DOCUMENTATION | [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/) | Login and protected-workflow threat events | Supplies provider-neutral automated-abuse objectives | Taxonomy does not authorize execution or prescribe one control. |
 | LAB_SPECIFIC | [Synthetic intelligence analysis](../../labs/course-map.md) | Emulation-plan and exact-regression output in the command record | Supplies deterministic non-network planning evidence | Plan output does not execute traffic or prove a control result. |
 | COURSE_SYNTHESIS | [AATE adversarial-control loop](../../methodology/adversarial-control-loop.md) | Objective through remediation and exact retest | Connects behavior intelligence to protected-action evidence | The complete loop is course synthesis, not a quoted standard procedure. |
 
@@ -32,7 +32,7 @@ conditions, telemetry, cleanup, and an exact regression without copying a tool o
 
 | Intelligence element | Emulation translation | Regression translation |
 |---|---|---|
-| checkout replay sequence | reproduce only synthetic issue, transfer, and protected request | replay must fail while first-use same-session succeeds |
+| protected-report replay sequence | reproduce only `POST /api/challenge`, proof transfer, and `GET /api/reports/protected` | cross-session and repeat replay must fail while first-use same-session succeeds |
 | login sequence across accounts | bounded account-state transitions in an owned fixture | hostile sequence blocked; legitimate account flows remain healthy |
 | stale client artifact | do not make it the behavior objective | record version and test current/stale near-neighbors |
 | ambiguous shared relay | exclude actor claim | include shared-infrastructure legitimate population |
@@ -51,7 +51,7 @@ conditions, telemetry, cleanup, and an exact regression without copying a tool o
 ### OWASP objective assignment
 
 **Direct link:** [OWASP Automated Threats](https://owasp.org/www-project-automated-threats-to-web-applications/)
-**Exact section, chapter, or unit:** Threat-event descriptions closest to account access and checkout automation
+**Exact section, chapter, or unit:** Threat-event descriptions closest to account access and protected-workflow automation
 **Estimated time:** 25 minutes
 **What to focus on:** adversary objective, workflow preconditions, business effect, and defensive observation points
 **What to skip:** external target selection and volume guidance
@@ -71,9 +71,10 @@ and customer outcome against the same populations after remediation.
 
 ## Worked example
 
-The checkout cluster becomes a three-step synthetic plan: obtain a challenge
-proof in session A, present it once from session B, and observe whether session
-B completes the protected report. The expected remediation binds proof to
+The protected-report cluster becomes a two-request synthetic plan: obtain a
+challenge proof with `POST /api/challenge` in session A, present it from session
+B to `GET /api/reports/protected`, and observe whether session B completes the
+protected report. The expected remediation binds proof to
 session and action. The regression repeats both same-session first use and
 cross-session transfer, while a legitimate automation near-neighbor must retain
 its documented supported path.
@@ -83,7 +84,7 @@ its documented supported path.
 ### Objective
 
 Generate and critique a deterministic emulation plan and exact regression for
-the synthetic checkout-replay cluster without contacting a service.
+the synthetic protected-report replay cluster without contacting a service.
 
 ### Setup
 
@@ -107,13 +108,12 @@ and confidence are copied from the selected evidence-derived group.
 
 ### Expected output
 
-The plan derives the behavior steps and supporting event IDs from the selected
-group, then names the bounded objective, fixed variables, expected control
-observation, protected-action proof, legitimate near-neighbor, telemetry,
-ceiling, abort conditions, and cleanup. Its **high** categorical confidence
-result is identical in the group, plan, and regression. The regression repeats
-the same populations and requires cross-session replay denial without breaking
-valid first use.
+The plan derives its cluster ID, supporting and current evidence, confidence,
+contradictions, alternatives, workflow, request sequence, challenge behavior,
+protected action, safe approximation, defensive observations, limitations, and
+exact regression from the selected group. Its **high** categorical confidence
+result is identical in the group, plan, and regression. The regression requires
+cross-session and repeat-use replay denial without breaking valid first use.
 
 ### Interpretation
 
@@ -142,7 +142,7 @@ repair the overtrusted assumption and prove the repair without encoding stale in
 
 ## Check your understanding
 
-1. Why should an emulation plan reproduce the checkout sequence rather than the stale Chromium 132 artifact?
+1. Why should an emulation plan reproduce the protected-report sequence rather than the stale Chromium 132 artifact?
 2. Which protected-action result would prove that cross-session challenge replay succeeded in the synthetic model?
 3. Why must the exact regression include same-session first use and a legitimate near-neighbor?
 4. What additional condition is required before a generated plan may be executed in pre-production?

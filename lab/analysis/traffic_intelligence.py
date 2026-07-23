@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from collections import Counter
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -44,7 +43,6 @@ GROUPING_DIMENSIONS = (
 REQUIRED_CONTINUITY_DIMENSIONS = (
     "protected_workflow",
     "request_sequence_family",
-    "account_or_session_behavior",
     "challenge_behavior",
     "protected_action_result",
 )
@@ -95,6 +93,8 @@ def load_fixture(path: Path) -> dict[str, Any]:
         raise ValueError("traffic-intelligence fixture must contain an events list")
     if not isinstance(raw.get("indicators"), list):
         raise ValueError("traffic-intelligence fixture must contain an indicators list")
+    if not isinstance(raw.get("emulation_focus_cluster"), str) or not raw["emulation_focus_cluster"]:
+        raise ValueError("traffic-intelligence fixture must name emulation_focus_cluster")
     for number, event in enumerate(raw["events"], start=1):
         if not isinstance(event, dict):
             raise ValueError(f"event {number} must be an object")
@@ -209,7 +209,7 @@ def evidence_dimensions(event: dict[str, Any]) -> dict[str, str]:
 def _has_required_continuity(event: dict[str, Any], dimensions: dict[str, str]) -> bool:
     return (
         event["evidence_state"] != HISTORICAL_EVIDENCE_STATE
-        and len(event["request_sequence"]) >= 3
+        and len(event["request_sequence"]) >= 2
         and all(dimensions[name] not in {"unavailable", "historical-only"} for name in REQUIRED_CONTINUITY_DIMENSIONS)
     )
 
@@ -229,7 +229,11 @@ def _behavior_cluster_id(members: list[dict[str, Any]], dimensions: dict[str, st
     return f"{workflow}-{requests}-sequence"
 
 
-def _confidence(events: list[dict[str, Any]], continuity_complete: bool) -> dict[str, Any]:
+def _confidence(
+    events: list[dict[str, Any]],
+    continuity_complete: bool,
+    historical_support_count: int = 0,
+) -> dict[str, Any]:
     current = [event for event in events if event["evidence_state"] != HISTORICAL_EVIDENCE_STATE]
     direct = [event for event in current if event["evidence_state"] in DIRECT_EVIDENCE_STATES]
     independent_sources = {str(event["collection_source"]) for event in current}
@@ -259,12 +263,32 @@ def _confidence(events: list[dict[str, Any]], continuity_complete: bool) -> dict
         level = "high"
     else:
         level = "moderate"
+    reason_parts = [
+        f"{len(independent_sources)} independent current observation source(s)",
+        f"{len(direct)} current direct observation(s)",
+        "strong A/B source ratings" if strong_sources else "one or more weaker or missing source ratings",
+        (
+            "strong 1/2 information ratings"
+            if strong_information
+            else "one or more weaker or missing information ratings"
+        ),
+        (
+            "complete protected-workflow continuity"
+            if continuity_complete
+            else "incomplete protected-workflow continuity"
+        ),
+        f"{historical_support_count} historical lifecycle observation(s)",
+    ]
+    if material_contradictions:
+        reason_parts.append(f"material contradictions: {material_contradictions}")
     return {
         "level": level,
         "rubric": CONFIDENCE_RUBRIC["name"],
+        "reason": f"{level.capitalize()} under the course rubric: " + "; ".join(reason_parts) + ".",
         "basis": {
             "independent_current_observations": len(independent_sources),
             "current_direct_observations": len(direct),
+            "historical_lifecycle_observations": historical_support_count,
             "strong_source_ratings": strong_sources,
             "strong_information_ratings": strong_information,
             "protected_workflow_continuity": continuity_complete,
@@ -336,20 +360,26 @@ def _candidate_cluster_ids(
 def cluster_events(events: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Derive groups from workflow and behavior dimensions, preserving ambiguity."""
     dimensions_by_id = {str(event["event_id"]): evidence_dimensions(event) for event in events}
-    anchor_groups: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    anchor_groups: dict[tuple[str, str, str, str], list[dict[str, Any]]] = {}
     for event in events:
         dimensions = dimensions_by_id[str(event["event_id"])]
         if not _has_required_continuity(event, dimensions):
             continue
-        key = (dimensions["protected_workflow"], dimensions["request_sequence_family"])
+        key = (
+            dimensions["protected_workflow"],
+            dimensions["request_sequence_family"],
+            dimensions["challenge_behavior"],
+            dimensions["protected_action_result"],
+        )
         anchor_groups.setdefault(key, []).append(event)
 
     profiles: list[dict[str, Any]] = []
     clusters: list[dict[str, Any]] = []
     assigned_ids: set[str] = set()
-    for (workflow, _sequence), members in sorted(anchor_groups.items()):
+    for continuity_key, members in sorted(anchor_groups.items()):
         if len(members) < 2:
             continue
+        workflow, _sequence_family, challenge_family, protected_action_family = continuity_key
         members = sorted(members, key=lambda item: str(item["event_id"]))
         reference = dimensions_by_id[str(members[0]["event_id"])]
         cluster_id = _behavior_cluster_id(members, reference)
@@ -395,8 +425,12 @@ def cluster_events(events: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], 
             all(item[name] not in {"unavailable", "historical-only"} for name in REQUIRED_CONTINUITY_DIMENSIONS)
             for item in member_dimensions
         )
-        confidence = _confidence(members, continuity_complete)
         member_ids = [str(member["event_id"]) for member in members]
+        confidence = _confidence(
+            members,
+            continuity_complete,
+            historical_support_count=len(historical_support),
+        )
         assigned_ids.update(member_ids)
         profiles.append(
             {
@@ -409,6 +443,19 @@ def cluster_events(events: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], 
             {
                 "cluster_id": cluster_id,
                 "member_event_ids": member_ids,
+                "supporting_evidence": member_ids,
+                "current_evidence": member_ids,
+                "historical_lifecycle_evidence": historical_support,
+                "workflow": workflow,
+                "behavior_sequence": normalized_requests,
+                "account_or_session_behavior": (
+                    member_dimensions[0]["account_or_session_behavior"]
+                    if len({item["account_or_session_behavior"] for item in member_dimensions}) == 1
+                    else "varied-recorded-session-behavior"
+                ),
+                "challenge_behavior": challenge_family,
+                "protected_action": normalized_requests[-1],
+                "protected_action_result": protected_action_family,
                 "matched_dimensions": matched_dimensions,
                 "missing_dimensions": missing_dimensions,
                 "contradictions": contradictions,
@@ -434,7 +481,7 @@ def cluster_events(events: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], 
             }
             | {str(value) for value in event.get("contradictions", [])}
         )
-        if len(event["request_sequence"]) < 3:
+        if len(event["request_sequence"]) < 2:
             missing_or_contradictory.append("normalized request-sequence continuity is incomplete")
         ambiguous.append(
             {
@@ -465,56 +512,79 @@ def indicator_lifecycle(indicators: list[dict[str, Any]], analysis_date: date) -
     return results
 
 
-def _most_common_text(events: list[dict[str, Any]], field: str) -> str:
-    return Counter(str(event[field]) for event in events).most_common(1)[0][0]
-
-
-def emulation_plan(cluster: dict[str, Any], events_by_id: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    """Derive the bounded plan and exact regression from the selected cluster members."""
-    members = [events_by_id[str(event_id)] for event_id in cluster["member_event_ids"]]
-    sequence = list(members[0]["request_sequence"])
-    challenge = _most_common_text(members, "challenge_behavior")
-    protected_result = _most_common_text(members, "protected_action_result")
-    confidence = {
-        "level": cluster["confidence"]["level"],
-        "rubric": cluster["confidence"]["rubric"],
-        "not_a_probability": True,
-    }
+def emulation_plan(cluster: dict[str, Any]) -> dict[str, Any]:
+    """Derive every bounded plan field from one selected evidence-derived group."""
+    workflow = str(cluster["workflow"])
+    sequence = list(cluster["behavior_sequence"])
+    challenge = str(cluster["challenge_behavior"])
+    protected_action = str(cluster["protected_action"])
+    protected_result = str(cluster["protected_action_result"])
+    evidence = list(cluster["supporting_evidence"])
+    current_evidence = list(cluster["current_evidence"])
+    historical_evidence = list(cluster["historical_lifecycle_evidence"])
+    confidence = dict(cluster["confidence"])
+    contradictions = list(cluster["contradictions"])
+    alternatives = list(cluster["alternative_explanations"])
+    workflow_label = workflow.removeprefix("synthetic-").replace("-", " ")
     regression = {
         "cluster_id": cluster["cluster_id"],
-        "source_member_event_ids": cluster["member_event_ids"],
+        "supporting_evidence": evidence,
+        "current_evidence": current_evidence,
         "confidence": confidence,
-        "setup": "reset the bundled loopback fixture",
-        "action": f"reproduce {sequence!r} with the observed challenge behavior: {challenge}",
-        "pass": "Session B is rejected; Session A succeeds once; Session A replay is rejected",
-        "evidence": ["session", "action", "origin", "nonce", "expiry", "use-count", "HTTP status"],
+        "setup": f"reset an authorized loopback fixture for the {workflow_label} workflow",
+        "action": (
+            f"reproduce {sequence!r}; preserve challenge behavior {challenge!r}; "
+            f"attempt protected action {protected_action!r}"
+        ),
+        "pass": (
+            f"the transferred or replayed proof is rejected for {protected_action}; "
+            "the intended same-session first use succeeds once; repeat use is rejected"
+        ),
+        "evidence": [
+            "session",
+            "action",
+            "origin",
+            "nonce",
+            "expiry",
+            "use-count",
+            "HTTP status",
+            f"workflow={workflow}",
+        ],
     }
     return {
         "selected_cluster_id": cluster["cluster_id"],
-        "behavior_being_emulated": {
-            "normalized_request_sequence": sequence,
-            "challenge_behavior": challenge,
-            "observed_protected_action_result": protected_result,
-        },
-        "evidence_supporting_it": cluster["member_event_ids"],
+        "supporting_evidence": evidence,
+        "current_evidence": current_evidence,
+        "historical_lifecycle_evidence": historical_evidence,
         "confidence": confidence,
-        "alternative_explanations": cluster["alternative_explanations"],
+        "contradictions": contradictions,
+        "alternative_explanations": alternatives,
+        "workflow": workflow,
+        "behavior_sequence": sequence,
+        "challenge_behavior": challenge,
+        "protected_action": protected_action,
+        "observed_protected_action_result": protected_result,
         "local_safe_approximation": (
-            "Use the bundled loopback challenge flow with synthetic sessions A and B, "
-            "one proof, and fixed request caps."
+            f"Use only an authorized loopback {workflow_label} fixture; replay {sequence!r} "
+            "with synthetic sessions A and B, one proof, and fixed request caps."
         ),
         "protected_action_or_service_effect": (
-            "Session B must not complete the synthetic checkout with Session A proof."
+            f"Session B must not complete {protected_action} with Session A proof."
         ),
         "expected_defensive_observations": [
-            "proof issuance for Session A",
-            "Session B verification rejection",
-            "no Session B protected-action completion",
-            "one allowed Session A use and rejected replay",
+            f"workflow selection: {workflow}",
+            f"normalized request sequence: {sequence!r}",
+            f"challenge behavior under test: {challenge}",
+            f"Session B rejection at {protected_action}",
+            "one allowed Session A use and rejected repeat use",
         ],
         "limitations": [
             "No malware, public infrastructure, real account, attribution, or harmful scale",
-            "The behavior cluster is synthetic and does not establish campaign prevalence",
+            (
+                f"The {cluster['cluster_id']} group is synthetic and does not establish "
+                "campaign prevalence or actor identity"
+            ),
+            f"Historical lifecycle evidence remains separate: {historical_evidence!r}",
         ],
         "exact_regression_test": regression,
     }
@@ -525,17 +595,18 @@ def calculate(fixture: dict[str, Any]) -> dict[str, Any]:
     events = sorted(fixture["events"], key=lambda item: str(item["event_id"]))
     clusters, ambiguous = cluster_events(events)
     indicators = indicator_lifecycle(fixture["indicators"], date.fromisoformat(fixture["analysis_date"]))
-    focus_event = str(fixture["emulation_focus_event"])
+    focus_cluster = str(fixture["emulation_focus_cluster"])
     selected = next(
-        (cluster for cluster in clusters if focus_event in cluster["member_event_ids"]),
+        (cluster for cluster in clusters if cluster["cluster_id"] == focus_cluster),
         None,
     )
     plan = (
-        emulation_plan(selected, {str(event["event_id"]): event for event in events})
+        emulation_plan(selected)
         if selected is not None
         else {
             "status": "not generated",
-            "reason": "the focus event lacks a corroborated evidence-derived group",
+            "selected_cluster_id": focus_cluster,
+            "reason": "the selected focus cluster is not a corroborated evidence-derived group",
             "confidence": {
                 "level": "low",
                 "rubric": CONFIDENCE_RUBRIC["name"],
@@ -554,13 +625,14 @@ def calculate(fixture: dict[str, Any]) -> dict[str, Any]:
     return {
         "analysis_date": fixture["analysis_date"],
         "grouping_method": {
-            "name": "deterministic protected-workflow and normalized-sequence grouping",
+            "name": "deterministic protected-workflow continuity grouping",
             "dimensions": list(GROUPING_DIMENSIONS),
             "required_continuity": list(REQUIRED_CONTINUITY_DIMENSIONS),
             "rule": (
-                "A proposed group needs at least two current events with the same protected workflow and normalized "
-                "request sequence plus recorded session, challenge, and protected-action continuity. Other dimensions "
-                "are reported as support, missing evidence, or contradictions; infrastructure never assigns membership."
+                "A proposed group needs at least two current events with the same protected workflow, normalized "
+                "request sequence, challenge behavior, and protected-action result. Recorded session behavior and "
+                "other dimensions are reported as support, missing evidence, or contradictions; infrastructure "
+                "never assigns membership."
             ),
         },
         "confidence_rubric": CONFIDENCE_RUBRIC,

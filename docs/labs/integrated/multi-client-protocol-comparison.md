@@ -18,7 +18,7 @@
 - Observer B: ephemeral-certificate local TLS HTTP/2 server
 - Clients: Python/OpenSSL, installed curl, Playwright Chromium, and Node HTTP/2
 - Optional client: manually launched local Chrome or Chromium, not automated
-- Hard caps: four connections per observer, eight HTTP/2 streams, 45-second whole command
+- Hard caps: one connection per raw client observer, four HTTP/2 connections, eight HTTP/2 streams, 45-second whole command
 - Smaller bounds: 4-second raw observer, 30-second HTTP/2 observer, and 15-second per client
 - Output: standard output only; saving diagnostics is optional and ignored
 
@@ -67,19 +67,20 @@ its private standard input, and deletes the temporary directory. The 45-second
 deadline begins at command start; each socket, queue, client, child process, and
 shutdown wait receives only the remaining budget.
 
-The Playwright client prevalidates navigation URLs and routes every page request.
-Only `127.0.0.1`, `localhost`, and `::1` are permitted; a non-loopback page
-request is aborted, returned to the Python parent, and fails the comparison.
-Browser flags reduce background networking. The output does not claim packet-
-level capture: it reports loopback-only configured targets, observed page-
-request violations, proxy inheritance, and `packet-level external traffic: not
-measured`.
+The Playwright client installs routing before navigation and allows only the
+exact loopback origin and assigned paths. Every other HTTP(S) request is aborted.
+Attempted external URLs are reduced to credential-free, query-free origins; the
+Python parent aggregates `external_request_attempt_count`,
+`blocked_external_origins`, and `allowed_loopback_request_count` and fails on
+any external attempt. Browser flags reduce background networking. The output
+does not claim packet-level capture: it reports proxy inheritance and
+`packet-level external traffic: not measured`.
 
 ## Expected table
 
 | Client | ClientHello | HTTP/2 | Reuse | Honest missing result |
 |---|---|---|---|---|
-| Python/OpenSSL | parsed ciphers, extensions, groups, signatures, ALPN, SNI, bytes | not assigned | not assigned | HTTP/2 settings missing |
+| Python/OpenSSL | parsed handshake type, ciphers, extensions, groups, signatures, ALPN, SNI, bytes | not assigned | not assigned | HTTP/2 settings missing |
 | installed curl | parsed if its TLS backend sends a complete hello | only when `Features:` includes HTTP2 | two URLs on one connection when supported | otherwise `unsupported` |
 | Playwright Chromium | parsed real browser hello | negotiated `h2` and remote settings | streams `1` and `3` on one connection | HTTP/2 header order missing |
 | Node HTTP/2 | not captured by Observer A | negotiated `h2` and remote settings | streams `1` and `3` on one connection | ClientHello fields missing |
@@ -89,7 +90,17 @@ The digest beside each parsed ClientHello is labeled `not JA4; not identity proo
 The exact field values and versions can change when Python, OpenSSL,
 curl, Chromium, Playwright, or Node changes.
 
+On the reviewed Windows workstation on 2026-07-23, curl 8.21.0 with Schannel
+produced a 429-byte ClientHello with handshake type `1`, ALPN `http/1.1`, and no
+SNI. That installed build did not advertise HTTP2, so its HTTP/2 result remained
+explicitly `unsupported`. The 9.469-second automated run measured zero external
+HTTP(S) request attempts, no blocked external origins, and three allowed
+loopback requests across the two Playwright modes. Other curl builds and TLS
+backends may differ.
+
 ## Focused checks
+
+PowerShell:
 
 ```powershell
 python -m lab.protocol.compare clienthello
@@ -97,12 +108,22 @@ python -m lab.protocol.compare http2
 python -m unittest lab.tests.test_protocol -v
 ```
 
-Tests cover generated ClientHello parsing, malformed and truncated records,
-connection caps, loopback rejection, certificate cleanup, Python/OpenSSL
-capture, the local HTTP/2 observer, unsupported-client rows, non-JA4 labels,
-global-deadline exit behavior, non-loopback page-request failure, malformed
-ready output, client exceptions, output parse failure, terminate/kill
-escalation, and temporary-key cleanup.
+Bash or zsh:
+
+```bash
+python3 -m lab.protocol.compare clienthello
+python3 -m lab.protocol.compare http2
+python3 -m unittest lab.tests.test_protocol -v
+```
+
+Tests cover generated ClientHello parsing including handshake type, malformed
+and truncated records, raw connection caps, loopback rejection, POSIX private-
+key mode, certificate cleanup, Python/OpenSSL capture, the local HTTP/2
+observer, parent failure on an HTTP/2 cap result, unsupported-client rows, non-
+JA4 labels, whole-command deadline exit and child cleanup, exact browser-route
+classification, external-request failure, final measured safety aggregation,
+malformed ready output, client exceptions, output parse failure, and
+terminate/kill escalation.
 
 ## Failure guidance
 
@@ -120,8 +141,10 @@ escalation, and temporary-key cleanup.
 
 ## Cleanup and limitations
 
-Successful and failed paths close children and remove temporary certificate
-material. No packet capture, administrator privilege, production JA4, HTTP/3,
+Successful and tested handled failure paths close children and remove temporary
+certificate material. The private key is explicitly mode `0600` on POSIX. No
+packet capture, administrator privilege, production JA4, HTTP/3,
 QUIC, external fingerprint site, real proxy chain, or commercial control is
-used. An empty page-request violation list is scoped Playwright evidence, not
-proof that the browser process made zero packet-level external connections.
+used. A measured zero external-request attempt count is scoped Playwright
+routing evidence, not proof that the browser process made zero packet-level
+external connections.

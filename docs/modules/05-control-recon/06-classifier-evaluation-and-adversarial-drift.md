@@ -11,7 +11,7 @@
 - Estimated time: 3 hours
 - Prerequisites:
   - [Establish the blocked baseline](05-blocked-baseline.md)
-  - Confusion-matrix arithmetic and the fixed local classifier fixture
+  - No prior classifier or machine-learning experience is required; this lesson teaches the arithmetic used.
 - Next lesson: Evasion hypotheses
 
 ## Role outcome

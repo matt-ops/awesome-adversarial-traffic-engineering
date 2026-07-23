@@ -107,7 +107,7 @@ to runtime, observation point, and date.
 
 ## Worked example
 
-In the dated verified development run on 2026-07-22, Python 3.12.13/OpenSSL
+In the dated verified development run on 2026-07-23, Python 3.12.13/OpenSSL
 3.5.5 offered no ALPN in Observer A, while Playwright Chromium 149.0.7827.55
 offered `h2,http/1.1`. Observer B negotiated `h2` for Chromium and Node
 v24.12.0/OpenSSL 3.5.4. Chromium sent `initialWindowSize=6291456` and
@@ -119,6 +119,11 @@ Observer A: 429 bytes, ALPN `http/1.1`, and no SNI. Its build did not advertise
 HTTP2 support, so its Observer B result was `unsupported`. These are dated
 workstation observations, not universal expected values; each learner's command
 output is the source of truth.
+
+The final automated command completed in 9.469 seconds. Its two Playwright
+modes measured zero external HTTP(S) request attempts, no blocked external
+origins, and three allowed loopback requests. Packet-level external traffic
+remained explicitly not measured.
 
 ## Guided exercise
 
@@ -133,12 +138,13 @@ observed fields from unsupported capabilities and identity claims.
 - Preflight: Python 3.12, project dependencies, Node 22+, curl, and repository-pinned Playwright Chromium
 - Exact targets: ephemeral listeners bound only to `127.0.0.1`
 - Whole-command wall budget: 45 seconds, enforced from command start
-- Per-observer caps: four connections per observer; 4-second raw-connection window; 30-second HTTP/2 observer window
+- Connection caps: one connection at each per-client raw observer; four connections at the HTTP/2 observer
+- Observer windows: 4-second raw-connection window; 30-second HTTP/2 observer window
 - HTTP/2 stream cap: eight streams at Observer B
 - Per-client timeout: 15 seconds, always reduced to the remaining whole-command budget
 - Proxy behavior: proxy environment is removed and clients receive explicit loopback bypass
-- Browser-page enforcement: every navigation target is prevalidated; Playwright aborts and reports non-loopback page requests
-- Certificate behavior: an ephemeral key and certificate are generated in the OS temporary directory
+- Browser-page enforcement: routing allows only the exact loopback origin and assigned paths; every other HTTP(S) request is aborted
+- Certificate behavior: an ephemeral key and certificate are generated in the OS temporary directory; the private key is explicitly mode `0600` on POSIX
 
 ### Exact actions or commands
 
@@ -170,18 +176,20 @@ table; stops children; and removes temporary key material.
 ### Expected output
 
 The first table contains client, runtime version, parsed ClientHello fields,
-extension order, ALPN offers, negotiated protocol, HTTP/2 remote settings, reuse,
-missing fields, and limitations. Python/OpenSSL and Playwright should yield real
+handshake type, extension order, ALPN offers, negotiated protocol, HTTP/2 remote
+settings, reuse, missing fields, and limitations. Python/OpenSSL and Playwright should yield real
 ClientHello fields when installed. Node and Playwright should negotiate `h2`
 and use two streams on one connection. Missing browser or curl capabilities
 must print `unsupported` without turning the entire comparison into a false pass.
 
-The safety record says configured targets are loopback only, lists the observed
-non-loopback page-request violations (normally `[]`), states that proxy
-environment inheritance is false, and labels packet-level external traffic
-`not measured`. Browser flags reduce background networking, but they are not a
-packet-capture guarantee. Any reported non-loopback page request makes the
-command fail.
+The safety record says configured targets are loopback only and reports the
+measured `external_request_attempt_count`, `blocked_external_origins`, and
+`allowed_loopback_request_count` aggregated from both Playwright modes. It also
+states that proxy environment inheritance is false and labels packet-level
+external traffic `not measured`. Browser flags reduce background networking,
+but routing is the page-request enforcement boundary rather than a packet-
+capture guarantee. Any external or otherwise non-allowlisted HTTP(S) request
+makes the command fail.
 
 ### Interpretation
 
@@ -197,8 +205,8 @@ them from documentation or another tool.
 - Allowing an inherited proxy or redirect to change the destination
 - Treating decoded HTTP/2 header-name sets as captured wire ordering
 - Treating a client tag, connection, or settings vector as a verified account
-- Describing the four-connection cap as command-wide instead of per observer
-- Reporting an empty Playwright violation list as packet-level proof of zero external connections
+- Describing the one-connection raw cap or four-connection HTTP/2 cap as command-wide
+- Reporting a measured zero Playwright external-attempt count as packet-level proof of zero external connections
 
 ### Troubleshooting
 
@@ -219,7 +227,7 @@ them from documentation or another tool.
 
 ### Cleanup
 
-Every handled failure path closes observers, browser contexts, sessions, child
+Every tested handled failure path closes observers, browser contexts, sessions, child
 standard streams, and listeners. The parent requests graceful child shutdown,
 then terminates and kills within the remaining deadline when necessary. The
 temporary certificate directory is removed even for malformed ready output,

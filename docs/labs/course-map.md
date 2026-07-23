@@ -383,8 +383,8 @@ command. A command is never a substitute for its canonical lesson.
 - **Checkpoint:** Optional appendix; excluded from core checkpoint time
 - **Prerequisite:** Python 3.12+; no core lesson or appendix lesson is required
 - **Offensive objective:** translate deterministic synthetic traffic observations into confidence-bounded behavior clusters, indicator lifecycle decisions, and an authorized emulation/regression contract
-- **Protected action or service effect:** planned synthetic checkout replay and login-sequence results; no action is executed by this command
-- **Expected output:** normalized observations, reliability and credibility ratings, two behavior clusters, ambiguity and drift warnings, lifecycle fields, and a bounded future plan
+- **Protected action or service effect:** planned synthetic protected-report replay and login-sequence results; no action is executed by this command
+- **Expected output:** normalized observations, source and information reliability ratings, two behavior clusters, ambiguity and drift warnings, lifecycle fields, and a bounded future plan
 - **Interpretation:** the output supports behavior selection and a next test; it does not attribute an actor, authorize execution, or prove a control result
 - **Source basis:** `first-cti-source-evaluation`, `oasis-stix-21`, `misp-warning-lists`, `mitre-adversary-emulation-plans`, `owasp-automated-threats`, `aate-local-lab`
 - **Safety boundary:** fixture-only deterministic analysis with no network request
@@ -417,7 +417,7 @@ command. A command is never a substitute for its canonical lesson.
 - **Expected output:** actual client/runtime versions, parsed ClientHello vectors, non-JA4 digests, negotiated ALPN, remote settings, stream IDs, reuse, and explicit unsupported rows
 - **Interpretation:** differences are implementation observations at the local observer, not universal browser fingerprints, identity proof, commercial-control behavior, or production JA4 parity
 - **Source basis:** `rfc-8446`, `rfc-9113`, `playwright-network`, `curl-http2-capabilities`, `node-http2`, `ja4-project`, `aate-local-lab`
-- **Safety boundary:** runtime-selected `127.0.0.1` ports, maximum four connections per observer and eight HTTP/2 streams, enforced 45-second whole-command budget with smaller observer/client bounds, proxy variables removed, and non-loopback Playwright page requests aborted and reported
+- **Safety boundary:** runtime-selected `127.0.0.1` ports, one connection per raw client observer, maximum four HTTP/2 connections and eight HTTP/2 streams, enforced 45-second whole-command budget with smaller observer/client bounds, proxy variables removed, and every non-allowlisted Playwright HTTP(S) request aborted, measured, and treated as failure
 - **Expected evidence or output:** ClientHello and HTTP/2 comparison tables with every missing capability labeled `unsupported`
 - **Cleanup:** close clients/listeners and delete the runtime temporary certificate and private key on success or failure
 - **Retest use:** repeat after an installed client/runtime version change and compare only fields observed at the same loopback termination point

@@ -20,6 +20,19 @@ truth for each visible table's source type and URL. It also verifies that every
 **Direct link** belongs to a declared source ID and blocks known-obsolete FIRST
 and STIX references.
 
+## Pinned traffic-intelligence sources
+
+- `first-cti-source-evaluation` — `OFFICIAL_DOCUMENTATION` —
+  [Source Evaluation and Information Reliability](https://www.first.org/global/sigs/cti/curriculum/source-evaluation) —
+  Source reliability A-F and Information reliability 1-6. The course uses
+  “information credibility” only when explicitly identifying it as an
+  equivalent analyst term.
+- `oasis-stix-21` — `STANDARD` —
+  [STIX Version 2.1 Errata 01](https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html) —
+  3.2 Common Properties, specifically the confidence property; 4.7 Indicator;
+  4.14 Observed Data; 5.1 Relationship; 5.2 Sighting; and Appendix A:
+  Confidence Scales.
+
 ## Required spine
 
 The path is anchored in NIST SP 800-115, MITRE adversary-emulation guidance,

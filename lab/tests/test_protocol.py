@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import os
 import socket
 import subprocess
 import sys
@@ -22,7 +23,7 @@ from lab.protocol.compare import (
     _capture_trigger,
     _join_client_results,
     _python_tls_trigger,
-    assert_no_non_loopback_page_requests,
+    aggregate_browser_request_safety,
     client_hello,
     compare_client_hellos,
     ephemeral_certificate,
@@ -45,12 +46,14 @@ class FakeObserverProcess:
         ready_line: str = '{"status":"ready","port":443}\n',
         output_text: str = '{"status":"observed","bind":"127.0.0.1","sessions":[]}',
         wait_failures: int = 0,
+        final_returncode: int = 0,
     ) -> None:
         output_index = command.index("--output") + 1
         self.output_path = Path(command[output_index])
         self.ready_line = ready_line
         self.output_text = output_text
         self.wait_failures = wait_failures
+        self.final_returncode = final_returncode
         self.wait_calls = 0
         self.stdin = io.StringIO()
         self.stdout = io.StringIO(ready_line)
@@ -68,7 +71,7 @@ class FakeObserverProcess:
             raise subprocess.TimeoutExpired(["fake-observer"], timeout or 0.0)
         if not self.output_path.exists():
             self.output_path.write_text(self.output_text, encoding="utf-8")
-        self.returncode = -9 if self.killed else 0
+        self.returncode = -9 if self.killed else self.final_returncode
         return self.returncode
 
     def terminate(self) -> None:
@@ -82,6 +85,7 @@ class ProtocolParserTests(unittest.TestCase):
     def test_generated_clienthello_exposes_real_fields(self) -> None:
         summary = parse_client_hello(client_hello(("h2", "http/1.1")), "test", "generated")
         self.assertEqual(summary["record_type"], 22)
+        self.assertEqual(summary["handshake_type"], 1)
         self.assertEqual(summary["clienthello_legacy_version"], "0x0303")
         self.assertGreater(len(summary["cipher_suite_ids"]), 5)
         self.assertIn(16, summary["extension_ids"])
@@ -118,19 +122,43 @@ class ProtocolSafetyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "loopback"):
             require_loopback_url("https://example.com/")
 
-    def test_simulated_non_loopback_page_request_fails(self) -> None:
-        self.assertEqual(
-            assert_no_non_loopback_page_requests(
-                [{"client": "browser", "non_loopback_page_requests_observed": []}]
-            ),
-            [],
+    def test_measured_browser_request_safety_is_aggregated(self) -> None:
+        result = aggregate_browser_request_safety(
+            [
+                {
+                    "client": "playwright-chromium",
+                    "status": "observed",
+                    "external_request_attempt_count": 0,
+                    "blocked_external_origins": [],
+                    "allowed_loopback_request_count": 2,
+                    "blocked_non_allowlisted_requests": [],
+                },
+                {
+                    "client": "playwright-chromium",
+                    "status": "observed",
+                    "external_request_attempt_count": 0,
+                    "blocked_external_origins": [],
+                    "allowed_loopback_request_count": 1,
+                    "blocked_non_allowlisted_requests": [],
+                },
+            ]
         )
-        with self.assertRaisesRegex(ProtocolSafetyError, "non-loopback page requests"):
-            assert_no_non_loopback_page_requests(
+        self.assertEqual(result["external_request_attempt_count"], 0)
+        self.assertEqual(result["blocked_external_origins"], [])
+        self.assertEqual(result["allowed_loopback_request_count"], 3)
+        self.assertEqual(result["measured_playwright_clients"], 2)
+
+    def test_simulated_external_request_is_redacted_and_fails(self) -> None:
+        with self.assertRaisesRegex(ProtocolSafetyError, "external HTTP"):
+            aggregate_browser_request_safety(
                 [
                     {
-                        "client": "browser",
-                        "non_loopback_page_requests_observed": ["https://example.com/background"],
+                        "client": "playwright-chromium",
+                        "status": "failed",
+                        "external_request_attempt_count": 1,
+                        "blocked_external_origins": ["https://example.com"],
+                        "allowed_loopback_request_count": 1,
+                        "blocked_non_allowlisted_requests": ["https://example.com/background"],
                     }
                 ]
             )
@@ -138,6 +166,9 @@ class ProtocolSafetyTests(unittest.TestCase):
     def test_structured_output_does_not_claim_hard_coded_zero_external_requests(self) -> None:
         source = Path(protocol_compare.__file__).read_text(encoding="utf-8")
         self.assertNotIn('"external_requests": 0', source)
+        self.assertIn('"external_request_attempt_count"', source)
+        self.assertIn('"blocked_external_origins"', source)
+        self.assertIn('"allowed_loopback_request_count"', source)
         self.assertIn('"packet_level_external_traffic": "not measured"', source)
 
     def test_connection_cap_is_enforced(self) -> None:
@@ -162,6 +193,38 @@ class ProtocolSafetyTests(unittest.TestCase):
         self.assertFalse(directory.exists())
         self.assertFalse(certificate.exists())
         self.assertFalse(private_key.exists())
+
+    @unittest.skipUnless(os.name == "posix", "POSIX mode bits are not authoritative on this platform")
+    def test_ephemeral_private_key_uses_owner_only_permissions(self) -> None:
+        with ephemeral_certificate() as paths:
+            self.assertEqual(paths.private_key.stat().st_mode & 0o777, 0o600)
+
+    def test_full_automated_result_aggregates_measured_browser_safety(self) -> None:
+        browser_hello = {
+            "client": "playwright-chromium",
+            "status": "observed",
+            "runtime_version": "fixture",
+            "external_request_attempt_count": 0,
+            "blocked_external_origins": [],
+            "allowed_loopback_request_count": 1,
+            "blocked_non_allowlisted_requests": [],
+        }
+        browser_http2 = {
+            **browser_hello,
+            "allowed_loopback_request_count": 2,
+        }
+        result = run_automated_comparison(
+            capture=lambda _: [browser_hello],
+            observe=lambda _: {
+                "status": "observed",
+                "clients": [browser_http2],
+                "sessions": [],
+            },
+        )
+        self.assertEqual(result["safety"]["external_request_attempt_count"], 0)
+        self.assertEqual(result["safety"]["blocked_external_origins"], [])
+        self.assertEqual(result["safety"]["allowed_loopback_request_count"], 3)
+        self.assertEqual(result["safety"]["measured_playwright_clients"], 2)
 
 
 class ProtocolIntegrationTests(unittest.TestCase):
@@ -209,6 +272,7 @@ class ProtocolFailureCleanupTests(unittest.TestCase):
         ready_line: str = '{"status":"ready","port":443}\n',
         output_text: str = '{"status":"observed","bind":"127.0.0.1","sessions":[]}',
         wait_failures: int = 0,
+        final_returncode: int = 0,
         client_side_effect: Any = None,
     ) -> tuple[BaseException | None, FakeObserverProcess]:
         created: list[FakeObserverProcess] = []
@@ -219,6 +283,7 @@ class ProtocolFailureCleanupTests(unittest.TestCase):
                 ready_line=ready_line,
                 output_text=output_text,
                 wait_failures=wait_failures,
+                final_returncode=final_returncode,
             )
             created.append(process)
             return process
@@ -227,7 +292,6 @@ class ProtocolFailureCleanupTests(unittest.TestCase):
             "client": "fixture",
             "status": "observed",
             "runtime_version": "fixture",
-            "non_loopback_page_requests_observed": [],
         }
         error: BaseException | None = None
         with (
@@ -299,10 +363,22 @@ class ProtocolFailureCleanupTests(unittest.TestCase):
             "client": "playwright-chromium",
             "status": "failed",
             "runtime_version": "fixture",
-            "non_loopback_page_requests_observed": ["https://example.com/blocked"],
+            "external_request_attempt_count": 1,
+            "blocked_external_origins": ["https://example.com"],
+            "allowed_loopback_request_count": 1,
+            "blocked_non_allowlisted_requests": ["https://example.com/blocked"],
         }
         error, process = self._observe_with_fake(client_side_effect=[client, client])
         self.assertIsInstance(error, ProtocolSafetyError)
+        self._assert_cleaned(process)
+
+    def test_http2_stream_cap_failure_stops_child_and_fails_parent(self) -> None:
+        error, process = self._observe_with_fake(
+            output_text='{"status":"cap-exceeded","bind":"127.0.0.1","sessions":[]}',
+            final_returncode=2,
+        )
+        self.assertIsInstance(error, RuntimeError)
+        self.assertIn("configured cap", str(error))
         self._assert_cleaned(process)
 
     def test_failed_graceful_stop_escalates_to_terminate_and_kill(self) -> None:

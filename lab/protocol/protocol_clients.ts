@@ -14,21 +14,78 @@ const BACKGROUND_NETWORK_REDUCTION_ARGS = [
   "--no-first-run",
 ];
 
+export type BrowserRequestDecision = {
+  action: "allow" | "abort" | "continue";
+  external: boolean;
+  origin?: string;
+  sanitizedUrl?: string;
+};
+
+type BrowserSafetyMeasurement = {
+  externalRequestAttemptCount: number;
+  blockedExternalOrigins: Set<string>;
+  allowedLoopbackRequestCount: number;
+  blockedNonAllowlistedRequests: Set<string>;
+};
+
 export function checkedLoopbackUrl(raw: string): URL {
   const url = new URL(raw);
   if (url.protocol !== "https:") throw new Error("protocol client requires a local HTTPS target");
   if (!LOOPBACK_HOSTS.has(url.hostname)) throw new Error("protocol client target must be loopback");
-  if (url.username || url.password || url.hash) throw new Error("protocol client target is malformed");
+  if (url.username || url.password || url.hash || url.search) {
+    throw new Error("protocol client target is malformed");
+  }
   return url;
 }
 
-export function isLoopbackPageRequest(raw: string): boolean {
+export function browserRequestDecision(
+  raw: string,
+  allowedOrigin: string,
+  allowedPaths: ReadonlySet<string>,
+): BrowserRequestDecision {
   try {
     const url = new URL(raw);
-    return new Set(["http:", "https:"]).has(url.protocol) && LOOPBACK_HOSTS.has(url.hostname);
+    if (!new Set(["http:", "https:"]).has(url.protocol)) {
+      return { action: "continue", external: false };
+    }
+    const sanitizedUrl = `${url.origin}${url.pathname}`;
+    if (
+      url.origin === allowedOrigin &&
+      allowedPaths.has(url.pathname) &&
+      !url.username &&
+      !url.password &&
+      !url.search &&
+      !url.hash
+    ) {
+      return { action: "allow", external: false, origin: url.origin, sanitizedUrl };
+    }
+    return {
+      action: "abort",
+      external: !LOOPBACK_HOSTS.has(url.hostname),
+      origin: url.origin,
+      sanitizedUrl,
+    };
   } catch {
-    return false;
+    return { action: "abort", external: false, sanitizedUrl: "invalid-url" };
   }
+}
+
+function newBrowserSafetyMeasurement(): BrowserSafetyMeasurement {
+  return {
+    externalRequestAttemptCount: 0,
+    blockedExternalOrigins: new Set<string>(),
+    allowedLoopbackRequestCount: 0,
+    blockedNonAllowlistedRequests: new Set<string>(),
+  };
+}
+
+function browserSafetyResult(safety: BrowserSafetyMeasurement): Record<string, unknown> {
+  return {
+    external_request_attempt_count: safety.externalRequestAttemptCount,
+    blocked_external_origins: [...safety.blockedExternalOrigins].sort(),
+    allowed_loopback_request_count: safety.allowedLoopbackRequestCount,
+    blocked_non_allowlisted_requests: [...safety.blockedNonAllowlistedRequests].sort(),
+  };
 }
 
 function checkedTimeout(raw: string | undefined): number {
@@ -57,63 +114,80 @@ async function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: str
   }
 }
 
-async function installLoopbackRoute(context: BrowserContext, violations: string[]): Promise<void> {
+async function installLoopbackRoute(
+  context: BrowserContext,
+  target: URL,
+  allowedPaths: ReadonlySet<string>,
+  safety: BrowserSafetyMeasurement,
+): Promise<void> {
   await context.route("**/*", async (route) => {
     const requestedUrl = route.request().url();
-    if (isLoopbackPageRequest(requestedUrl)) {
+    const decision = browserRequestDecision(requestedUrl, target.origin, allowedPaths);
+    if (decision.action === "allow") {
+      safety.allowedLoopbackRequestCount += 1;
       await route.continue();
       return;
     }
-    violations.push(requestedUrl);
+    if (decision.action === "continue") {
+      await route.continue();
+      return;
+    }
+    safety.blockedNonAllowlistedRequests.add(decision.sanitizedUrl ?? "invalid-url");
+    if (decision.external) {
+      safety.externalRequestAttemptCount += 1;
+      if (decision.origin !== undefined) safety.blockedExternalOrigins.add(decision.origin);
+    }
     await route.abort("blockedbyclient");
   });
 }
 
 async function browserClientHello(target: URL, timeoutMs: number): Promise<void> {
   let browser;
-  const violations: string[] = [];
+  let context: BrowserContext | undefined;
+  const safety = newBrowserSafetyMeasurement();
   try {
     checkedLoopbackUrl(target.href);
     browser = await chromium.launch({ headless: true, args: BACKGROUND_NETWORK_REDUCTION_ARGS });
     const version = browser.version();
-    const context = await browser.newContext({ ignoreHTTPSErrors: true });
-    await installLoopbackRoute(context, violations);
+    context = await browser.newContext({ ignoreHTTPSErrors: true });
+    await installLoopbackRoute(context, target, new Set([target.pathname]), safety);
     const page = await context.newPage();
     await page.goto(target.href, { waitUntil: "commit", timeout: timeoutMs }).catch(() => undefined);
     printResult({
       client: "playwright-chromium",
-      status: violations.length === 0 ? "observed" : "failed",
+      status: safety.blockedNonAllowlistedRequests.size === 0 ? "observed" : "failed",
       runtime_version: `Chromium ${version}`,
-      non_loopback_page_requests_observed: [...new Set(violations)].sort(),
+      ...browserSafetyResult(safety),
     });
-    await context.close();
   } catch (error) {
     printResult({
       client: "playwright-chromium",
-      status: "unsupported",
+      status: safety.blockedNonAllowlistedRequests.size === 0 ? "unsupported" : "failed",
       runtime_version: "unavailable",
       reason: error instanceof Error ? error.message : String(error),
-      non_loopback_page_requests_observed: [...new Set(violations)].sort(),
+      ...browserSafetyResult(safety),
     });
   } finally {
+    await context?.close();
     await browser?.close();
   }
 }
 
 async function browserHttp2(target: URL, timeoutMs: number): Promise<void> {
   let browser;
-  const violations: string[] = [];
+  let context: BrowserContext | undefined;
+  const safety = newBrowserSafetyMeasurement();
   try {
     checkedLoopbackUrl(target.href);
     browser = await chromium.launch({ headless: true, args: BACKGROUND_NETWORK_REDUCTION_ARGS });
     const version = browser.version();
-    const context = await browser.newContext({
+    context = await browser.newContext({
       ignoreHTTPSErrors: true,
       extraHTTPHeaders: { "x-aate-client": "playwright-chromium" },
     });
-    await installLoopbackRoute(context, violations);
+    await installLoopbackRoute(context, target, new Set(["/browser-one", "/browser-two"]), safety);
     const page = await context.newPage();
-    const first = await page.goto(`${target.href}/browser-one`, {
+    const first = await page.goto(new URL("/browser-one", target.origin).href, {
       waitUntil: "load",
       timeout: timeoutMs,
     });
@@ -127,21 +201,24 @@ async function browserHttp2(target: URL, timeoutMs: number): Promise<void> {
     );
     printResult({
       client: "playwright-chromium",
-      status: first?.status() === 200 && second === 200 && violations.length === 0 ? "observed" : "failed",
+      status:
+        first?.status() === 200 && second === 200 && safety.blockedNonAllowlistedRequests.size === 0
+          ? "observed"
+          : "failed",
       runtime_version: `Chromium ${version}`,
       responses: [first?.status() ?? 0, second],
-      non_loopback_page_requests_observed: [...new Set(violations)].sort(),
+      ...browserSafetyResult(safety),
     });
-    await context.close();
   } catch (error) {
     printResult({
       client: "playwright-chromium",
-      status: "unsupported",
+      status: safety.blockedNonAllowlistedRequests.size === 0 ? "unsupported" : "failed",
       runtime_version: "unavailable",
       reason: error instanceof Error ? error.message : String(error),
-      non_loopback_page_requests_observed: [...new Set(violations)].sort(),
+      ...browserSafetyResult(safety),
     });
   } finally {
+    await context?.close();
     await browser?.close();
   }
 }
@@ -180,7 +257,6 @@ async function nodeHttp2(target: URL, timeoutMs: number): Promise<void> {
       status: responses.every((status) => status === 200) ? "observed" : "unsupported",
       runtime_version: `Node ${process.version} / OpenSSL ${process.versions.openssl}`,
       responses,
-      non_loopback_page_requests_observed: [],
     });
   } catch (error) {
     printResult({
@@ -188,7 +264,6 @@ async function nodeHttp2(target: URL, timeoutMs: number): Promise<void> {
       status: "unsupported",
       runtime_version: `Node ${process.version}`,
       reason: error instanceof Error ? error.message : String(error),
-      non_loopback_page_requests_observed: [],
     });
   } finally {
     session.close();
@@ -207,7 +282,9 @@ async function main(): Promise<void> {
   else throw new Error(`unsupported protocol client mode: ${mode}`);
 }
 
-void main().catch((error: unknown) => {
-  process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  void main().catch((error: unknown) => {
+    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    process.exitCode = 1;
+  });
+}

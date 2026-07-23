@@ -89,8 +89,10 @@ From the repository root, read `lab/protocol/compare.py`. It binds only
 ### Expected output
 
 The output contains a valid Python/OpenSSL ClientHello and attempted installed
-curl and Playwright Chromium observations at one loopback listener. Each
-observed row includes parsed vectors, byte count, runtime version, and a digest
+curl and Playwright Chromium observations. The command creates a separate
+identically configured ephemeral loopback listener for each client, keeping the
+observation point and parser fixed. Each observed row includes record type,
+handshake type `1`, parsed vectors, byte count, runtime version, and a digest
 labeled `not JA4; not identity proof`; missing clients have explicit reasons.
 
 ### Interpretation
