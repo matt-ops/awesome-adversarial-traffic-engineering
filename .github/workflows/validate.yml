@@ -53,6 +53,8 @@ jobs:
           npm run typecheck
           npm run markdown:lint
       - name: Run browser and analysis exercises
+        env:
+          AATE_HEADLESS: "1"
         run: |
           npm run playwright:foundation
           npm run playwright:challenge-flow
